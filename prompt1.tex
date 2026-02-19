@@ -1,0 +1,210 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{margin=2cm}
+
+\title{\textbf{ETAPA 1 - DEFINIÇÃO DO SISTEMA} \\
+Sistema de Gestão para Clube Desportivo}
+\author{Tema 2 - Trabalho Prático}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Definição do Domínio do Sistema}
+
+\textbf{Domínio:} Gestão Integrada de Clube Desportivo [cite: 38]
+
+O sistema é destinado à gestão completa de um clube desportivo, academia ou associação que necessite de: [cite: 38]
+\begin{itemize}
+    \item Registo e gestão de atletas [cite: 38]
+    \item Organização de equipas e atribuição de modalidades [cite: 38]
+    \item Gestão de treinadores e seus horários [cite: 38]
+    \item Controlo de inscrições e presenças em treinos [cite: 41]
+    \item Participação em competições e registo de resultados [cite: 41]
+    \item Análise de desempenho e estatísticas [cite: 41]
+\end{itemize}
+
+\section{Stakeholders Identificados}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Stakeholder} & \textbf{Descrição} & \textbf{Interesses Principais} \\
+\hline
+Diretor Técnico & Responsável pela estratégia desportiva & Relatórios, estatísticas [cite: 42] \\
+\hline
+Treinadores & Coordenam treinos e equipas & Controlo de presenças [cite: 41] \\
+\hline
+Atletas & Participantes do clube & Visualizar resultados [cite: 41] \\
+\hline
+Gestor Administrativo & Responsável pelas finanças & Relatórios de quotas [cite: 41] \\
+\hline
+Secretária & Suporte administrativo & Registo de informações [cite: 41] \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Contexto e Restrições}
+
+\subsection{Contexto:}
+\begin{itemize}
+    \item O clube funciona com múltiplas modalidades desportivas [cite: 41]
+    \item Existe forte necessidade de rastreamento de performance [cite: 41]
+    \item Necessidade de relatórios administrativos e desportivos periódicos [cite: 42]
+    \item Sistema deve facilitar comunicação entre stakeholders [cite: 42]
+\end{itemize}
+
+\subsection{Restrições:}
+\begin{itemize}
+    \item Dados sensíveis de atletas devem estar protegidos [cite: 24]
+    \item Sistema deve estar disponível durante horários de funcionamento [cite: 15]
+    \item Interface intuitiva para utilizadores sem experiência técnica [cite: 20]
+    \item Compatibilidade com dispositivos móveis [cite: 20]
+\end{itemize}
+
+\section{Eliciação de Requisitos Funcionais}
+
+\textbf{RF-1: Gerir Dados de Atletas}
+\begin{itemize}
+    \item Registar informações pessoais (nome, idade, contacto, etc.) [cite: 38]
+    \item Atualizar dados de atletas [cite: 38]
+    \item Consultar histórico de atletas [cite: 41]
+\end{itemize}
+
+\textbf{RF-2: Gerir Equipas e Modalidades}
+\begin{itemize}
+    \item Criar equipas [cite: 38]
+    \item Atribuir atletas a equipas [cite: 38]
+    \item Associar modalidades desportivas a equipas [cite: 38]
+    \item Gerir rotações de atletas [cite: 41]
+\end{itemize}
+
+\textbf{RF-3: Controlar Presenças em Treinos}
+\begin{itemize}
+    \item Registar presenças/ausências em treinos [cite: 41]
+    \item Gerar relatórios de frequência [cite: 41]
+    \item Identificar padrões de absentismo [cite: 41]
+\end{itemize}
+
+\textbf{RF-4: Gerir Competições}
+\begin{itemize}
+    \item Registar competições [cite: 41]
+    \item Atribuir equipas a competições [cite: 41]
+    \item Registar resultados de jogos/provas [cite: 41]
+    \item Manter ranking de equipas/atletas [cite: 41]
+\end{itemize}
+
+\textbf{RF-5: Gerar Estatísticas e Relatórios}
+\begin{itemize}
+    \item Relatórios de desempenho individual [cite: 41]
+    \item Relatórios de desempenho de equipas [cite: 41]
+    \item Estatísticas de competição [cite: 41]
+    \item Análise de tendências de desempenho [cite: 42]
+\end{itemize}
+
+\textbf{RF-6: Gerir Quotas e Pagamentos}
+\begin{itemize}
+    \item Registar quotas de atletas [cite: 41]
+    \item Controlar pagamentos realizados [cite: 41]
+    \item Gerar relatórios financeiros [cite: 41]
+\end{itemize}
+
+\section{Requisitos Não-Funcionais}
+
+\textbf{RNF-1: Performance}
+\begin{itemize}
+    \item Sistema deve responder em menos de 2 segundos [cite: 15]
+    \item Suportar até 1000 utilizadores simultâneos [cite: 13]
+\end{itemize}
+
+\textbf{RNF-2: Segurança}
+\begin{itemize}
+    \item Autenticação obrigatória [cite: 24]
+    \item Encriptação de dados sensíveis [cite: 24]
+    \item Controlo de acesso baseado em papéis (RBAC) [cite: 20]
+\end{itemize}
+
+\textbf{RNF-3: Disponibilidade}
+\begin{itemize}
+    \item Uptime mínimo de 99\% [cite: 15]
+    \item Backup automático diário [cite: 36]
+    \item Recuperação de falhas [cite: 73]
+\end{itemize}
+
+\textbf{RNF-4: Usabilidade}
+\begin{itemize}
+    \item Interface intuitiva [cite: 20]
+    \item Documentação de utilizador [cite: 76]
+    \item Suporte a múltiplos idiomas [cite: 12]
+\end{itemize}
+
+\section{User Stories}
+
+\textbf{US-1: Registar Novo Atleta}
+\begin{verbatim}
+Como secretária, pretendo registar um novo atleta no sistema
+para manter a base de dados do clube atualizada. [cite: 38, 61]
+Critérios de Aceitação:
+- Inserir dados pessoais (nome, data de nascimento, etc.)
+- Validar email e telefone
+- Atribuir modalidade
+\end{verbatim}
+
+\textbf{US-2: Consultar Desempenho de Atleta}
+\begin{verbatim}
+Como treinador, pretendo consultar o desempenho de um atleta
+para avaliar sua progressão e necessidade de ajustes. [cite: 41, 61]
+Critérios de Aceitação:
+- Ver estatísticas de competições
+- Visualizar frequência de treinos
+- Gráficos de evolução temporal
+\end{verbatim}
+
+\section{Modelagem Conceptual}
+
+\subsection{Entidades Principais}
+
+\textbf{Atleta}
+\begin{equation*}
+\{id, nome, dataNascimento, email, telefone, modalidade, dataRegisto\}
+\end{equation*}
+
+\textbf{Equipa}
+\begin{equation*}
+\{id, nome, modalidade, treinador\_id, \text{dataFormação}\}
+\end{equation*}
+
+\textbf{Presença}
+\begin{equation*}
+\{id, atleta\_id, treino\_id, status, data\}
+\end{equation*}
+
+\textbf{Competição}
+\begin{equation*}
+\{id, nome, dataInicio, dataFim, tipo, modalidade\}
+\end{equation*}
+
+\textbf{Resultado}
+\begin{equation*}
+\{id, \text{competição}\_id, equipa\_id, \text{posição}, pontos, data\}
+\end{equation*}
+
+\textbf{Quota}
+\begin{equation*}
+\{id, atleta\_id, mesReferente, valor, dataPagamento, status\}
+\end{equation*}
+
+\section{Conclusão}
+
+Este documento define a estrutura básica do Sistema de Gestão para Clube Desportivo conforme os requisitos da Etapa 1[cite: 59, 60, 61].
+
+\end{document}
