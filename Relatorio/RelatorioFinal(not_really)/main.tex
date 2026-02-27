@@ -1,0 +1,176 @@
+\documentclass[a4paper,12pt]{scrreprt}
+    %% Used for changing geometry of the page
+    %% Cover page text cannot overlay cover sketching/style
+    %% https://ctan.org/pkg/geometry?lang=en
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{adjustbox}
+    %% Changes language of some packages protocols
+    %% e.g., when captioning images: Figure 1. -> Figura 1.
+    %% https://ctan.org/pkg/babel?lang=en
+\usepackage[portuguese]{babel}
+\usepackage{ltablex}
+\keepXColumns
+    %% Used for special fonts
+    %% Cannot be compiled with pdflatex
+    %% https://ctan.org/pkg/fontspec?lang=en
+\usepackage{fontspec}
+\usepackage{float}
+    %% More colors and color options
+    %% https://ctan.org/pkg/xcolor?lang=en
+    %% https://ctan.org/pkg/colortbl?lang=en
+\usepackage{xcolor,colortbl}
+    %% More tabular options, like dashed/dotted lines
+    %% https://ctan.org/pkg/arydshln?lang=en
+\usepackage{arydshln}
+    %% List of acronyms
+    %% https://ctan.org/pkg/nomencl?lang=en
+\usepackage[intoc]{nomencl}
+    %% Must be called to init nomencl environment
+    \makenomenclature
+    %% More images options/settings
+    %% https://ctan.org/pkg/graphicx?lang=en
+\usepackage{graphics}
+    %% Defining subdirectories to image path enviornment
+    %% \graphicspath{{sub1}{sub2}...{subN}}
+    \graphicspath{{images}}
+
+    %% used to handle cross-referencing commands in LaTeX to produce hypertext links in the document
+    %% https://ctan.org/pkg/hyperref?lang=en
+\usepackage{hyperref}
+\usepackage{longtable}
+    %% math environments
+    %% https://ctan.org/pkg/amsmath?lang=en
+
+    %% settings
+    \hypersetup{
+        colorlinks,
+        citecolor=black,
+        filecolor=black,
+        linkcolor=black,
+        urlcolor=black
+    }
+
+
+\usepackage{amsmath}
+    %% Defining background, used to make the cover
+    %% https://ctan.org/pkg/background?lang=en
+\usepackage[some]{background}
+    %% Used to make drawings or complex graphics
+    %% http://pgf.sourceforge.net/pgf_CVS.pdf
+\usepackage{tikz}
+    %% Tikz library to point operations ((x1,y1) + (x2,y2))
+    \usetikzlibrary{calc}
+
+%% Defining sfdefault font and default font for document
+\renewcommand{\familydefault}{\sfdefault}
+
+
+%% Costume made cover
+%% From there you can use \makecover command to build the cover
+\include{cover}
+
+%==========================================================================
+% DOCUMENT
+%==========================================================================
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+% builds the cover
+\makecover
+
+%% smaller footer and header size
+\newgeometry{top=3cm,left=3cm,right=3cm,bottom=4cm}
+
+
+%% Abstract name: \Large font size, flushed left and paragraph skip before abstract content
+\renewenvironment{abstract}
+ {\par\noindent\textbf{\Large\abstractname}\par\bigskip}
+ {}
+
+\begin{flushleft}
+\begin{abstract}
+Este trabalho consiste na conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar sediado na cidade de Braga. O projeto foi desenvolvido no âmbito da unidade curricular de Laboratórios de Informática IV, seguindo uma metodologia sequencial e incremental, enriquecida com a utilização sistemática de Large Language Models (LLM) como agentes de apoio cognitivo ao longo de todas as fases do ciclo de vida do desenvolvimento de software. Desde a Engenharia de Requisitos até à verificação e validação do sistema, os LLM foram integrados como assistentes artificiais na eliciação de requisitos, na tomada de decisões arquiteturais, na geração e revisão de código e na produção de casos de teste. O sistema resultante permite o registo e gestão de atletas, equipas, treinadores e modalidades, o controlo de inscrições e presenças em treinos, a gestão de competições e respetivos resultados, bem como a produção de estatísticas de desempenho e relatórios financeiros e administrativos de apoio à decisão.
+    \par \textbf{Área de Aplicação}: Engenharia de Software Assistida por Inteligência Artificial Generativa.
+    \par \textbf{Palavras-Chave}: Engenharia de Software, Large Language Models, Desenvolvimento Assistido por IA, Gestão Desportiva, Engenharia de Requisitos, Arquitetura de Software, Testes de Software, Clube Desportivo.
+\end{abstract}
+\end{flushleft}
+
+
+\pagebreak
+
+%==========================================================================
+% END ABSTRACT PAGE
+%==========================================================================
+
+%==========================================================================
+% BEGIN INDEXES PAGES
+%==========================================================================
+
+%% Changes table of content name
+%% Portuguese babel default : "Conteúdo"
+%% Personally I prefer "índice"
+\renewcommand{\contentsname}{Índice}
+
+\tableofcontents
+
+\pagebreak
+
+\listoffigures
+
+%==========================================================================
+% END INDEXES PAGES
+%==========================================================================
+
+
+%==========================================================================
+% BEGIN INTRODUCTION
+%==========================================================================
+
+%% Starting page numbering here
+\pagenumbering{arabic}
+
+\chapter{Introdução}
+
+\section{Contextualização}
+
+Durante os últimos anos, o domínio da Engenharia de Software tem sido profundamente transformado pelo aumento da complexidade dos sistemas, pela consolidação de arquiteturas distribuídas e pela crescente integração de técnicas de Inteligência Artificial no processo de desenvolvimento. O software deixou de ser um artefacto estático, passando a assumir um papel central em sistemas dinâmicos, em evolução permanente e fortemente orientados por dados. Neste contexto, a emergência dos Large Language Models (LLM) veio alterar de forma significativa os métodos e as técnicas com que o software é idealizado, especificado, desenvolvido, validado e mantido. A sua aplicação vai hoje muito para além da simples geração de código, abrangendo tarefas de Engenharia de Requisitos, definição arquitetural, processos de validação e teste, e suporte à tomada de decisão em diversos aspetos técnicos.
+
+Paralelamente, o desporto ocupa um lugar central na vida das comunidades portuguesas, sendo não apenas um veículo de promoção da saúde e do bem-estar, mas também um importante motor de coesão social e de identidade local. Nas últimas décadas, os clubes desportivos portugueses assistiram a um crescimento significativo, tanto em número de praticantes como em diversidade de modalidades oferecidas, o que trouxe consigo uma complexidade crescente na gestão das suas operações internas. A cidade de Braga, reconhecida pelo seu dinamismo cultural e desportivo, não é exceção a esta tendência. Os clubes desta região têm vindo a alargar a sua oferta, integrando modalidades tão diversas como o futebol, o atletismo, a natação, o andebol e as artes marciais, entre outras. Este crescimento, embora positivo, coloca enormes desafios na gestão de atletas, equipas, treinadores, instalações e competições, especialmente quando os processos administrativos continuam a assentar em métodos tradicionais e pouco escaláveis.
+
+É neste duplo contexto --- a revolução provocada pelos LLM na Engenharia de Software e os desafios operacionais enfrentados por clubes desportivos em crescimento --- que se enquadra o presente trabalho. O projeto visa a conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar da cidade de Braga, utilizando de forma sistemática LLM como agentes de apoio cognitivo ao longo de todas as fases do ciclo de vida do desenvolvimento de software. A incorporação destes agentes artificiais no processo de desenvolvimento antecipa um modelo de trabalho no qual os engenheiros de software desempenham um papel cada vez mais estratégico, focado na definição de problemas, na avaliação crítica de soluções e na governação de sistemas inteligentes, delegando progressivamente as tarefas repetitivas e cognitivamente intensivas para os LLM.
+
+\section{Apresentação do Caso de Estudo}
+
+O caso de estudo centra-se no \textbf{Sporting Clube de Braga Amador} (doravante designado por SCB Amador), um clube desportivo sem fins lucrativos sediado na cidade de Braga, fundado em 1987 por um grupo de entusiastas do desporto local. Ao longo de quase quatro décadas de existência, o SCB Amador cresceu de forma orgânica, passando de uma pequena associação de futebol de bairro para um clube multidisciplinar que hoje acolhe mais de 800 atletas federados distribuídos por seis modalidades: futebol, atletismo, natação, andebol, judo e ténis de mesa.
+
+Durante os seus primeiros anos, a gestão do clube era feita de forma inteiramente informal, com recurso a registos em papel, folhas de cálculo dispersas e comunicação verbal entre dirigentes, treinadores e secretariado. À medida que o número de atletas, treinadores e competições foi aumentando, este modelo revelou-se progressivamente insustentável. O ponto de rutura surgiu na época desportiva de 2023/2024, quando uma série de falhas operacionais expôs a fragilidade dos processos manuais do clube. A mais grave ocorreu durante duas competições regionais de atletismo, nas quais participaram atletas cujo seguro desportivo havia expirado sem que ninguém no clube se tivesse apercebido, uma vez que o controlo de validades era feito manualmente através de uma folha de cálculo partilhada que ninguém atualizava com regularidade. Este incidente resultou numa coima aplicada pela Federação de Atletismo de Portugal e, mais gravemente, na lesão de um atleta sub-18 cujo processo de sinistro ficou por resolver durante vários meses devido à ausência de documentação atualizada. A este episódio juntaram-se outras queixas recorrentes: treinadores que não conseguiam aceder às fichas dos atletas em tempo útil, conflitos de horários nas instalações desportivas que só eram detetados no próprio dia, duplicação de inscrições em competições e a impossibilidade de produzir relatórios financeiros fiáveis sobre quotas e pagamentos em atraso.
+
+Perante este cenário, a direção do SCB Amador, liderada pelo seu presidente \textbf{Carlos Magalhães}, reconheceu que o problema não se resolvia com mais folhas de cálculo, mas sim com um sistema de software dedicado que centralizasse toda a informação do clube e automatizasse os processos críticos de gestão. Após uma apresentação pública de projetos de estudantes da Universidade do Minho, Carlos Magalhães abordou o Departamento de Informática com uma proposta de parceria. A unidade curricular de \textbf{Laboratórios de Informática IV (LI4)}, do segundo semestre do ano letivo 2025/2026, cujo tema incidia precisamente sobre o desenvolvimento de sistemas de gestão para clubes desportivos utilizando LLM como agentes de apoio, revelou-se o enquadramento ideal para esta colaboração. O clube obteria uma solução tecnológica desenvolvida com rigor académico e acompanhamento docente, e os alunos teriam a oportunidade de trabalhar com um cliente real, num contexto profissional autêntico.
+
+A equipa de desenvolvimento, composta por quatro alunos do segundo ano da licenciatura em Engenharia Informática, ficou responsável por todas as fases do ciclo de vida do software --- desde a conceção e engenharia de requisitos, passando pela arquitetura e design, até à implementação, verificação e validação do sistema --- utilizando LLM de forma sistemática como assistentes artificiais em cada uma dessas etapas. Os membros da equipa são os seguintes:
+
+\begin{itemize}
+    \item \textbf{Tiago Martins}: responsável pela coordenação da equipa, pela gestão do projeto e pelo levantamento de requisitos junto da direção do clube.
+    \item \textbf{André Santos}: responsável pela análise de processos internos do clube e pela definição da arquitetura do sistema.
+    \item \textbf{Daniel Parente}: responsável pela implementação dos componentes de software e pela integração dos módulos do sistema.
+    \item \textbf{Pedro Ferreira}: responsável pela documentação técnica, pela definição e execução de testes e pelo controlo de qualidade do software produzido.
+\end{itemize}
+
+O projeto decorrerá ao longo de aproximadamente cinco meses, seguindo uma metodologia sequencial e incremental estruturada em quatro etapas: (1) Conceção e Engenharia de Requisitos Assistida por LLM, (2) Arquitetura e Design do Software utilizando LLM, (3) Implementação e Desenvolvimento Assistido por LLM, e (4) Verificação, Validação e Avaliação da Qualidade do Software Produzido. Em todas as etapas, serão exploradas as capacidades dos LLM como agentes de apoio cognitivo, desde a eliciação e refinamento de requisitos até à geração de casos de teste, passando pela assistência na tomada de decisões arquiteturais e na geração e revisão de código. O resultado esperado é um sistema de software aplicacional robusto, capaz de centralizar toda a informação operacional do SCB Amador e de suportar o crescimento futuro do clube de forma sustentada, eficiente e segura.
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{ata1.png}}
+    \caption{Ata da primeira reunião entre a equipa de desenvolvimento e a direção do SCB Amador.}
+    \label{fig:ata_inicial}
+\end{figure}
+
+%==========================================================================
+% END INTRODUCTION
+%==========================================================================
+
+\end{document}
