@@ -1,0 +1,101 @@
+Requisitos SBD Amador:
+
+Atletas:
+- Inscrição fácil e rápida de um atleta em qualquer modalidade.
+- Criação de um perfil com toda a informação sobre um atleta (Nome, idade, altura, peso, informações sobre a saúde, treinos comparecidos, competições).
+- Fácil acesso a horários de treinos.
+- Fácil comunicação com os treinadores e a gerência.
+- Informação sobre o desempenho de cada atleta.
+- Histórico de pagamento de quotas de cada atleta.
+- Submissão e validação automática do Exame Médico Desportivo anual (com alertas de caducidade).
+- Upload de documentos de identificação para efeitos de seguros e federações.
+- Gestão de perfis parentais (associação de um encarregado de educação a um ou mais atletas menores).
+- Confirmação de disponibilidade para convocatórias de jogos (Sim/Não/Talvez).
+- Consulta da evolução de métricas físicas ao longo da época (gráficos de peso, altura, IMC).
+- Acesso a planos de treino individuais ou de recuperação física.
+- Registo autónomo de lesões ou queixas físicas, notificando automaticamente a equipa técnica/médica.
+- Emissão automática e download de faturas/recibos dos pagamentos das quotas.
+- Encomenda e pagamento de fardamento/equipamento desportivo através da plataforma.
+- Visualização do palmarés individual (títulos ganhos, troféus, distinções de jogador do mês).
+- Acesso a uma biblioteca multimédia com vídeos táticos ou lances de jogos partilhados pelo treinador.
+- Integração com métodos de pagamento automáticos (MBWay, Referência Multibanco) para as quotas.
+
+Treinadores:
+- Acesso a dashboards com informação sobre o desempenho da equipa/atleta.
+- Marcar e registar presenças de cada atleta nos treinos.
+- Poder mudar o horário e este ser mostrado com facilidade aos atletas.
+- Live Chat com atletas/equipas.
+- Criação de perfis para todos os intervenientes do clube, com as suas informações, cargos e funções, e todo o seu histórico.
+- Zona onde são apresentados todos os atletas lesionados (da modalidade que o treinador em questão treina).
+- Criação e estruturação de planos de treino detalhados (exercícios, duração, intensidade).
+- Registo de notas de avaliação qualitativa (foco, esforço, atitude) no final de cada treino.
+- Elaboração e publicação rápida de convocatórias para competições oficiais ou amigáveis.
+- Registo de ocorrências durante os jogos (golos, faltas, cartões, minutos jogados por atleta).
+- Emissão de relatórios de análise técnica pós-jogo.
+- Definição de objetivos individuais, mensais ou anuais, para os jogadores.
+- Reserva de espaços físicos específicos (campo principal, campo sintético, ginásio, sala de vídeo).
+- Requisição de material desportivo à gerência para as sessões de treino (bolas, coletes, pinos).
+- Registo disciplinar interno (atrasos recorrentes, comportamentos inadequados, suspensões).
+- Funcionalidade de comparação visual (ex: gráficos radar) entre as capacidades de diferentes atletas da mesma posição.
+- Acompanhamento direto do estado de recuperação médica junto do fisioterapeuta/departamento médico.
+- Definição de papéis dentro da equipa (atribuição da braçadeira de capitão, sub-capitão).
+
+Gerência:
+- Ver todas as despesas e lucros do clube.
+- Evolução do clube com facilidade para apresentar a futuros investidores.
+- Dashboards sobre a contabilidade do clube.
+- Informação do pagamento das quotas de todos os atletas.
+- Zona onde aparecem todos os atletas com quotas em atraso.
+- Fácil comunicação com a gerência, treinadores e atletas.
+- Histórico de desempenho em todas as modalidades.
+- Abertura e fecho de épocas desportivas (transição de atletas de escalão de forma automática).
+- Criação, edição ou inativação de modalidades desportivas no clube.
+- Gestão de contratos, vencimentos e prémios da equipa técnica e staff de apoio.
+- Registo, faturação e acompanhamento de patrocínios e painéis publicitários.
+- Gestão de fornecedores (contas da água, luz, transportes/autocarros para jogos fora).
+- Controlo de stock de equipamentos desportivos e merchandising na loja do clube.
+- Aplicação de bloqueios automáticos (ex: suspensão de treinos ou jogos) a atletas com múltiplos meses de quotas em atraso.
+- Agendamento de manutenções preventivas ou curativas das infraestruturas (tratamento do relvado, reparação de balneários).
+- Organização de eventos extra-desportivos (galas, torneios de verão, jantares de Natal).
+- Gestão de aluguer de espaços do clube a entidades externas para gerar receita.
+- Geração de ficheiros normalizados de contabilidade (SAF-T) para exportação.
+- Processamento centralizado de inscrições de equipas e atletas nas federações/associações de cada modalidade.
+- Gestão de seguros desportivos em grupo (comunicação de sinistros à seguradora).
+
+
+User stories:
+
+-O andre, capitao da equipa de hoquei em patins, estava incrito para uma competicao com a sua equipa mas como o seu atestado medico caducou sem o seu conhecimento pois o clube se esquecou de avisar que deveria renova-lo este nao pode participar na competicao, e como era um mebro vital da equipa, esta perdeu a competicao.
+
+           #O sistema resolve isto enviando um alerta automático 30 dias antes da caducidade do atestado, permitindo a renovação a tempo e a submissão do novo documento diretamente na plataforma.
+
+-O Joao Lima, treinador de judo, tem uma horario de trabalho (fora do clube) muito inconsistente, e muitas vezes tem de remarcar treinos.
+Como o clube nao tem uma maneira eficiente de informar os atletas das mudancas de horario, muitos dos atletas comparecem no treino que foi adiado causando chatices.
+
+           #O sistema resolve isto permitindo ao treinador alterar o horário pela plataforma e disparar imediatamente uma notificação para todos os atletas afetados.
+
+-Paulo é encarregado de encontrar novos investidores para o clube.
+Na ultima semana este teve um reuniao com uma empresa de bebidas energeticas de sucesso, e que possivelmente seria um investidor essencial para o deselnvolvimento do clube.
+Infelizmente, como o clube nao tem uma boa maneira de guardar a informacao sobre o desempenho dos atletas, este nao conseguiu explicitar e comprovar o desempenho do clube, o que fez a empresa investidora largar o contrato.
+
+           #Com o novo sistema, o Paulo passará a aceder a um dashboard com gráficos de desempenho exportáveis em poucos cliques para apresentar em reuniões.
+
+-A Maria é mãe de dois filhos que praticam desporto no clube (futebol e natação). Todos os meses, perde o controlo de quais quotas já pagou, pois os pagamentos são em secretarias diferentes. Frequentemente, recebe chamadas de cobrança por esquecimento.
+
+           #O sistema resolve isto com um perfil parental único, contas consolidadas e geração de referências Multibanco/MBWay para pagamento conjunto.
+
+-O treinador Carlos publicou a convocatória num grupo de WhatsApp na sexta-feira à noite. Como não havia confirmação oficial, alguns não viram e outros não avisaram que faltariam. No sábado, a equipa apresentou-se com apenas um suplente.
+
+           #O sistema exige que os atletas cliquem em "Sim/Não" para confirmar presença na convocatória elaborada na plataforma, dando visibilidade imediata ao treinador.
+
+-Numa noite chuvosa, as equipas de Futsal e Voleibol entraram no pavilhão principal ao mesmo tempo devido a um erro no caderno de marcações da receção, gerando um enorme conflito interno.
+
+           #O sistema introduz um calendário digital de reserva de espaços físicos que impede duplas marcações e notifica os envolvidos de alterações.
+
+-O Tiago sentiu uma forte dor muscular, foi para casa e a informação não chegou ao treinador nem ao fisioterapeuta. No treino seguinte, o treinador puxou por ele e o Tiago sofreu uma rotura muscular.
+
+           #O sistema permite um registo autónomo de lesões que alerta automaticamente a equipa médica e coloca o atleta numa lista de lesionados visível para o treinador.
+
+
+
+
