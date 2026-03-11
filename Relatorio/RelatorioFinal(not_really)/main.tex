@@ -93,7 +93,18 @@
 
 \begin{flushleft}
 \begin{abstract}
-Este trabalho consiste na conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar sediado na cidade de Braga. O projeto foi desenvolvido no âmbito da unidade curricular de Laboratórios de Informática IV, seguindo uma metodologia sequencial e incremental, enriquecida com a utilização sistemática de Large Language Models (LLM) como agentes de apoio cognitivo ao longo de todas as fases do ciclo de vida do desenvolvimento de software. Desde a Engenharia de Requisitos até à verificação e validação do sistema, os LLM foram integrados como assistentes artificiais na eliciação de requisitos, na tomada de decisões arquiteturais, na geração e revisão de código e na produção de casos de teste. O sistema resultante permite o registo e gestão de atletas, equipas, treinadores e modalidades, o controlo de inscrições e presenças em treinos, a gestão de competições e respetivos resultados, bem como a produção de estatísticas de desempenho e relatórios financeiros e administrativos de apoio à decisão.
+Este trabalho consiste na conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar sediado na cidade de Braga.Neste documento, encontra-se descrito o processo para a realização do projeto, desde a especificação do pretendido até a fase de implementação e teste do mesmo.
+
+As etapas realizadas  de seguida descritas pela equipa de desenvolvimento de software foram enriquecidas e apoiadas com o uso de \textit{Large Language Models(LLM)}, fazendo uso dos seus grandes volumes de conhecimento, velocidade e capacidade de aprendizagem e adaptação de forma a suportar e acelerar as fases do projeto. A equipa de desenvolvimento abordou o problema seguindo uma metodologia sequencial e incremental inspirada no modelo \textit {Waterfall (Royce,1970)}
+
+Primeiramente,juntamente com o CAP foi definido o contexto, a sua necessidade e motivação face às adversidades atuais, bem como os recursos que serão necessários para a concretização do projeto.
+
+De seguida, foram levantados e analisados requisitos, tanto funcionais como não funcionais, de forma a alinhar os objetivos e expectativas de ambos os lados reduzindo custos e retrabalho.
+
+RESUMO IMCOMPLETO, À MEDIDA QUE VAMOS FAZENDO O PROJETO VOU COMPLETANTO O RESUMO.PARA JÁ ESTÁ FEITO ATE AO REQUISITOS.
+
+%IR ACRESCENTANDO AQUANDO DA REALIZAÇAO DAS TAREFAS %
+
     \par \textbf{Área de Aplicação}: Engenharia de Software Assistida por Inteligência Artificial Generativa.
     \par \textbf{Palavras-Chave}: Engenharia de Software, Large Language Models, Desenvolvimento Assistido por IA, Gestão Desportiva, Engenharia de Requisitos, Arquitetura de Software, Testes de Software, Clube Desportivo.
 \end{abstract}
@@ -133,41 +144,41 @@ Este trabalho consiste na conceção, especificação, desenvolvimento e valida�
 %% Starting page numbering here
 \pagenumbering{arabic}
 
-\chapter{Introdução}
+\chapter{Definição e Caracterização do Sistema}
 
 \section{Contextualização}
+O Clube Amigos de Polvoreira (CAP) é uma associação desportiva sediada na freguesia de Polvoreira, no concelho de Guimarães, fundada no ano de 1990. O clube surgiu por iniciativa de um grupo de habitantes da comunidade local com o objetivo de promover a prática desportiva, o convívio social e o desenvolvimento saudável dos jovens da região.
 
-Durante os últimos anos, o domínio da Engenharia de Software tem sido profundamente transformado pelo aumento da complexidade dos sistemas, pela consolidação de arquiteturas distribuídas e pela crescente integração de técnicas de Inteligência Artificial no processo de desenvolvimento. O software deixou de ser um artefacto estático, passando a assumir um papel central em sistemas dinâmicos, em evolução permanente e fortemente orientados por dados. Neste contexto, a emergência dos Large Language Models (LLM) veio alterar de forma significativa os métodos e as técnicas com que o software é idealizado, especificado, desenvolvido, validado e mantido. A sua aplicação vai hoje muito para além da simples geração de código, abrangendo tarefas de Engenharia de Requisitos, definição arquitetural, processos de validação e teste, e suporte à tomada de decisão em diversos aspetos técnicos.
+Ao longo dos anos, o clube foi crescendo e diversificando as suas atividades, passando a incluir várias modalidades desportivas e recreativas. Entre estas destacam-se modalidades coletivas e individuais que envolvem atletas de diferentes idades, desde a formação até à participação em competições amadoras e profissionais. Este crescimento permitiu ao clube ganhar maior relevância na comunidade, tornando-se um importante ponto de encontro para a população local.
 
-Paralelamente, o desporto ocupa um lugar central na vida das comunidades portuguesas, sendo não apenas um veículo de promoção da saúde e do bem-estar, mas também um importante motor de coesão social e de identidade local. Nas últimas décadas, os clubes desportivos portugueses assistiram a um crescimento significativo, tanto em número de praticantes como em diversidade de modalidades oferecidas, o que trouxe consigo uma complexidade crescente na gestão das suas operações internas. A cidade de Braga, reconhecida pelo seu dinamismo cultural e desportivo, não é exceção a esta tendência. Os clubes desta região têm vindo a alargar a sua oferta, integrando modalidades tão diversas como o futebol, o atletismo, a natação, o andebol e as artes marciais, entre outras. Este crescimento, embora positivo, coloca enormes desafios na gestão de atletas, equipas, treinadores, instalações e competições, especialmente quando os processos administrativos continuam a assentar em métodos tradicionais e pouco escaláveis.
+Com o aumento do número de atletas, equipas, treinadores e atividades, a gestão do clube tornou-se progressivamente mais complexa. Atualmente, muitos processos administrativos, como a gestão de sócios, pagamentos de quotas, e gestão de atletas e disponibilidade dos mesmos, bem como dados estatisticos relacionados com as depesas e ganhos do clube  são realizados de forma manual ou pouco estruturada.
 
-É neste duplo contexto --- a revolução provocada pelos LLM na Engenharia de Software e os desafios operacionais enfrentados por clubes desportivos em crescimento --- que se enquadra o presente trabalho. O projeto visa a conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar da cidade de Braga, utilizando de forma sistemática LLM como agentes de apoio cognitivo ao longo de todas as fases do ciclo de vida do desenvolvimento de software. A incorporação destes agentes artificiais no processo de desenvolvimento antecipa um modelo de trabalho no qual os engenheiros de software desempenham um papel cada vez mais estratégico, focado na definição de problemas, na avaliação crítica de soluções e na governação de sistemas inteligentes, delegando progressivamente as tarefas repetitivas e cognitivamente intensivas para os LLM.
+Diante deste cenário e tendo em vista os objetivos futuros de expansão e melhoria da organização interna, surgiu a necessidade de desenvolver uma aplicação de gestão para o Clube Amigos de Polvoreira. Esta aplicação pretende apoiar a administração do clube, facilitar a gestão das modalidades e dos seus participantes, melhorar a comunicação entre direção, treinadores e atletas, e preparar a instituição para um crescimento sustentado nos próximos anos.
 
-\section{Apresentação do Caso de Estudo}
+Desta forma, o clube entrou em contacto com uma equipa de engenheiros informáticos para o desenvolvimento do software pretendido.
 
-O caso de estudo centra-se no \textbf{Sporting Clube de Braga Amador} (doravante designado por SCB Amador), um clube desportivo sem fins lucrativos sediado na cidade de Braga, fundado em 1987 por um grupo de entusiastas do desporto local. Ao longo de quase quatro décadas de existência, o SCB Amador cresceu de forma orgânica, passando de uma pequena associação de futebol de bairro para um clube multidisciplinar que hoje acolhe mais de 800 atletas federados distribuídos por seis modalidades: futebol, atletismo, natação, andebol, judo e ténis de mesa.
-
-Durante os seus primeiros anos, a gestão do clube era feita de forma inteiramente informal, com recurso a registos em papel, folhas de cálculo dispersas e comunicação verbal entre dirigentes, treinadores e secretariado. À medida que o número de atletas, treinadores e competições foi aumentando, este modelo revelou-se progressivamente insustentável. O ponto de rutura surgiu na época desportiva de 2023/2024, quando uma série de falhas operacionais expôs a fragilidade dos processos manuais do clube. A mais grave ocorreu durante duas competições regionais de atletismo, nas quais participaram atletas cujo seguro desportivo havia expirado sem que ninguém no clube se tivesse apercebido, uma vez que o controlo de validades era feito manualmente através de uma folha de cálculo partilhada que ninguém atualizava com regularidade. Este incidente resultou numa coima aplicada pela Federação de Atletismo de Portugal e, mais gravemente, na lesão de um atleta sub-18 cujo processo de sinistro ficou por resolver durante vários meses devido à ausência de documentação atualizada. A este episódio juntaram-se outras queixas recorrentes: treinadores que não conseguiam aceder às fichas dos atletas em tempo útil, conflitos de horários nas instalações desportivas que só eram detetados no próprio dia, duplicação de inscrições em competições e a impossibilidade de produzir relatórios financeiros fiáveis sobre quotas e pagamentos em atraso.
-
-Perante este cenário, a direção do SCB Amador, liderada pelo seu presidente \textbf{Carlos Magalhães}, reconheceu que o problema não se resolvia com mais folhas de cálculo, mas sim com um sistema de software dedicado que centralizasse toda a informação do clube e automatizasse os processos críticos de gestão. Após uma apresentação pública de projetos de estudantes da Universidade do Minho, Carlos Magalhães abordou o Departamento de Informática com uma proposta de parceria. A unidade curricular de \textbf{Laboratórios de Informática IV (LI4)}, do segundo semestre do ano letivo 2025/2026, cujo tema incidia precisamente sobre o desenvolvimento de sistemas de gestão para clubes desportivos utilizando LLM como agentes de apoio, revelou-se o enquadramento ideal para esta colaboração. O clube obteria uma solução tecnológica desenvolvida com rigor académico e acompanhamento docente, e os alunos teriam a oportunidade de trabalhar com um cliente real, num contexto profissional autêntico.
-
-A equipa de desenvolvimento, composta por quatro alunos do segundo ano da licenciatura em Engenharia Informática, ficou responsável por todas as fases do ciclo de vida do software --- desde a conceção e engenharia de requisitos, passando pela arquitetura e design, até à implementação, verificação e validação do sistema --- utilizando LLM de forma sistemática como assistentes artificiais em cada uma dessas etapas. Os membros da equipa são os seguintes:
-
+\section{Motivação e objetivos}
+O clube é composto por diversos atletas de várias modalidades bem como elementos técnicos e da administração, tendo ainda como objetivo no futuro aumentar os escalões das modalidades, tendo em mente um forte investimento no clube procurando expandi-lo e atingir os grandes palcos.
+Até ao momento, todos os registos do clube são tratados de forma manual,em papel tendo as tarefas e responsabilidades dividas por diferentes trabalhadores. Obviamente, este processo dá origem a erros e a inconsistências, com perdas de documentos, fraca organização e fraca acessibilidade aos mesmo, bem como um sentimento de insegurança por parte do dono do clube pela falta de controlo dos documentos.
+O crescimento do clube previsto pelo dono, permite concluir que os métodos em vigor atualmente não são escaláveis nem vão de encontro com o projeto a longo prazo pretendido.
+O clube procurar no sistema informático uma solução para os seus problemas, sendo este a base e o investimento central e fulcrar para os seus objetivos.
+Assim, o CAP pretende ter um sistema informático capaz de :
 \begin{itemize}
-    \item \textbf{Tiago Martins}: responsável pela coordenação da equipa, pela gestão do projeto e pelo levantamento de requisitos junto da direção do clube.
-    \item \textbf{André Santos}: responsável pela análise de processos internos do clube e pela definição da arquitetura do sistema.
-    \item \textbf{Daniel Parente}: responsável pela implementação dos componentes de software e pela integração dos módulos do sistema.
-    \item \textbf{Pedro Ferreira}: responsável pela documentação técnica, pela definição e execução de testes e pelo controlo de qualidade do software produzido.
+    \item Facilitar a comunicação entre os diferentes integrantes : Atletas,direção e equipas técnicas.
+    \item Garantir segurança e controlo das informações do clube.
+    \item Facilitar a gestão económica do clube, permitindo analisar custos e lucros atuais e comparar com passados.
+    \item Permitir aos treinadores e equipa técnica visualizarem os atletas disponiveis.
+    \item Permitir que sócios consultem e renovem as quotas.
 \end{itemize}
 
-O projeto decorrerá ao longo de aproximadamente cinco meses, seguindo uma metodologia sequencial e incremental estruturada em quatro etapas: (1) Conceção e Engenharia de Requisitos Assistida por LLM, (2) Arquitetura e Design do Software utilizando LLM, (3) Implementação e Desenvolvimento Assistido por LLM, e (4) Verificação, Validação e Avaliação da Qualidade do Software Produzido. Em todas as etapas, serão exploradas as capacidades dos LLM como agentes de apoio cognitivo, desde a eliciação e refinamento de requisitos até à geração de casos de teste, passando pela assistência na tomada de decisões arquiteturais e na geração e revisão de código. O resultado esperado é um sistema de software aplicacional robusto, capaz de centralizar toda a informação operacional do SCB Amador e de suportar o crescimento futuro do clube de forma sustentada, eficiente e segura.
-
-\begin{figure}[H]
-    \centering
-    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{ata1.png}}
-    \caption{Ata da primeira reunião entre a equipa de desenvolvimento e a direção do SCB Amador.}
-    \label{fig:ata_inicial}
-\end{figure}
+\section{Justificação e Utilidade do Sistema}
+\begin{itemize}
+    \item A digitalização dos documentos irá diminuir a taxa de erros, garantindo integridade dos ficheiros, persistência dos mesmos e controlo de segurança e de acesso.
+    \item A implementação do sistema informático irá também facilitar os processos trazendo uma maior produtividade dos trabalhadores.
+    \item A possibilidade de calcular dados estatisticos associados aos gastos e lucros da empresa será uma mais valia para o dono do clube permitindo uma melhor monitorização, mais acertiva, e facilitando até a apresentação a futuros investidores e interessados no clube.
+    \item POR COMPLETAR
+    \item POR COMPLETAR
+\end{itemize}
 
 %==========================================================================
 % END INTRODUCTION

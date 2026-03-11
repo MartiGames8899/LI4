@@ -1,5 +1,6 @@
 \babel@toc {portuguese}{}\relax 
-\contentsline {chapter}{\numberline {1}Introdução}{2}{chapter.1}%
+\contentsline {chapter}{\numberline {1}Definição e Caracterização do Sistema}{2}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Contextualização}{2}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Apresentação do Caso de Estudo}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Motivação e objetivos}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Justificação e Utilidade do Sistema}{3}{section.1.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
