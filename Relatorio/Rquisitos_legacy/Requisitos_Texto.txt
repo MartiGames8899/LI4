@@ -58,3 +58,49 @@ Durante a operação, o utilizador acede ao painel de estatísticas e aplica fil
 
 Requisito 9 
 
+O nono requisito funcional, designado por Gestão do Departamento Médico e Lesões (RF-09), introduz a vertente de Gestão Clínica na plataforma. Este requisito surge da necessidade do corpo médico do clube registar e acompanhar a condição de saúde dos atletas, centralizando informações sobre exames de aptidão desportiva, ocorrência de lesões e respetivos planos de recuperação.
+
+Para que a inserção ou atualização de um boletim clínico seja efetuada, verifica-se como pré-condição que o utilizador se encontre autenticado com o perfil de Médico ou Fisioterapeuta, garantindo assim o acesso restrito a dados sensíveis. Adicionalmente, o perfil do atleta em causa tem de estar previamente registado e ativo no sistema.
+
+Durante o processo, o elemento do staff médico acede à ficha do atleta e regista o evento clínico, podendo validar a data de validade do exame médico obrigatório ou definir uma data prevista para o regresso aos treinos após uma lesão. Uma vez confirmada e submetida a informação, cumpre-se a pós-condição: os dados são guardados de forma encriptada na base de dados e o sistema altera automaticamente o estado de disponibilidade do atleta (passando, por exemplo, de "Apto" para "Lesionado"). A relevância deste requisito para a aplicação é alta, pois, além de garantir a salvaguarda do bem-estar físico dos praticantes, integra-se diretamente com os módulos desportivos, bloqueando de forma proativa a possibilidade de a equipa técnica convocar atletas que se encontrem inaptos para a prática desportiva.
+
+Requisito 10
+
+O décimo requisito funcional, designado por Gestão de Avaliações Físicas e Desempenho (RF-10), dá continuidade à vertente de acompanhamento global do atleta, cruzando dados da Gestão Clínica e Desportiva. Este requisito surge da necessidade da equipa técnica e do departamento de performance monitorizarem as métricas corporais e os resultados de testes físicos dos jogadores ao longo da época.
+
+Para que a inserção de uma nova avaliação física seja efetuada, verifica-se como pré-condição que o utilizador se encontre autenticado com o perfil de Preparador Físico, Treinador ou Médico, e que a ficha do atleta em questão já esteja criada e ativa na base de dados.
+
+Durante o processo, o profissional acede à área de performance do jogador e regista os indicadores recolhidos (como peso, altura, índice de massa corporal e resultados em testes de esforço ou velocidade). Uma vez confirmada e submetida a informação, cumpre-se a pós-condição: os dados são guardados de forma persistente e o sistema atualiza automaticamente o histórico de evolução do atleta, permitindo a geração de gráficos de progressão temporal. A relevância deste requisito para a aplicação é elevada, uma vez que transforma avaliações físicas pontuais em histórico de dados útil para a equipa técnica, auxiliando na individualização dos planos de treino e na prevenção da sobrecarga física.
+
+Requisito 11 
+
+O decimo primeiro requisito funcional, designado por Gestao de Quotas e Pagamentos (RF-11), introduz a vertente de Gestao Financeira na plataforma. Este requisito surge da necessidade da tesouraria do clube e da gerencia controlarem as obrigacoes financeiras dos associados e atletas, permitindo a emissao, consulta e regularizacao de faturas referentes a quotas mensais, anuidades ou seguros desportivos.
+
+Para que a emissao ou liquidacao de uma quota seja efetuada, verifica-se como pre-condicao que o utilizador se encontre autenticado com o perfil de Tesoureiro, Secretaria ou Administrador, e que o perfil do socio ou atleta associado a cobranca ja exista e esteja ativo no sistema.
+
+Durante o processo, o responsavel gera os avisos de pagamento ou regista as liquidacoes resultantes de transferencias ou integracoes com gateways de pagamento. Uma vez confirmada a transacao, cumpre-se a pos-condicao: o estado financeiro do utilizador e atualizado na base de dados, passando de Pendente para Pago, de forma persistente. Adicionalmente, o sistema emite o respetivo recibo e disponibiliza-o no perfil do utilizador.
+
+A relevancia deste requisito para a aplicacao e critica, uma vez que a sustentabilidade financeira da instituicao depende do acompanhamento rigoroso e da cobranca atempada dos valores em divida, interligando-se de forma direta com o modulo de notificacoes para alertar automaticamente os utilizadores com pagamentos em atraso.
+
+Requisito 12 
+
+O décimo segundo requisito funcional, designado por Gestão de Equipamentos e Material Desportivo (RF-12), insere-se na área de Gestão Logística da plataforma. Este requisito surge da necessidade de a estrutura do clube controlar o inventário de material existente (como bolas, coletes, equipamentos de jogo e material de treino) e monitorizar a sua atribuição a cada escalão, equipa ou atleta individual.
+
+Para que o registo de atribuição ou devolução de um equipamento seja efetuado, verifica-se como pré-condição que o utilizador responsável pela operação se encontre autenticado no sistema com o perfil de Gestor de Equipamentos, Treinador ou Administrador, e que quer o material em causa quer o perfil do destinatário já se encontrem previamente registados na base de dados.
+
+Durante a operação, o responsável acede ao módulo de inventário, seleciona os artigos desejados e regista a sua entrega ou devolução, indicando a data e o estado de conservação do material. Uma vez submetida a informação, cumpre-se a pós-condição: o sistema atualiza as quantidades de stock disponível de forma persistente e o material fica associado à ficha de responsabilidade do respetivo atleta ou equipa. A relevância deste requisito para a aplicação é bastante elevada, uma vez que previne o extravio de material dispendioso, promove a responsabilização dos intervenientes pelo zelo dos bens do clube e fornece dados rigorosos à gerência para o planeamento do orçamento de compras nas épocas seguintes.
+
+Requisito 13
+
+O décimo terceiro requisito funcional, designado por Gestão de Reserva de Espaços e Instalações Desportivas (RF-13), insere-se na área de Gestão Logística e Administrativa da plataforma. Este requisito surge da necessidade da estrutura do clube, nomeadamente a secretaria e os coordenadores técnicos, gerirem de forma eficiente a ocupação dos campos, pavilhões, balneários e ginásios, evitando sobreposições de horários entre os diferentes escalões e equipas.
+
+Para que a alocação ou reserva de uma instalação seja efetuada, verifica-se como pré-condição que o utilizador responsável se encontre autenticado no sistema com o perfil de Coordenador Técnico, Treinador ou Administrador, e que os espaços físicos disponíveis já estejam previamente mapeados e configurados na base de dados.
+
+Durante a operação, o utilizador acede ao calendário interativo de ocupação, seleciona o espaço pretendido, define a janela temporal e associa a reserva a uma equipa ou evento específico (como um treino, jogo oficial ou manutenção). O sistema efetua imediatamente uma validação de disponibilidade. Caso detete um conflito de horários, a operação é bloqueada e o utilizador é notificado; em caso de sucesso, cumpre-se a pós-condição: a reserva é registada de forma persistente na base de dados e o calendário global do clube é atualizado, ficando visível para todos os perfis autorizados.
+
+A relevância deste requisito para a aplicação é elevada, uma vez que a otimização dos espaços físicos é fundamental para o funcionamento diário da instituição. A centralização e digitalização deste processo eliminam as redundâncias e os conflitos logísticos, garantindo que o planeamento desportivo decorre sem interrupções.
+
+Requisito 14
+
+
+
