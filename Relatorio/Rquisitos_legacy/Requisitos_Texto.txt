@@ -104,3 +104,61 @@ Requisito 14
 
 
 
+
+
+Requisitos Nao Funcionais 1
+
+O primeiro requisito não funcional (RNF-01), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se na garantia da segurança, no controlo de acessos e na proteção global da plataforma. Este requisito surge da necessidade imperativa de assegurar que apenas pessoas devidamente autorizadas conseguem interagir com os dados sensíveis do clube.
+
+O fluxo inicia-se no momento em que um utilizador tenta iniciar sessão ou aceder a um módulo restrito do sistema. O utilizador submete as suas credenciais através da interface, momento em que a plataforma assume o controlo da operação. O sistema processa o pedido e verifica a validade da autenticação, cruzando as informações inseridas com os dados encriptados alojados na base de dados e avaliando rigorosamente o nível de permissões (papel) associado àquele perfil em concreto.
+
+Caso o sistema detete que as credenciais estão incorretas ou que o utilizador não possui os privilégios necessários para aquela área específica, a operação é imediatamente interrompida e bloqueada. O fluxo devolve uma mensagem de erro ao ecrã, impedindo qualquer acesso indevido ou visualização de dados. Se, por outro lado, a validação for bem-sucedida, cumpre-se a pós-condição do diagrama: o sistema autoriza a entrada, estabelece uma sessão segura e encaminha o utilizador para a página pretendida. A relevância deste fluxo para a aplicação é total, pois atua como a principal fronteira defensiva tecnológica do clube, garantindo a privacidade de todos os associados e mitigando riscos de segurança logo na porta de entrada da plataforma.
+
+Requisitos Nao Funcionais 2
+
+O segundo requisito não funcional (RNF-02), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se na usabilidade e na experiência de utilização. Este requisito surge da necessidade de garantir que o sistema fornece um feedback contínuo e claro durante a interação, promovendo uma navegação intuitiva para todos os utilizadores do clube, independentemente do seu nível de literacia digital.
+
+Para que a interação se inicie, assume-se como pré-condição que o utilizador esteja a aceder a uma funcionalidade do sistema através de uma interface responsiva. O fluxo arranca quando o utilizador solicita uma ação, ao que o sistema responde de imediato apresentando as opções ou o formulário adequado de forma clara. Em seguida, o utilizador insere os dados pretendidos e submete o pedido.
+
+Nesta fase, o sistema valida as informações introduzidas. A componente de usabilidade destaca-se neste ponto crítico do diagrama: caso exista um erro de preenchimento ou de sistema, o fluxo é interrompido e a plataforma apresenta uma mensagem de erro visível e percetível, reencaminhando o utilizador para a correção dos dados sem o forçar a reiniciar todo o processo. Se a validação for bem-sucedida, cumpre-se a pós-condição: o sistema atualiza as informações de forma persistente e apresenta uma mensagem de sucesso, confirmando visualmente a conclusão da tarefa. A relevância deste fluxo para a aplicação é enorme, pois minimiza a frustração do utilizador, reduz a curva de aprendizagem e assegura que a interface comunica eficazmente o estado final de cada operação.
+
+Requisitos Nao Funcionais 3
+
+O terceiro requisito não funcional (RNF-03), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se no desempenho e na escalabilidade da plataforma. Este requisito surge da necessidade de garantir que o sistema responde de forma rápida e eficiente às solicitações dos utilizadores, mesmo durante períodos de elevada carga ou picos de acesso.
+
+Para que o fluxo se inicie, assume-se como pré-condição que o utilizador esteja a interagir com a plataforma e solicite uma ação, como a extração de um relatório complexo ou a submissão de dados. O sistema recebe o pedido e inicia o processamento da informação. Nesta etapa crítica, a validação ilustrada no diagrama reflete a capacidade do sistema em gerir os recursos: o processamento deve ocorrer dentro de um tempo de resposta aceitável. Caso o sistema não consiga processar o pedido atempadamente devido a sobrecarga ou erro interno, o fluxo desvia para a apresentação de uma mensagem de erro ou aviso de tempo limite excedido.
+
+Se o processamento ocorrer de forma fluida e dentro dos parâmetros de performance estipulados, cumpre-se a pós-condição: o sistema atualiza ou recupera a informação de forma persistente e apresenta a mensagem de sucesso ao utilizador sem atrasos percetíveis. A relevância deste fluxo para a aplicação é crucial, uma vez que uma infraestrutura otimizada e escalável previne a paralisação das tarefas operacionais do clube, garantindo que treinadores, atletas e funcionários possam interagir com a base de dados em simultâneo sem degradação do serviço.
+
+Requisitos Nao Funcionais 4
+
+O quarto requisito não funcional (RNF-04), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se na disponibilidade e fiabilidade da plataforma. Este requisito surge da necessidade crítica de garantir que o sistema se mantém operacional de forma contínua e que a informação armazenada está protegida contra falhas técnicas, sobrecargas ou perdas acidentais de dados.
+
+Para que o fluxo se inicie, assume-se como pré-condição que o sistema se encontra em funcionamento contínuo e que uma rotina de manutenção ou de cópia de segurança (backup) foi acionada, seja por agendamento automático do próprio servidor ou por intervenção direta de um administrador. O sistema inicia o processo de recolha, encriptação e cópia dos dados para um ambiente seguro. Durante esta operação, é efetuada uma validação rigorosa da integridade da informação. Caso ocorra uma falha na comunicação ou um erro na replicação dos ficheiros, o fluxo é interrompido e o sistema emite imediatamente um alerta crítico para a equipa de manutenção, permitindo uma intervenção rápida antes que os dados fiquem comprometidos.
+
+Se a operação de salvaguarda e manutenção decorrer sem incidentes, cumpre-se a pós-condição: a cópia de segurança é gravada com sucesso, o sistema regista a conclusão da tarefa nos seus relatórios internos e continua a operar com a sua disponibilidade máxima. A relevância deste fluxo para a aplicação é vital, uma vez que a existência de mecanismos robustos de recuperação e a garantia de um tempo de atividade elevado (uptime) asseguram que o clube não perde o seu histórico desportivo ou financeiro, permitindo que a atividade diária não sofra interrupções abruptas.
+
+Requisitos Nao Funcionais 5
+
+O quinto requisito não funcional (RNF-05), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se na integração e interoperabilidade da plataforma. Este requisito surge da necessidade de o sistema comunicar de forma robusta e segura com entidades e serviços externos, tais como gateways de pagamento financeiro ou sistemas governamentais, bem como assegurar a exportação de dados em formatos estandardizados.
+
+Para que o fluxo se inicie, assume-se como pré-condição que o utilizador solicite uma ação na interface que dependa de um serviço externo, como a geração de uma referência multibanco para pagamento de quotas ou a exportação de um relatório em PDF ou ficheiro SAF-T. O sistema capta a solicitação, formata a informação de acordo com as exigências do recetor e inicia o pedido de comunicação através da API externa ou o processo de conversão do documento.
+
+Nesta fase crítica, ocorre a validação ilustrada no diagrama: o sistema verifica a resposta devolvida pela entidade parceira ou a integridade do ficheiro gerado. Caso o serviço externo se encontre indisponível, devolva um erro de autenticação ou ocorra uma falha na formatação dos dados, o fluxo é imediatamente interrompido e a plataforma apresenta uma mensagem de erro clara ao utilizador. Se a resposta da integração for positiva e os dados forem validados com sucesso, cumpre-se a pós-condição: o sistema regista a transação externa na sua própria base de dados de forma persistente e exibe uma mensagem de sucesso, concluindo a operação.
+
+A relevância deste fluxo para a aplicação é de extrema importância, uma vez que garante que a plataforma não opera como um sistema isolado. Uma interoperabilidade eficaz permite automatizar toda a logística financeira e administrativa do clube, reduzindo o trabalho manual e garantindo a sincronização em tempo real com serviços indispensáveis.
+
+Requisitos Nao Funcionais 6
+
+O sexto requisito não funcional (RNF-06), cujo fluxo se encontra detalhado no diagrama de atividades apresentado, foca-se na manutenibilidade e na auditoria do sistema. Este requisito surge da necessidade imperativa de garantir a rastreabilidade total de todas as ações críticas realizadas na plataforma, bem como de assegurar que a arquitetura tecnológica permite uma manutenção simplificada e a integração futura de novas funcionalidades.
+
+Para que o fluxo de auditoria se inicie, assume-se como pré-condição que um utilizador autenticado solicite a execução de uma operação sensível no sistema, como a alteração de dados de um perfil, a eliminação de um registo ou a validação de um pagamento. O sistema recebe o pedido, processa a ação principal e, em simultâneo, inicia o mecanismo de rastreamento de auditoria (logs).
+
+Nesta fase, a plataforma recolhe silenciosamente os metadados vitais da transação efetuada, tais como a identificação exata do utilizador, a descrição da ação, o endereço IP e o carimbo de data e hora. A etapa de validação ilustrada no diagrama assegura que a gravação deste histórico decorre em conformidade. Caso ocorra uma falha técnica no registo do log, o sistema processa um alerta interno para a equipa técnica, garantindo que o erro não passa despercebido. Se a operação decorrer com normalidade, cumpre-se a pós-condição: a ação do utilizador é efetivada na base de dados e o respetivo registo de auditoria é armazenado de forma persistente, imutável e totalmente invisível para quem está a utilizar o sistema.
+
+A relevância deste fluxo para a aplicação é estrutural e indispensável. A manutenção de um histórico de atividades detalhado é a principal ferramenta da gerência e da administração para resolver conflitos, auditar acessos indevidos e garantir total transparência nas operações diárias do clube, enquanto a vertente de manutenibilidade assegura que a base de código se mantém limpa e escalável para a equipa de programadores.
+
+
+
+
+
