@@ -1,0 +1,60 @@
+Requisito 1 
+
+O primeiro requisito funcional, designado por Gestão de Perfis e Utilizadores (RF-01), insere-se na área de Gestão Administrativa e assume-se como o pilar estrutural da plataforma. Este requisito surge da necessidade da gerência e da secretaria do clube poderem criar, editar e arquivar os perfis de todos os membros associados à instituição, atribuindo-lhes os respetivos níveis de permissão. Para que qualquer uma destas ações seja realizada, verifica-se como pré-condição que o utilizador responsável pela operação se encontre previamente autenticado no sistema com os privilégios adequados.
+
+A ordem de operações estipulada dita que, ao registar ou editar um perfil, o sistema deve primeiro validar a unicidade de dados críticos como o email e o NIF. Caso o sistema detete que estes identificadores já existem na base de dados, a operação de registo é interrompida e o erro é sinalizado. Em caso de sucesso, cumpre-se a pós-condição da operação: o novo perfil fica registado e apto a aceder ao sistema, sendo as credenciais iniciais enviadas automaticamente por correio eletrónico.
+
+Em relação à operação de arquivamento, caso um atleta ou membro do staff abandone o clube, o sistema reage revogando imediatamente as suas capacidades de acesso. No entanto, assegura-se que toda a informação desportiva e financeira ligada a esse perfil é mantida intacta. A relevância deste requisito para a aplicação é crítica, uma vez que é ele que permite identificar as pessoas que interagem com o sistema e que ações podem realizar, servindo de base para todos os outros módulos.
+
+Requisito 2
+
+O requisito que se segue, designado por Gestão de Equipas e Plantéis (RF-02), dá continuidade à estruturação do sistema. Uma vez assegurada a criação dos perfis, surge a necessidade prática de agrupar os atletas e a equipa técnica nas respetivas equipas e escalões competitivos. Este requisito determina que a direção desportiva e a secretaria devem ser capazes de criar, editar e inativar equipas, bem como de gerir a alocação dos atletas aos respetivos plantéis.
+
+Para realizar estas operações, verifica-se como pré-condição que o utilizador se encontre autenticado com os privilégios de gestão adequados e que os perfis dos atletas a alocar já existam na base de dados. Durante o processo de associação de um atleta a uma equipa, o sistema tem o dever de executar uma validação automática da data de nascimento do atleta face aos limites etários do escalão selecionado. Caso detete uma incompatibilidade, a operação é rejeitada e o utilizador é notificado do erro. Em caso de sucesso, cumpre-se a pós-condição: o plantel é atualizado e o atleta fica oficialmente apto a ser integrado nas atividades da equipa, o que se reflete de imediato nos módulos dependentes, como as convocatórias e a gestão de presenças em treinos. A relevância deste requisito é alta, dado que a divisão do capital humano em equipas representa o núcleo de toda a atividade desportiva da instituição.
+
+Requisito 3
+
+O requisito que se segue, designado por Gestão de Inscrições e Renovações (RF-03), dá continuidade ao processo de estruturação administrativa do clube. Uma vez que os perfis estão criados e os atletas alocados aos respetivos plantéis, é estritamente necessário garantir que a situação legal e desportiva de cada praticante está regularizada para a época em curso. Este requisito determina que os atletas, ou os seus encarregados de educação, podem submeter o pedido de inscrição ou renovação através da plataforma, anexando a documentação desportiva e clínica exigida.
+
+Tratando-se de um processo que envolve a submissão e verificação de ficheiros confidenciais, foi estipulado que a documentação submetida transita para um estado de análise e que a validação e aprovação final destas inscrições apenas pode ser levada a cabo pelos funcionários da secretaria do clube. A conclusão e o cumprimento deste requisito revelam-se de extrema importância para o sistema, uma vez que apenas os atletas com a inscrição devidamente aprovada poderão ser oficialmente inseridos nas convocatórias e participar em competições, servindo também de ponto de partida para a geração automática do plano de pagamento de quotas associado a essa época.
+
+Requisito 4
+
+O quarto requisito funcional, designado por Notificações e Alertas (RF-04), assume um papel transversal e de suporte a toda a dinâmica da plataforma. Este requisito surge da necessidade de garantir que o sistema gera e envia avisos automáticos aos diversos utilizadores (como atletas, encarregados de educação, treinadores e staff) sempre que ocorram eventos que exijam a sua atenção. Entre estes eventos incluem-se a publicação de novas convocatórias, alterações de última hora em horários ou locais de treino, e avisos de quotas ou pagamentos em atraso.
+
+Para que as notificações sejam emitidas com sucesso, verifica-se como pré-condição que o utilizador destinatário tenha os seus dados de contacto devidamente preenchidos no perfil e que o evento que despoleta o aviso tenha sido acionado no sistema. Assim que a ação ocorre, o sistema atua de forma proativa para cumprir a pós-condição: a informação chega imediatamente ao utilizador, seja através de alertas visuais internos na própria interface da aplicação ou através de comunicações externas, como o correio eletrónico. A relevância deste requisito para a aplicação é bastante elevada, dado que assegura uma comunicação fluida, contínua e atempada entre a estrutura do clube e os seus membros, mitigando falhas de informação no dia a dia.
+
+Requisitos 5 
+
+O quinto requisito funcional, designado por Gestão de Treinos e Registo de Presenças (RF-05), introduz a vertente de Gestão Desportiva na plataforma. Este requisito surge da necessidade prática da equipa técnica organizar as sessões de trabalho semanais e monitorizar de forma rigorosa a assiduidade dos seus atletas.
+
+Para a realização destas operações, verifica-se como pré-condição que o utilizador se encontre autenticado com o perfil de Treinador ou Coordenador Técnico, e que as equipas e os respetivos plantéis já estejam previamente configurados e alocados no sistema. Durante a operação de registo, o treinador acede ao evento de treino agendado e assinala o estado de cada jogador (presente, falta justificada, falta injustificada ou lesionado). O sistema encarrega-se de processar estas informações e, após a submissão, cumpre-se a pós-condição: os dados são guardados de forma persistente e as estatísticas individuais de assiduidade no perfil de cada atleta são atualizadas em tempo real.
+
+A relevância deste requisito para a aplicação é fulcral, uma vez que o planeamento dos treinos e o acompanhamento contínuo da presença dos atletas representam a atividade central do clube no terreno. Esta funcionalidade substitui os tradicionais registos em papel e fornece dados estatísticos essenciais para apoiar as futuras decisões técnicas, servindo de base para o módulo de convocações para os jogos oficiais.
+
+Requisito 6
+
+O sexto requisito funcional, designado por Gestão de Convocatórias (RF-06), dá continuidade à vertente de Gestão Desportiva da plataforma. Este requisito surge da necessidade da equipa técnica definir e comunicar oficialmente quais os atletas selecionados para representar o clube num determinado jogo, seja ele de caráter oficial ou amigável.
+
+Para a realização desta operação, verifica-se como pré-condição que o utilizador se encontre autenticado com o perfil de Treinador ou Coordenador Técnico e que o evento correspondente ao jogo já esteja criado no calendário do sistema. Durante o processo de seleção, a interface deve auxiliar a decisão do treinador, cruzando os dados do plantel com as informações de assiduidade aos treinos e o histórico clínico (para evitar a convocação de atletas lesionados ou a cumprir castigo). Uma vez confirmada e submetida a seleção, cumpre-se a pós-condição: a lista de convocados é guardada na base de dados de forma persistente e o sistema aciona de imediato o envio de alertas automáticos aos atletas selecionados e aos respetivos encarregados de educação.
+
+A relevância deste requisito para a aplicação é bastante elevada, uma vez que representa o culminar do ciclo de trabalho semanal da equipa. A desmaterialização das convocatórias garante que a informação chega de forma rápida e inequívoca aos intervenientes envolvidos, minimizando falhas de comunicação e facilitando toda a organização logística para os dias de jogo.
+
+Requisito 7 
+
+O sétimo requisito funcional, designado por Gestão de Jogos e Resultados (RF-07), surge no seguimento natural e direto das convocatórias (RF-06) e insere-se na área de Gestão Desportiva. Este requisito nasce da necessidade da equipa técnica e da estrutura do clube registarem e consultarem o desfecho das partidas oficiais e amigáveis, mantendo um histórico centralizado do desempenho desportivo das equipas.
+
+Para que o registo dos resultados e eventos do jogo (como golos, cartões ou substituições) seja efetuado, verifica-se como pré-condição que o utilizador responsável se encontre autenticado com o perfil de Treinador ou Coordenador Técnico e que o evento do jogo, juntamente com a respetiva convocatória, já esteja criado e validado no sistema.
+
+Durante a operação, o treinador acede ao detalhe da partida e insere os dados estatísticos finais. Uma vez submetida a informação, cumpre-se a pós-condição: o resultado do jogo e as estatísticas individuais dos atletas são guardados na base de dados de forma persistente. Adicionalmente, o sistema pode atualizar automaticamente as tabelas classificativas internas e os perfis desportivos de cada jogador. A relevância deste requisito para a aplicação é enorme, uma vez que consolida toda a informação do fim de semana competitivo, substituindo as antigas fichas de jogo em papel e permitindo à direção desportiva e equipa técnica extrair dados estatísticos rigorosos para avaliar o rendimento do plantel ao longo da época.
+
+Requisito 8
+
+O oitavo requisito funcional, habitualmente designado por Gestão de Estatísticas e Relatórios de Desempenho (RF-08), consolida a informação gerada nas etapas anteriores e insere-se na área de Gestão Desportiva. Este requisito surge da necessidade da direção técnica e da estrutura técnica do clube conseguirem agregar os dados provenientes dos treinos e dos jogos, convertendo-os em indicadores de performance (ex: minutos jogados, golos marcados, percentagem de assiduidade, rácio de vitórias) para avaliação individual e coletiva.
+
+Para que a geração e consulta destes dados estatísticos seja possível, verifica-se como pré-condição que o utilizador se encontre autenticado com os privilégios de Treinador, Coordenador Técnico ou Gerência, e que exista um volume de dados previamente inserido nos módulos de presenças e de resultados de jogos.
+
+Durante a operação, o utilizador acede ao painel de estatísticas e aplica filtros por equipa, atleta ou período temporal. Cumpre-se, assim, a pós-condição: o sistema processa a informação armazenada na base de dados e apresenta relatórios gráficos e tabelas atualizadas em tempo real, que podem frequentemente ser exportados (ex: formato PDF ou Excel). A relevância deste requisito para a aplicação é elevada, uma vez que transforma dados brutos em conhecimento útil, servindo como uma ferramenta de apoio à decisão para a equipa técnica (na preparação de treinos e jogos) e para a gerência (na avaliação global do projeto desportivo).
+
+Requisito 9 
+
