@@ -1,3 +1,21 @@
+Metodos de levantamento:
+
+1.Reuniao com a gerencia do CLube
+2.Formulario Forms para todos os stakeholders
+3.Entrevistas presenciais com stakeholders escolhidos aleatoriamente
+
+
+
+
+
+
+
+
+
+
+
+
+
 Requisitos SBD Amador:
 
 Atletas:
@@ -95,6 +113,75 @@ Infelizmente, como o clube nao tem uma boa maneira de guardar a informacao sobre
 -O Tiago sentiu uma forte dor muscular, foi para casa e a informação não chegou ao treinador nem ao fisioterapeuta. No treino seguinte, o treinador puxou por ele e o Tiago sofreu uma rotura muscular.
 
            #O sistema permite um registo autónomo de lesões que alerta automaticamente a equipa médica e coloca o atleta numa lista de lesionados visível para o treinador.
+
+
+Requisitos Consolidados do Sistema (SBD Amador):
+
+1. Gestão de Utilizadores e Perfis:
+- Gestão Global de Perfis: Criação, edição e consulta de perfis para todos os intervenientes do clube (Atletas, Treinadores, Staff, Gerência), com níveis de acesso e visualização de dados dependentes do cargo de cada um.
+- Gestão de Perfis Parentais: Funcionalidade que permite associar contas de encarregados de educação a um ou vários perfis de atletas menores, centralizando a gestão burocrática e financeira.
+
+2. Comunicação e Notificações:
+- Sistema de Comunicação Interna (Chat): Módulo global de mensagens seguras que permite a comunicação direta ou em grupo entre Atletas, Treinadores e Gerência.
+- Motor de Notificações Automáticas: Sistema transversal que dispara alertas (push/email) sobre alterações de horários, convocatórias, quotas em atraso e caducidade de exames médicos.
+
+3. Gestão Desportiva e Operacional:
+- Gestão de Modalidades e Épocas: Criação e inativação de modalidades desportivas, abertura e fecho de épocas, e transição de atletas de escalão.
+- Planeamento de Horários e Treinos: Criação e alteração de horários pelos treinadores (ou gerência), com espelho imediato nos calendários de consulta dos atletas envolvidos.
+- Gestão de Presenças e Faltas: Registo rápido de assiduidade nos treinos pelos treinadores e consulta do histórico de presenças pelos atletas.
+- Gestão de Convocatórias: Criação de convocatórias pelos treinadores e sistema de confirmação obrigatória de disponibilidade (Sim/Não) pelos atletas.
+- Planos de Treino e Recursos Táticos: Criação de planos de treino e disponibilização de uma biblioteca multimédia (vídeos/lances) pelos treinadores, acessível pelos respetivos atletas.
+- Registo de Ocorrências e Disciplina: Registo de eventos de jogo (golos, cartões) e acompanhamento disciplinar interno (atrasos, suspensões).
+
+4. Saúde, Bem-Estar e Burocracia:
+- Gestão do Exame Médico Desportivo: Submissão do atestado pelo atleta, validação pela gerência e alertas automáticos de caducidade.
+- Gestão de Lesões e Recuperação: Registo autónomo de queixas pelo atleta, criação de uma "zona de lesionados" visível para os treinadores e acompanhamento da recuperação pelo departamento médico.
+- Acompanhamento Físico: Registo e consulta da evolução de métricas físicas (peso, altura, IMC) ao longo da época.
+- Gestão Documental e Federativa: Upload de documentos de identificação para a secretaria processar as inscrições nas federações e ativar os seguros desportivos em grupo.
+
+5. Análise e Desempenho:
+- Painéis de Desempenho (Dashboards): Geração de estatísticas e gráficos de performance. Os atletas consultam o seu próprio histórico, os treinadores comparam atletas (ex: gráficos radar) e a gerência acede a dados globais consolidados.
+- Avaliação Qualitativa e Objetivos: Registo de notas pós-treino, emissão de relatórios técnicos de jogos e definição de objetivos individuais para os atletas por parte da equipa técnica.
+
+6. Tesouraria e Contabilidade:
+- Gestão de Quotas e Pagamentos: Motor financeiro que integra referências MBWay/Multibanco, emite recibos, permite aos atletas/pais consultar as contas correntes e avisa/bloqueia automaticamente atletas com valores em atraso.
+- Contabilidade Global do Clube: Dashboards para a gerência com visualização de despesas, lucros, gestão de contratos (vencimentos da equipa técnica), patrocínios e fornecedores (água, luz, transportes).
+- Conformidade Fiscal: Geração e exportação de ficheiros normalizados de contabilidade (SAF-T).
+
+7. Logística, Infraestruturas e Equipamentos:
+- Gestão de Espaços Físicos: Calendário unificado para a reserva de campos, pavilhões e ginásios (evitando sobreposições), com possibilidade de gerir alugueres a entidades externas.
+- Manutenção de Infraestruturas: Agendamento de manutenções preventivas e curativas (ex: tratamento de relvados, reparação de balneários).
+- Gestão de Stock e Loja: Módulo que permite aos atletas encomendar e pagar fardamento através da plataforma, enquanto a gerência/treinadores controlam o stock e requisitam material desportivo para os treinos.
+- Gestão de Eventos: Organização de eventos extra-desportivos (galas, jantares).
+
+
+
+Requisitos Não Funcionais Consolidados (SBD Amador):
+
+1. Segurança e Privacidade (RGPD):
+- Proteção de Dados Sensíveis: Encriptação obrigatória de dados médicos, documentos de identificação, dados financeiros e passwords, tanto na base de dados (em repouso) como nas comunicações (em trânsito via HTTPS/SSL).
+- Conformidade Legal e RGPD: Implementação de mecanismos para gestão de consentimentos, anonimização de dados, direito ao esquecimento e proteção redobrada no tratamento de dados de menores de idade.
+- Controlo de Acessos (RBAC): Sistema rígido de permissões baseado em papéis (Role-Based Access Control) que garanta que nenhum utilizador acede a áreas ou dados para os quais não tem privilégios.
+
+2. Usabilidade e Experiência de Utilização:
+- Design Responsivo (Mobile-First): A plataforma tem de ser totalmente adaptável e funcional em dispositivos móveis (smartphones e tablets), dado que treinadores (no campo) e atletas (no dia a dia) usarão predominantemente o telemóvel.
+- Interface Intuitiva e Acessibilidade: O sistema deve ter uma curva de aprendizagem reduzida, com navegação clara, botões bem identificados e feedback visual imediato após cada ação (ex: "Presença registada com sucesso"), servindo utilizadores com diferentes níveis de literacia digital.
+
+3. Desempenho e Escalabilidade:
+- Tempos de Resposta Rápidos: O sistema deve garantir tempos de carregamento curtos (ex: inferiores a 2 segundos em condições normais de rede) para listagens, submissão de formulários e geração de dashboards.
+- Suporte a Picos de Acesso (Escalabilidade): A arquitetura deve suportar picos de utilização simultânea sem quebras de performance (ex: finais de mês no pagamento de quotas, inícios de época nas inscrições, dias de publicação de convocatórias).
+
+4. Disponibilidade e Fiabilidade:
+- Alta Disponibilidade (Uptime): A infraestrutura cloud/servidor deve assegurar uma disponibilidade contínua (ex: 99.9% de uptime), minimizando paragens não planeadas.
+- Cópias de Segurança (Backups): O sistema deve realizar backups automatizados, regulares (ex: diários) e encriptados de toda a base de dados e dos ficheiros carregados (documentos, exames), garantindo uma rápida recuperação em caso de falha.
+
+5. Integração e Interoperabilidade:
+- Gateways de Pagamento: Integração robusta via API com entidades financeiras ou processadores (ex: Ifthenpay, SIBS, Easypay) para a geração e validação automática de referências Multibanco e MBWay em tempo real.
+- Exportação de Dados e Normalização: Capacidade de exportar relatórios em formatos universais (PDF, CSV/Excel) e garantir a formatação exata em XML para o ficheiro SAF-T exigido pela Autoridade Tributária.
+
+6. Manutenibilidade e Auditoria:
+- Arquitetura Modular: O código e a base de dados devem estar estruturados de forma limpa, permitindo a fácil manutenção e a adição futura de novas funcionalidades (ex: nova modalidade) sem impactar o resto do sistema.
+- Registos de Auditoria (Logs): O sistema tem de registar de forma invisível todas as ações críticas e alterações de dados (identificando o utilizador, a ação, o IP e a data/hora) para efeitos de resolução de conflitos ou auditorias de segurança.
 
 
 

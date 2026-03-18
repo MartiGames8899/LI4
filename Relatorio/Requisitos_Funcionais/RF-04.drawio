@@ -1,0 +1,72 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 OPR/128.0.0.0" version="29.6.1" pages="2">
+  <diagram name="Page-1" id="lGOjidiAc9Qd-udg-3Lj">
+    <mxGraphModel dx="2508" dy="2667" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Área do Sistema" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="110" width="1540" x="210" y="-630" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=40;" value="&lt;span data-path-to-node=&quot;1,1,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,1,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,1,1,0&quot;&gt;RF-04&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="385" x="787.5" y="-605" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,1,0,0&quot;&gt;&lt;b data-path-to-node=&quot;2,1,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,1,1,0&quot;&gt;Motor de Notificações Automáticas&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="490" y="-520" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;2,2,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,2,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,2,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,2,1,0&quot;&gt;Comunicação e Notificações&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;2,2,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,3,0,0&quot;&gt;&lt;b data-path-to-node=&quot;2,3,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,3,1,0&quot;&gt;Atletas, Encarregados de Educação, Treinadores e Gerência&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-400" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;1,5,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,5,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,5,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;O sistema deve possuir um motor transversal capaz de gerar e enviar alertas automáticos (via &lt;i data-path-to-node=&quot;1,5,1,0&quot; data-index-in-node=&quot;93&quot;&gt;push&amp;nbsp; &amp;nbsp;notification&lt;/i&gt;, &lt;i data-path-to-node=&quot;1,5,1,0&quot; data-index-in-node=&quot;112&quot;&gt;email&lt;/i&gt; ou na própria plataforma) relativos a eventos críticos do clube, tais como alterações de&amp;nbsp; &amp;nbsp;horários de treinos, publicação de convocatórias, avisos de quotas em atraso e alertas de caducidade de&amp;nbsp; &amp;nbsp;exames médicos.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="160" width="1260" x="491" y="-340" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Nome do Requisito" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-520" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-26" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Ator Principal" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-399" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-27" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Descrição" vertex="1">
+          <mxGeometry height="160" width="280" x="210" y="-340" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Prioridade" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-29" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Pré-condições" vertex="1">
+          <mxGeometry height="200" width="280" x="210" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Pós-condições" vertex="1">
+          <mxGeometry height="180" width="280" x="210" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Critérios de Aceitação" vertex="1">
+          <mxGeometry height="290" width="280" x="210" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;span data-path-to-node=&quot;1,6,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,6,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,6,1,0&quot;&gt;Alta&lt;/span&gt;&lt;/blockquote&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,7,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. O utilizador tem de ter os seus dados de contacto (email/telefone) corretos no perfil e as permissões de&amp;nbsp; &amp;nbsp;notificação ativas na aplicação ou &lt;i data-path-to-node=&quot;1,7,1,0&quot; data-index-in-node=&quot;143&quot;&gt;browser&lt;/i&gt;.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,7,1,2&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. Os gatilhos (eventos) têm de ocorrer no sistema (ex: um treinador altera a hora do treino, ou o servidor&amp;nbsp; &amp;nbsp;deteta que faltam 30 dias para um atestado caducar).&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="1260" x="491" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,8,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. A notificação é processada e despachada para os canais adequados de cada utilizador afetado.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,8,1,2&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. O sistema gera um registo (&lt;i data-path-to-node=&quot;1,8,1,2&quot; data-index-in-node=&quot;30&quot;&gt;log&lt;/i&gt;) de auditoria comprovando que o aviso foi enviado com sucesso&amp;nbsp; &amp;nbsp;(essencial para evitar desculpas como &quot;não fui avisado que o exame caducava&quot;).&lt;/p&gt;" vertex="1">
+          <mxGeometry height="180" width="1260" x="490" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-35" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,9,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. Alterações de horários de treinos ou espaços físicos devem gerar uma notificação imediata (&lt;i data-path-to-node=&quot;1,9,1,0&quot; data-index-in-node=&quot;94&quot;&gt;real-time&lt;/i&gt;)&amp;nbsp; &amp;nbsp;para a equipa correspondente.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,9,1,2&quot;&gt;&lt;span data-path-to-node=&quot;1,9,1,2,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. &lt;/span&gt;&lt;span data-path-to-node=&quot;1,9,1,2,1&quot;&gt;&lt;span class=&quot;citation-93&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,9,1,2,2&quot;&gt;O sistema deve emitir alertas automáticos para a renovação do exame médico a 30 e a 15 dias da data&amp;nbsp; &amp;nbsp;de caducidade&lt;/span&gt;&lt;span data-path-to-node=&quot;1,9,1,2,3&quot;&gt;&lt;span class=&quot;citation-93 citation-end-93&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,9,1,2,4&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p data-path-to-node=&quot;1,9,1,4&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;3. O sistema deve enviar um lembrete automático e cordial aos encarregados de educação/atletas nos dias&amp;nbsp; &amp;nbsp;seguintes ao vencimento de uma quota não paga.&lt;/p&gt;" vertex="1">
+          <mxGeometry height="290" width="1260" x="491" y="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="P2BvkbNHoIukVWN32haV" name="Página-2">
+    <mxGraphModel dx="1505" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

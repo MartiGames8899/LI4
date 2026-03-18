@@ -1,0 +1,72 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 OPR/128.0.0.0" version="29.6.1" pages="2">
+  <diagram name="Page-1" id="lGOjidiAc9Qd-udg-3Lj">
+    <mxGraphModel dx="2508" dy="2667" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Área do Sistema" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="110" width="1540" x="210" y="-630" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=40;" value="&lt;span data-path-to-node=&quot;1,1,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,1,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,1,1,0&quot;&gt;RF-02&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="385" x="787.5" y="-605" as="geometry" />
+        </mxCell>
+        <mxCell id="okcL4a1NCTCaSgbpKRQO-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,1,0,0&quot;&gt;&lt;b data-path-to-node=&quot;2,1,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,1,1,0&quot;&gt;Gestão de Perfis Parentais&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="490" y="-520" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;2,2,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,2,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,2,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,2,1,0&quot;&gt;Gestão de Utilizadores e Perfis&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;2,2,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,3,0,0&quot;&gt;&lt;b data-path-to-node=&quot;2,3,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,3,1,0&quot;&gt;Encarregado de Educação / Gerência&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-400" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;span data-path-to-node=&quot;2,4,0,0&quot;&gt;&lt;b data-path-to-node=&quot;2,4,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;2,4,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,5,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,5,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,5,1,0&quot;&gt;O sistema deve permitir a criação de um perfil de &quot;Encarregado de Educação&quot; e a sua associação formal a&amp;nbsp; &amp;nbsp;um ou múltiplos perfis de atletas (tipicamente menores de idade), centralizando a gestão de autorizações,&amp;nbsp; &amp;nbsp;acompanhamento desportivo e responsabilidades financeiras.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="160" width="1260" x="491" y="-340" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Nome do Requisito" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-520" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-26" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Ator Principal" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-399" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-27" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Descrição" vertex="1">
+          <mxGeometry height="160" width="280" x="210" y="-340" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Prioridade" vertex="1">
+          <mxGeometry height="60" width="280" x="210" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-29" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Pré-condições" vertex="1">
+          <mxGeometry height="200" width="280" x="210" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Pós-condições" vertex="1">
+          <mxGeometry height="280" width="280" x="210" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#601414);strokeColor=light-dark(#000000,#000000);movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeWidth=3;align=center;fontColor=default;fontSize=30;" value="Critérios de Aceitação" vertex="1">
+          <mxGeometry height="290" width="280" x="210" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;span data-path-to-node=&quot;1,6,0,0&quot;&gt;&lt;b data-path-to-node=&quot;1,6,0,0&quot; data-index-in-node=&quot;0&quot;&gt;&lt;/b&gt;&lt;/span&gt;&lt;span data-path-to-node=&quot;1,6,1,0&quot;&gt;Alta&lt;/span&gt;&lt;/blockquote&gt;" vertex="1">
+          <mxGeometry height="60" width="1260" x="491" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,7,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. O perfil do Encarregado de Educação e os perfis dos respetivos atletas já se encontram criados no&amp;nbsp; &amp;nbsp;sistema.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,7,1,2&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. O processo de vinculação exige validação por parte da Secretaria/Gerência ou a introdução de um&amp;nbsp; &amp;nbsp;código/token de segurança único fornecido pelo clube para garantir a legitimidade da associação familiar.&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="1260" x="491" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,8,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. O Encarregado de Educação herda automaticamente as permissões de visualização e edição (quando&amp;nbsp; &amp;nbsp;aplicável) dos dados dos atletas associados.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,8,1,2&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. As contas correntes (quotas e pagamentos) dos vários educandos são consolidadadas sob a&amp;nbsp; &amp;nbsp;responsabilidade financeira deste perfil parental.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,8,1,4&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;3. O sistema redireciona os alertas e notificações (ex: convocatórias, lesões, quotas em atraso) dos&amp;nbsp; &amp;nbsp;menores para os contactos do Encarregado de Educação.&lt;/p&gt;" vertex="1">
+          <mxGeometry height="280" width="1260" x="490" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ZR-NAflUI1GGsINpZlQH-35" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#A20025,#FFFFFF);strokeColor=light-dark(#000000,#000000);strokeWidth=3;fontColor=light-dark(#000000,#000000);align=left;verticalAlign=middle;fontSize=25;" value="&lt;p data-path-to-node=&quot;1,9,1,0&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;1. O sistema deve permitir que um encarregado de educação consulte a informação de vários educandos&amp;nbsp; &amp;nbsp;alternando entre eles de forma fluida na mesma interface.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,9,1,2&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;2. Deve ser possível gerar uma única referência de pagamento (MBWay/Multibanco) que englobe as&amp;nbsp; &amp;nbsp;quotas de todos os dependentes associados.&lt;/p&gt;&lt;p data-path-to-node=&quot;1,9,1,4&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;3. Caso um atleta atinja a maioridade, o sistema deve permitir a desvinculação administrativa ou a&amp;nbsp; &amp;nbsp;transição de responsabilidades, caso seja solicitado.&lt;/p&gt;" vertex="1">
+          <mxGeometry height="290" width="1260" x="491" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="P2BvkbNHoIukVWN32haV" name="Página-2">
+    <mxGraphModel dx="1505" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
