@@ -1,0 +1,17 @@
+1. Falta fazer a introducao ao trabalho e LLM e assim, primeiro capitulo agr vai ficar o segundo ❌
+2. Reuniao de discussao sobre os metodos de levantamento de requisitios ✅
+3. Metodos
+    - Formulario Forms ✅
+    - Entrevistas com um atelata, um treinador e um membro da gerencia ✅
+    - Analise de documentos (gerar documentos de jogos / faturas de quotas / atestado medico) ✅
+4. Recolha dos requisitos (que ja estao feitos) atraves dos metodos acima (vamos ter de fazer bacltracking) ✅
+5. Geracao de User Stories ❌
+6. Validacao requisitos:
+    -Resolver ambiguidades ✅
+    -Organiza-los em RF e RNF ✅
+    -Detalha-los ✅
+7. Especificação do software (SRS – IEEE 830/29148) ❌
+8. Casos de uso -> diagramas UML ❌
+9. Reuniao para Validar tudo ❌
+
+

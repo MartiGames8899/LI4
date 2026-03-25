@@ -1,0 +1,19 @@
+Entrevistador: Olá! Obrigado por nos receber. Estamos a finalizar o levantamento de requisitos para o novo sistema do clube. Do ponto de vista da gerência, quais têm sido as maiores dores de cabeça com o método de trabalho atual?
+
+Membro da Gerência: Olá, bem-vindos. A verdade é que temos imensos processos manuais que nos atrasam e prejudicam o clube. Um dos maiores problemas recentes foi a perda de um potencial investidor, uma empresa de bebidas energéticas. Eu tive uma reunião com eles, mas como não temos uma boa forma de guardar e organizar a informação sobre o desempenho dos atletas e do clube no geral, não consegui comprovar o nosso valor. A empresa acabou por largar o contrato.
+
+Entrevistador: Isso é um impacto financeiro direto. Que ferramentas o novo sistema deve ter para evitar que isso se repita?
+
+Membro da Gerência: É fundamental termos dashboards sobre a contabilidade do clube e gráficos de desempenho de todas as modalidades que sejam fáceis de exportar. Precisamos de mostrar a evolução do clube com facilidade e profissionalismo em reuniões com futuros investidores. Além disso, precisamos de gerir melhor os nossos próprios patrocínios e painéis publicitários na mesma plataforma.
+
+Entrevistador: E em relação à gestão do dia a dia com os atletas, especialmente no que toca aos pagamentos das quotas, como avalia a situação atual?
+
+Membro da Gerência: É um caos, para ser sincero. Temos muitos encarregados de educação com filhos em modalidades diferentes. Como os pagamentos são feitos em secretarias diferentes, os pais perdem o controlo, esquecem-se de pagar e nós andamos constantemente a fazer chamadas de cobrança. Precisamos de um sistema que permita criar um perfil parental único, onde os pais vejam as contas consolidadas e possam gerar referências Multibanco ou MBWay. Do nosso lado, o sistema devia ter uma zona com todos os atletas com quotas em atraso e aplicar bloqueios automáticos a quem tem vários meses em dívida.
+
+Entrevistador: Muito claro. Para além da componente financeira, mencionaram problemas logísticos nos inquéritos iniciais. Pode dar-me um exemplo?
+
+Membro da Gerência: Sim, a gestão de espaços físicos. Ainda há pouco tempo, numa noite chuvosa, as equipas de Futsal e de Voleibol entraram no pavilhão ao mesmo tempo porque houve um erro no nosso caderno em papel na receção. Gerou-se um enorme conflito interno. É urgente termos um calendário digital unificado para a reserva de espaços físicos que impeça duplas marcações e até nos permita gerir o aluguer de espaços a entidades externas para gerar receita.
+
+Entrevistador: Para terminar, há mais alguma tarefa burocrática pesada que gostariam de ver automatizada?
+
+Membro da Gerência: Várias. Precisamos de automatizar o processamento de inscrições nas federações e a gestão de seguros desportivos em grupo. Na área da contabilidade, seria uma ajuda tremenda se o sistema gerasse os ficheiros normalizados (SAF-T) para exportação. E, claro, precisamos de uma forma fácil de comunicar com a equipa técnica e os atletas sem depender de dezenas de grupos de WhatsApp.

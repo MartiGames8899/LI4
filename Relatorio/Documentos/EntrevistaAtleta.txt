@@ -1,0 +1,19 @@
+Entrevistador: Olá! Obrigado por disponibilizares o teu tempo para esta entrevista de levantamento de requisitos. O clube está a desenvolver um novo sistema informático e gostávamos de perceber quais são as tuas maiores dificuldades com o modelo atual.
+
+Atleta: Olá. Sem problema! A verdade é que a organização atual tem algumas falhas que nos afetam bastante. Por exemplo, a forma como somos convocados para os jogos. Atualmente as convocatórias são publicadas num grupo de WhatsApp, o que faz com que alguns não vejam a mensagem, não confirmem se vão, e depois chegamos aos jogos quase sem suplentes.
+
+Entrevistador: Como achas que o novo sistema poderia resolver esse problema?
+
+Atleta: Seria excelente ter uma plataforma onde recebêssemos a convocatória e tivéssemos simplesmente de fazer a confirmação da nossa disponibilidade para o jogo com um "Sim", "Não" ou "Talvez". Assim o treinador saberia imediatamente com quem pode contar. Outra coisa muito importante tem a ver com os horários dos treinos. Às vezes os treinadores têm imprevistos e mudam a hora, mas como não somos avisados de forma eficiente, acabamos por aparecer no pavilhão à hora errada. Precisamos de ter um acesso muito fácil aos horários.
+
+Entrevistador: Compreendo. E no que toca à parte administrativa e financeira, como tem sido a tua experiência?
+
+Atleta: Um bocado confusa. Para já, sinto falta de ter integração com métodos de pagamento automáticos para as quotas, como MBWay ou Referência Multibanco. Gostava também de poder consultar o meu histórico de pagamento de quotas e ter acesso à emissão automática e download de faturas ou recibos. Outra falha administrativa grave do clube tem a ver com os atestados médicos. Um colega meu falhou uma competição importante porque o exame médico desportivo dele caducou e o clube esqueceu-se de avisar.
+
+Entrevistador: Isso é uma situação crítica. O que sugeres para melhorar a gestão da parte médica?
+
+Atleta: O sistema deveria permitir a submissão e validação automática do Exame Médico Desportivo, enviando alertas antes de este caducar. Além disso, em termos de saúde diária, devíamos ter a possibilidade de fazer o registo autónomo de lesões ou queixas físicas. Houve um colega que sentiu uma dor muscular em casa, a informação não chegou ao treinador, e no treino seguinte puxaram por ele e sofreu uma rotura muscular. Se o sistema notificasse automaticamente a equipa técnica e médica, isso seria evitado.
+
+Entrevistador: Faz todo o sentido. Para terminar, em termos de desenvolvimento e desempenho desportivo, o que gostarias de ter ao teu dispor?
+
+Atleta: Gostava muito de ter um perfil com toda a minha informação centralizada, incluindo peso, altura, presenças em treinos e competições. Também seria muito útil poder consultar a evolução das minhas métricas físicas ao longo da época através de gráficos , ter acesso a planos de treino individuais e até a uma biblioteca multimédia onde o treinador pudesse partilhar vídeos táticos ou lances de jogos connosco. Por fim, um detalhe engraçado seria ter uma área para a visualização do meu palmarés individual, onde pudesse ver os títulos ganhos ou distinções de jogador do mês.

@@ -1,0 +1,462 @@
+Perspetiva do Atleta
+US01: Confirmação de disponibilidade nas convocatórias
+US02: Consulta de horários de treino e notificações de alteração de última hora
+US03: Pagamento de quotas via métodos automáticos (MBWay e Referência Multibanco)
+US04: Consulta do histórico de pagamento de quotas e download de faturas/recibos
+US05: Submissão do Exame Médico Desportivo e receção de alertas de caducidade
+US06: Registo autónomo de lesões ou queixas físicas
+US07: Consulta do perfil individual com dados biométricos, assiduidade, métricas e palmarés
+US08: Acesso à biblioteca multimédia e a planos de treino individuais
+
+Perspetiva da Gerência e Secretaria
+US09: Visualização e exportação de dashboards de contabilidade e gráficos de desempenho desportivo
+US10: Gestão de patrocínios e de painéis publicitários
+US11: Gestão de perfil parental único para contas consolidadas de vários educandos
+US12: Deteção e bloqueio automático de atletas com quotas em atraso
+US13: Reserva de espaços físicos em calendário digital unificado
+US14: Automatização do processamento de inscrições nas federações e de seguros desportivos
+US15: Geração e exportação do ficheiro normalizado SAF-T
+
+Perspetiva da Equipa Técnica / Médica
+US16: Receção de notificações automáticas de queixas e lesões registadas pelos atletas
+US17: Ferramenta de comunicação centralizada com a equipa técnica e atletas
+US18: Registo de presenças, faltas e estado físico nos treinos
+US19: Elaboração de convocatórias com base no histórico clínico e de assiduidade
+US20: Registo de resultados e eventos estatísticos pós-jogo (golos, cartões, substituições)
+US21: Consulta de painéis estatísticos e relatórios de desempenho do plantel
+
+
+US01: Confirmação de disponibilidade nas convocatórias
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Desportiva / Convocatórias
+
+Cenário (User Story):
+Como atleta, quero receber a convocatória para um jogo diretamente na plataforma e poder confirmar a minha disponibilidade selecionando "Sim", "Não" ou "Talvez", para que a equipa técnica saiba de imediato com quem pode contar e consiga organizar a equipa atempadamente.
+
+Tarefas de Desenvolvimento (Tasks):
+T1.1: Desenvolver a interface de utilizador (UI) na área pessoal do atleta para exibir os detalhes da convocatória (data, hora, local, adversário).
+T1.2: Implementar os componentes de interação (botões/seletores) para as opções de resposta ("Sim", "Não", "Talvez").
+T1.3: Criar o endpoint na API (backend) para receber e processar a submissão do estado de disponibilidade do atleta, registando a data e hora da resposta (timestamp).
+T1.4: Estabelecer a comunicação em tempo real (ou via atualização de estado) entre a resposta do atleta e a vista de gestão de convocatórias do perfil do treinador.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Notificação): Garantir que, no exato momento em que o treinador publica a convocatória, esta surge no painel de entrada (ou área de notificações) do atleta com o estado inicial "Pendente".
+Teste 2 (Submissão de Resposta): O atleta clica em "Sim". O sistema deve registar a resposta com sucesso e o estado do jogador no ecrã do treinador tem de transitar instantaneamente de "Pendente" para "Confirmado".
+Teste 3 (Edição de Resposta): Validar se o atleta consegue alterar a sua resposta de "Talvez" para "Sim" dentro da janela temporal permitida (por exemplo, até 24 horas antes do jogo), atualizando o estado final no lado da equipa técnica.
+
+
+
+US02: Consulta de horários de treino e notificações de alteração de última hora
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Desportiva / Calendário e Notificações
+
+Cenário (User Story):
+Como atleta, quero consultar facilmente os horários dos meus treinos e receber notificações automáticas caso o treinador faça alterações de última hora, para que não acabe por aparecer no pavilhão à hora errada devido a imprevistos da equipa técnica.
+
+Tarefas de Desenvolvimento (Tasks):
+T2.1: Desenvolver a interface de calendário na área pessoal do atleta, apresentando os treinos semanais com indicação clara de data, hora e local.
+T2.2: Implementar a regra de negócio na API (backend) que monitoriza edições feitas pelo treinador aos eventos de treino já criados.
+T2.3: Integrar um serviço de mensageria (ex: push notifications, email ou SMS) que é acionado automaticamente quando a T2.2 deteta uma alteração de data, hora ou local ou o cancelamento do treino.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Visualização): Aceder à conta do atleta e verificar se o calendário exibe corretamente todos os treinos agendados para a sua equipa.
+Teste 2 (Disparo de Notificação): Através da conta de treinador, editar a hora de início de um treino marcado para o próprio dia. Verificar se a notificação de alteração é gerada e entregue no perfil do atleta em tempo real.
+Teste 3 (Conteúdo da Notificação): Validar se a mensagem r2ecebida pelo atleta especifica claramente o treino em causa e destaca o novo horário em relação ao antigo.
+
+
+
+US03: Pagamento de quotas via métodos automáticos (MBWay e Referência Multibanco)
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Financeira / Quotas e Pagamentos
+
+Cenário (User Story):
+Como atleta (ou encarregado de educação), quero poder pagar as minhas quotas mensais através de métodos automáticos como MBWay ou Referência Multibanco, para não ter de me deslocar fisicamente à secretaria do clube e garantir que a minha situação financeira fica regularizada de imediato.
+
+Tarefas de Desenvolvimento (Tasks):
+T3.1: Desenvolver a interface de faturação na área pessoal do atleta, listando as quotas pendentes com botões de pagamento para MBWay e Multibanco.
+T3.2: Integrar a plataforma com uma API de gateway de pagamentos (ex: Ifthenpay, Stripe ou SIBS) para gerar as referências de Multibanco e os pedidos de MBWay.
+T3.3: Criar um webhook no backend para receber a confirmação de pagamento enviada pela gateway externa e atualizar automaticamente o estado da quota de "Pendente" para "Pago" na base de dados.
+T3.4: Implementar a geração automática de um recibo/fatura em formato PDF e a sua respetiva disponibilização no perfil do utilizador logo após a confirmação do pagamento.
+2
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Geração de Referência): Selecionar uma quota pendente, escolher "Referência Multibanco" e verificar se o sistema exibe corretamente a Entidade, Referência e Valor correspondentes àquele utilizador e mês.
+Teste 2 (Confirmação MBWay): Iniciar um pagamento por MBWay inserindo o número de telemóvel, aprovar a transação na aplicação bancária e validar se a plataforma atualiza o estado da quota para "Pago" em tempo real.
+Teste 3 (Emissão de Recibo): Após a confirmação de um pagamento efetuado com sucesso, navegar até ao histórico e verificar se o recibo em PDF foi gerado corretamente e está disponível para download.
+
+
+
+US04: Consulta do histórico de pagamento de quotas e download de faturas/recibos
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Financeira / Pagamentos
+
+Cenário (User Story):
+Como atleta, quero poder consultar o meu histórico de pagamento de quotas e ter acesso à emissão automática e download de faturas ou recibos, para conseguir manter um controlo organizado das minhas finanças desportivas e ter um comprovativo legal dos meus pagamentos.
+
+Tarefas de Desenvolvimento (Tasks):
+T4.1: Criar a interface da área financeira no perfil do at2leta, apresentando uma tabela cronológica com o estado de cada mês (ex: "Pago", "Pendente", "Em Atraso").
+T4.2: Implementar a lógica de geração dinâmica de ficheiros PDF (faturas/recibos) a partir dos dados das transações dadas como validadas no sistema.
+T4.3: Criar o endpoint de download na API que recebe o pedido do utilizador e devolve o ficheiro PDF correspondente à quota selecionada.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Visualização do Histórico): Aceder à área financeira do atleta e confirmar se a lista reflete com exatidão os meses que já foram pagos e os que estão em dívida.
+Teste 2 (Geração e Download): Clicar no botão de download associado a um pagamento validado e verificar se o sistema descarrega imediatamente um ficheiro PDF legível, contendo os dados corretos do clube, do atleta, o valor e a data do recibo.
+
+
+
+US05: Submissão do Exame Médico Desportivo e receção de alertas de caducidade
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Clínica e Administrativa
+
+Cenário (User Story):
+Como atleta, quero poder submeter o meu Exame Médico Desportivo (EMD) diretamente na plataforma e receber avisos automáticos antes de o mesmo caducar, para evitar falhar competições importantes devido a esquecimentos burocráticos.
+
+Tarefas de Desenvolvimento (Tasks):
+T5.1: Desenvolver o formulário na área clínica do perfil do atleta para permitir o upload de ficheiros (PDF/Imagens) e a inserção manual da data de validade do exame.
+T5.2: Implementar a lógica de retaguarda (backend) para2 armazenar o ficheiro de forma segura e colocar o estado do atleta como "A aguardar validação" até que a secretaria ou equipa médica confirme o documento.
+T5.3: Criar um cronjob (rotina diária de sistema) que compare a data atual com a data de validade dos exames previamente aprovados.
+T5.4: Configurar o disparo automático de notificações (email e painel interno) para o atleta e para o departamento médico assim que o cronjob detetar que faltam 30 dias para a caducidade.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Submissão): O atleta faz o upload de um ficheiro e insere a respetiva data. O sistema deve apresentar uma mensagem de sucesso, o documento deve ficar acessível para a secretaria e o estado atualizado.
+Teste 2 (Disparo do Alerta): Simular a data do servidor para coincidir com a janela de 30 dias antes da validade de um EMD aprovado. Verificar se o sistema emite e entrega com sucesso a notificação de alerta ao utilizador.
+Teste 3 (Caducidade e Bloqueio): Se a data de validade expirar sem que um novo EMD seja aprovado, o sistema tem de alterar automaticamente o estado do atleta para "Inapto" e impedir a sua seleção no módulo de convocatórias.
+
+
+
+US06: Registo autónomo de lesões ou queixas físicas
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Clínica / Saúde do Atleta
+
+Cenário (User Story):
+Como atleta, quero poder registar de forma autónoma pequenas lesões ou queixas físicas diárias na plataforma, para que o sistema notifique automaticamente a equipa técnica e médica e evite que eu seja sujeito a uma sobrecarga no treino seguinte.
+
+Tarefas de Desenvolvimento (Tasks):
+T6.1: Criar a interface de "Registo de Queixas" no painel do atleta, incluindo a identificação da zona do corpo afetada, a data do sintoma e uma escala de nível de dor.
+T6.2: Implementar o endpoint na API (backend) para validar, gravar o registo de forma segura na base de dados e associá-lo ao histórico clínico do jogador.
+T6.3: Configurar a rotina do sistema que emite um alerta automático imediato para os utilizadores com o perfil de Treinador e Médico vinculados à equipa do atleta.
+T6.4: Alterar as vistas de gestão de treinos e convocatórias da equipa técnica para exibir um ícone ou marcador visual de aviso ao lado do nome do atleta sinalizado.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Submissão do Registo): Aceder à conta do atleta, preencher o formulário indicando dor muscular moderada e submeter. O sistema deve guardar o evento no histórico do jogador.
+Teste 2 (Notificação de Staff): Imediatamente após a submissão do Teste 1, iniciar sessão como Treinador e como Médico e verificar se o aviso correspondente surge no ecrã de notificações de ambos.
+Teste 3 (Alerta Preventivo): No perfil do Treinador, abrir o ecrã de registo de presenças para o treino agendado para esse dia e confirmar que o nome do atleta apresenta a sinalética de restrição física.
+
+
+
+US07: Consulta do perfil individual com dados biométricos, assiduidade, métricas e palmarés
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Desportiva e Performance / Perfil do Atleta
+
+Cenário (User Story):
+Como atleta, quero ter acesso a um perfil individual com toda a minha informação centralizada (peso, altura, taxa de assiduidade aos treinos, evolução de métricas em gráficos e um palmarés individual), para poder acompanhar o meu desenvolvimento físico e desportivo, bem como as minhas conquistas ao longo da época.
+
+Tarefas de Desenvolvimento (Tasks):
+T7.1: Desenvolver a interface de utilizador (UI) do perfil do atleta, organizando a informação em secções ou separadores claros (Dados Biométricos, Estatísticas/Assiduidade, Palmarés).
+T7.2: Integrar uma biblioteca de renderização de gráficos na interface para gerar visualizações dinâmicas da evolução de métricas (ex: variação de peso ou resultados de testes físicos ao longo dos meses).
+T7.3: Criar os endpoints na API que agreguem a informação espalhada por outros módulos (os registos do Preparador Físico, as presenças marcadas pelo Treinador e os jogos realizados) e a enviem de forma consolidada para o perfil.
+T7.4: Desenvolver a área visual de "Palmarés" (montra de troféus digitais) que lista os títulos coletivos ganhos e as distinções individuais (ex: "Jogador do Mês").
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Consolidação de Assiduidade): O treinador regista a presença do atleta num treino. Aceder ao perfil do atleta e verificar se a percentagem global de assiduidade e o número de treinos realizados atualiza em tempo real.
+Teste 2 (Geração de Gráficos): Inserir no sistema duas avaliações físicas distintas para o mesmo atleta em meses diferentes. Verificar se o gráfico de linha de evolução temporal é gerado e exibido corretamente na sua área pessoal.
+Teste 3 (Atualização do Palmarés): A direção atribui a distinção de "Jogador do Mês" ao atleta. Confirmar se o respetivo selo ou ícone passa a figurar de imediato na secção de palmarés do seu perfil.
+
+
+
+US08: Acesso à biblioteca multimédia e a planos de treino individuais
+
+Perspetiva: Atleta
+Épico/Módulo: Gestão Desportiva e Performance / Desenvolvimento do Atleta
+
+Cenário (User Story):
+Como atleta, quero ter acesso a planos de treino individuais e a uma biblioteca multimédia onde o treinador possa partilhar vídeos táticos ou lances de jogos, para poder trabalhar o meu desenvolvimento técnico e tático de forma autónoma, fora do horário regular de treinos.
+
+Tarefas de Desenvolvimento (Tasks):
+T8.1: Desenvolver a interface da "Biblioteca Multimédia" e de "Planos de Treino" na área pessoal do atleta, organizando os conteúdos por categorias (ex: Tática, Técnica, Preparação Física).
+T8.2: Implementar componentes de interface para a reprodução de vídeos (streaming ou embed de plataformas externas) e para a visualização/download de documentos (como PDFs de planos de ginásio).
+T8.3: Criar a lógica de controlo de acessos no backend (API) para garantir que o atleta apenas consegue consultar os conteúdos que lhe foram explicitamente atribuídos (planos individuais) ou que foram partilhados de forma global com a sua equipa.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Disponibilização de Conteúdo): O treinador partilha um vídeo de análise tática com a equipa do atleta. O atleta inicia sessão e o vídeo tem de aparecer listado e pronto a reproduzir na sua biblioteca multimédia.
+Teste 2 (Privacidade de Planos Individuais): O preparador físico faz o upload de um plano de reforço muscular específico e atribui-o unicamente ao Atleta A. Iniciar sessão com a conta do Atleta B e confirmar que o plano não está visível nem acessível.
+Teste 3 (Interação com Ficheiros): O atleta clica sobre um plano de treino em formato PDF disponibilizado pelo treinador. O sistema deve permitir a pré-visualização do ficheiro no navegador ou o seu download imediato e sem erros.
+
+
+
+US09: Visualização e exportação de dashboards de contabilidade e gráficos de desempenho desportivo
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Administrativa e Financeira / Relatórios e Dashboards
+
+Cenário (User Story):
+Como membro da gerência, quero visualizar dashboards interativos sobre a contabilidade do clube e gráficos de desempenho desportivo de todas as modalidades, podendo exportá-los facilmente, para conseguir mostrar a evolução do clube com profissionalismo em reuniões com futuros investidores.
+
+Tarefas de Desenvolvimento (Tasks):
+T9.1: Desenvolver a interface visual do painel de controlo (dashboard) exclusivo da gerência, integrando uma biblioteca de gráficos (ex: barras, linhas, circulares) para a representação visual dos dados.
+T9.2: Criar os endpoints na API (backend) que efetuam o cálculo e a agregação dos dados financeiros (quotas pagas vs. em dívida, receitas de patrocínios) e dos dados desportivos globais (rácio de vitórias, assiduidade global) das várias modalidades.
+T9.3: Implementar a funcionalidade de exportação, permitindo que o utilizador converta e descarregue os gráficos e relatórios gerados em formatos estandardizados (PDF ou imagens de alta resolução).
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Carregamento de Dados): Iniciar sessão com um perfil de Gerência e aceder ao dashboard. Confirmar se os gráficos de contabilidade e de desempenho são renderizados corretamente e refletem os dados agregados presentes na base de dados.
+Teste 2 (Filtros Temporais): Aplicar um filtro no dashboard para exibir os dados desportivos apenas do último trimestre. Verificar se a informação apresentada nos gráficos se ajusta e atualiza em tempo real para esse período específico.
+Teste 3 (Exportação): Clicar no botão de exportação associado ao relatório financeiro. Validar se o sistema gera instantaneamente um ficheiro PDF legível, bem formatado e pronto para ser apresentado numa reunião.
+
+
+
+US10: Gestão de patrocínios e de painéis publicitários
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Administrativa / Comercial e Marketing
+
+Cenário (User Story):
+Como membro da gerência, quero poder registar e gerir os patrocínios do clube e a alocação dos respetivos painéis publicitários físicos ou digitais, para ter um controlo centralizado dos contratos em vigor e garantir que não perdemos oportunidades de renovação com investidores.
+
+Tarefas de Desenvolvimento (Tasks):
+T10.1: Desenvolver a interface de "Gestão Comercial", permitindo o registo de entidades patrocinadoras, montantes envolvidos e as datas de início e fim dos contratos.
+T10.2: Criar uma secção de mapeamento de inventário publicitário (ex: outdoors no pavilhão, banners na aplicação) para permitir associar diretamente um patrocinador a um espaço específico.
+T10.3: Implementar uma rotina de sistema (cronjob) que verifica diariamente a validade dos contratos e gera alertas visuais no dashboard da gerência quando estes estão próximos da data de término (ex: 60 dias antes).
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Registo e Alocação): Criar um patrocinador e associá-lo ao "Painel Central do Pavilhão". O sistema deve guardar a associação e alterar o estado do painel para "Ocupado".
+Teste 2 (Prevenção de Conflitos): Tentar alocar um novo patrocinador a um painel que já se encontre no estado "Ocupado". O sistema deve bloquear a operação e exibir uma mensagem de erro.
+Teste 3 (Notificação de Fim de Contrato): Alterar a data de término de um contrato para daqui a 30 dias. Confirmar se o sistema emite automaticamente o alerta de renegociação para os perfis da gerência.
+
+
+
+US11: Gestão de perfil parental único para contas consolidadas de vários educandos
+
+Perspetiva: Encarregado de Educação / Secretaria
+Épico/Módulo: Gestão Administrativa e Financeira / Perfis e Contas
+
+Cenário (User Story):
+Como encarregado de educação com educandos em várias modalidades do clube, quero aceder a um perfil parental único que consolide as quotas e despesas de todos os meus filhos, para poder consultar e pagar os valores pendentes de uma só vez através de referências automáticas.
+
+Tarefas de Desenvolvimento (Tasks):
+T11.1: Criar o modelo de dados para o perfil "Encarregado de Educação" com capacidade de associação (relação 1 para N) a múltiplos perfis de "Atleta".
+T11.2: Desenvolver a interface (UI) do painel parental, exibindo um resumo agregado das obrigações financeiras e dados de todos os educandos associados.
+T11.3: Implementar a lógica de cálculo na API (backend) que pesquisa e soma as quotas pendentes dos vários atletas num único montante global.
+T11.4: Integrar a geração de referências de pagamento (Multibanco/MBWay) para o valor total consolidado e assegurar que, após a liquidação, o sistema atualiza individualmente o estado das respetivas quotas para "Pago".
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Associação de Perfis): A secretaria associa dois atletas distintos a um perfil parental. Ao iniciar sessão, o encarregado de educação tem de conseguir visualizar os nomes e as parcelas individuais de ambos os educandos no seu painel.
+Teste 2 (Cálculo Consolidado): O Atleta A tem 20€ em dívida e o Atleta B tem 30€. O painel principal do encarregado de educação deve exibir o valor global a pagamento exato de 50€.
+Teste 3 (Liquidação Global): O encarregado de educação gera a referência multibanco e paga os 50€. O sistema deve processar a transação e alterar automaticamente o estado dos recibos do Atleta A e do Atleta B de "Pendente" para "Pago", passando o saldo global a zeros.
+
+
+
+US12: Deteção e bloqueio automático de atletas com quotas em atraso
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Administrativa e Financeira / Controlo de Quotas
+
+Cenário (User Story):
+Como membro da gerência ou secretaria, quero que o sistema identifique automaticamente os atletas com quotas em atraso e aplique bloqueios desportivos a quem tem vários meses em dívida, para reduzir o esforço manual de cobrança e garantir a sustentabilidade financeira do clube sem necessitar de intervenção humana constante.
+
+Tarefas de Desenvolvimento (Tasks):
+T12.1: Criar uma zona/tabela na área da tesouraria que liste de forma destacada todos os atletas com pagamentos pendentes, permitindo filtrar por tempo de dívida ou equipa.
+T12.2: Implementar um cronjob (rotina de base de dados) que verifique periodicamente os prazos de pagamento e identifique utilizadores que ultrapassem o limite de meses em atraso definido pelo clube.
+T12.3: Desenvolver a regra de negócio que altera o estado do atleta para "Bloqueado" (ou "Inapto Financeiramente"), integrando esta restrição com o módulo de gestão de convocatórias para impedir a sua seleção.
+T12.4: Integrar com o sistema de notificações para disparar um aviso prévio (ex: 5 dias antes do bloqueio) e um aviso definitivo (no dia do bloqueio) ao atleta e ao respetivo encarregado de educação.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Listagem de Devedores): Aceder à vista da tesouraria e confirmar se um atleta que falhou o pagamento do mês anterior aparece na lista de quotas em atraso com a sinalização correta.
+Teste 2 (Aplicação do Bloqueio): Simular a passagem de tempo para que um atleta atinja o limite de meses em dívida. Verificar se o sistema altera o seu estado e se o treinador fica impossibilitado de o adicionar a uma nova convocatória.
+Teste 3 (Reversão do Bloqueio): Simular o pagamento integral da dívida por parte do atleta bloqueado no Teste 2. Confirmar se, logo após a validação do pagamento, o sistema remove a restrição e o atleta volta a estar elegível para as atividades da equipa.
+
+
+
+US13: Reserva de espaços físicos em calendário digital unificado
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Logística / Espaços e Instalações
+
+Cenário (User Story):
+Como membro da estrutura do clube, quero aceder a um calendário digital unificado para reservar os espaços físicos do clube (pavilhões, campos e balneários), para evitar duplas marcações e gerir de forma eficiente a ocupação das diferentes equipas ou até o aluguer a entidades externas.
+
+Tarefas de Desenvolvimento (Tasks):
+T13.1: Mapear e configurar as instalações físicas do clube na base de dados, atribuindo a cada espaço uma capacidade e características próprias.
+T13.2: Desenvolver a interface visual de um calendário interativo (com vistas diárias, semanais e mensais) que permita selecionar um espaço e um intervalo de tempo para criar uma nova reserva.
+T13.3: Implementar a regra de negócio na API (backend) que, no momento da submissão, verifique as reservas existentes e bloqueie a operação caso detete sobreposição temporal (overlap) no mesmo recurso físico.
+T13.4: Criar um campo no formulário de reserva para identificar a entidade utilizadora (seja uma equipa interna do clube para um treino/jogo, ou uma entidade externa para efeitos de aluguer).
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Criação com Sucesso): Selecionar o "Pavilhão Principal" e criar uma reserva para as 18:00 - 19:30 associada à equipa de Futsal. O sistema deve gravar o evento e exibi-lo imediatamente no calendário global.
+Teste 2 (Prevenção de Conflito): Tentar agendar um treino de Voleibol para o "Pavilhão Principal" no mesmo dia, entre as 19:00 e as 20:30. O sistema tem de barrar a operação e exibir um alerta de conflito de horários.
+Teste 3 (Filtro de Visualização): Na vista geral do calendário, aplicar o filtro de espaços para mostrar apenas o "Campo de Futebol Sintético". Validar se os eventos dos restantes pavilhões desaparecem do ecrã, limpando a visualização.
+
+
+
+US14: Automatização do processamento de inscrições nas federações e de seguros desportivos
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Administrativa e Legal / Inscrições e Seguros
+
+Cenário (User Story):
+Como membro da secretaria, quero que a plataforma automatize o processamento e a extração de dados para as inscrições nas federações desportivas, bem como a gestão dos seguros de grupo, para reduzir a enorme carga burocrática manual e garantir que o clube cumpre sempre as obrigações legais dentro dos prazos.
+
+Tarefas de Desenvolvimento (Tasks):
+T14.1: Desenvolver a interface do módulo de "Inscrições Oficiais", listando os atletas que já têm o processo interno concluído (quotas em dia e exame médico aprovado) e que estão aptos para a federação.
+T14.2: Implementar a lógica de geração de relatórios ou ficheiros de exportação formatados especificamente com os dados exigidos pelas respetivas associações/federações de cada modalidade.
+T14.3: Criar a área de gestão de apólices de seguro desportivo, associando o seguro global aos atletas ativos e implementando alertas automáticos de caducidade ou necessidade de renovação.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Validação de Elegibilidade): Aceder ao módulo de inscrições e verificar se o sistema apenas permite selecionar para exportação os atletas que cumpram os requisitos legais (ex: EMD válido).
+Teste 2 (Exportação para Federação): Selecionar uma equipa completa e clicar em "Exportar Inscrições". Validar se o ficheiro gerado contém corretamente os dados de identificação de todos os atletas selecionados, sem erros de formatação.
+Teste 3 (Alerta de Seguro): Configurar a data de término do seguro de grupo de uma modalidade para daqui a 15 dias. Confirmar se o sistema gera o aviso de renovação obrigatória no painel da secretaria.
+
+
+
+US15: Geração e exportação do ficheiro normalizado SAF-T
+
+Perspetiva: Gerência e Secretaria
+Épico/Módulo: Gestão Administrativa e Financeira / Contabilidade
+
+Cenário (User Story):
+Como membro da gerência ou secretaria, quero que a plataforma gere e exporte automaticamente os ficheiros normalizados de faturação e contabilidade (SAF-T), para que o clube consiga cumprir as suas obrigações fiscais e reportar dados à Autoridade Tributária de forma rápida, segura e sem erros manuais.
+
+Tarefas de Desenvolvimento (Tasks):
+T15.1: Desenvolver a interface no painel de contabilidade que permita à gerência selecionar o período fiscal pretendido (ano e mês) para a extração do relatório.
+T15.2: Implementar a lógica de agregação na API (backend) que recolhe todas as transações, faturas e recibos validados e emitidos pela plataforma durante o intervalo de tempo selecionado.
+T15.3: Criar o conversor e formatador de dados no backend que transforma as informações agregadas na estrutura XML estandardizada exigida por lei para o ficheiro SAF-T.
+T15.4: Disponibilizar o endpoint para o download seguro do ficheiro XML gerado.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Extração com Sucesso): Aceder ao módulo de contabilidade, definir o filtro temporal para o mês anterior e clicar em "Exportar SAF-T". O sistema deve compilar os dados e descarregar instantaneamente um ficheiro com a extensão .xml.
+Teste 2 (Validação de Estrutura Legal): Submeter o ficheiro XML gerado no Teste 1 a um validador oficial (ou simulador da Autoridade Tributária). O documento tem de ser validado com sucesso, comprovando que a estrutura e as tags respeitam as normas legais.
+Teste 3 (Rastreabilidade de Dados): Criar e liquidar uma nova quota no sistema. Em seguida, exportar o ficheiro SAF-T do dia corrente e abrir o documento para confirmar se a transação acabada de criar se encontra devidamente mapeada e incluída no código exportado.
+
+
+
+US16: Receção de notificações automáticas de queixas e lesões registadas pelos atletas
+
+Perspetiva: Equipa Técnica / Médica
+Épico/Módulo: Gestão Clínica e Desportiva / Notificações de Saúde
+
+Cenário (User Story):
+Como membro da equipa técnica ou médica, quero receber notificações automáticas imediatas sempre que um atleta regista uma queixa física ou pequena lesão, para que possa ajustar o planeamento do treino atempadamente e intervir clinicamente antes que o problema se agrave.
+
+Tarefas de Desenvolvimento (Tasks):
+T16.1: Desenvolver a interface no painel do treinador e do médico (área de notificações/inbox) para receber, listar e destacar visualmente os alertas de saúde críticos submetidos pelos atletas.
+T16.2: Implementar a lógica na API (backend) que interceta os eventos de registo de lesão (provenientes da US06) e os encaminha de forma direcionada apenas para os perfis de Treinador e Médico vinculados ao plantel desse atleta específico.
+T16.3: Criar uma hiperligação (atalho rápido) no corpo da notificação que redirecione o utilizador diretamente para a ficha de avaliação clínica ou de gestão de treino do atleta em causa.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Receção Direcionada): O Atleta X da Equipa A submete uma queixa de dor lombar. O sistema deve apresentar de imediato a notificação não lida no painel do Treinador e do Médico responsáveis pela Equipa A.
+Teste 2 (Isolamento de Dados): Iniciar sessão com a conta do Treinador da Equipa B e confirmar que este não recebe qualquer alerta referente ao registo submetido pelo Atleta X no Teste 1.
+Teste 3 (Navegação Rápida): O médico clica na notificação recebida. O sistema deve abrir automaticamente a página do boletim clínico do atleta, pronta para inserção de notas ou bloqueio desportivo.
+
+
+
+US17: Ferramenta de comunicação centralizada com a equipa técnica e atletas
+
+Perspetiva: Equipa Técnica / Atleta / Gerência
+Épico/Módulo: Comunicação e Notificações
+
+Cenário (User Story):
+Como membro da equipa técnica, atleta ou gerência, quero ter uma ferramenta de comunicação centralizada dentro da plataforma para partilhar informações logísticas e desportivas, eliminando a dependência de múltiplos grupos de WhatsApp e garantindo que os avisos chegam de forma eficiente a todos os interessados.
+
+Tarefas de Desenvolvimento (Tasks):
+T17.1: Desenvolver a interface de "Mural de Equipa" e "Comunicados Oficiais", permitindo a publicação de texto e anexos por parte da equipa técnica e gerência.
+T17.2: Implementar a lógica de permissões para garantir que as mensagens chegam apenas aos atletas e staff das equipas selecionadas.
+T17.3: Criar um sistema de confirmação de leitura para comunicados críticos, permitindo à gerência monitorizar quem já visualizou a informação.
+T17.4: Integrar com o módulo de notificações (RF-04) para disparar alertas imediatos via aplicação e email sempre que um novo comunicado é publicado.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Publicação e Alcance): O treinador publica um aviso de alteração de local de treino no Mural da Equipa. Verificar se todos os atletas dessa equipa recebem a notificação instantaneamente.
+Teste 2 (Controlo de Leitura): A gerência envia um comunicado sobre quotas em atraso. Validar se o sistema apresenta à gerência a lista de utilizadores que abriram a mensagem.
+Teste 3 (Isolamento de Comunicação): Enviar uma mensagem privada para a Equipa de Futsal e confirmar que os atletas da Equipa de Voleibol não têm acesso ao conteúdo nem recebem a notificação.
+
+
+
+US18: Registo de presenças, faltas e estado físico nos treinos
+
+Perspetiva: Treinador
+Épico/Módulo: Gestão Desportiva / Treinos
+
+Cenário (User Story):
+Como Treinador, quero aceder ao evento de um treino agendado e assinalar o estado de cada jogador (presente, falta justificada, falta injustificada ou lesionado), para que o sistema guarde os dados e as estatísticas de assiduidade no perfil de cada atleta sejam atualizadas em tempo real, substituindo os registos manuais em papel e apoiando decisões técnicas futuras.
+
+Tarefas de Desenvolvimento (Tasks):
+T18.1: Desenvolver a interface de listagem do plantel vinculada a uma sessão de trabalho semanal específica.
+T18.2: Implementar os componentes de seleção para os quatro estados possíveis (presente, falta justificada, falta injustificada ou lesionado).
+T18.3: Criar a lógica de backend para a gravação persistente dos dados de assiduidade na base de dados.
+T18.4: Implementar a funcionalidade de atualização automática dos indicadores de assiduidade e performance no perfil individual dos atletas.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Permissões): Validar se o acesso ao registo de presenças está restrito a utilizadores autenticados com o perfil de Treinador ou Coordenador Técnico.
+Teste 2 (Persistência): Confirmar que, após a submissão do formulário, os dados são guardados sem erros e podem ser consultados posteriormente.
+Teste 3 (Estatísticas): Verificar se a percentagem de assiduidade no perfil do atleta reflete a nova marcação imediatamente após a gravação do treino.
+
+
+
+US19: Elaboração de convocatórias com base no histórico clínico e de assiduidade
+
+Perspetiva: Treinador
+Épico/Módulo: Gestão Desportiva / Convocatórias
+
+Cenário (User Story):
+Como Treinador, quero elaborar a lista de convocados para um jogo cruzando os dados do plantel com as informações de assiduidade aos treinos e o histórico clínico, para evitar a convocação de atletas que se encontrem lesionados ou que não tenham cumprido os critérios de presença.
+
+Tarefas de Desenvolvimento (Tasks):
+T19.1: Desenvolver a interface de seleção de convocados associada a um evento de jogo previamente criado no calendário.
+T19.2: Implementar a integração com o módulo de Gestão Clínica (RF-09) para sinalizar visualmente atletas "Inaptos" e bloquear proativamente a sua seleção.
+T19.3: Integrar a visualização de métricas de assiduidade (provenientes do RF-05) no ecrã de escolha para auxiliar a decisão técnica.
+T19.4: Configurar o gatilho automático para o envio de alertas aos atletas selecionados e respetivos encarregados de educação após a confirmação da lista.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Validação de Estado): Tentar convocar um atleta que tenha um registo de lesão ativo ou exame médico caducado. O sistema deve impedir a seleção e exibir um aviso de inaptidão.
+Teste 2 (Dados de Suporte): Validar se a percentagem de presenças nos treinos da última semana é exibida corretamente ao lado do nome de cada atleta no momento da convocação.
+Teste 3 (Fluxo de Notificação): Confirmar que, após a submissão da convocatória, o estado do jogo é atualizado e os destinatários recebem a notificação interna e externa.
+
+
+
+US20: Registo de resultados e eventos estatísticos pós-jogo (golos, cartões, substituições)
+
+Perspetiva: Treinador
+Épico/Módulo: Gestão Desportiva / Jogos e Resultados
+
+Cenário (User Story):
+Como Treinador, quero aceder ao detalhe de uma partida oficial ou amigável após a sua conclusão para registar o resultado final e os eventos estatísticos, como golos, cartões e substituições. O objetivo é manter um histórico centralizado e rigoroso do desempenho desportivo da equipa e dos atletas, substituindo as antigas fichas de jogo em papel.
+
+Tarefas de Desenvolvimento (Tasks):
+T20.1: Desenvolver a interface de "Ficha de Jogo" que permita ao treinador selecionar o jogo no calendário e inserir o resultado final.
+T20.2: Implementar um sistema de registo de eventos cronológicos (golos, cartões amarelos/vermelhos e substituições) associados aos atletas que constavam na convocatória.
+T20.3: Criar a lógica de backend para processar a submissão e garantir a persistência dos dados estatísticos na base de dados.
+T20.4: Desenvolver gatilhos (triggers) para a atualização automática dos perfis individuais dos atletas e das tabelas classificativas internas assim que a ficha é validada.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Pré-condições): Validar se o utilizador está autenticado como Treinador ou Coordenador e se o evento do jogo, juntamente com a respetiva convocatória, já existe no sistema antes de permitir o registo.
+Teste 2 (Registo de Eventos): Simular a inserção de um golo para um atleta específico. Verificar se o sistema guarda o evento e o associa corretamente ao perfil do jogador e ao jogo em causa.
+Teste 3 (Atualização de Perfis): Após a submissão da ficha, confirmar se as estatísticas individuais no perfil desportivo de cada jogador são atualizadas automaticamente com os novos dados.
+
+
+
+US21: Consulta de painéis estatísticos e relatórios de desempenho do plantel
+
+Perspetiva: Equipa Técnica (Treinador / Coordenador Técnico)
+Épico/Módulo: Gestão Desportiva / Estatística e Performance
+
+Cenário (User Story):
+Como Treinador ou Coordenador Técnico, quero aceder a um painel de estatísticas que agregue dados de treinos e jogos para consultar indicadores de performance (minutos jogados, golos, assiduidade, rácio de vitórias), aplicando filtros por equipa ou período, de forma a avaliar o rendimento do plantel e apoiar as decisões técnicas. É fundamental que o painel ofereça uma visão holística, permitindo também identificar tendências de evolução individual e comparar métricas entre diferentes escalões para uma análise de desenvolvimento a longo prazo.
+
+Tarefas de Desenvolvimento (Tasks):
+T21.1: Desenvolver a interface do painel de estatísticas com filtros por equipa, atleta e intervalo temporal.
+T21.2: Implementar a lógica de agregação de dados provenientes dos módulos de presenças em treinos e resultados de jogos.
+T21.3: Criar visualizações gráficas e tabelas dinâmicas para indicadores como minutos jogados, golos marcados, assiduidade e rácio de vitórias.
+T21.4: Implementar a funcionalidade de exportação de relatórios em formatos PDF ou Excel.
+
+Testes de Aceitação (Acceptance Tests):
+Teste 1 (Acesso e Filtros): Autenticar como Coordenador e aplicar um filtro para uma equipa específica. O sistema deve processar a informação e apresentar os dados correspondentes em tempo real.
+Teste 2 (Integridade dos Dados): Verificar se os valores de assiduidade e golos apresentados no relatório coincidem com os dados inseridos nos módulos de treinos e fichas de jogo.
+Teste 3 (Exportação): Executar a exportação de um relatório de desempenho individual e validar se o ficheiro gerado mantém a integridade e clareza da informação visualizada no ecrã.
+
+
+
+
