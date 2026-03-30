@@ -1,0 +1,19 @@
+Entrevistador: Olá! Agradeço a disponibilidade para esta conversa. Estamos a desenhar a nova plataforma do clube e queremos perceber os principais obstáculos que os treinadores enfrentam atualmente no seu dia a dia.
+
+Treinador: Olá! Há várias coisas que me dificultam bastante a vida. O meu maior problema imediato tem a ver com a comunicação de horários. Como tenho um horário de trabalho fora do clube muito inconsistente, muitas vezes tenho de remarcar treinos. Como não temos uma maneira eficiente de informar os atletas, muitos acabam por comparecer num treino que foi adiado, o que causa imensas chatices.
+
+Entrevistador: Compreendo. A marcação de jogos e convocatórias também sofre desse problema de comunicação?
+
+Treinador: Sem dúvida. Ainda no outro dia publiquei a convocatória num grupo de WhatsApp na sexta-feira à noite. Como não havia nenhuma confirmação oficial na plataforma, alguns atletas não viram a mensagem e outros não avisaram que iam faltar. O resultado foi que, no sábado, a equipa apresentou-se com apenas um suplente para o jogo. É algo que um botão de confirmação obrigatória resolveria facilmente.
+
+Entrevistador: E no que diz respeito à gestão desportiva e ao acompanhamento físico da equipa, que dificuldades encontram?
+
+Treinador: A falta de informação clínica em tempo real é perigosa. Tive um caso em que um atleta sentiu uma forte dor muscular, foi para casa, e a informação não chegou nem a mim nem ao fisioterapeuta. No treino seguinte, acabei por puxar por ele e o atleta sofreu uma rotura muscular. Precisava muito de uma zona reservada no sistema onde fossem apresentados todos os atletas lesionados da minha modalidade.
+
+Entrevistador: Para além dessa componente médica, que outras ferramentas de gestão técnica gostava de ter?
+
+Treinador: Gostava de ter acesso a dashboards com informação sobre o desempenho da equipa e de cada atleta. Seria fantástico ter uma funcionalidade de comparação visual, por exemplo através de gráficos radar, entre as capacidades de diferentes atletas da mesma posição. Também me pouparia muito tempo se pudesse marcar e registar as presenças de cada atleta nos treinos e registar ocorrências durante os jogos, como golos, faltas, cartões e minutos jogados.
+
+Entrevistador: Em termos logísticos e de infraestruturas, há algum processo que falhe regularmente?
+
+Treinador: A reserva de espaços é frequentemente caótica. Numa noite chuvosa recente, as equipas de Futsal e Voleibol entraram no pavilhão principal exatamente ao mesmo tempo devido a um erro no caderno de marcações da receção, o que gerou um enorme conflito. Precisamos de conseguir fazer a reserva de espaços físicos específicos, como o campo principal, o ginásio ou a sala de vídeo, diretamente numa plataforma digital. Para além disso, daria jeito poder fazer a requisição de material desportivo, como bolas, coletes e pinos, diretamente à gerência para as sessões de treino.
