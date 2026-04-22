@@ -147,6 +147,82 @@ RESUMO IMCOMPLETO, À MEDIDA QUE VAMOS FAZENDO O PROJETO VOU COMPLETANTO O RESUM
 
 \chapter{Introdução}
 
+\section{Enquadramento do Projeto}
+
+O presente relatório documenta o processo de conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada do Clube Amigos de Polvoreira (CAP), uma associação desportiva sediada no concelho de Guimarães. Este projeto foi desenvolvido no âmbito da unidade curricular de Laboratórios de Informática IV (LI4) do curso de Licenciatura em Engenharia Informática da Universidade do Minho.
+
+A particularidade deste projeto reside na utilização de \textit{Large Language Models} (LLMs) como ferramenta de apoio ao desenvolvimento de software. Esta abordagem permitiu à equipa explorar as potencialidades da inteligência artificial generativa nas diversas fases do ciclo de vida do software, desde o levantamento de requisitos até à implementação e testes.
+
+\section{Objetivos do Trabalho}
+
+O trabalho desenvolvido tem como objetivos principais:
+
+\begin{itemize}
+    \item \textbf{Desenvolver um sistema de gestão integrada} para o CAP, capaz de centralizar e automatizar os processos administrativos, desportivos, clínicos e financeiros do clube.
+    \item \textbf{Explorar o uso de LLMs no desenvolvimento de software}, avaliando como estas ferramentas podem apoiar as diferentes fases do ciclo de vida de um projeto de engenharia de software.
+    \item \textbf{Aplicar as metodologias de engenharia de software} lecionadas na unidade curricular, incluindo o levantamento e análise de requisitos, a modelação estrutural e comportamental, e a conceção de sistemas de dados.
+    \item \textbf{Documentar o processo de desenvolvimento}, registando as decisões tomadas, as dificuldades encontradas e as lições aprendidas ao longo do projeto.
+\end{itemize}
+
+\section{Utilização de Large Language Models no Projeto}
+
+\subsection{O que são Large Language Models}
+
+Os \textit{Large Language Models} (LLMs) são modelos de inteligência artificial treinados em grandes volumes de texto, capazes de compreender e gerar linguagem natural de forma contextualizada. Exemplos populares incluem o GPT-4, o Claude e o Gemini. Estes modelos têm vindo a ser cada vez mais utilizados em contextos de desenvolvimento de software, oferecendo capacidades como a geração de código, a explicação de conceitos técnicos, a revisão de documentação e o apoio à tomada de decisões arquiteturais.
+
+\subsection{Como os LLMs foram utilizados neste projeto}
+
+Ao longo do desenvolvimento deste projeto, a equipa utilizou LLMs como ferramenta de apoio em diversas fases:
+
+\begin{itemize}
+    \item \textbf{Levantamento de requisitos}: Os LLMs auxiliaram na estruturação das entrevistas, na identificação de possíveis requisitos funcionais e não funcionais a partir da descrição do domínio, e na formulação de perguntas para os questionários.
+    \item \textbf{Modelação do software}: Foram utilizados para discutir alternativas arquiteturais, comparar tecnologias e validar as decisões técnicas da equipa.
+    \item \textbf{Geração de documentação}: Os LLMs apoiaram a escrita de secções do relatório, a formatação de tabelas e a descrição técnica dos componentes do sistema.
+    \item \textbf{Implementação}: Auxiliaram na geração de código boilerplate, na resolução de erros e na explicação de padrões de design.
+\end{itemize}
+
+\subsection{Vantagens da utilização de LLMs}
+
+A utilização de LLMs no desenvolvimento de software apresenta diversas vantagens:
+
+\begin{itemize}
+    \item \textbf{Aceleração do desenvolvimento}: A capacidade de gerar código, documentação e estruturas de dados de forma rápida permite à equipa focar-se nos aspetos mais críticos e criativos do projeto.
+    \item \textbf{Acesso a conhecimento vasto}: Os LLMs foram treinados em grandes volumes de documentação técnica, permitindo obter rapidamente informação sobre bibliotecas, frameworks e padrões de design.
+    \item \textbf{Apoio à aprendizagem}: Para equipas menos experientes, os LLMs funcionam como um tutor disponível 24 horas, capaz de explicar conceitos e sugerir boas práticas.
+    \item \textbf{Redução de tarefas repetitivas}: Tarefas como a escrita de documentação boilerplate, a criação de testes unitários ou a formatação de código podem ser delegadas aos LLMs.
+    \item \textbf{Exploração de alternativas}: A facilidade em pedir múltiplas soluções para o mesmo problema permite à equipa comparar abordagens e tomar decisões mais informadas.
+\end{itemize}
+
+\subsection{Desvantagens e limitações dos LLMs}
+
+Apesar das vantagens, a utilização de LLMs também apresenta limitações importantes que devem ser consideradas:
+
+\begin{itemize}
+    \item \textbf{Possibilidade de erros e alucinações}: Os LLMs podem gerar informação incorreta ou inventada, especialmente em domínios muito específicos ou com informação desatualizada. Todo o output deve ser validado pela equipa.
+    \item \textbf{Falta de contexto do projeto}: Embora os LLMs compreendam o texto que lhes é fornecido, não têm conhecimento do contexto completo do projeto, podendo sugerir soluções que não se adequam à arquitetura existente.
+    \item \textbf{Dependência excessiva}: A utilização intensiva de LLMs pode criar uma dependência que prejudica o desenvolvimento das competências técnicas dos membros da equipa.
+    \item \textbf{Questões de privacidade}: O envio de código ou documentação para serviços de LLM externos pode levantar questões de confidencialidade, especialmente em projetos com dados sensíveis.
+    \item \textbf{Inconsistência nas respostas}: O mesmo prompt pode gerar respostas diferentes em momentos distintos, o que exige uma validação constante por parte da equipa.
+    \item \textbf{Limitações em raciocínio complexo}: Para decisões arquiteturais complexas ou debugging de problemas intrincados, os LLMs podem não conseguir captar todas as nuances necessárias.
+\end{itemize}
+
+\section{Estrutura do Relatório}
+
+O presente relatório está organizado da seguinte forma:
+
+\begin{itemize}
+    \item \textbf{Capítulo 2 - Definição e Caracterização do Sistema}: Apresenta o caso de estudo, a contextualização do problema, a motivação e os objetivos do sistema a desenvolver, bem como a análise de viabilidade e o plano de execução.
+    \item \textbf{Capítulo 3 - Levantamento e Análise de Requisitos}: Descreve a estratégia e os métodos utilizados para o levantamento de requisitos, apresentando os requisitos funcionais e não funcionais identificados.
+    \item \textbf{Capítulo 4 - Especificação e Modelação do Software}: Documenta as decisões arquiteturais e tecnológicas, bem como a modelação estrutural e comportamental do sistema.
+    \item \textbf{Capítulos seguintes}: Conceção do sistema de dados, esboço das interfaces, implementação e conclusões (a desenvolver nas fases seguintes do projeto).
+\end{itemize}
+
+%==========================================================================
+% CHAPTER 2 - DEFINIÇÃO E CARACTERIZAÇÃO DO SISTEMA
+%==========================================================================
+
+\chapter{Definição e Caracterização do Sistema}
+
 \section{Contextualização}
 Os clubes e associações desportivas desempenham um papel fundamental na promoção da atividade física, do convívio social e do desenvolvimento pessoal dos seus participantes. Estas organizações são frequentemente responsáveis pela formação de jovens atletas, pela organização de eventos desportivos e pela dinamização da vida comunitária nas regiões onde se inserem.
 
@@ -221,41 +297,61 @@ Em conjunto com o dono do clube e contando com o apoio e uso de \textit{Large La
 
 \chapter{Levantamento e Análise de Requisitos}
 
-\section{Estratégia e Métodos}
+\section{Introdução ao Levantamento de Requisitos}
 
-Para arrancar com o levantamento de requisitos, a equipa marcou uma primeira reunião para identificar quem eram os principais \textit{stakeholders} do projeto e decidir que métodos íamos usar para recolher a informação necessária. A nossa ideia foi cruzar diferentes fontes de informação para percebermos exatamente como o clube trabalha e o que faz mais falta no novo sistema.
+O levantamento e análise de requisitos constitui uma das fases mais críticas do ciclo de vida do desenvolvimento de software. É nesta etapa que se procura compreender em profundidade as necessidades dos utilizadores e as restrições do sistema a desenvolver, traduzindo-as em especificações técnicas que guiarão todo o processo de conceção e implementação.
 
-Para isso, decidimos avançar com os seguintes métodos:
+Para este projeto, a equipa seguiu o método de Sommerville (Sommerville, 2015), que propõe uma abordagem estruturada dividida em quatro atividades principais: descoberta de requisitos, classificação e organização, priorização e negociação, e documentação. Esta metodologia foi complementada com o apoio de \textit{Large Language Models}, que auxiliaram na estruturação das perguntas para entrevistas, na identificação de possíveis requisitos a partir das descrições do domínio e na validação da completude das especificações.
+
+\section{Identificação dos Stakeholders}
+
+Antes de iniciar o processo de levantamento, foi essencial identificar todas as partes interessadas (\textit{stakeholders}) que serão afetadas pelo sistema ou que poderão influenciar os seus requisitos. A equipa organizou uma reunião inicial onde foram identificados os seguintes grupos:
+
 \begin{itemize}
-    \item \textbf{Análise de documentos do clube}: Pedimos acesso a alguns documentos físicos que o clube usa atualmente no dia a dia, para percebermos que tipo de dados andam a ser processados à mão e que terão de passar para a plataforma.
-    \item \textbf{Entrevistas direcionadas}: Achámos essencial falar diretamente com as pessoas. Planeámos fazer uma entrevista curta com pelo menos um representante de cada grupo principal (um atleta, um treinador e um elemento da gerência) para percebermos os problemas de cada lado.
-    \item \textbf{Questionário geral (Forms)}: Para conseguirmos chegar a toda a gente de forma mais rápida e apanhar a opinião geral, criámos um formulário online para enviar a todos os \textit{stakeholders}.
+    \item \textbf{Gerência do clube}: Responsável pela tomada de decisões estratégicas, gestão financeira e supervisão geral das operações. Interessa-lhes ter acesso a relatórios, estatísticas e ferramentas de controlo.
+    \item \textbf{Secretaria/Administração}: Executa as tarefas administrativas do dia a dia, como a gestão de inscrições, pagamentos de quotas e comunicação com os associados.
+    \item \textbf{Equipa técnica (Treinadores e Coordenadores)}: Responsável pela gestão desportiva, incluindo a definição de plantéis, elaboração de convocatórias e acompanhamento do desempenho dos atletas.
+    \item \textbf{Atletas}: Os principais utilizadores do sistema na vertente desportiva, com interesse em consultar horários, convocatórias, histórico pessoal e informação clínica.
+    \item \textbf{Encarregados de educação}: No caso de atletas menores, são os responsáveis pela gestão financeira (pagamento de quotas) e pela autorização de participação em atividades.
 \end{itemize}
 
-Na imagem seguinte pode consultar-se a ata dessa primeira reunião, onde ficou decidida esta abordagem:
+Na reunião de identificação de \textit{stakeholders}, ficou também decidida a estratégia de levantamento de requisitos a seguir, conforme documentado na ata apresentada abaixo:
 
 \begin{figure}[H]
     \centering
     \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{ata1.drawio.png}}
-    \caption{Ata reunião 1}
+    \caption{Ata da reunião de definição da estratégia de levantamento de requisitos}
     \label{fig:ar-01}
 \end{figure}
 
-\subsection{Análise de documentos do clube}
+\section{Estratégia e Métodos de Levantamento}
 
-Para garantirmos que a plataforma vai cobrir todas as necessidades reais do clube, não podíamos depender apenas de conversas. Tivemos de analisar a documentação física que é processada atualmente para perceber o fluxo de informação nas áreas clínica, desportiva e financeira. Solicitámos à gerência exemplos reais dos formulários usados no dia a dia.
+Para garantir um levantamento de requisitos abrangente e rigoroso, a equipa optou por combinar múltiplas técnicas de recolha de informação. Esta triangulação de métodos permite cruzar dados de diferentes fontes, aumentando a fiabilidade das conclusões e minimizando o risco de omissão de requisitos importantes.
 
-Os documentos que serviram de base ao nosso estudo foram:
+Os métodos selecionados foram os seguintes:
+
+\subsection{Análise Documental}
+
+A análise de documentação existente é um método fundamental para compreender os processos atuais de uma organização. Ao examinar os documentos físicos utilizados no dia a dia do clube, a equipa conseguiu identificar:
 
 \begin{itemize}
-    \item \textbf{Atestado médico de um dos atletas}: A análise deste documento foi essencial para percebermos que tipo de informação de saúde tem de estar registada na plataforma. Ajudou-nos a estruturar os campos da base de dados relativos à validade dos exames, aptidão física e necessidade de criar alertas automáticos para a caducidade dos atestados. Sem isto, o sistema não conseguiria bloquear a convocatória de atletas inaptos.
-
-    \item \textbf{Relatório de um dos jogos realizados pelo CAP}: Este relatório impresso permitiu-nos mapear a vertente desportiva. Retirámos daqui as métricas que a equipa técnica regista à mão no final de cada partida, como os jogadores titulares, suplentes utilizados, minutos jogados, golos e ação disciplinar (cartões). Toda esta informação definiu os requisitos para o módulo de estatísticas e gestão de plantéis.
-
-    \item \textbf{Uma fatura de uma quota de um atleta}: A nível administrativo, o cruzamento do formato deste recibo com a lógica de negócio do clube mostrou-nos como é feito o controlo dos pagamentos. Identificámos a necessidade de associar identificadores únicos a cada pagamento, registar datas limite, valores e estados (pago/em dívida). Este documento foi o ponto de partida para a modelação do módulo de tesouraria.
+    \item Os tipos de dados que são atualmente processados de forma manual;
+    \item Os fluxos de informação entre os diferentes departamentos;
+    \item As entidades e relações que deverão ser modeladas na base de dados;
+    \item Os pontos de falha e ineficiência nos processos atuais.
 \end{itemize}
 
-O levantamento feito através desta papelada deu-nos a base técnica para desenhar grande parte das entidades do nosso sistema. Abaixo encontram-se os exemplos digitalizados que analisámos durante esta fase:
+A equipa solicitou à gerência do CAP exemplos reais dos formulários utilizados nas áreas clínica, desportiva e financeira. Os documentos analisados foram:
+
+\begin{itemize}
+    \item \textbf{Atestado Médico Desportivo}: Este documento permitiu identificar os campos necessários para o registo de informação clínica dos atletas, incluindo a validade dos exames, a aptidão física e as condições de saúde relevantes. A análise revelou a necessidade de implementar alertas automáticos para a caducidade dos atestados, de forma a impedir a convocação de atletas sem documentação válida.
+    
+    \item \textbf{Relatório Oficial de Jogo}: A estrutura deste relatório definiu os requisitos para o módulo de estatísticas desportivas. Foram identificados campos como a composição da equipa (titulares e suplentes), minutos jogados por cada atleta, golos marcados, assistências e ações disciplinares (cartões amarelos e vermelhos).
+    
+    \item \textbf{Fatura/Recibo de Quota}: Este documento foi o ponto de partida para a modelação do módulo de tesouraria. Identificámos a necessidade de associar identificadores únicos a cada transação, registar datas de vencimento, valores, estados de pagamento e gerar ficheiros de conformidade fiscal (SAF-T).
+\end{itemize}
+
+Os exemplos digitalizados dos documentos analisados encontram-se nas páginas seguintes:
 
 \texttt{Atestado médico}
 
@@ -263,49 +359,72 @@ O levantamento feito através desta papelada deu-nos a base técnica para desenh
 
 \texttt{Relatório de Jogo}
 
-\includepdf[pages=1]{Relatório Oficial de Jogo - CAP.pdf}
+% TODO: Adicionar o ficheiro "Relatório Oficial de Jogo - CAP.pdf" à pasta images
+% \includepdf[pages=1]{Relatório Oficial de Jogo - CAP.pdf}
 
 \texttt{Fatura de quota}
 
-\includepdf[pages=1]{Fatura _ Recibo de Quota - CAP.pdf}
+% TODO: Adicionar o ficheiro "Fatura _ Recibo de Quota - CAP.pdf" à pasta images
+% \includepdf[pages=1]{Fatura _ Recibo de Quota - CAP.pdf}
 
 
- \subsection{Entrevistas}
+\subsection{Entrevistas Estruturadas}
 
-Como planeado, realizámos entrevistas direcionadas a três perfis essenciais do clube: um elemento da Gerência, um Treinador e um Atleta. O objetivo foi levantar os problemas reais de quem está no terreno e perceber o que esperam da nova aplicação. As conversas revelaram que a desorganização atual está a causar prejuízos financeiros, falhas de comunicação graves e até problemas de saúde física.
+As entrevistas são uma técnica essencial para captar informação qualitativa e compreender as perspetivas, necessidades e frustrações dos diferentes \textit{stakeholders}. A equipa optou por realizar entrevistas semi-estruturadas, combinando um guião de perguntas pré-definidas com espaço para discussão aberta.
 
-Abaixo estão os principais pontos retirados de cada entrevista:
+Foram realizadas entrevistas a representantes de três perfis essenciais:
 
-\textbf{Perspetiva da Gerência}
+\subsubsection{Entrevista à Gerência}
+
+A entrevista com um elemento da gerência revelou problemas críticos ao nível da gestão estratégica e financeira:
+
 \begin{itemize}
-    \item \textbf{Perda de Investimento e Gestão Financeira:} O clube perdeu o patrocínio de uma empresa de bebidas energéticas simplesmente porque a gerência não conseguiu compilar e apresentar dados estruturados sobre o desempenho das equipas para justificar o investimento. Ficou clara a necessidade de \textit{dashboards} financeiros, gráficos de desempenho exportáveis e geração automática de ficheiros SAF-T.
-    \item \textbf{Caos nas Quotas:} O modelo atual de pagamentos manuais resulta em esquecimentos frequentes por parte dos encarregados de educação. É urgente criar um perfil parental agregador com geração de referências Multibanco/MBWay e bloqueio automático de atletas com mensalidades em atraso.
-    \item \textbf{Conflitos de Espaços:} Foi relatado um episódio em que as equipas de Futsal e Voleibol tentaram usar o pavilhão ao mesmo tempo devido a um erro num caderno de papel. O sistema tem de gerir o calendário de instalações.
+    \item \textbf{Perda de patrocínios por falta de dados}: O clube perdeu um patrocínio significativo porque a gerência não conseguiu apresentar dados estruturados sobre o desempenho das equipas. Este problema evidenciou a necessidade de \textit{dashboards} financeiros, gráficos de desempenho exportáveis e geração automática de relatórios.
+    
+    \item \textbf{Descontrolo no pagamento de quotas}: O modelo atual de gestão manual de pagamentos resulta em atrasos frequentes e dificuldade de acompanhamento. Foi identificada a necessidade de criar perfis parentais agregadores, com geração automática de referências Multibanco/MBWay e mecanismos de bloqueio para atletas com mensalidades em atraso.
+    
+    \item \textbf{Conflitos na reserva de instalações}: Foi relatado um episódio em que duas equipas tentaram utilizar o mesmo espaço simultaneamente devido a erros no registo manual. O sistema deverá incluir um módulo de gestão de reservas com validação automática de conflitos.
 \end{itemize}
 
-\textbf{Perspetiva da Equipa Técnica (Treinadores)}
+\subsubsection{Entrevista à Equipa Técnica}
+
+A entrevista com um treinador destacou problemas operacionais que afetam diretamente a atividade desportiva:
+
 \begin{itemize}
-    \item \textbf{Falhas de Comunicação:} A dependência de grupos de WhatsApp para avisar sobre alterações de horários e convocatórias não funciona. Ocorreram situações em que a equipa foi para jogo com apenas um suplente porque os atletas não viram a mensagem. É obrigatório haver um sistema de convocatórias na plataforma com botões de confirmação (Sim/Não/Talvez).
-    \item \textbf{Falta de Histórico Clínico:} Um atleta agravou uma lesão (rotura muscular) durante um treino porque o treinador não foi informado da queixa física que tinha ocorrido em casa. O sistema precisa de um módulo onde a equipa técnica possa consultar os atletas inaptos em tempo real.
-    \item \textbf{Estatísticas e Material:} Há a necessidade de gráficos radar para comparar capacidades de atletas da mesma posição, além de um sistema rápido para registar assiduidade, ocorrências de jogo (golos, cartões) e requisitar material à secretaria.
+    \item \textbf{Falhas de comunicação}: A dependência de grupos de WhatsApp para comunicar alterações de horários e convocatórias revelou-se ineficaz. Foram relatadas situações em que atletas não compareceram a jogos por não terem visto as mensagens. O sistema deverá incluir um módulo de convocatórias com confirmação obrigatória de presença.
+    
+    \item \textbf{Desconhecimento do estado clínico}: Um atleta agravou uma lesão durante um treino porque o treinador desconhecia uma queixa física anterior. O sistema deverá permitir a consulta em tempo real do estado de aptidão de cada atleta.
+    
+    \item \textbf{Necessidade de estatísticas}: A equipa técnica manifestou interesse em ferramentas de análise comparativa de atletas (gráficos radar), registo de assiduidade e gestão de material desportivo.
 \end{itemize}
 
-\textbf{Perspetiva dos Atletas}
+\subsubsection{Entrevista a Atletas}
+
+A entrevista com atletas revelou necessidades ao nível da autonomia e do acesso à informação:
+
 \begin{itemize}
-    \item \textbf{Atestados Médicos Caducados:} Um problema crítico identificado foi a falta de avisos sobre a validade dos exames médicos desportivos, o que levou a que um atleta ficasse de fora de uma competição importante. A plataforma tem de alertar automaticamente para a caducidade destes documentos.
-    \item \textbf{Autonomia Clínica e Financeira:} Os atletas querem poder registar queixas físicas autonomamente no sistema para que cheguem de imediato ao treinador. Querem também acesso fácil aos horários, histórico de pagamento de quotas e faturas automáticas.
-    \item \textbf{Perfil Individual Desportivo:} Pediram uma área pessoal onde possam ver a evolução do seu peso, altura e estatísticas ao longo da época. Mostraram também interesse numa biblioteca multimédia para vídeos táticos partilhados pelo treinador e num espaço para o palmarés individual (prémios e distinções).
+    \item \textbf{Alertas de documentação}: Foi identificada a necessidade de alertas automáticos para a caducidade de atestados médicos, evitando situações em que atletas ficam impedidos de competir por falta de documentação válida.
+    
+    \item \textbf{Registo autónomo de queixas}: Os atletas manifestaram interesse em poder registar queixas físicas diretamente no sistema, para que a informação chegue de imediato à equipa técnica.
+    
+    \item \textbf{Perfil pessoal}: Foi solicitada uma área pessoal onde cada atleta possa consultar a evolução das suas métricas físicas (peso, altura), estatísticas de desempenho e histórico de pagamentos.
 \end{itemize}
 
-\subsection{Questionário Geral}
+\subsection{Questionários Online}
 
-Para complementar a análise documental e as entrevistas individuais, criámos um questionário online que foi distribuído a todos os \textit{stakeholders} do clube. Esta ferramenta permitiu-nos escalar a recolha de informação e obter dados quantitativos de uma amostra muito maior de atletas, treinadores, encarregados de educação e elementos da gerência, num curto espaço de tempo.
+Para complementar a análise documental e as entrevistas individuais, a equipa desenvolveu um questionário online que foi distribuído a todos os \textit{stakeholders} do clube. Esta técnica permitiu recolher dados quantitativos de uma amostra alargada num curto período de tempo.
 
-O formulário foi estruturado com o objetivo de validar estatisticamente as falhas operacionais previamente identificadas. As perguntas focaram-se em métricas concretas sobre a eficácia da comunicação atual (via grupos de WhatsApp), a facilidade no pagamento e controlo de quotas, a gestão de marcações de treinos e os conflitos no uso das infraestruturas.
+O questionário foi estruturado em secções correspondentes às principais áreas do sistema:
+\begin{itemize}
+    \item Comunicação e notificações;
+    \item Gestão de pagamentos e quotas;
+    \item Marcação de treinos e utilização de instalações;
+    \item Acesso a informação pessoal e desportiva.
+\end{itemize}
 
-Os resultados obtidos confirmaram o padrão: a grande maioria dos inquiridos sinalizou a desorganização administrativa e a falta de uma plataforma centralizada como os principais problemas diários. O cruzamento destes dados quantitativos com os testemunhos das entrevistas definiu a prioridade na modelação dos requisitos funcionais e não funcionais do sistema.
+Os resultados obtidos confirmaram estatisticamente os problemas identificados nas entrevistas. A grande maioria dos inquiridos sinalizou a desorganização administrativa e a falta de uma plataforma centralizada como os principais obstáculos ao funcionamento eficiente do clube.
 
-Na figura seguinte é apresentado um exemplo de uma das questões que constavam no formulário enviado:
+Na figura seguinte é apresentado um exemplo de uma das questões incluídas no questionário:
 
 \begin{figure}[H]
     \centering
@@ -314,8 +433,26 @@ Na figura seguinte é apresentado um exemplo de uma das questões que constavam 
     \label{fig:forms-exemplo}
 \end{figure}
 
+\section{Síntese dos Resultados do Levantamento}
 
-\section{Requisito Funcionais}
+O cruzamento dos dados obtidos através dos três métodos de levantamento permitiu à equipa construir uma visão completa das necessidades do sistema. Os principais problemas identificados foram:
+
+\begin{enumerate}
+    \item \textbf{Fragmentação da informação}: Os dados do clube encontram-se dispersos em documentos físicos, folhas de cálculo e comunicações informais, dificultando a sua consulta e atualização.
+    
+    \item \textbf{Falhas de comunicação}: A inexistência de um canal oficial de comunicação resulta em informação perdida ou desatualizada.
+    
+    \item \textbf{Descontrolo financeiro}: A gestão manual de quotas e pagamentos gera atrasos, erros e dificuldades no cumprimento das obrigações fiscais.
+    
+    \item \textbf{Falta de visibilidade clínica}: A equipa técnica não tem acesso fácil ao estado de aptidão dos atletas, o que pode resultar em lesões agravadas.
+    
+    \item \textbf{Ausência de métricas}: O clube não dispõe de ferramentas para analisar o seu desempenho desportivo e financeiro de forma estruturada.
+\end{enumerate}
+
+Estes problemas foram traduzidos em requisitos funcionais e não funcionais, apresentados nas secções seguintes.
+
+
+\section{Requisitos Funcionais}
 
 \begin{figure}[H]
     \centering
@@ -453,9 +590,13 @@ Nesta fase, a plataforma recolhe silenciosamente os metadados vitais da transaç
 
 A relevância deste fluxo para a aplicação é estrutural e indispensável. A manutenção de um histórico de atividades detalhado é a principal ferramenta da gerência e da administração para resolver conflitos, auditar acessos indevidos e garantir total transparência nas operações diárias do clube, enquanto a vertente de manutenibilidade assegura que a base de código se mantém limpa e escalável para a equipa de programadores.
 
-\section{Especificação e Modelação do Software}
+%==========================================================================
+% CHAPTER 4 - ESPECIFICAÇÃO E MODELAÇÃO DO SOFTWARE
+%==========================================================================
 
-\subsection{Introdução e Contexto das Decisões Arquiteturais}
+\chapter{Especificação e Modelação do Software}
+
+\section{Introdução e Contexto das Decisões Arquiteturais}
 
 Após a conclusão da fase de levantamento de requisitos, a equipa de desenvolvimento reuniu-se de forma não oficial para discutir e definir as principais decisões arquiteturais do sistema. Esta reunião informal permitiu que todos os elementos da equipa partilhassem as suas perspetivas e experiências, resultando num consenso técnico sobre as tecnologias e padrões a adotar no projeto.
 
@@ -463,7 +604,7 @@ O sistema a desenvolver para o Clube Amigos de Polvoreira (CAP) precisa de dar r
 
 As decisões que se seguem não foram tomadas de forma arbitrária. Cada escolha tecnológica foi analisada em conjunto, comparando as diferentes alternativas disponíveis e ponderando as vantagens e desvantagens de cada uma face às necessidades específicas do CAP. As secções seguintes apresentam, para cada aspeto crítico da arquitetura, as opções consideradas, a análise técnica realizada e a recomendação final da equipa.
 
-\subsubsection{Decisão Arquitetural: Padrão Arquitetural Global}
+\subsection{Decisão Arquitetural: Padrão Arquitetural Global}
 
 O padrão arquitetural define a forma como os diferentes componentes do sistema comunicam entre si, como os dados são isolados e como a aplicação poderá crescer no futuro. A equipa avaliou três abordagens distintas.
 
@@ -487,7 +628,7 @@ Monólito Modular & Implantação unificada com baixo acoplamento interno; Consi
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{Monólito Modular}. Esta escolha oferece o melhor equilíbrio entre a necessidade de isolar os dados clínicos e financeiros e a capacidade de desenvolvimento da equipa. Os microsserviços trariam uma complexidade operacional excessiva para a escala atual do CAP, enquanto o monólito modular permite manter as regras de negócio bem encapsuladas e preparar a plataforma para crescer de forma sustentada.
 
-\subsubsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)}
+\subsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)}
 
 A escolha da base de dados é uma das decisões mais importantes do projeto, pois dela depende a integridade dos dados e a conformidade legal da plataforma. A base de dados terá de suportar a gestão de contas de encarregados de educação, a emissão de faturas, o registo de avaliações físicas dos atletas e o armazenamento de queixas clínicas.
 
@@ -511,7 +652,7 @@ PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o ti
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{PostgreSQL}. Esta escolha garante a integridade relacional necessária para evitar erros de faturação e duplicação de dados, ao mesmo tempo que o suporte JSONB permite armazenar as particularidades das avaliações físicas e registos clínicos. Além disso, sendo uma tecnologia \textit{open-source}, não acarreta custos de licenciamento, o que se adequa ao orçamento do CAP.
 
-\subsubsection{Decisão Arquitetural: Tecnologias e Stack de Backend}
+\subsection{Decisão Arquitetural: Tecnologias e Stack de Backend}
 
 Para o desenvolvimento do backend, a equipa avaliou diferentes tecnologias e acabou por selecionar o ecossistema \textbf{Microsoft .NET 8 com linguagem C\#}. Esta plataforma oferece um bom desempenho, ferramentas de desenvolvimento maduras e integração facilitada com o PostgreSQL através do Entity Framework Core.
 
@@ -519,7 +660,7 @@ Um dos fatores decisivos foi o suporte nativo para serviços de execução em se
 
 \textbf{Decisão da Equipa:} A equipa decidiu utilizar \textbf{C\# com .NET 8}. Esta escolha permite implementar de forma nativa os mecanismos de monitorização contínua exigidos pelo sistema, ao mesmo tempo que oferece um processamento eficiente para tarefas como a extração e formatação de faturas para o ficheiro SAF-T.
 
-\subsubsection{Decisão Arquitetural: Comunicação e Especificação da API}
+\subsection{Decisão Arquitetural: Comunicação e Especificação da API}
 
 O sistema não funciona de forma isolada, precisando de comunicar com diferentes clientes (aplicação web, aplicação móvel futura, serviços externos). A equipa optou por implementar uma \textbf{API RESTful}, que modela a interface em torno dos recursos do domínio (por exemplo: \texttt{/api/atletas}, \texttt{/api/quotas}, \texttt{/api/convocatorias}).
 
