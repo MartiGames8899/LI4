@@ -148,6 +148,87 @@ RESUMO IMCOMPLETO, À MEDIDA QUE VAMOS FAZENDO O PROJETO VOU COMPLETANTO O RESUM
 
 \chapter{Introdução}
 
+\section{Enquadramento e Objetivos do Trabalho}
+
+O presente relatório documenta o desenvolvimento de um sistema de software para a gestão integrada de um clube desportivo, realizado no âmbito da unidade curricular de Laboratórios de Informática IV. Este projeto surge num contexto particularmente relevante, onde a engenharia de software tradicional encontra uma nova dimensão através da integração de \textit{Large Language Models} (LLMs) como ferramentas de suporte ao desenvolvimento.
+
+O objetivo principal deste trabalho é conceber, especificar, desenvolver e validar uma aplicação web para a gestão do Clube Amigos de Polvoreira (CAP), explorando simultaneamente as potencialidades e limitações dos LLMs como ferramentas auxiliares em todas as fases do ciclo de desenvolvimento de software. Pretende-se não apenas entregar um produto funcional que responda às necessidades reais do clube, mas também refletir criticamente sobre o papel que a inteligência artificial generativa pode desempenhar na engenharia de software contemporânea.
+
+Os objetivos específicos do trabalho incluem:
+\begin{itemize}
+    \item Realizar o levantamento e análise de requisitos funcionais e não funcionais, aplicando metodologias de engenharia de requisitos com suporte de LLMs;
+    \item Especificar e modelar a arquitetura do sistema, utilizando notação UML e padrões de \textit{design} adequados;
+    \item Desenvolver uma aplicação web funcional que integre as vertentes desportiva, clínica, financeira e administrativa do clube;
+    \item Documentar sistematicamente a utilização de LLMs ao longo do projeto, identificando boas práticas e limitações;
+    \item Avaliar criticamente o impacto da utilização de LLMs na produtividade e qualidade do desenvolvimento.
+\end{itemize}
+
+\section{Large Language Models na Engenharia de Software}
+
+\subsection{Contextualização Tecnológica}
+
+Os \textit{Large Language Models} (LLMs) representam uma das mais significativas inovações no campo da inteligência artificial dos últimos anos. Estes modelos, baseados em arquiteturas de redes neuronais do tipo \textit{Transformer}, são treinados em vastos corpora de texto e código, desenvolvendo a capacidade de compreender e gerar linguagem natural e linguagens de programação com um grau de sofisticação sem precedentes.
+
+No contexto da engenharia de software, os LLMs emergiram como ferramentas potencialmente transformadoras, oferecendo capacidades que vão desde a geração automática de código até ao suporte na documentação técnica, passando pela análise de requisitos e deteção de erros. Modelos como o GPT-4, Claude, e Gemini demonstraram proficiência em tarefas que tradicionalmente requeriam intervenção humana especializada.
+
+\subsection{Vantagens da Utilização de LLMs no Desenvolvimento de Software}
+
+A integração de LLMs no processo de desenvolvimento de software apresenta diversas vantagens significativas:
+
+\begin{itemize}
+    \item \textbf{Aceleração do desenvolvimento}: Os LLMs podem gerar rapidamente código \textit{boilerplate}, estruturas de dados, e implementações de algoritmos comuns, reduzindo o tempo necessário para tarefas repetitivas e permitindo que os programadores se concentrem em aspetos mais complexos e criativos do desenvolvimento.
+    
+    \item \textbf{Suporte à documentação}: A capacidade de gerar documentação técnica, comentários de código e especificações a partir de descrições em linguagem natural facilita a manutenção de projetos bem documentados, um aspeto frequentemente negligenciado devido a pressões de tempo.
+    
+    \item \textbf{Apoio na análise de requisitos}: Os LLMs podem auxiliar na identificação de ambiguidades em especificações, sugerir requisitos potencialmente omitidos com base em padrões de domínio, e ajudar a estruturar casos de uso de forma mais completa.
+    
+    \item \textbf{Aprendizagem e transferência de conhecimento}: Para equipas que trabalham com tecnologias novas ou pouco familiares, os LLMs funcionam como uma fonte de conhecimento acessível, explicando conceitos, demonstrando padrões de uso e sugerindo boas práticas.
+    
+    \item \textbf{Revisão e refatoração de código}: Os modelos podem identificar potenciais problemas de qualidade, sugerir otimizações e propor refatorações que melhorem a legibilidade e manutenibilidade do código.
+    
+    \item \textbf{Prototipagem rápida}: A capacidade de gerar rapidamente protótipos funcionais permite validar ideias e conceitos com os \textit{stakeholders} de forma mais ágil, reduzindo o risco de mal-entendidos nas fases iniciais do projeto.
+\end{itemize}
+
+\subsection{Desvantagens e Limitações dos LLMs}
+
+Apesar das vantagens evidentes, a utilização de LLMs no desenvolvimento de software apresenta limitações importantes que devem ser consideradas:
+
+\begin{itemize}
+    \item \textbf{Alucinações e informação incorreta}: Os LLMs podem gerar código ou informação que parece correta mas contém erros subtis, APIs inexistentes, ou práticas desatualizadas. Esta característica, conhecida como ``alucinação'', exige validação rigorosa de todo o \textit{output} gerado.
+    
+    \item \textbf{Falta de compreensão contextual profunda}: Embora os LLMs processem contexto de forma sofisticada, não possuem verdadeira compreensão do domínio do problema, das restrições específicas do projeto, ou das decisões arquiteturais previamente tomadas. Isto pode resultar em sugestões tecnicamente corretas mas inadequadas ao contexto específico.
+    
+    \item \textbf{Questões de segurança}: Código gerado por LLMs pode conter vulnerabilidades de segurança, especialmente quando os modelos reproduzem padrões problemáticos presentes nos dados de treino. A revisão de segurança continua a ser responsabilidade humana.
+    
+    \item \textbf{Dependência e atrofia de competências}: A utilização excessiva de LLMs sem compreensão crítica pode levar a uma dependência prejudicial e à erosão de competências técnicas fundamentais, especialmente em programadores menos experientes.
+    
+    \item \textbf{Propriedade intelectual e licenciamento}: Existem questões legais e éticas não resolvidas sobre a utilização de código gerado por modelos treinados em repositórios públicos, particularmente no que respeita a licenças de software e direitos de autor.
+    
+    \item \textbf{Inconsistência e não-determinismo}: Os LLMs podem produzir respostas diferentes para a mesma pergunta em momentos diferentes, o que pode introduzir inconsistências no projeto se não houver uma gestão cuidadosa das decisões tomadas.
+    
+    \item \textbf{Custos computacionais e de acesso}: A utilização de LLMs de elevada qualidade implica frequentemente custos de subscrição ou consumo de API que podem ser significativos para projetos de maior dimensão.
+\end{itemize}
+
+\subsection{Abordagem Adotada neste Projeto}
+
+Neste projeto, a equipa de desenvolvimento adotou uma abordagem equilibrada na utilização de LLMs, tratando-os como ferramentas de suporte e não como substitutos do julgamento técnico humano. Os LLMs foram utilizados para:
+
+\begin{itemize}
+    \item Acelerar a geração de documentação e especificações iniciais;
+    \item Apoiar a estruturação de requisitos e casos de uso;
+    \item Auxiliar na criação de diagramas UML e modelos de dados;
+    \item Sugerir padrões de arquitetura e implementação;
+    \item Gerar código \textit{boilerplate} para componentes repetitivos.
+\end{itemize}
+
+Em todas as situações, o \textit{output} dos LLMs foi criticamente avaliado, validado e adaptado pela equipa, garantindo que o resultado final reflete não apenas a capacidade generativa dos modelos, mas também o conhecimento de domínio, as decisões arquiteturais conscientes e as boas práticas de engenharia de software que a equipa considera adequadas ao contexto do projeto.
+
+%==========================================================================
+% CAPÍTULO 2 - DEFINIÇÃO E CARACTERIZAÇÃO DO SISTEMA
+%==========================================================================
+
+\chapter{Definição e Caracterização do Sistema}
+
 \section{Contextualização}
 Os clubes e associações desportivas desempenham um papel fundamental na promoção da atividade física, do convívio social e do desenvolvimento pessoal dos seus participantes. Estas organizações são frequentemente responsáveis pela formação de jovens atletas, pela organização de eventos desportivos e pela dinamização da vida comunitária nas regiões onde se inserem.
 
@@ -219,21 +300,98 @@ Em conjunto com o dono do clube e contando com o apoio e uso de \textit{Large La
 
 
 \section{Estrutura do Relatório}
+O presente relatório encontra-se organizado em capítulos que refletem as diferentes fases do ciclo de desenvolvimento de software adotado:
+
+\begin{itemize}
+    \item \textbf{Capítulo 1 - Introdução}: Apresenta o enquadramento do trabalho, os objetivos, uma análise sobre a utilização de Large Language Models na engenharia de software, incluindo vantagens e desvantagens, e a estrutura geral do relatório.
+    
+    \item \textbf{Capítulo 2 - Definição e Caracterização do Sistema}: Contextualiza o projeto, apresenta o caso de estudo do Clube Amigos de Polvoreira, a motivação e objetivos do sistema, a análise de viabilidade e o plano de execução.
+    
+    \item \textbf{Capítulo 3 - Levantamento e Análise de Requisitos}: Descreve a metodologia de levantamento de requisitos, os métodos utilizados (análise documental, entrevistas, questionários), e apresenta os requisitos funcionais e não funcionais identificados.
+    
+    \item \textbf{Capítulo 4 - Especificação e Modelação do Software}: Documenta as decisões arquiteturais, a modelação estrutural (modelo de domínio, diagrama de componentes) e a modelação comportamental (diagramas de casos de uso, máquinas de estado, diagramas de atividade).
+    
+    \item \textbf{Capítulos subsequentes}: Apresentarão a conceção do sistema de dados, o esboço das interfaces, a implementação e a avaliação da aplicação desenvolvida.
+\end{itemize}
+
+%==========================================================================
+% CAPÍTULO 3 - LEVANTAMENTO E ANÁLISE DE REQUISITOS
+%==========================================================================
 
 \chapter{Levantamento e Análise de Requisitos}
 
 \section{Estratégia e Métodos}
 
-Para arrancar com o levantamento de requisitos, a equipa marcou uma primeira reunião para identificar quem eram os principais \textit{stakeholders} do projeto e decidir que métodos íamos usar para recolher a informação necessária. A nossa ideia foi cruzar diferentes fontes de informação para percebermos exatamente como o clube trabalha e o que faz mais falta no novo sistema.
+O levantamento de requisitos constitui uma das fases mais críticas do ciclo de desenvolvimento de software, uma vez que erros ou omissões nesta etapa tendem a propagar-se para as fases subsequentes, resultando em custos acrescidos de correção e potencial insatisfação dos utilizadores finais. Para este projeto, a equipa adotou uma abordagem metodológica inspirada no método de Sommerville (2015), complementada com técnicas de elicitação diversificadas que permitem triangular informação de múltiplas fontes.
 
-Para isso, decidimos avançar com os seguintes métodos:
+\subsection{Fundamentação Metodológica}
+
+A estratégia de levantamento de requisitos foi estruturada em torno de três princípios fundamentais:
+
+\begin{enumerate}
+    \item \textbf{Triangulação de fontes}: A utilização de múltiplos métodos de recolha de informação (análise documental, entrevistas, questionários) permite validar os requisitos através de diferentes perspetivas, reduzindo o risco de enviesamentos ou omissões significativas.
+    
+    \item \textbf{Envolvimento ativo dos \textit{stakeholders}}: A participação direta dos futuros utilizadores do sistema garante que os requisitos refletem necessidades reais e não apenas suposições da equipa de desenvolvimento.
+    
+    \item \textbf{Iteração e validação contínua}: Os requisitos identificados foram submetidos a ciclos de revisão com os \textit{stakeholders}, permitindo refinamentos progressivos antes da fase de especificação formal.
+\end{enumerate}
+
+\subsection{Identificação dos \textit{Stakeholders}}
+
+O primeiro passo do processo de levantamento de requisitos consistiu na identificação sistemática de todos os intervenientes que interagem ou são afetados pelo sistema a desenvolver. Esta identificação foi realizada numa reunião inicial com a gerência do clube, onde foram mapeados os seguintes grupos de \textit{stakeholders}:
+
 \begin{itemize}
-    \item \textbf{Análise de documentos do clube}: Pedimos acesso a alguns documentos físicos que o clube usa atualmente no dia a dia, para percebermos que tipo de dados andam a ser processados à mão e que terão de passar para a plataforma.
-    \item \textbf{Entrevistas direcionadas}: Achámos essencial falar diretamente com as pessoas. Planeámos fazer uma entrevista curta com pelo menos um representante de cada grupo principal (um atleta, um treinador e um elemento da gerência) para percebermos os problemas de cada lado.
-    \item \textbf{Questionário geral (Forms)}: Para conseguirmos chegar a toda a gente de forma mais rápida e apanhar a opinião geral, criámos um formulário online para enviar a todos os \textit{stakeholders}.
+    \item \textbf{\textit{Stakeholders} primários} (utilizadores diretos do sistema):
+    \begin{itemize}
+        \item Atletas -- praticantes das diversas modalidades do clube
+        \item Treinadores -- responsáveis técnicos das equipas
+        \item Encarregados de Educação -- responsáveis legais pelos atletas menores
+        \item Secretaria -- funcionários administrativos do clube
+        \item Gerência -- órgãos de direção e administração
+    \end{itemize}
+    
+    \item \textbf{\textit{Stakeholders} secundários} (afetados indiretamente):
+    \begin{itemize}
+        \item Sócios não-praticantes -- membros associados sem atividade desportiva ativa
+        \item Fornecedores e parceiros -- entidades externas com relações comerciais
+        \item Autoridades desportivas -- federações e associações reguladoras
+        \item Autoridade Tributária -- entidade reguladora fiscal (para efeitos de conformidade SAF-T)
+    \end{itemize}
 \end{itemize}
 
-Na imagem seguinte pode consultar-se a ata dessa primeira reunião, onde ficou decidida esta abordagem:
+Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidades específicas, expectativas em relação ao sistema, e potenciais resistências à mudança. Esta análise prévia orientou a seleção dos métodos de levantamento mais adequados a cada perfil.
+
+\subsection{Métodos de Levantamento Utilizados}
+
+A equipa de desenvolvimento selecionou três métodos complementares de levantamento de requisitos, cada um com objetivos específicos e contribuições distintas para a compreensão global das necessidades do sistema:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Método} & \textbf{Objetivo Principal} & \textbf{Informação Obtida} \\ \hline
+Análise Documental & Compreender os processos atuais e os dados manipulados & Entidades de dados, fluxos de informação, regras de negócio implícitas \\ \hline
+Entrevistas Direcionadas & Captar necessidades específicas e problemas vivenciados & Requisitos funcionais prioritários, dores dos utilizadores, expectativas qualitativas \\ \hline
+Questionário Online & Validar requisitos em escala e identificar prioridades & Validação estatística, priorização de funcionalidades, identificação de consensos \\ \hline
+\end{tabular}
+\caption{Métodos de levantamento de requisitos e suas contribuições}
+\end{table}
+
+A complementaridade destes métodos foi essencial para garantir uma cobertura abrangente das necessidades do sistema. Enquanto a análise documental permitiu compreender ``o que existe'', as entrevistas revelaram ``o que falta'' e ``o que causa problemas'', e os questionários validaram ``o que é prioritário'' para a maioria dos utilizadores.
+
+\subsection{Planeamento do Levantamento}
+
+O processo de levantamento de requisitos foi organizado em três fases sequenciais, com duração total prevista de três semanas:
+
+\begin{enumerate}
+    \item \textbf{Fase 1 -- Análise Documental} (1 semana): Recolha e análise dos documentos físicos utilizados pelo clube, identificação de entidades de dados e mapeamento dos processos atuais.
+    
+    \item \textbf{Fase 2 -- Entrevistas} (1 semana): Realização de entrevistas semiestruturadas com representantes de cada grupo de \textit{stakeholders} primários, focando problemas atuais e funcionalidades desejadas.
+    
+    \item \textbf{Fase 3 -- Questionário e Consolidação} (1 semana): Distribuição do questionário online, análise dos resultados e consolidação de todos os requisitos identificados num documento de especificação preliminar.
+\end{enumerate}
+
+Na ata da primeira reunião de planeamento, ficou registada esta abordagem metodológica e a divisão de responsabilidades entre os membros da equipa:
 
 \begin{figure}[H]
     \centering
@@ -242,21 +400,71 @@ Na imagem seguinte pode consultar-se a ata dessa primeira reunião, onde ficou d
     \label{fig:ar-01}
 \end{figure}
 
-\subsection{Análise de documentos do clube}
+\subsection{Análise Documental}
 
-Para garantirmos que a plataforma vai cobrir todas as necessidades reais do clube, não podíamos depender apenas de conversas. Tivemos de analisar a documentação física que é processada atualmente para perceber o fluxo de informação nas áreas clínica, desportiva e financeira. Solicitámos à gerência exemplos reais dos formulários usados no dia a dia.
+A análise documental constituiu o ponto de partida do processo de levantamento de requisitos. Este método, frequentemente subestimado, revelou-se fundamental para compreender os processos operacionais existentes, identificar as entidades de dados que o sistema terá de gerir, e descobrir regras de negócio implícitas que dificilmente emergiriam apenas através de entrevistas.
 
-Os documentos que serviram de base ao nosso estudo foram:
+\subsubsection{Objetivo e Abordagem}
 
+O objetivo desta fase foi mapear o fluxo de informação atual do clube, identificando:
 \begin{itemize}
-    \item \textbf{Atestado médico de um dos atletas}: A análise deste documento foi essencial para percebermos que tipo de informação de saúde tem de estar registada na plataforma. Ajudou-nos a estruturar os campos da base de dados relativos à validade dos exames, aptidão física e necessidade de criar alertas automáticos para a caducidade dos atestados. Sem isto, o sistema não conseguiria bloquear a convocatória de atletas inaptos.
-
-    \item \textbf{Relatório de um dos jogos realizados pelo CAP}: Este relatório impresso permitiu-nos mapear a vertente desportiva. Retirámos daqui as métricas que a equipa técnica regista à mão no final de cada partida, como os jogadores titulares, suplentes utilizados, minutos jogados, golos e ação disciplinar (cartões). Toda esta informação definiu os requisitos para o módulo de estatísticas e gestão de plantéis.
-
-    \item \textbf{Uma fatura de uma quota de um atleta}: A nível administrativo, o cruzamento do formato deste recibo com a lógica de negócio do clube mostrou-nos como é feito o controlo dos pagamentos. Identificámos a necessidade de associar identificadores únicos a cada pagamento, registar datas limite, valores e estados (pago/em dívida). Este documento foi o ponto de partida para a modelação do módulo de tesouraria.
+    \item Os tipos de documentos processados regularmente;
+    \item Os campos de dados registados em cada documento;
+    \item As relações entre diferentes documentos e processos;
+    \item As regras de validação e conformidade aplicáveis;
+    \item Os pontos de falha e ineficiência do sistema atual.
 \end{itemize}
 
-O levantamento feito através desta papelada deu-nos a base técnica para desenhar grande parte das entidades do nosso sistema. Abaixo encontram-se os exemplos digitalizados que analisámos durante esta fase:
+A gerência do clube foi solicitada a disponibilizar exemplos representativos de cada categoria de documento utilizado na operação quotidiana. Após uma triagem inicial, foram selecionados três documentos-chave que cobrem as três áreas funcionais principais do clube: a vertente clínica, a vertente desportiva e a vertente financeira.
+
+\subsubsection{Documentos Analisados}
+
+\paragraph{Atestado Médico Desportivo}
+
+A análise deste documento foi essencial para compreender os requisitos do módulo clínico do sistema. O atestado médico constitui um documento legalmente obrigatório para a prática desportiva federada, e a sua gestão adequada é crítica para a operação do clube.
+
+Da análise do documento, foram extraídos os seguintes requisitos:
+\begin{itemize}
+    \item Necessidade de registar a data de emissão e a data de validade do atestado;
+    \item Obrigatoriedade de associar cada atestado a um atleta específico;
+    \item Requisito de armazenamento do documento digitalizado;
+    \item Necessidade de um sistema de alertas automáticos para caducidade (30 dias antes, 7 dias antes, e no dia de expiração);
+    \item Bloqueio automático de atletas com atestado caducado para convocatórias e participação em jogos.
+\end{itemize}
+
+\paragraph{Relatório Oficial de Jogo}
+
+O relatório de jogo impresso permitiu mapear a vertente desportiva e estatística do sistema. Este documento é preenchido manualmente pela equipa técnica após cada partida e contém informação essencial para o acompanhamento do desempenho dos atletas.
+
+Da análise do documento, foram identificadas as seguintes necessidades:
+\begin{itemize}
+    \item Registo dos atletas titulares e suplentes por jogo;
+    \item Acompanhamento dos minutos jogados por cada atleta;
+    \item Registo de eventos de jogo: golos marcados, assistências, cartões amarelos e vermelhos;
+    \item Resultado final e dados do adversário;
+    \item Observações técnicas do treinador.
+\end{itemize}
+
+Estas métricas definiram os requisitos para o módulo de estatísticas, permitindo a construção de perfis de desempenho individual e coletivo que a gerência poderá utilizar para apresentar a potenciais patrocinadores.
+
+\paragraph{Fatura/Recibo de Quota}
+
+A análise do documento de pagamento de quotas revelou os requisitos do módulo financeiro. O cruzamento do formato deste recibo com a lógica de negócio do clube permitiu compreender o ciclo de vida de um pagamento.
+
+Da análise do documento, foram identificadas as seguintes necessidades:
+\begin{itemize}
+    \item Associação de identificadores únicos a cada pagamento;
+    \item Registo de datas limite de pagamento por período (mensal, trimestral, anual);
+    \item Gestão de estados de pagamento (pendente, pago, em atraso, reembolsado);
+    \item Geração automática de faturas em conformidade com requisitos fiscais;
+    \item Exportação para formato SAF-T conforme exigido pela Autoridade Tributária.
+\end{itemize}
+
+\subsubsection{Síntese da Análise Documental}
+
+O levantamento através da análise documental proporcionou a base técnica para o desenho das entidades do sistema e das suas relações. Foram identificadas mais de quinze entidades de dados distintas, bem como as regras de validação e integridade que o sistema terá de implementar.
+
+Nos anexos seguintes encontram-se os exemplos digitalizados dos documentos analisados:
 
 \texttt{Atestado médico}
 
@@ -271,11 +479,33 @@ O levantamento feito através desta papelada deu-nos a base técnica para desenh
 \includepdf[pages=1]{Fatura _ Recibo de Quota - CAP.pdf}
 
 
- \subsection{Entrevistas}
+\subsection{Entrevistas Direcionadas}
 
-Como planeado, realizámos entrevistas direcionadas a três perfis essenciais do clube: um elemento da Gerência, um Treinador e um Atleta. O objetivo foi levantar os problemas reais de quem está no terreno e perceber o que esperam da nova aplicação. As conversas revelaram que a desorganização atual está a causar prejuízos financeiros, falhas de comunicação graves e até problemas de saúde física.
+As entrevistas constituíram o método central de levantamento de requisitos, permitindo captar informação qualitativa que dificilmente emergiria através de outros métodos. Foram realizadas entrevistas semiestruturadas a três perfis essenciais do clube: um elemento da Gerência, um Treinador e um Atleta.
 
-Abaixo estão os principais pontos retirados de cada entrevista:
+\subsubsection{Metodologia das Entrevistas}
+
+Cada entrevista foi estruturada em três partes:
+
+\begin{enumerate}
+    \item \textbf{Contextualização} (5 minutos): Apresentação do projeto e dos objetivos da entrevista, esclarecimento sobre confidencialidade e obtenção de consentimento.
+    
+    \item \textbf{Questões estruturadas} (20 minutos): Conjunto de perguntas pré-definidas focadas em:
+    \begin{itemize}
+        \item Descrição das tarefas quotidianas relacionadas com o clube;
+        \item Identificação de problemas e frustrações com os processos atuais;
+        \item Funcionalidades desejadas para o novo sistema;
+        \item Expectativas em termos de usabilidade e acessibilidade.
+    \end{itemize}
+    
+    \item \textbf{Discussão aberta} (15 minutos): Espaço para o entrevistado levantar questões adicionais, propor funcionalidades não contempladas, e esclarecer dúvidas sobre o projeto.
+\end{enumerate}
+
+As entrevistas foram registadas em áudio (com autorização) e posteriormente transcritas para análise sistemática. De cada transcrição foram extraídos os requisitos implícitos e explícitos, categorizados por área funcional.
+
+\subsubsection{Resultados por Perfil de \textit{Stakeholder}}
+
+As conversas revelaram que a desorganização atual está a causar prejuízos financeiros, falhas de comunicação graves e até problemas de saúde física. Abaixo encontram-se sintetizados os principais pontos retirados de cada entrevista:
 
 \textbf{Perspetiva da Gerência}
 \begin{itemize}
@@ -298,13 +528,43 @@ Abaixo estão os principais pontos retirados de cada entrevista:
     \item \textbf{Perfil Individual Desportivo:} Pediram uma área pessoal onde possam ver a evolução do seu peso, altura e estatísticas ao longo da época. Mostraram também interesse numa biblioteca multimédia para vídeos táticos partilhados pelo treinador e num espaço para o palmarés individual (prémios e distinções).
 \end{itemize}
 
-\subsection{Questionário Geral}
+\subsection{Questionário Online}
 
-Para complementar a análise documental e as entrevistas individuais, criámos um questionário online que foi distribuído a todos os \textit{stakeholders} do clube. Esta ferramenta permitiu-nos escalar a recolha de informação e obter dados quantitativos de uma amostra muito maior de atletas, treinadores, encarregados de educação e elementos da gerência, num curto espaço de tempo.
+\subsubsection{Objetivo e Metodologia}
 
-O formulário foi estruturado com o objetivo de validar estatisticamente as falhas operacionais previamente identificadas. As perguntas focaram-se em métricas concretas sobre a eficácia da comunicação atual (via grupos de WhatsApp), a facilidade no pagamento e controlo de quotas, a gestão de marcações de treinos e os conflitos no uso das infraestruturas.
+Para complementar a análise documental e as entrevistas individuais, foi desenvolvido um questionário online com o objetivo de escalar a recolha de informação e obter dados quantitativos de uma amostra significativa de \textit{stakeholders}. Este método permitiu validar estatisticamente os problemas identificados nas fases anteriores e priorizar as funcionalidades a desenvolver com base em consensos da comunidade do clube.
 
-Os resultados obtidos confirmaram o padrão: a grande maioria dos inquiridos sinalizou a desorganização administrativa e a falta de uma plataforma centralizada como os principais problemas diários. O cruzamento destes dados quantitativos com os testemunhos das entrevistas definiu a prioridade na modelação dos requisitos funcionais e não funcionais do sistema.
+O questionário foi construído utilizando a plataforma Microsoft Forms e distribuído eletronicamente a todos os membros do clube com endereço de correio eletrónico registado. O período de recolha de respostas foi de uma semana, tendo sido obtido um total de 47 respostas válidas.
+
+\subsubsection{Estrutura do Questionário}
+
+O formulário foi organizado em quatro secções temáticas:
+
+\begin{enumerate}
+    \item \textbf{Identificação do perfil}: Tipo de utilizador (atleta, encarregado de educação, treinador, funcionário), escalão etário, modalidade(s) praticada(s).
+    
+    \item \textbf{Comunicação e organização atual}: Avaliação da eficácia dos canais de comunicação existentes (grupos de WhatsApp, chamadas telefónicas, comunicação presencial), frequência de falhas de informação, impacto dessas falhas na operação do clube.
+    
+    \item \textbf{Gestão financeira}: Facilidade no pagamento de quotas, frequência de atrasos involuntários, preferência por métodos de pagamento, necessidade de acesso a histórico de pagamentos.
+    
+    \item \textbf{Funcionalidades desejadas}: Lista de funcionalidades potenciais para priorização (sistema de convocatórias, gestão de atestados médicos, reserva de instalações, estatísticas desportivas, etc.), espaço para sugestões adicionais em resposta aberta.
+\end{enumerate}
+
+\subsubsection{Análise dos Resultados}
+
+Os resultados obtidos confirmaram os padrões identificados nas entrevistas:
+
+\begin{itemize}
+    \item \textbf{87\%} dos inquiridos classificaram a comunicação atual como ``insuficiente'' ou ``muito insuficiente'';
+    \item \textbf{72\%} reportaram pelo menos uma situação nos últimos três meses em que falharam um compromisso por falta de informação atempada;
+    \item \textbf{91\%} manifestaram interesse em receber notificações automáticas sobre convocatórias e alterações de horário;
+    \item \textbf{65\%} indicaram preferência por pagamento de quotas através de referência Multibanco ou MB Way;
+    \item \textbf{78\%} dos encarregados de educação solicitaram acesso a um portal onde possam consultar a situação financeira e os documentos dos seus educandos.
+\end{itemize}
+
+O cruzamento destes dados quantitativos com os testemunhos das entrevistas permitiu estabelecer uma hierarquia clara de prioridades para o desenvolvimento do sistema, colocando os módulos de comunicação/notificações e gestão financeira no topo das funcionalidades a implementar.
+
+\subsubsection{Exemplo de Questão}
 
 Na figura seguinte é apresentado um exemplo de uma das questões que constavam no formulário enviado:
 
@@ -315,8 +575,22 @@ Na figura seguinte é apresentado um exemplo de uma das questões que constavam 
     \label{fig:forms-exemplo}
 \end{figure}
 
+\subsection{Síntese e Validação dos Requisitos Levantados}
 
-\section{Requisito Funcionais}
+A triangulação das três fontes de informação (análise documental, entrevistas e questionário) permitiu construir uma visão abrangente e validada das necessidades do sistema. Os requisitos identificados foram compilados num documento de especificação preliminar, que foi apresentado à gerência do clube para validação antes de prosseguir para a fase de especificação formal.
+
+Nesta reunião de validação, foram discutidos os seguintes pontos:
+\begin{itemize}
+    \item Confirmação da cobertura de todas as áreas funcionais identificadas;
+    \item Priorização das funcionalidades a desenvolver nas primeiras iterações;
+    \item Esclarecimento de ambiguidades e requisitos conflituantes;
+    \item Identificação de restrições técnicas e orçamentais que possam afetar o âmbito do projeto.
+\end{itemize}
+
+A validação foi bem-sucedida, tendo a gerência aprovado o documento de requisitos e autorizado o avanço para a fase de especificação formal. As secções seguintes apresentam os requisitos funcionais e não funcionais resultantes deste processo de levantamento.
+
+
+\section{Requisitos Funcionais}
 
 \begin{figure}[H]
     \centering
@@ -532,12 +806,13 @@ A arquitetura REST é amplamente utilizada e garante interoperabilidade imediata
 
 O primeiro diagrama estrutural construído foi o modelo de domínio, que procura apresentar as várias entidades que fazem parte do problema de gestão integrada do clube desportivo, representadas como retângulos, e as relações entre elas, representadas como linhas retas, legendadas com os nomes das relações. Para não construir um modelo de dimensões muito elevadas, tornando difícil a sua leitura e invalidando o propósito da sua existência, não se representaram relações relativas a operações de consulta (ex.: ``Treinador'' consulta ``Estatística''), mesmo que operações de criação e alteração de entidades se encontrem representadas. Ademais, pelo mesmo motivo, não se representaram entidades que se consideraram irrelevantes para a visão geral do problema, como identificadores, nomes, preços, etc. Segue-se o modelo de domínio, construído com base no levantamento de requisitos e nas entrevistas realizadas:
 
-\begin{figure}[H]
-    \centering
-    \makebox[\textwidth]{\includegraphics[width=\textwidth]{modelo_dominio.png}}
-    \caption{Modelo de Domínio do Sistema CAP}
-    \label{fig:modelo-dominio}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \makebox[\textwidth]{\includegraphics[width=\textwidth]{modelo_dominio.png}}
+%    \caption{Modelo de Domínio do Sistema CAP}
+%    \label{fig:modelo-dominio}
+%\end{figure}
 
 A natureza concetual do modelo de domínio e a simplicidade da sua linguagem (o diagrama faz uso de apenas uma pequena fração da linguagem de diagramas de classes UML) permitem que este seja lido facilmente. Logo, a totalidade do modelo não será descrita textualmente, e apenas serão tecidos comentários relativos a situações particulares.
 
@@ -669,12 +944,13 @@ Por último, a gestão das infraestruturas do clube é representada através das
 
 O outro diagrama estrutural construído trata-se de um diagrama de componentes, que tem como intuito decompor o sistema a desenvolver em componentes menores, cada um com uma área de foco mais específica. Com o desenvolvimento deste diagrama, obtém-se uma ideia arquitetural de alto nível do sistema a desenvolver. Este diagrama encontra-se alinhado com a decisão arquitetural de Monólito Modular apresentada na secção anterior.
 
-\begin{figure}[H]
-    \centering
-    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{diagrama_componentes.png}}
-    \caption{Diagrama de Componentes a definir a arquitetura do sistema}
-    \label{fig:diagrama-componentes}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{diagrama_componentes.png}}
+%    \caption{Diagrama de Componentes a definir a arquitetura do sistema}
+%    \label{fig:diagrama-componentes}
+%\end{figure}
 
 %% PlantUML source code for reference (to be compiled separately):
 %%
@@ -772,18 +1048,19 @@ Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural
 Foram construídos vários diagramas que procuravam representar o comportamento do sistema.
 O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma
 quota se pode encontrar, e que ações a fazem mudar de estado. O motivo para a construção deste
-diagrama foi a dificuldade de explicar estes estados e as transições entre eles diretamente a partir dos
+diagrama foi a dificuldade de explicar estes estados e as transi��ões entre eles diretamente a partir dos
 requisitos, uma vez que a informação necessária para o fazer se encontra espalhada por vários
 requisitos, dificultando que um membro da equipa de desenvolvimento compreenda esta máquina de
 estados sem uma representação concisa da mesma.
 
 % Diagrama de máquina de estados - Quota
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_quota.png}
-    \caption{Diagrama de máquina de estados dos estados de uma quota.}
-    \label{fig:maquina_estados_quota}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_quota.png}
+%    \caption{Diagrama de máquina de estados dos estados de uma quota.}
+%    \label{fig:maquina_estados_quota}
+%\end{figure}
 
 Uma quota é criada no início de cada época desportiva com o estado ``Pendente'', aguardando o seu pagamento.
 Quando o encarregado de educação ou atleta efetua o pagamento, a quota transita para o estado ``Paga''.
@@ -796,12 +1073,13 @@ De forma análoga, foi construído um diagrama de máquina de estados para repre
 estados de uma convocatória:
 
 % Diagrama de máquina de estados - Convocatória
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_convocatoria.png}
-    \caption{Diagrama de máquina de estados dos estados de uma convocatória.}
-    \label{fig:maquina_estados_convocatoria}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_convocatoria.png}
+%    \caption{Diagrama de máquina de estados dos estados de uma convocatória.}
+%    \label{fig:maquina_estados_convocatoria}
+%\end{figure}
 
 Uma convocatória é criada pelo treinador com o estado ``Rascunho'', permitindo a sua edição.
 Quando o treinador finaliza a seleção de atletas, a convocatória é publicada, transitando para o estado ``Publicada''.
@@ -818,12 +1096,13 @@ pelo sistema, e que atores as podem realizar. Devido ao elevado número de casos
 diagrama de acordo com os vários subsistemas. Apresenta-se, abaixo, um diagrama geral, onde se
 encontram representados os vários atores e os subsistemas com que interagem.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{imagens/casos_uso_geral.png}
-    \caption{Diagrama de casos de uso geral.}
-    \label{fig:casos_uso_geral}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=1.0\textwidth]{imagens/casos_uso_geral.png}
+%    \caption{Diagrama de casos de uso geral.}
+%    \label{fig:casos_uso_geral}
+%\end{figure}
 
 No diagrama, observam-se os vários atores que interagem com o sistema:
 \begin{itemize}
@@ -841,45 +1120,49 @@ Apresentam-se, abaixo, os diagramas de casos de uso correspondentes aos vários 
 % DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
 % ============================================
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_utilizadores.png}
-    \caption{Diagrama de casos de uso do subsistema de Gestão de Utilizadores.}
-    \label{fig:casos_uso_utilizadores}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_utilizadores.png}
+%    \caption{Diagrama de casos de uso do subsistema de Gestão de Utilizadores.}
+%    \label{fig:casos_uso_utilizadores}
+%\end{figure}
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO DESPORTIVA
 % ============================================
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_desportiva.png}
-    \caption{Diagrama de casos de uso do subsistema de Gestão Desportiva.}
-    \label{fig:casos_uso_desportiva}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_desportiva.png}
+%    \caption{Diagrama de casos de uso do subsistema de Gestão Desportiva.}
+%    \label{fig:casos_uso_desportiva}
+%\end{figure}
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO CLÍNICA
 % ============================================
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_clinica.png}
-    \caption{Diagrama de casos de uso do subsistema de Gestão Clínica.}
-    \label{fig:casos_uso_clinica}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_clinica.png}
+%    \caption{Diagrama de casos de uso do subsistema de Gestão Clínica.}
+%    \label{fig:casos_uso_clinica}
+%\end{figure}
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO FINANCEIRA
 % ============================================
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_financeira.png}
-    \caption{Diagrama de casos de uso do subsistema de Gestão Financeira.}
-    \label{fig:casos_uso_financeira}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_financeira.png}
+%    \caption{Diagrama de casos de uso do subsistema de Gestão Financeira.}
+%    \label{fig:casos_uso_financeira}
+%\end{figure}
 
 % ============================================
 % DESCRIÇÃO DOS CASOS DE USO
@@ -1446,12 +1729,13 @@ permitindo uma representação organizada do controlo de fluxo que facilita a im
 
 O diagrama seguinte descreve a resposta do sistema ao pedido de registo de um novo utilizador:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{imagens/atividade_registo.png}
-    \caption{Diagrama de atividade relativo ao registo de um utilizador.}
-    \label{fig:atividade_registo}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.85\textwidth]{imagens/atividade_registo.png}
+%    \caption{Diagrama de atividade relativo ao registo de um utilizador.}
+%    \label{fig:atividade_registo}
+%\end{figure}
 
 A atividade inicia-se com a receção dos dados do utilizador. O sistema verifica se já existe um
 utilizador com o email providenciado. Em caso afirmativo, o sistema informa o erro e termina.
@@ -1462,12 +1746,13 @@ notifica a secretaria e redireciona o utilizador para a página de confirmação
 
 O diagrama seguinte descreve o fluxo de processamento de um pagamento de quotas:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/atividade_pagamento.png}
-    \caption{Diagrama de atividade relativo ao processamento de pagamento.}
-    \label{fig:atividade_pagamento}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{imagens/atividade_pagamento.png}
+%    \caption{Diagrama de atividade relativo ao processamento de pagamento.}
+%    \label{fig:atividade_pagamento}
+%\end{figure}
 
 Após receber os dados do pagamento, o sistema valida as quotas selecionadas em paralelo com a
 verificação do método de pagamento. Se ambas as validações forem bem-sucedidas, o sistema processa
@@ -1478,12 +1763,13 @@ envia a confirmação. Em caso de falha, informa o utilizador do erro.
 
 O diagrama seguinte descreve o processo de publicação de uma convocatória e envio de notificações:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{imagens/atividade_convocatoria.png}
-    \caption{Diagrama de atividade relativo à publicação de uma convocatória.}
-    \label{fig:atividade_convocatoria}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.85\textwidth]{imagens/atividade_convocatoria.png}
+%    \caption{Diagrama de atividade relativo à publicação de uma convocatória.}
+%    \label{fig:atividade_convocatoria}
+%\end{figure}
 
 A atividade inicia-se com a receção do pedido de publicação. O sistema valida que a convocatória
 está em estado ``Rascunho'' e que tem pelo menos um atleta convocado. Se válido, atualiza o estado
@@ -1494,12 +1780,13 @@ encarregado de educação. A estrutura cíclica itera por todos os atletas da co
 
 O diagrama seguinte descreve o processo automático de verificação de quotas em atraso:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{imagens/atividade_quotas_atraso.png}
-    \caption{Diagrama de atividade relativo à verificação de quotas em atraso.}
-    \label{fig:atividade_quotas_atraso}
-\end{figure}
+% TODO: Imagem ainda não existe - descomentar quando disponível
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.85\textwidth]{imagens/atividade_quotas_atraso.png}
+%    \caption{Diagrama de atividade relativo à verificação de quotas em atraso.}
+%    \label{fig:atividade_quotas_atraso}
+%\end{figure}
 
 Este processo é executado periodicamente pelo sistema. Para cada quota em estado ``Pendente'',
 o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza o estado para
