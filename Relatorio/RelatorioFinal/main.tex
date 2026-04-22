@@ -1,3 +1,4 @@
+
     \documentclass[a4paper,12pt]{scrreprt}
     %% Used for changing geometry of the page
     %% Cover page text cannot overlay cover sketching/style
@@ -349,72 +350,7 @@ Tratando-se de um processo que envolve a submissão e verificação de ficheiros
 
 O quarto requisito funcional, designado por Notificações e Alertas (RF-04), assume um papel transversal e de suporte a toda a dinâmica da plataforma. Este requisito surge da necessidade de garantir que o sistema gera e envia avisos automáticos aos diversos utilizadores (como atletas, encarregados de educação, treinadores e staff) sempre que ocorram eventos que exijam a sua atenção. Entre estes eventos incluem-se a publicação de novas convocatórias, alterações de última hora em horários ou locais de treino, e avisos de quotas ou pagamentos em atraso.
 
-Para que as notificações sejam emitidas com sucesso, verifica-se como pré-condição que o utilizador destinatário tenha os seus dados de contacto devidamente preenchidos no perfil e qu\section{Especificação e Modelação do Software} [cite: 1]
-
-\subsection{Apresentação Geral da Especificação e Apoio à Decisão Arquitetural} [cite: 2]
-
-O projeto de desenvolvimento do sistema integrado de gestão para o Clube Amigos Polvoreira (CAP), uma instituição desportiva sediada em Guimarães, exige uma transição rigorosa de procedimentos arcaicos baseados em papel para um ecossistema de software aplicacional centralizado, resiliente e altamente automatizado. [cite: 3] A complexidade inerente a este domínio manifesta-se na interseção de múltiplas áreas de negócio: a gestão desportiva de plantéis e convocatórias, a monitorização clínica rigorosa de lesões e exames médicos, o controlo financeiro de quotas com integrações bancárias e a emissão de ficheiros de conformidade fiscal, nomeadamente o ficheiro SAF-T exigido pela Autoridade Tributária. [cite: 3] A modelação do software foi dividida em componentes estruturais e comportamentais, garantindo que todas as regras de negócio desportivas, financeiras e clínicas são mapeadas em fluxos de execução determinísticos, inspirando-se nas metodologias canónicas de engenharia de software. [cite: 4]
-
-Nesta fase inicial de conceção arquitetural, não se tomou qualquer decisão de forma arbitrária. [cite: 5] A definição do alicerce tecnológico de um sistema que lida simultaneamente com dados médicos sensíveis, transações financeiras e operações logísticas de tempo real requer uma análise ponderada e comparativa de múltiplas vias tecnológicas. [cite: 6] A integração de conceitos avançados de engenharia, como o isolamento de domínios e a comunicação reativa, moldou o processo de tomada de decisão. [cite: 7] As secções que se seguem desconstroem os aspetos críticos da arquitetura global do sistema, apresentando para cada um as opções viáveis, a respetiva análise técnica detalhada e a recomendação final justificada, estabelecendo o guião para a subsequente modelação estrutural e comportamental da aplicação. [cite: 8]
-
-\subsubsection{Decisão Arquitetural: Padrão Arquitetural Global} [cite: 9]
-
-A definição do padrão arquitetural dita a forma como os diversos componentes lógicos do sistema comunicam entre si, como os dados são isolados para cumprir imperativos legais e como a aplicação poderá ser escalada no futuro para acomodar o crescimento pretendido pela administração do clube. [cite: 10] Foram avaliadas três abordagens arquiteturais distintas para suportar o ecossistema do CAP. [cite: 11]
-
-A primeira opção avaliada recaiu sobre a Arquitetura Monolítica em Camadas (Layered Monolith). [cite: 12] Esta abordagem, amplamente documentada na literatura clássica de engenharia de software, organiza o código em camadas sobrepostas, tipicamente divididas em apresentação, negócio e acesso a dados. [cite: 13] A principal vantagem deste padrão reside na sua simplicidade de implementação e na curva de aprendizagem reduzida para a equipa de desenvolvimento, permitindo um rastreamento linear dos fluxos de execução de ponta a ponta. [cite: 13] Além disso, simplifica drasticamente o processo de implantação (deployment) da infraestrutura, visto que toda a aplicação é compilada e distribuída como um único artefacto. [cite: 14] Contudo, esta abordagem tende a gerar um elevado acoplamento lógico à medida que o sistema evolui. [cite: 15] Num domínio complexo como o do CAP, uma alteração pontual no algoritmo de geração de convocatórias poderia, de forma inadvertida, afetar as validações do módulo financeiro devido à partilha irrestrita de modelos de dados. [cite: 16] A ausência de fronteiras estritas entre os domínios dificulta a segregação de dados imposta pelo Regulamento Geral sobre a Proteção de Dados (RGPD), tornando o sistema frágil perante alterações de requisitos. [cite: 17]
-
-A segunda alternativa analisada foi a Arquitetura de Microsserviços (Microservices). [cite: 18] Este padrão decompõe a aplicação num conjunto de serviços independentes, organizados em torno de capacidades de negócio específicas, que comunicam através de protocolos de rede. [cite: 19] A grande vantagem dos microsserviços é a escalabilidade independente e o isolamento físico absoluto. [cite: 20] Por exemplo, o módulo responsável pelo processamento de webhooks de pagamentos via MBWay e Multibanco poderia ser escalado autonomamente durante os picos de faturação no início de cada mês, sem consumir os recursos dedicados ao módulo de gestão desportiva. [cite: 21] Este padrão impõe também um isolamento rigoroso dos dados clínicos, elevando os níveis de segurança. [cite: 22] Não obstante, os microsserviços introduzem uma complexidade infraestrutural extrema, exigindo a orquestração de contentores, gestão de falhas de rede e monitorização distribuída. [cite: 23] O fator mais penalizador para o contexto do CAP seria a gestão de transações distribuídas. [cite: 24] A necessidade de garantir uma consistência forte entre o pagamento de uma quota e a subsequente geração do ficheiro fiscal SAF-T exigiria a implementação de padrões complexos como Sagas ou Two-Phase Commits, introduzindo um esforço de desenvolvimento e manutenção incomportável face à dimensão da equipa e ao orçamento do projeto. [cite: 25]
-
-A terceira via considerada foi o Monólito Modular (Modular Monolith) conjugado com uma Arquitetura Orientada a Eventos (Event-Driven Architecture) a nível interno. [cite: 26] Esta abordagem retém a simplicidade de um único artefacto de implantação característica do monólito tradicional, mas impõe fronteiras lógicas rigorosas inspiradas nos princípios do Domain-Driven Design (DDD). [cite: 26] Os diferentes módulos não interagem invocando diretamente os serviços uns dos outros, nem partilham esquemas de base de dados de forma promíscua. [cite: 27] Em vez disso, comunicam através de um barramento de eventos (Event Bus) em memória. [cite: 28] Este mecanismo permite um acoplamento débil altamente responsivo. [cite: 29] A título ilustrativo, quando o Exame Médico Desportivo (EMD) de um atleta atinge a caducidade, o módulo clínico emite um evento de domínio interno. [cite: 29] O módulo desportivo consome este evento e reage bloqueando a disponibilidade do atleta para convocatórias, sem que exista uma dependência direta em tempo de compilação entre as duas lógicas de negócio. [cite: 30]
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|p{4cm}|p{5cm}|p{6cm}|}
-\hline
-\textbf{Opção Arquitetural} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
-Monólito em Camadas & Simplicidade de implantação; Curva de aprendizagem reduzida; Facilidade de rastreamento transacional. & Alto acoplamento lógico; Risco de degradação do código; Dificuldade na segregação estrita de dados RGPD. \\ \hline
-Microsserviços & Escalabilidade independente por domínio; Isolamento físico total de dados sensíveis; Flexibilidade tecnológica. & Complexidade operacional e infraestrutural elevada; Desafio crítico na gestão de transações distribuídas para o SAF-T; Maior latência. \\ \hline
-Monólito Modular & Implantação unificada com baixo acoplamento interno; Consistência transacional garantida; Separação lógica orientada ao domínio (DDD). & Exige elevada disciplina e rigor na manutenção das fronteiras dos módulos; Risco de acoplamento acidental se os princípios não forem respeitados. \\ \hline
-\end{tabular}
-\caption{Comparação de Padrões Arquiteturais}
-\end{table} [cite: 31]
-
-\textbf{Recomendação/Opinião Justificada:} A recomendação arquitetural definitiva recai sobre a Opção 3: Monólito Modular. [cite: 32] Esta decisão é sustentada pelo compromisso ideal entre a necessidade de isolamento de dados clínicos e financeiros e a capacidade produtiva da equipa de engenharia. [cite: 33] A introdução de microsserviços acarretaria um overhead operacional injustificado para a atual escala do CAP. [cite: 34] O monólito modular garante o encapsulamento das regras de negócio complexas, permitindo que a plataforma cresça de forma sustentada. [cite: 34]
-
-\subsubsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)} [cite: 35]
-
-A escolha do SGBD constitui a decisão mais crítica para garantir a integridade, a resiliência e a conformidade legal da plataforma do CAP. [cite: 36] A base de dados deve suportar a consolidação de contas correntes parentais, a persistência estruturada para a emissão de faturas, a gravação de séries temporais de avaliações antropométricas dinâmicas e o registo de queixas físicas não padronizadas. [cite: 37]
-
-A primeira abordagem considerada recaiu sobre o ecossistema NoSQL, tendo o MongoDB como expoente representativo. [cite: 38] As bases de dados orientadas a documentos oferecem uma flexibilidade extrema de esquema. [cite: 39] Esta característica adequa-se de forma excecional ao armazenamento de métricas de performance desportiva e resultados de avaliações físicas. [cite: 40] Todavia, o paradigma NoSQL apresenta fragilidades conceptuais na execução de transações multi-documento complexas, não garantindo tradicionalmente o rigor absoluto das propriedades ACID. [cite: 40] O contexto do CAP dita que o subsistema financeiro não admite ambiguidades: a relação relacional estrita entre a entidade Atleta, a Quota pendente e a emissão do Recibo é fulcral para evitar a duplicação de NIFs e garantir a exportação impecável do ficheiro normativo SAF-T. [cite: 41]
-
-A segunda via escrutinada centrou-se no Microsoft SQL Server, um motor relacional de referência. [cite: 42] O SQL Server providencia um desempenho formidável no processamento de transações pesadas e uma integração ímpar com as tecnologias do ecossistema Microsoft. [cite: 43] Apesar da sua robustez técnica inquestionável, esta tecnologia esbarra em constrangimentos de licenciamento e custos operacionais a longo prazo. [cite: 43] Para organizações de média dimensão como um clube desportivo local, os custos associados podem inflacionar drasticamente as despesas contínuas de infraestrutura. [cite: 44]
-
-A terceira alternativa incidiu sobre o PostgreSQL. [cite: 45] O PostgreSQL destaca-se por oferecer uma conformidade ACID rigorosa, essencial para blindar o núcleo administrativo. [cite: 46] A característica mais diferenciadora desta tecnologia, no entanto, é o suporte nativo e altamente otimizado para colunas do tipo JSONB. [cite: 46] Esta funcionalidade permite conciliar o melhor de dois mundos: garante a integridade referencial rígida do modelo relacional para identidades, credenciais e finanças, ao mesmo tempo que permite armazenar blocos de dados não esquematizados numa única coluna transacionável e pesquisável. [cite: 47] A principal ressalva prende-se com a necessidade de um planeamento cuidado na criação de índices sobre estruturas JSON. [cite: 48]
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
-\hline
-\textbf{Opção de SGBD} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
-MongoDB (NoSQL) & Esquema totalmente dinâmico; Ideal para séries temporais de métricas desportivas e registos clínicos flexíveis. & Suporte limitado para transações ACID complexas; Risco de inconsistência relacional para emissão de ficheiros fiscais (SAF-T). \\ \hline
-Microsoft SQL Server & Robustez transacional corporativa; Ferramentas avançadas de auditoria e relatórios; Excelente integração nativa. & Elevados custos de licenciamento comercial em ambientes de produção; Maior consumo de recursos infraestruturais. \\ \hline
-PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o tipo JSONB, combinando o modelo relacional com a flexibilidade documental. & A indexação de consultas complexas em campos JSON exige um desenho técnico mais minucioso por parte do administrador de dados. \\ \hline
-\end{tabular}
-\caption{Comparação de SGBD}
-\end{table} [cite: 49]
-
-\textbf{Recomendação/Opinião Justificada:} A adoção do PostgreSQL é a decisão arquitetural firmemente recomendada para a infraestrutura de persistência. [cite: 50] A capacidade de assegurar uma integridade relacional absoluta resolve categoricamente o imperativo de prevenir anomalias de faturação e duplicação de identidades. [cite: 51] Em simultâneo, o recurso ao tipo de dados JSONB confere a plasticidade estrutural necessária para absorver as particularidades das avaliações antropométricas e dos registos de patologias do módulo clínico. [cite: 51] Esta convergência tecnológica resulta numa arquitetura elegante, segura e economicamente viável para o CAP. [cite: 52]
-
-\subsubsection{Decisão Arquitetural: Tecnologias e Stack de Backend} [cite: 53]
-% Omitido por questões de brevidade os detalhes completos de Node e Java, direto ao C# como no texto original.
-A terceira arquitetura sondada foi o ecossistema Microsoft .NET 8 com linguagem C\#. [cite: 64] Esta plataforma destaca-se por um desempenho superlativo de compilação Just-In-Time (JIT), otimização de memória substancialmente melhorada nas suas versões mais recentes e uma coesão sem paralelo entre as ferramentas de desenvolvimento e a plataforma de execução. [cite: 65] A interligação com o Entity Framework Core abstrai grande parte da complexidade de acesso ao PostgreSQL. [cite: 66] Para os desafios específicos do CAP, o ecossistema .NET sobressai devido ao suporte nativo e elegante para serviços de execução prolongada em segundo plano (BackgroundServices e IHostedService). [cite: 67] Esta funcionalidade resolve inequivocamente a necessidade de implementar os cronjobs internos que monitorizam prazos e quotas. [cite: 68]
-
-\textbf{Recomendação/Opinião Justificada:} A recomendação tecnológica formaliza-se em torno do C\# com .NET 8. [cite: 70] A exigência imperativa de contar com mecanismos de monitorização contínua exige uma infraestrutura capaz de executar tarefas rotineiras de forma segura, concorrente e nativa. [cite: 71] Simultaneamente, o processamento multi-tarefa eficiente da plataforma lidará confortavelmente com a exigência computacional de extrair e formatar centenas de faturas para o ficheiro legal SAF-T. [cite: 72]
-
-\subsubsection{Decisão Arquitetural: Comunicação e Especificação da API} [cite: 73]
-O sistema arquitetado não atua de forma isolada; ele opera como um motor agnóstico a interfaces visuais e interage com múltiplos clientes. [cite: 74] A Arquitetura RESTful (Representational State Transfer), alinhada com os níveis 2 ou 3 do modelo de maturidade de Richardson, preconiza a modelação da interface em torno dos recursos do domínio (ex: /api/atletas, /api/quotas). [cite: 82] A sua ubiquidade constitui a sua maior força. [cite: 83] O formato textual da notação de objetos JavaScript (JSON) garante a interoperabilidade imediata com qualquer tipo de cliente. [cite: 83]
-
-\textbf{Recomendação/Opinião Justificada:} A estandardização inerente à RESTful API consagra esta opção como a recomendação técnica inabalável. [cite: 86] Num ecossistema que se encontra dependente da fluidez burocrática e económica, a necessidade incontornável de expor recetores web para assegurar a reconciliação bancária autónoma elege o REST como o único protocolo viável de forma nativa e sem necessidade de intermediários complexos. [cite: 87]e o evento que despoleta o aviso tenha sido acionado no sistema. Assim que a ação ocorre, o sistema atua de forma proativa para cumprir a pós-condição: a informação chega imediatamente ao utilizador, seja através de alertas visuais internos na própria interface da aplicação ou através de comunicações externas, como o correio eletrónico. A relevância deste requisito para a aplicação é bastante elevada, dado que assegura uma comunicação fluida, contínua e atempada entre a estrutura do clube e os seus membros, mitigando falhas de informação no dia a dia.
+Para que as notificações sejam emitidas com sucesso, verifica-se como pré-condição que o utilizador destinatário tenha os seus dados de contacto devidamente preenchidos no perfil e que o evento que despoleta o aviso tenha sido acionado no sistema. Assim que a ação ocorre, o sistema atua de forma proativa para cumprir a pós-condição: a informação chega imediatamente ao utilizador, seja através de alertas visuais internos na própria interface da aplicação ou através de comunicações externas, como o correio eletrónico. A relevância deste requisito para a aplicação é bastante elevada, dado que assegura uma comunicação fluida, contínua e atempada entre a estrutura do clube e os seus membros, mitigando falhas de informação no dia a dia.
 
 \begin{figure}[H]
     \centering
@@ -520,70 +456,1056 @@ A relevância deste fluxo para a aplicação é estrutural e indispensável. A m
 
 \section{Especificação e Modelação do Software}
 
-\subsection{Apresentação Geral da Especificação e Apoio à Decisão Arquitetural}
+\subsection{Introdução e Contexto das Decisões Arquiteturais}
 
-O projeto de desenvolvimento do sistema integrado de gestão para o Clube Amigos Polvoreira (CAP), uma instituição desportiva sediada em Guimarães, exige uma transição rigorosa de procedimentos arcaicos baseados em papel para um ecossistema de software aplicacional centralizado, resiliente e altamente automatizado. A complexidade inerente a este domínio manifesta-se na interseção de múltiplas áreas de negócio: a gestão desportiva de plantéis e convocatórias, a monitorização clínica rigorosa de lesões e exames médicos, o controlo financeiro de quotas com integrações bancárias e a emissão de ficheiros de conformidade fiscal, nomeadamente o ficheiro SAF-T exigido pela Autoridade Tributária. A modelação do software foi dividida em componentes estruturais e comportamentais, garantindo que todas as regras de negócio desportivas, financeiras e clínicas são mapeadas em fluxos de execução determinísticos, inspirando-se nas metodologias canónicas de engenharia de software.
+Após a conclusão da fase de levantamento de requisitos, a equipa de desenvolvimento reuniu-se de forma não oficial para discutir e definir as principais decisões arquiteturais do sistema. Esta reunião informal permitiu que todos os elementos da equipa partilhassem as suas perspetivas e experiências, resultando num consenso técnico sobre as tecnologias e padrões a adotar no projeto.
 
-Nesta fase inicial de conceção arquitetural, não se tomou qualquer decisão de forma arbitrária. A definição do alicerce tecnológico de um sistema que lida simultaneamente com dados médicos sensíveis, transações financeiras e operações logísticas de tempo real requer uma análise ponderada e comparativa de múltiplas vias tecnológicas. A integração de conceitos avançados de engenharia, como o isolamento de domínios e a comunicação reativa, moldou o processo de tomada de decisão. As secções que se seguem desconstroem os aspetos críticos da arquitetura global do sistema, apresentando para cada um as opções viáveis, a respetiva análise técnica detalhada e a recomendação final justificada, estabelecendo o guião para a subsequente modelação estrutural e comportamental da aplicação.
+O sistema a desenvolver para o Clube Amigos de Polvoreira (CAP) precisa de dar resposta a várias áreas de negócio em simultâneo: a gestão desportiva dos plantéis e convocatórias, o acompanhamento clínico dos atletas (lesões e exames médicos), o controlo financeiro das quotas com integrações bancárias, e ainda a emissão de ficheiros de conformidade fiscal como o SAF-T exigido pela Autoridade Tributária. Para garantir que todas estas vertentes funcionam de forma integrada, a equipa optou por dividir a modelação do software em componentes estruturais e comportamentais, seguindo as metodologias de engenharia de software lecionadas na unidade curricular.
+
+As decisões que se seguem não foram tomadas de forma arbitrária. Cada escolha tecnológica foi analisada em conjunto, comparando as diferentes alternativas disponíveis e ponderando as vantagens e desvantagens de cada uma face às necessidades específicas do CAP. As secções seguintes apresentam, para cada aspeto crítico da arquitetura, as opções consideradas, a análise técnica realizada e a recomendação final da equipa.
 
 \subsubsection{Decisão Arquitetural: Padrão Arquitetural Global}
 
-A definição do padrão arquitetural dita a forma como os diversos componentes lógicos do sistema comunicam entre si, como os dados são isolados para cumprir imperativos legais e como a aplicação poderá ser escalada no futuro para acomodar o crescimento pretendido pela administração do clube. Foram avaliadas três abordagens arquiteturais distintas para suportar o ecossistema do CAP.
+O padrão arquitetural define a forma como os diferentes componentes do sistema comunicam entre si, como os dados são isolados e como a aplicação poderá crescer no futuro. A equipa avaliou três abordagens distintas.
 
-A primeira opção avaliada recaiu sobre a Arquitetura Monolítica em Camadas (Layered Monolith). Esta abordagem, amplamente documentada na literatura clássica de engenharia de software, organiza o código em camadas sobrepostas, tipicamente divididas em apresentação, negócio e acesso a dados. A principal vantagem deste padrão reside na sua simplicidade de implementação e na curva de aprendizagem reduzida para a equipa de desenvolvimento, permitindo um rastreamento linear dos fluxos de execução de ponta a ponta. Além disso, simplifica drasticamente o processo de implantação (deployment) da infraestrutura, visto que toda a aplicação é compilada e distribuída como um único artefacto. Contudo, esta abordagem tende a gerar um elevado acoplamento lógico à medida que o sistema evolui. Num domínio complexo como o do CAP, uma alteração pontual no algoritmo de geração de convocatórias poderia, de forma inadvertida, afetar as validações do módulo financeiro devido à partilha irrestrita de modelos de dados. A ausência de fronteiras estritas entre os domínios dificulta a segregação de dados imposta pelo Regulamento Geral sobre a Proteção de Dados (RGPD), tornando o sistema frágil perante alterações de requisitos.
+A primeira opção foi a \textbf{Arquitetura Monolítica em Camadas}. Esta abordagem organiza o código em camadas (apresentação, negócio e acesso a dados) e tem como vantagem a simplicidade de implementação e uma curva de aprendizagem reduzida. No entanto, à medida que o sistema cresce, tende a gerar um elevado acoplamento entre os módulos. Por exemplo, uma alteração no algoritmo de convocatórias poderia afetar as validações do módulo financeiro. Além disso, a falta de fronteiras claras dificulta a segregação de dados exigida pelo RGPD.
 
-A segunda alternativa analisada foi a Arquitetura de Microsserviços (Microservices). Este padrão decompõe a aplicação num conjunto de serviços independentes, organizados em torno de capacidades de negócio específicas, que comunicam através de protocolos de rede. A grande vantagem dos microsserviços é a escalabilidade independente e o isolamento físico absoluto. Por exemplo, o módulo responsável pelo processamento de webhooks de pagamentos via MBWay e Multibanco poderia ser escalado autonomamente durante os picos de faturação no início de cada mês, sem consumir os recursos dedicados ao módulo de gestão desportiva. Este padrão impõe também um isolamento rigoroso dos dados clínicos, elevando os níveis de segurança. Não obstante, os microsserviços introduzem uma complexidade infraestrutural extrema, exigindo a orquestração de contentores, gestão de falhas de rede e monitorização distribuída. O fator mais penalizador para o contexto do CAP seria a gestão de transações distribuídas. A necessidade de garantir uma consistência forte entre o pagamento de uma quota e a subsequente geração do ficheiro fiscal SAF-T exigiria a implementação de padrões complexos como Sagas ou Two-Phase Commits, introduzindo um esforço de desenvolvimento e manutenção incomportável face à dimensão da equipa e ao orçamento do projeto.
+A segunda opção foi a \textbf{Arquitetura de Microsserviços}. Este padrão divide a aplicação em serviços independentes que comunicam via rede, permitindo escalabilidade independente e isolamento total dos dados. Por exemplo, o módulo de pagamentos poderia escalar de forma autónoma nos picos de faturação. Contudo, esta abordagem introduz uma complexidade infraestrutural elevada e a gestão de transações distribuídas seria um desafio crítico para garantir a consistência entre o pagamento de quotas e a geração do ficheiro SAF-T.
 
-A terceira via considerada foi o Monólito Modular (Modular Monolith) conjugado com uma Arquitetura Orientada a Eventos (Event-Driven Architecture) a nível interno. Esta abordagem retém a simplicidade de um único artefacto de implantação característica do monólito tradicional, mas impõe fronteiras lógicas rigorosas inspiradas nos princípios do Domain-Driven Design (DDD). Os diferentes módulos não interagem invocando diretamente os serviços uns dos outros, nem partilham esquemas de base de dados de forma promíscua. Em vez disso, comunicam através de um barramento de eventos (Event Bus) em memória. Este mecanismo permite um acoplamento débil altamente responsivo. A título ilustrativo, quando o Exame Médico Desportivo (EMD) de um atleta atinge a caducidade, o módulo clínico emite um evento de domínio interno. O módulo desportivo consome este evento e reage bloqueando a disponibilidade do atleta para convocatórias, sem que exista uma dependência direta em tempo de compilação entre as duas lógicas de negócio.
+A terceira opção foi o \textbf{Monólito Modular} combinado com uma arquitetura orientada a eventos internos. Esta abordagem mantém a simplicidade de um único artefacto de implantação, mas impõe fronteiras lógicas claras entre os módulos, inspiradas nos princípios do Domain-Driven Design. Os módulos comunicam através de um barramento de eventos em memória, evitando dependências diretas. Por exemplo, quando o atestado médico de um atleta caduca, o módulo clínico emite um evento que o módulo desportivo consome para bloquear a disponibilidade desse atleta para convocatórias.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|p{4cm}|p{5cm}|p{6cm}|}
 \hline
-\textbf{Opção Arquitetural} & \textbf{Vantagens} & \textbf{Desvantagens} \ \hline
-Monólito em Camadas & Simplicidade de implantação; Curva de aprendizagem reduzida; Facilidade de rastreamento transacional. & Alto acoplamento lógico; Risco de degradação do código; Dificuldade na segregação estrita de dados RGPD. \ \hline
-Microsserviços & Escalabilidade independente por domínio; Isolamento físico total de dados sensíveis; Flexibilidade tecnológica. & Complexidade operacional e infraestrutural elevada; Desafio crítico na gestão de transações distribuídas para o SAF-T; Maior latência. \ \hline
-Monólito Modular & Implantação unificada com baixo acoplamento interno; Consistência transacional garantida; Separação lógica orientada ao domínio (DDD). & Exige elevada disciplina e rigor na manutenção das fronteiras dos módulos; Risco de acoplamento acidental se os princípios não forem respeitados. \ \hline
+\textbf{Opção Arquitetural} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
+Monólito em Camadas & Simplicidade de implantação; Curva de aprendizagem reduzida; Facilidade de rastreamento transacional. & Alto acoplamento lógico; Risco de degradação do código; Dificuldade na segregação estrita de dados RGPD. \\ \hline
+Microsserviços & Escalabilidade independente por domínio; Isolamento físico total de dados sensíveis; Flexibilidade tecnológica. & Complexidade operacional e infraestrutural elevada; Desafio crítico na gestão de transações distribuídas para o SAF-T; Maior latência. \\ \hline
+Monólito Modular & Implantação unificada com baixo acoplamento interno; Consistência transacional garantida; Separação lógica orientada ao domínio (DDD). & Exige elevada disciplina e rigor na manutenção das fronteiras dos módulos; Risco de acoplamento acidental se os princípios não forem respeitados. \\ \hline
 \end{tabular}
 \caption{Comparação de Padrões Arquiteturais}
 \end{table}
 
-\textbf{Recomendação/Opinião Justificada:} A recomendação arquitetural definitiva recai sobre a Opção 3: Monólito Modular. Esta decisão é sustentada pelo compromisso ideal entre a necessidade de isolamento de dados clínicos e financeiros e a capacidade produtiva da equipa de engenharia. A introdução de microsserviços acarretaria um overhead operacional injustificado para a atual escala do CAP. O monólito modular garante o encapsulamento das regras de negócio complexas, permitindo que a plataforma cresça de forma sustentada.
+\textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{Monólito Modular}. Esta escolha oferece o melhor equilíbrio entre a necessidade de isolar os dados clínicos e financeiros e a capacidade de desenvolvimento da equipa. Os microsserviços trariam uma complexidade operacional excessiva para a escala atual do CAP, enquanto o monólito modular permite manter as regras de negócio bem encapsuladas e preparar a plataforma para crescer de forma sustentada.
 
 \subsubsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)}
 
-A escolha do SGBD constitui a decisão mais crítica para garantir a integridade, a resiliência e a conformidade legal da plataforma do CAP. A base de dados deve suportar a consolidação de contas correntes parentais, a persistência estruturada para a emissão de faturas, a gravação de séries temporais de avaliações antropométricas dinâmicas e o registo de queixas físicas não padronizadas.
+A escolha da base de dados é uma das decisões mais importantes do projeto, pois dela depende a integridade dos dados e a conformidade legal da plataforma. A base de dados terá de suportar a gestão de contas de encarregados de educação, a emissão de faturas, o registo de avaliações físicas dos atletas e o armazenamento de queixas clínicas.
 
-A primeira abordagem considerada recaiu sobre o ecossistema NoSQL, tendo o MongoDB como expoente representativo. As bases de dados orientadas a documentos oferecem uma flexibilidade extrema de esquema. Esta característica adequa-se de forma excecional ao armazenamento de métricas de performance desportiva e resultados de avaliações físicas. Todavia, o paradigma NoSQL apresenta fragilidades conceptuais na execução de transações multi-documento complexas, não garantindo tradicionalmente o rigor absoluto das propriedades ACID. O contexto do CAP dita que o subsistema financeiro não admite ambiguidades: a relação relacional estrita entre a entidade Atleta, a Quota pendente e a emissão do Recibo é fulcral para evitar a duplicação de NIFs e garantir a exportação impecável do ficheiro normativo SAF-T.
+A primeira opção considerada foi o \textbf{MongoDB}, uma base de dados NoSQL orientada a documentos. Esta tecnologia oferece grande flexibilidade de esquema, o que seria útil para armazenar métricas de desempenho desportivo. No entanto, as bases de dados NoSQL têm limitações no suporte a transações complexas e não garantem as propriedades ACID de forma nativa. Para o CAP, onde o módulo financeiro exige rigor absoluto (relação entre atleta, quota e recibo para evitar duplicação de NIFs e garantir a exportação do ficheiro SAF-T), esta limitação é problemática.
 
-A segunda via escrutinada centrou-se no Microsoft SQL Server, um motor relacional de referência. O SQL Server providencia um desempenho formidável no processamento de transações pesadas e uma integração ímpar com as tecnologias do ecossistema Microsoft. Apesar da sua robustez técnica inquestionável, esta tecnologia esbarra em constrangimentos de licenciamento e custos operacionais a longo prazo. Para organizações de média dimensão como um clube desportivo local, os custos associados podem inflacionar drasticamente as despesas contínuas de infraestrutura.
+A segunda opção foi o \textbf{Microsoft SQL Server}, um motor relacional robusto com excelente desempenho no processamento de transações. Apesar das suas qualidades técnicas, os custos de licenciamento e manutenção a longo prazo tornam esta opção menos viável para um clube desportivo de média dimensão.
 
-A terceira alternativa incidiu sobre o PostgreSQL. O PostgreSQL destaca-se por oferecer uma conformidade ACID rigorosa, essencial para blindar o núcleo administrativo. A característica mais diferenciadora desta tecnologia, no entanto, é o suporte nativo e altamente otimizado para colunas do tipo JSONB. Esta funcionalidade permite conciliar o melhor de dois mundos: garante a integridade referencial rígida do modelo relacional para identidades, credenciais e finanças, ao mesmo tempo que permite armazenar blocos de dados não esquematizados numa única coluna transacionável e pesquisável. A principal ressalva prende-se com a necessidade de um planeamento cuidado na criação de índices sobre estruturas JSON.
+A terceira opção foi o \textbf{PostgreSQL}. Esta base de dados relacional oferece conformidade ACID rigorosa, essencial para o módulo financeiro, e conta ainda com suporte nativo para colunas do tipo JSONB. Esta funcionalidade permite combinar a integridade do modelo relacional com a flexibilidade de armazenar dados não estruturados (como avaliações físicas ou queixas clínicas) de forma pesquisável.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
 \hline
-\textbf{Opção de SGBD} & \textbf{Vantagens} & \textbf{Desvantagens} \ \hline
-MongoDB (NoSQL) & Esquema totalmente dinâmico; Ideal para séries temporais de métricas desportivas e registos clínicos flexíveis. & Suporte limitado para transações ACID complexas; Risco de inconsistência relacional para emissão de ficheiros fiscais (SAF-T). \ \hline
-Microsoft SQL Server & Robustez transacional corporativa; Ferramentas avançadas de auditoria e relatórios; Excelente integração nativa. & Elevados custos de licenciamento comercial em ambientes de produção; Maior consumo de recursos infraestruturais. \ \hline
-PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o tipo JSONB, combinando o modelo relacional com a flexibilidade documental. & A indexação de consultas complexas em campos JSON exige um desenho técnico mais minucioso por parte do administrador de dados. \ \hline
+\textbf{Opção de SGBD} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
+MongoDB (NoSQL) & Esquema totalmente dinâmico; Ideal para séries temporais de métricas desportivas e registos clínicos flexíveis. & Suporte limitado para transações ACID complexas; Risco de inconsistência relacional para emissão de ficheiros fiscais (SAF-T). \\ \hline
+Microsoft SQL Server & Robustez transacional corporativa; Ferramentas avançadas de auditoria e relatórios; Excelente integração nativa. & Elevados custos de licenciamento comercial em ambientes de produção; Maior consumo de recursos infraestruturais. \\ \hline
+PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o tipo JSONB, combinando o modelo relacional com a flexibilidade documental. & A indexação de consultas complexas em campos JSON exige um desenho técnico mais minucioso por parte do administrador de dados. \\ \hline
 \end{tabular}
 \caption{Comparação de SGBD}
 \end{table}
 
-\textbf{Recomendação/Opinião Justificada:} A adoção do PostgreSQL é a decisão arquitetural firmemente recomendada para a infraestrutura de persistência. A capacidade de assegurar uma integridade relacional absoluta resolve categoricamente o imperativo de prevenir anomalias de faturação e duplicação de identidades. Em simultâneo, o recurso ao tipo de dados JSONB confere a plasticidade estrutural necessária para absorver as particularidades das avaliações antropométricas e dos registos de patologias do módulo clínico. Esta convergência tecnológica resulta numa arquitetura elegante, segura e economicamente viável para o CAP.
+\textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{PostgreSQL}. Esta escolha garante a integridade relacional necessária para evitar erros de faturação e duplicação de dados, ao mesmo tempo que o suporte JSONB permite armazenar as particularidades das avaliações físicas e registos clínicos. Além disso, sendo uma tecnologia \textit{open-source}, não acarreta custos de licenciamento, o que se adequa ao orçamento do CAP.
 
 \subsubsection{Decisão Arquitetural: Tecnologias e Stack de Backend}
-% Omitido por questões de brevidade os detalhes completos de Node e Java, direto ao C# como no texto original.
-A terceira arquitetura sondada foi o ecossistema Microsoft .NET 8 com linguagem C#. Esta plataforma destaca-se por um desempenho superlativo de compilação Just-In-Time (JIT), otimização de memória substancialmente melhorada nas suas versões mais recentes e uma coesão sem paralelo entre as ferramentas de desenvolvimento e a plataforma de execução. A interligação com o Entity Framework Core abstrai grande parte da complexidade de acesso ao PostgreSQL. Para os desafios específicos do CAP, o ecossistema .NET sobressai devido ao suporte nativo e elegante para serviços de execução prolongada em segundo plano (BackgroundServices e IHostedService). Esta funcionalidade resolve inequivocamente a necessidade de implementar os cronjobs internos que monitorizam prazos e quotas.
 
-\textbf{Recomendação/Opinião Justificada:} A recomendação tecnológica formaliza-se em torno do C# com .NET 8. A exigência imperativa de contar com mecanismos de monitorização contínua exige uma infraestrutura capaz de executar tarefas rotineiras de forma segura, concorrente e nativa. Simultaneamente, o processamento multi-tarefa eficiente da plataforma lidará confortavelmente com a exigência computacional de extrair e formatar centenas de faturas para o ficheiro legal SAF-T.
+Para o desenvolvimento do backend, a equipa avaliou diferentes tecnologias e acabou por selecionar o ecossistema \textbf{Microsoft .NET 8 com linguagem C\#}. Esta plataforma oferece um bom desempenho, ferramentas de desenvolvimento maduras e integração facilitada com o PostgreSQL através do Entity Framework Core.
+
+Um dos fatores decisivos foi o suporte nativo para serviços de execução em segundo plano (BackgroundServices e IHostedService). Esta funcionalidade é essencial para implementar as tarefas automáticas que o sistema necessita, como a monitorização de prazos de atestados médicos, alertas de quotas em atraso e a geração periódica do ficheiro SAF-T.
+
+\textbf{Decisão da Equipa:} A equipa decidiu utilizar \textbf{C\# com .NET 8}. Esta escolha permite implementar de forma nativa os mecanismos de monitorização contínua exigidos pelo sistema, ao mesmo tempo que oferece um processamento eficiente para tarefas como a extração e formatação de faturas para o ficheiro SAF-T.
 
 \subsubsection{Decisão Arquitetural: Comunicação e Especificação da API}
-O sistema arquitetado não atua de forma isolada; ele opera como um motor agnóstico a interfaces visuais e interage com múltiplos clientes. A Arquitetura RESTful (Representational State Transfer), alinhada com os níveis 2 ou 3 do modelo de maturidade de Richardson, preconiza a modelação da interface em torno dos recursos do domínio (ex: /api/atletas, /api/quotas). A sua ubiquidade constitui a sua maior força. O formato textual da notação de objetos JavaScript (JSON) garante a interoperabilidade imediata com qualquer tipo de cliente.
 
-\textbf{Recomendação/Opinião Justificada:} A estandardização inerente à RESTful API consagra esta opção como a recomendação técnica inabalável. Num ecossistema que se encontra dependente da fluidez burocrática e económica, a necessidade incontornável de expor recetores web para assegurar a reconciliação bancária autónoma elege o REST como o único protocolo viável de forma nativa e sem necessidade de intermediários complexos.
+O sistema não funciona de forma isolada, precisando de comunicar com diferentes clientes (aplicação web, aplicação móvel futura, serviços externos). A equipa optou por implementar uma \textbf{API RESTful}, que modela a interface em torno dos recursos do domínio (por exemplo: \texttt{/api/atletas}, \texttt{/api/quotas}, \texttt{/api/convocatorias}).
+
+A arquitetura REST é amplamente utilizada e garante interoperabilidade imediata através do formato JSON. Esta escolha é também essencial para a integração com os serviços de pagamento (MBWay, Multibanco), que funcionam através de webhooks HTTP.
+
+\textbf{Decisão da Equipa:} A equipa decidiu implementar uma \textbf{RESTful API}. Esta escolha permite uma comunicação padronizada com qualquer tipo de cliente e facilita a integração com os serviços bancários necessários para a reconciliação automática de pagamentos.
+
+\subsection{Modelação Estrutural}
+
+O primeiro diagrama estrutural construído foi o modelo de domínio, que procura apresentar as várias entidades que fazem parte do problema de gestão integrada do clube desportivo, representadas como retângulos, e as relações entre elas, representadas como linhas retas, legendadas com os nomes das relações. Para não construir um modelo de dimensões muito elevadas, tornando difícil a sua leitura e invalidando o propósito da sua existência, não se representaram relações relativas a operações de consulta (ex.: ``Treinador'' consulta ``Estatística''), mesmo que operações de criação e alteração de entidades se encontrem representadas. Ademais, pelo mesmo motivo, não se representaram entidades que se consideraram irrelevantes para a visão geral do problema, como identificadores, nomes, preços, etc. Segue-se o modelo de domínio, construído com base no levantamento de requisitos e nas entrevistas realizadas:
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\textwidth]{modelo_dominio.png}}
+    \caption{Modelo de Domínio do Sistema CAP}
+    \label{fig:modelo-dominio}
+\end{figure}
+
+A natureza concetual do modelo de domínio e a simplicidade da sua linguagem (o diagrama faz uso de apenas uma pequena fração da linguagem de diagramas de classes UML) permitem que este seja lido facilmente. Logo, a totalidade do modelo não será descrita textualmente, e apenas serão tecidos comentários relativos a situações particulares.
+
+Em primeiro lugar, as entidades ``Utilizador'', ``Atleta'', ``Treinador'', ``Encarregado de Educação'', ``Funcionário'', ``Secretaria'' e ``Gerência'' são mencionadas ao longo das entrevistas e questionários realizados, que também permitem concluir sobre a existência de uma hierarquia entre estas entidades, representada através de relações do tipo ``é um'' (ex.: ``Atleta'' é um ``Utilizador'').
+
+São também descritas associações de multi-conjunto entre entidades. Por exemplo, um ``Plantel'' é constituído por ``Atleta''s, e a cada ``Atleta'' está associada a ``Posição'' no plantel e o ``Número da Camisola''. Esta relação reflete-se no RF-02 (Gestão de Plantéis e Alocação de Atletas). Para representar estas relações no modelo de domínio, foram utilizadas classes de associação, entidades que representam a relação entre outras duas entidades. No exemplo dado, foi criada a entidade ``Atleta no Plantel'', que se associou à relação ``Plantel constituído por Atletas''. O mesmo método foi utilizado para outras relações semelhantes, dando origem às entidades ``Item na Convocatória'', ``Participação em Jogo'' e ``Pagamento de Quota''.
+
+Uma classe de associação foi também utilizada para a representação das transações financeiras (RF-06 e RF-07): a relação de pagamento de uma quota foi identificada como um ``Pagamento de Quota'', por sua vez relacionada com uma ``Transação'' por uma relação do tipo ``é um''. A ``Fatura'', por já ser uma entidade, foi diretamente associada à ``Transação''. A ``Quota'', apesar de se tratar de um valor a pagar, foi representada como uma entidade separada que se associa ao ``Atleta'' e à ``Época'', permitindo assim o rastreamento completo do histórico financeiro.
+
+O modelo de domínio também captura a vertente clínica do sistema. A entidade ``Atestado Médico'' está associada ao ``Atleta'' através de uma relação ``possui'', com atributos de ``Data de Validade'' que permitem ao sistema gerar alertas automáticos de caducidade, conforme identificado nas entrevistas com os atletas. As ``Queixa Física'' e ``Lesão'' também se encontram modeladas, permitindo que os atletas registem autonomamente os seus problemas de saúde e que os treinadores consultem esta informação antes de elaborar convocatórias.
+
+A comunicação entre os diversos intervenientes do clube é suportada pela entidade ``Notificação'', que pode ser enviada a qualquer ``Utilizador'' e está associada a diversos eventos do sistema, como convocatórias publicadas, quotas em atraso ou alterações de horários.
+
+Por último, a gestão das infraestruturas do clube é representada através das entidades ``Instalação'', ``Reserva'' e ``Evento'' (que engloba ``Treino'' e ``Jogo''). Esta modelação surge da necessidade identificada pela gerência de evitar conflitos de agendamento entre as diferentes modalidades do clube.
+
+%% PlantUML source code for reference (to be compiled separately):
+%%
+%% @startuml modelo_dominio
+%%
+%% skinparam classAttributeIconSize 0
+%% skinparam monochrome true
+%% skinparam shadowing false
+%%
+%% class Utilizador
+%% class Atleta
+%% class Treinador
+%% class "Encarregado de Educação" as EncarregadoEducacao
+%% class Funcionário
+%% class Secretaria
+%% class Gerência
+%%
+%% class Modalidade
+%% class Equipa
+%% class Plantel
+%% class "Atleta no Plantel" as AtletaPlantel
+%% class Posição
+%% class "Número Camisola" as NumeroCamisola
+%%
+%% class Convocatória
+%% class "Item na Convocatória" as ItemConvocatoria
+%% class Evento
+%% class Treino
+%% class Jogo
+%% class "Participação em Jogo" as ParticipacaoJogo
+%% class Estatística
+%%
+%% class "Atestado Médico" as AtestadoMedico
+%% class "Queixa Física" as QueixaFisica
+%% class Lesão
+%% class "Data Validade" as DataValidade
+%%
+%% class Quota
+%% class "Pagamento de Quota" as PagamentoQuota
+%% class Transação
+%% class Fatura
+%% class Época
+%%
+%% class Notificação
+%% class Instalação
+%% class Reserva
+%%
+%% ' Hierarquia de Utilizadores
+%% Atleta --|> Utilizador : é um
+%% Treinador --|> Utilizador : é um
+%% EncarregadoEducacao --|> Utilizador : é um
+%% Funcionário --|> Utilizador : é um
+%% Secretaria --|> Funcionário : é um
+%% Gerência --|> Funcionário : é um
+%%
+%% ' Hierarquia de Eventos
+%% Treino --|> Evento : é um
+%% Jogo --|> Evento : é um
+%%
+%% ' Hierarquia de Transações
+%% PagamentoQuota --|> Transação : é uma
+%% Fatura --|> Transação : é uma
+%%
+%% ' Relações Modalidade/Equipa/Plantel
+%% Modalidade "1" -- "*" Equipa : possui
+%% Equipa "1" -- "1" Plantel : possui
+%% Plantel "1" -- "*" AtletaPlantel : constituído por
+%% AtletaPlantel "*" -- "1" Atleta : refere
+%% AtletaPlantel "1" -- "1" Posição : possui
+%% AtletaPlantel "1" -- "1" NumeroCamisola : possui
+%%
+%% ' Relações Treinador
+%% Treinador "*" -- "*" Equipa : treina
+%%
+%% ' Relações Convocatória
+%% Treinador "1" -- "*" Convocatória : emite
+%% Convocatória "1" -- "*" ItemConvocatoria : constituída por
+%% ItemConvocatoria "*" -- "1" Atleta : convoca
+%% Convocatória "*" -- "1" Evento : relativa a
+%%
+%% ' Relações Jogo/Participação
+%% Jogo "1" -- "*" ParticipacaoJogo : possui
+%% ParticipacaoJogo "*" -- "1" Atleta : refere
+%% ParticipacaoJogo "1" -- "*" Estatística : regista
+%%
+%% ' Relações Clínicas
+%% Atleta "1" -- "*" AtestadoMedico : possui
+%% AtestadoMedico "1" -- "1" DataValidade : possui
+%% Atleta "1" -- "*" QueixaFisica : regista
+%% Atleta "1" -- "*" Lesão : possui
+%%
+%% ' Relações Financeiras
+%% Atleta "1" -- "*" Quota : deve
+%% Quota "*" -- "1" Época : relativa a
+%% Quota "1" -- "0..1" PagamentoQuota : paga por
+%% PagamentoQuota "1" -- "1" Fatura : gera
+%% EncarregadoEducacao "1" -- "*" Atleta : responsável por
+%% EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
+%%
+%% ' Relações Notificações
+%% Utilizador "1" -- "*" Notificação : recebe
+%%
+%% ' Relações Instalações
+%% Instalação "1" -- "*" Reserva : possui
+%% Reserva "*" -- "1" Evento : para
+%% Reserva "*" -- "1" Equipa : por
+%%
+%% ' Relações Administração
+%% Secretaria "1" -- "*" Atleta : regista
+%% Secretaria "1" -- "*" Fatura : emite
+%% Gerência "1" -- "*" Funcionário : gere
+%% Gerência "1" -- "*" Modalidade : administra
+%%
+%% @enduml
+
+O outro diagrama estrutural construído trata-se de um diagrama de componentes, que tem como intuito decompor o sistema a desenvolver em componentes menores, cada um com uma área de foco mais específica. Com o desenvolvimento deste diagrama, obtém-se uma ideia arquitetural de alto nível do sistema a desenvolver. Este diagrama encontra-se alinhado com a decisão arquitetural de Monólito Modular apresentada na secção anterior.
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{diagrama_componentes.png}}
+    \caption{Diagrama de Componentes a definir a arquitetura do sistema}
+    \label{fig:diagrama-componentes}
+\end{figure}
+
+%% PlantUML source code for reference (to be compiled separately):
+%%
+%% @startuml diagrama_componentes
+%%
+%% skinparam monochrome true
+%% skinparam shadowing false
+%%
+%% package "Camada de Apresentação" {
+%%     [Web Application] as WebApp
+%%     [Mobile Application] as MobileApp
+%% }
+%%
+%% package "Camada de Negócio" {
+%%     [<<subsystem>>\nGestão de Utilizadores] as GestaoUtilizadores
+%%     [<<subsystem>>\nGestão Desportiva] as GestaoDesportiva
+%%     [<<subsystem>>\nGestão Clínica] as GestaoClinica
+%%     [<<subsystem>>\nGestão Financeira] as GestaoFinanceira
+%%     [<<subsystem>>\nGestão de Notificações] as GestaoNotificacoes
+%%     [<<subsystem>>\nGestão de Instalações] as GestaoInstalacoes
+%%
+%%     interface "IGestaoUtilizadores" as IGU
+%%     interface "IGestaoDesportiva" as IGD
+%%     interface "IGestaoClinica" as IGC
+%%     interface "IGestaoFinanceira" as IGF
+%%     interface "IGestaoNotificacoes" as IGN
+%%     interface "IGestaoInstalacoes" as IGI
+%%
+%%     GestaoUtilizadores -up- IGU
+%%     GestaoDesportiva -up- IGD
+%%     GestaoClinica -up- IGC
+%%     GestaoFinanceira -up- IGF
+%%     GestaoNotificacoes -up- IGN
+%%     GestaoInstalacoes -up- IGI
+%% }
+%%
+%% interface "ICamadaNegocio" as ICN
+%%
+%% package "Camada de Dados" {
+%%     [Base de Dados PostgreSQL] as BD
+%% }
+%%
+%% interface "ICamadaDados" as ICD
+%%
+%% WebApp ..> ICN
+%% MobileApp ..> ICN
+%%
+%% ICN ..> IGU
+%% ICN ..> IGD
+%% ICN ..> IGC
+%% ICN ..> IGF
+%% ICN ..> IGN
+%% ICN ..> IGI
+%%
+%% GestaoUtilizadores ..> ICD
+%% GestaoDesportiva ..> ICD
+%% GestaoClinica ..> ICD
+%% GestaoFinanceira ..> ICD
+%% GestaoNotificacoes ..> ICD
+%% GestaoInstalacoes ..> ICD
+%%
+%% BD -up- ICD
+%%
+%% @enduml
+
+Do diagrama, lê-se que a aplicação pode ser dividida em três componentes principais, correspondentes às três camadas da arquitetura decidida: Camada de Apresentação, Camada de Negócio e Camada de Dados. Esta arquitetura foi escolhida porque, apesar de apresentar uma maior complexidade do que a de uma arquitetura monolítica tradicional, conduz à escrita de código mais fácil de manter, uma vez que a separação entre camadas permite a alteração do funcionamento interno de cada camada sem alterações às restantes, desde que sejam cumpridas as interfaces através das quais as camadas interagem (``ICamadaDados'' e ``ICamadaNegocio'').
+
+Verifica-se que o componente ``Camada de Negócio'' se subdivide em seis subsistemas, apresentados com o estereótipo <<subsystem>>:
+
+\begin{itemize}
+    \item \textbf{Gestão de Utilizadores}: Responsável pelo registo, autenticação e gestão de perfis de todos os utilizadores do sistema (atletas, treinadores, encarregados de educação, secretaria e gerência).
+
+    \item \textbf{Gestão Desportiva}: Engloba a gestão de modalidades, equipas, plantéis, convocatórias, jogos e estatísticas desportivas.
+
+    \item \textbf{Gestão Clínica}: Responsável pelo controlo de atestados médicos, registo de queixas físicas e lesões, bem como pela geração de alertas de caducidade.
+
+    \item \textbf{Gestão Financeira}: Abrange o controlo de quotas, processamento de pagamentos, emissão de faturas e geração do ficheiro SAF-T para conformidade fiscal.
+
+    \item \textbf{Gestão de Notificações}: Sistema transversal responsável pelo envio de alertas e avisos automáticos a todos os utilizadores.
+
+    \item \textbf{Gestão de Instalações}: Controla o agendamento e reserva das infraestruturas do clube, evitando conflitos de utilização.
+\end{itemize}
+
+Justifica-se a divisão da camada de negócio em subsistemas para que estes possam ser desenvolvidos independentemente e para que possam ser modificados sem necessidade de se fazerem alterações ao código de outros subsistemas da camada de negócio, tornando mais simples a manutenção da aplicação. O código correspondente a cada subsistema pode ser alterado, desde que continue a ser corretamente implementada a interface a que o subsistema se encontra associado.
+
+Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural de Monólito Modular, onde cada módulo possui fronteiras bem definidas e comunica através de eventos de domínio internos, garantindo um acoplamento débil entre os diferentes componentes de negócio.
+
+% ============================================
+% SECÇÃO 3.3 - MODELAÇÃO COMPORTAMENTAL
+% Sistema de Gestão Integrada - Clube Amigos de Polvoreira
+% ============================================
+
+\subsection{Modelação comportamental}
+
+Foram construídos vários diagramas que procuravam representar o comportamento do sistema.
+O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma
+quota se pode encontrar, e que ações a fazem mudar de estado. O motivo para a construção deste
+diagrama foi a dificuldade de explicar estes estados e as transições entre eles diretamente a partir dos
+requisitos, uma vez que a informação necessária para o fazer se encontra espalhada por vários
+requisitos, dificultando que um membro da equipa de desenvolvimento compreenda esta máquina de
+estados sem uma representação concisa da mesma.
+
+% Diagrama de máquina de estados - Quota
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_quota.png}
+    \caption{Diagrama de máquina de estados dos estados de uma quota.}
+    \label{fig:maquina_estados_quota}
+\end{figure}
+
+Uma quota é criada no início de cada época desportiva com o estado ``Pendente'', aguardando o seu pagamento.
+Quando o encarregado de educação ou atleta efetua o pagamento, a quota transita para o estado ``Paga''.
+Caso o prazo de pagamento expire sem que o pagamento seja efetuado, a quota transita para o estado ``Em Atraso''.
+A partir deste estado, o pagamento ainda pode ser realizado, transitando para ``Paga'', ou pode ser aplicada
+uma suspensão ao atleta caso o atraso persista. Uma quota no estado ``Paga'' pode ainda ser reembolsada
+em casos excecionais, transitando para o estado ``Reembolsada''.
+
+De forma análoga, foi construído um diagrama de máquina de estados para representar os possíveis
+estados de uma convocatória:
+
+% Diagrama de máquina de estados - Convocatória
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_convocatoria.png}
+    \caption{Diagrama de máquina de estados dos estados de uma convocatória.}
+    \label{fig:maquina_estados_convocatoria}
+\end{figure}
+
+Uma convocatória é criada pelo treinador com o estado ``Rascunho'', permitindo a sua edição.
+Quando o treinador finaliza a seleção de atletas, a convocatória é publicada, transitando para o estado ``Publicada''.
+Neste estado, os encarregados de educação podem confirmar ou recusar a presença dos seus educandos.
+Quando o jogo ou treino associado termina, a convocatória transita automaticamente para o estado ``Finalizada''.
+Uma convocatória pode ainda ser cancelada a partir dos estados ``Rascunho'' ou ``Publicada''.
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO GERAL
+% ============================================
+
+De seguida, foi construído um diagrama de casos de uso, que apresenta todas as operações suportadas
+pelo sistema, e que atores as podem realizar. Devido ao elevado número de casos de uso, dividiu-se o
+diagrama de acordo com os vários subsistemas. Apresenta-se, abaixo, um diagrama geral, onde se
+encontram representados os vários atores e os subsistemas com que interagem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{imagens/casos_uso_geral.png}
+    \caption{Diagrama de casos de uso geral.}
+    \label{fig:casos_uso_geral}
+\end{figure}
+
+No diagrama, observam-se os vários atores que interagem com o sistema:
+\begin{itemize}
+    \item \textbf{Utilizador} -- ator genérico que representa operações comuns a todos os tipos de utilizador
+    \item \textbf{Atleta} -- praticante de uma ou mais modalidades do clube
+    \item \textbf{Treinador} -- responsável por equipas e gestão de treinos/jogos
+    \item \textbf{Encarregado de Educação} -- responsável legal por atletas menores
+    \item \textbf{Secretaria} -- funcionário responsável pela gestão administrativa
+    \item \textbf{Gerência} -- administrador do sistema com acesso total
+\end{itemize}
+
+Apresentam-se, abaixo, os diagramas de casos de uso correspondentes aos vários subsistemas:
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_utilizadores.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão de Utilizadores.}
+    \label{fig:casos_uso_utilizadores}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO DESPORTIVA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_desportiva.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Desportiva.}
+    \label{fig:casos_uso_desportiva}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO CLÍNICA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_clinica.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Clínica.}
+    \label{fig:casos_uso_clinica}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO FINANCEIRA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_financeira.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Financeira.}
+    \label{fig:casos_uso_financeira}
+\end{figure}
+
+% ============================================
+% DESCRIÇÃO DOS CASOS DE USO
+% ============================================
+
+\subsubsection{Descrição dos casos de uso}
+
+Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas por subsistema.
+
+% --- GESTÃO DE UTILIZADORES ---
+
+\paragraph{Subsistema de Gestão de Utilizadores}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar-se \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador cria uma conta para se poder autenticar e realizar outras operações. \\
+\hline
+\textbf{Pré-condição} & Utilizador não tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & É registada uma conta com os dados providenciados pelo utilizador, pendente de aprovação. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador solicita o seu registo. \newline
+2. Utilizador indica o seu nome, email, palavra-passe e tipo de conta pretendido. \newline
+3. Sistema verifica que não existe um utilizador com o email providenciado. \newline
+4. Sistema regista os dados do utilizador numa nova conta com estado ``Pendente''. \newline
+5. Sistema notifica a secretaria sobre o novo pedido de registo. \newline
+6. Sistema informa utilizador de sucesso na operação de registo. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[existe um utilizador com o email providenciado] (passo 3) \newline
+3.1. Sistema informa o utilizador que o email já corresponde a um utilizador registado. \newline
+3.2. Sistema cancela a operação de registo. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar-se''.}
+\label{tab:uc_registar}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Iniciar Sessão \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador autentica-se para poder realizar outras operações. \\
+\hline
+\textbf{Pré-condição} & Utilizador não tem sessão iniciada e a sua conta está aprovada. \\
+\hline
+\textbf{Pós-condição} & Utilizador fica com sessão iniciada no sistema. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador providencia email e palavra-passe. \newline
+2. Sistema verifica que existe um utilizador com as credenciais providenciadas e conta ativa. \newline
+3. Sistema inicia uma sessão para o utilizador. \newline
+4. Sistema redireciona o utilizador para a página principal correspondente ao seu tipo. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[credenciais inválidas ou conta não ativa] (passo 2) \newline
+2.1. Sistema informa que a autenticação não teve sucesso. \newline
+2.2. Sistema cancela a operação de autenticação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Iniciar Sessão''.}
+\label{tab:uc_iniciar_sessao}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Aprovar Registo \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria aprova ou rejeita um pedido de registo de utilizador. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem pedidos de registo pendentes. \\
+\hline
+\textbf{Pós-condição} & O pedido de registo é aprovado ou rejeitado, e o utilizador é notificado. \\
+\hline
+\textbf{Fluxo normal} &
+1. Secretaria consulta a lista de pedidos de registo pendentes. \newline
+2. Secretaria seleciona um pedido para análise. \newline
+3. Sistema apresenta os dados do pedido. \newline
+4. Secretaria aprova o pedido. \newline
+5. Sistema atualiza o estado da conta para ``Ativo''. \newline
+6. Sistema envia notificação ao utilizador sobre a aprovação. \\
+\hline
+\textbf{Fluxo alternativo 1} &
+[secretaria rejeita o pedido] (passo 4) \newline
+4.1. Secretaria indica o motivo da rejeição. \newline
+4.2. Sistema atualiza o estado da conta para ``Rejeitado''. \newline
+4.3. Sistema envia notificação ao utilizador sobre a rejeição. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Aprovar Registo''.}
+\label{tab:uc_aprovar_registo}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerir Perfil \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador consulta e edita os seus dados pessoais. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & Os dados do perfil são atualizados conforme as alterações efetuadas. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador acede ao seu perfil. \newline
+2. Sistema apresenta os dados atuais do utilizador. \newline
+3. Utilizador edita os dados pretendidos. \newline
+4. Sistema valida os novos dados. \newline
+5. Sistema guarda as alterações. \newline
+6. Sistema confirma o sucesso da operação. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[dados inválidos] (passo 4) \newline
+4.1. Sistema informa quais campos contêm erros. \newline
+4.2. Regressa a 3. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerir Perfil''.}
+\label{tab:uc_gerir_perfil}
+\end{table}
+
+% --- GESTÃO DESPORTIVA ---
+
+\paragraph{Subsistema de Gestão Desportiva}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Criar Convocatória \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador cria uma convocatória para um jogo ou treino. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e está associado a pelo menos uma equipa. \\
+\hline
+\textbf{Pós-condição} & É criada uma convocatória com os atletas selecionados, em estado ``Rascunho''. \\
+\hline
+\textbf{Fluxo normal} &
+1. Treinador seleciona a equipa. \newline
+2. Sistema apresenta o plantel da equipa. \newline
+3. Treinador indica o tipo de evento (jogo/treino), data, hora e local. \newline
+4. Treinador seleciona os atletas a convocar. \newline
+5. Sistema cria a convocatória em estado ``Rascunho''. \newline
+6. Sistema confirma a criação da convocatória. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Criar Convocatória''.}
+\label{tab:uc_criar_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Publicar Convocatória \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador publica uma convocatória, notificando os atletas e encarregados. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e existe uma convocatória em estado ``Rascunho''. \\
+\hline
+\textbf{Pós-condição} & A convocatória passa ao estado ``Publicada'' e são enviadas notificações. \\
+\hline
+\textbf{Fluxo normal} &
+1. Treinador seleciona uma convocatória em rascunho. \newline
+2. Sistema apresenta os detalhes da convocatória. \newline
+3. Treinador confirma a publicação. \newline
+4. Sistema atualiza o estado para ``Publicada''. \newline
+5. Sistema envia notificações aos atletas convocados e seus encarregados de educação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Publicar Convocatória''.}
+\label{tab:uc_publicar_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Responder a Convocatória \\
+\hline
+\textbf{Ator} & Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Encarregado confirma ou recusa a presença do seu educando numa convocatória. \\
+\hline
+\textbf{Pré-condição} & Encarregado tem sessão iniciada e existe uma convocatória publicada para o seu educando. \\
+\hline
+\textbf{Pós-condição} & A resposta do encarregado é registada na convocatória. \\
+\hline
+\textbf{Fluxo normal} &
+1. Encarregado consulta as convocatórias pendentes de resposta. \newline
+2. Sistema apresenta a lista de convocatórias. \newline
+3. Encarregado seleciona uma convocatória. \newline
+4. Sistema apresenta os detalhes da convocatória. \newline
+5. Encarregado confirma a presença do educando. \newline
+6. Sistema regista a confirmação. \newline
+7. Sistema notifica o treinador sobre a resposta. \\
+\hline
+\textbf{Fluxo alternativo 1} &
+[encarregado recusa a presença] (passo 5) \newline
+5.1. Encarregado indica o motivo da ausência. \newline
+5.2. Sistema regista a recusa com a justificação. \newline
+5.3. Sistema notifica o treinador sobre a resposta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Responder a Convocatória''.}
+\label{tab:uc_responder_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Estatísticas de Jogo \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador regista as estatísticas individuais e coletivas de um jogo. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e existe um jogo finalizado sem estatísticas registadas. \\
+\hline
+\textbf{Pós-condição} & As estatísticas do jogo são registadas no sistema. \\
+\hline
+\textbf{Fluxo normal} &
+1. Treinador seleciona o jogo. \newline
+2. Sistema apresenta a lista de atletas que participaram. \newline
+3. Treinador indica o resultado do jogo. \newline
+4. Para cada atleta, treinador regista estatísticas individuais (golos, assistências, tempo jogado, etc.). \newline
+5. Sistema valida e guarda as estatísticas. \newline
+6. Sistema confirma o registo das estatísticas. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Estatísticas de Jogo''.}
+\label{tab:uc_registar_estatisticas}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Consultar Plantel \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador consulta os atletas que compõem o plantel de uma equipa. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e está associado a pelo menos uma equipa. \\
+\hline
+\textbf{Pós-condição} & São apresentados ao treinador os atletas do plantel com os seus dados. \\
+\hline
+\textbf{Fluxo normal} &
+1. Treinador seleciona a equipa. \newline
+2. Sistema apresenta a lista de atletas do plantel com informações relevantes (posição, idade, atestado médico válido, quotas em dia). \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Consultar Plantel''.}
+\label{tab:uc_consultar_plantel}
+\end{table}
+
+% --- GESTÃO CLÍNICA ---
+
+\paragraph{Subsistema de Gestão Clínica}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Submeter Atestado Médico \\
+\hline
+\textbf{Ator} & Atleta / Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Atleta ou encarregado submete um atestado médico para validação. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & O atestado médico é submetido e fica pendente de validação pela secretaria. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador acede à secção de atestados médicos. \newline
+2. Utilizador carrega o ficheiro do atestado médico. \newline
+3. Utilizador indica a data de emissão e validade do atestado. \newline
+4. Sistema valida o formato do ficheiro. \newline
+5. Sistema regista o atestado com estado ``Pendente''. \newline
+6. Sistema notifica a secretaria sobre o novo atestado. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[formato de ficheiro inválido] (passo 4) \newline
+4.1. Sistema informa sobre os formatos aceites. \newline
+4.2. Regressa a 2. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Submeter Atestado Médico''.}
+\label{tab:uc_submeter_atestado}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Validar Atestado Médico \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria valida ou rejeita um atestado médico submetido. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem atestados pendentes de validação. \\
+\hline
+\textbf{Pós-condição} & O atestado é validado ou rejeitado, e o utilizador é notificado. \\
+\hline
+\textbf{Fluxo normal} &
+1. Secretaria consulta a lista de atestados pendentes. \newline
+2. Secretaria seleciona um atestado. \newline
+3. Sistema apresenta o documento e os dados do atestado. \newline
+4. Secretaria valida o atestado. \newline
+5. Sistema atualiza o estado para ``Válido''. \newline
+6. Sistema atualiza a situação clínica do atleta. \newline
+7. Sistema notifica o atleta/encarregado sobre a validação. \\
+\hline
+\textbf{Fluxo alternativo 1} &
+[secretaria rejeita o atestado] (passo 4) \newline
+4.1. Secretaria indica o motivo da rejeição. \newline
+4.2. Sistema atualiza o estado para ``Rejeitado''. \newline
+4.3. Sistema notifica o utilizador sobre a rejeição. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Validar Atestado Médico''.}
+\label{tab:uc_validar_atestado}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Lesão \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador regista uma lesão sofrida por um atleta. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e o atleta pertence a uma das suas equipas. \\
+\hline
+\textbf{Pós-condição} & A lesão é registada no historial clínico do atleta. \\
+\hline
+\textbf{Fluxo normal} &
+1. Treinador seleciona o atleta. \newline
+2. Treinador indica o tipo de lesão, data de ocorrência e descrição. \newline
+3. Treinador indica a previsão de recuperação (se conhecida). \newline
+4. Sistema regista a lesão. \newline
+5. Sistema notifica o encarregado de educação sobre a lesão. \newline
+6. Sistema atualiza a disponibilidade do atleta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Lesão''.}
+\label{tab:uc_registar_lesao}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Reportar Queixa Física \\
+\hline
+\textbf{Ator} & Atleta / Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Atleta ou encarregado reporta uma queixa física ao treinador. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & A queixa física é registada e o treinador é notificado. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador acede à secção de queixas físicas. \newline
+2. Utilizador descreve a queixa (zona afetada, tipo de dor, intensidade). \newline
+3. Utilizador indica se pretende participar no próximo treino/jogo. \newline
+4. Sistema regista a queixa. \newline
+5. Sistema notifica os treinadores das equipas do atleta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Reportar Queixa Física''.}
+\label{tab:uc_reportar_queixa}
+\end{table}
+
+% --- GESTÃO FINANCEIRA ---
+
+\paragraph{Subsistema de Gestão Financeira}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerar Quotas da Época \\
+\hline
+\textbf{Ator} & Gerência \\
+\hline
+\textbf{Descrição} & Sistema gera automaticamente as quotas para todos os atletas ativos numa nova época. \\
+\hline
+\textbf{Pré-condição} & Gerência tem sessão iniciada e foi criada uma nova época desportiva. \\
+\hline
+\textbf{Pós-condição} & São criadas quotas para todos os atletas ativos, em estado ``Pendente''. \\
+\hline
+\textbf{Fluxo normal} &
+1. Gerência inicia o processo de geração de quotas para a época. \newline
+2. Sistema identifica todos os atletas com inscrição ativa. \newline
+3. Sistema calcula o valor da quota para cada atleta (com base no escalão e modalidades). \newline
+4. Sistema cria as quotas em estado ``Pendente''. \newline
+5. Sistema notifica os encarregados de educação sobre as quotas geradas. \newline
+6. Sistema apresenta o resumo da operação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerar Quotas da Época''.}
+\label{tab:uc_gerar_quotas}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Efetuar Pagamento \\
+\hline
+\textbf{Ator} & Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Encarregado efetua o pagamento de uma quota pendente. \\
+\hline
+\textbf{Pré-condição} & Encarregado tem sessão iniciada e existem quotas pendentes associadas aos seus educandos. \\
+\hline
+\textbf{Pós-condição} & O pagamento é registado e a quota transita para o estado ``Paga''. \\
+\hline
+\textbf{Fluxo normal} &
+1. Encarregado consulta as quotas pendentes. \newline
+2. Sistema apresenta a lista de quotas com valores e prazos. \newline
+3. Encarregado seleciona as quotas a pagar. \newline
+4. Encarregado escolhe o método de pagamento (MB Way, transferência, numerário). \newline
+5. Sistema processa o pagamento. \newline
+6. Sistema atualiza o estado das quotas para ``Paga''. \newline
+7. Sistema gera o recibo/fatura. \newline
+8. Sistema envia confirmação ao encarregado. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[pagamento falha] (passo 5) \newline
+5.1. Sistema informa sobre a falha no pagamento. \newline
+5.2. Sistema mantém as quotas em estado ``Pendente''. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Efetuar Pagamento''.}
+\label{tab:uc_efetuar_pagamento}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Pagamento Manual \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria regista um pagamento efetuado presencialmente ou por transferência. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem quotas pendentes. \\
+\hline
+\textbf{Pós-condição} & O pagamento é registado e a quota transita para o estado ``Paga''. \\
+\hline
+\textbf{Fluxo normal} &
+1. Secretaria pesquisa o atleta ou encarregado. \newline
+2. Sistema apresenta as quotas pendentes. \newline
+3. Secretaria seleciona as quotas pagas. \newline
+4. Secretaria indica o método de pagamento e comprovativo (se aplicável). \newline
+5. Sistema atualiza o estado das quotas para ``Paga''. \newline
+6. Sistema gera o recibo/fatura. \newline
+7. Sistema notifica o encarregado sobre o pagamento registado. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Pagamento Manual''.}
+\label{tab:uc_registar_pagamento}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerar Relatório SAF-T \\
+\hline
+\textbf{Ator} & Gerência \\
+\hline
+\textbf{Descrição} & Sistema gera o ficheiro SAF-T para submissão à Autoridade Tributária. \\
+\hline
+\textbf{Pré-condição} & Gerência tem sessão iniciada e existem transações financeiras registadas. \\
+\hline
+\textbf{Pós-condição} & É gerado um ficheiro SAF-T válido com todas as transações do período selecionado. \\
+\hline
+\textbf{Fluxo normal} &
+1. Gerência indica o período para o relatório (mês/ano). \newline
+2. Sistema recolhe todas as transações do período. \newline
+3. Sistema valida a conformidade dos dados. \newline
+4. Sistema gera o ficheiro SAF-T em formato XML. \newline
+5. Sistema disponibiliza o ficheiro para download. \\
+\hline
+\textbf{Fluxo de exceção 1} &
+[dados incompletos ou inválidos] (passo 3) \newline
+3.1. Sistema apresenta lista de erros/inconsistências. \newline
+3.2. Sistema cancela a geração do ficheiro. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerar Relatório SAF-T''.}
+\label{tab:uc_gerar_saft}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Consultar Situação Financeira \\
+\hline
+\textbf{Ator} & Encarregado de Educação / Atleta \\
+\hline
+\textbf{Descrição} & Utilizador consulta o estado das suas quotas e histórico de pagamentos. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & São apresentadas as quotas e pagamentos associados ao utilizador. \\
+\hline
+\textbf{Fluxo normal} &
+1. Utilizador acede à secção financeira. \newline
+2. Sistema apresenta o resumo da situação (quotas pendentes, em atraso, pagas). \newline
+3. Sistema apresenta o histórico de pagamentos e faturas. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Consultar Situação Financeira''.}
+\label{tab:uc_consultar_financeira}
+\end{table}
+
+% ============================================
+% DIAGRAMAS DE ATIVIDADE
+% ============================================
+
+\subsubsection{Diagramas de atividade}
+
+Para a modelação do software, foram também construídos diagramas de atividade para as operações
+com fluxos de controlo mais complexos. Estes diagramas descrevem operações da camada de negócio,
+permitindo uma representação organizada do controlo de fluxo que facilita a implementação.
+
+\paragraph{Diagrama de atividade: Registo de utilizador}
+
+O diagrama seguinte descreve a resposta do sistema ao pedido de registo de um novo utilizador:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_registo.png}
+    \caption{Diagrama de atividade relativo ao registo de um utilizador.}
+    \label{fig:atividade_registo}
+\end{figure}
+
+A atividade inicia-se com a receção dos dados do utilizador. O sistema verifica se já existe um
+utilizador com o email providenciado. Em caso afirmativo, o sistema informa o erro e termina.
+Caso contrário, calcula a hash da palavra-passe, regista os dados com estado ``Pendente'',
+notifica a secretaria e redireciona o utilizador para a página de confirmação.
+
+\paragraph{Diagrama de atividade: Processamento de pagamento}
+
+O diagrama seguinte descreve o fluxo de processamento de um pagamento de quotas:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/atividade_pagamento.png}
+    \caption{Diagrama de atividade relativo ao processamento de pagamento.}
+    \label{fig:atividade_pagamento}
+\end{figure}
+
+Após receber os dados do pagamento, o sistema valida as quotas selecionadas em paralelo com a
+verificação do método de pagamento. Se ambas as validações forem bem-sucedidas, o sistema processa
+o pagamento junto do gateway. Em caso de sucesso, atualiza o estado das quotas, gera a fatura e
+envia a confirmação. Em caso de falha, informa o utilizador do erro.
+
+\paragraph{Diagrama de atividade: Publicação de convocatória}
+
+O diagrama seguinte descreve o processo de publicação de uma convocatória e envio de notificações:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_convocatoria.png}
+    \caption{Diagrama de atividade relativo à publicação de uma convocatória.}
+    \label{fig:atividade_convocatoria}
+\end{figure}
+
+A atividade inicia-se com a receção do pedido de publicação. O sistema valida que a convocatória
+está em estado ``Rascunho'' e que tem pelo menos um atleta convocado. Se válido, atualiza o estado
+para ``Publicada'' e, em paralelo, envia notificações para cada atleta convocado e respetivo
+encarregado de educação. A estrutura cíclica itera por todos os atletas da convocatória.
+
+\paragraph{Diagrama de atividade: Verificação de quotas em atraso}
+
+O diagrama seguinte descreve o processo automático de verificação de quotas em atraso:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_quotas_atraso.png}
+    \caption{Diagrama de atividade relativo à verificação de quotas em atraso.}
+    \label{fig:atividade_quotas_atraso}
+\end{figure}
+
+Este processo é executado periodicamente pelo sistema. Para cada quota em estado ``Pendente'',
+o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza o estado para
+``Em Atraso'' e envia uma notificação ao encarregado de educação. Se o atraso ultrapassar um
+limite configurável, o sistema pode sinalizar o atleta para suspensão de atividades.
+
 
 %==========================================================================
 % END INTRODUCTION
