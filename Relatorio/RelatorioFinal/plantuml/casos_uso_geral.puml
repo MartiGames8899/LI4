@@ -1,0 +1,68 @@
+@startuml casos_uso_geral
+
+' ============================================
+' DIAGRAMA DE CASOS DE USO GERAL
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam usecase {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+}
+
+left to right direction
+
+title Sistema de Gestão Integrada - CAP\nDiagrama de Casos de Uso Geral
+
+' Atores
+actor "Utilizador" as Utilizador
+actor "Atleta" as Atleta
+actor "Treinador" as Treinador
+actor "Encarregado de\nEducação" as Encarregado
+actor "Secretaria" as Secretaria
+actor "Gerência" as Gerencia
+
+' Herança de atores
+Atleta --|> Utilizador
+Treinador --|> Utilizador
+Encarregado --|> Utilizador
+Secretaria --|> Utilizador
+Gerencia --|> Utilizador
+
+' Sistema principal
+rectangle "Sistema de Gestão Integrada - CAP" {
+    
+    ' Subsistemas como casos de uso de alto nível
+    usecase "Gestão de Utilizadores" as GU #LightBlue
+    usecase "Gestão Desportiva" as GD #LightGreen
+    usecase "Gestão Clínica" as GC #LightYellow
+    usecase "Gestão Financeira" as GF #LightCoral
+    usecase "Sistema de Notificações" as SN #LightGray
+}
+
+' Relações entre atores e subsistemas
+Utilizador --> GU
+Atleta --> GD
+Atleta --> GC
+Treinador --> GD
+Treinador --> GC
+Encarregado --> GD
+Encarregado --> GC
+Encarregado --> GF
+Secretaria --> GU
+Secretaria --> GC
+Secretaria --> GF
+Gerencia --> GU
+Gerencia --> GF
+Gerencia --> GD
+
+' Todos recebem notificações
+Utilizador --> SN
+
+@enduml

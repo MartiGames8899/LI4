@@ -1,0 +1,744 @@
+% ============================================
+% SECÇÃO 3.3 - MODELAÇÃO COMPORTAMENTAL
+% Sistema de Gestão Integrada - Clube Amigos de Polvoreira
+% ============================================
+
+\subsection{Modelação comportamental}
+
+Foram construídos vários diagramas que procuravam representar o comportamento do sistema. 
+O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma 
+quota se pode encontrar, e que ações a fazem mudar de estado. O motivo para a construção deste 
+diagrama foi a dificuldade de explicar estes estados e as transições entre eles diretamente a partir dos 
+requisitos, uma vez que a informação necessária para o fazer se encontra espalhada por vários 
+requisitos, dificultando que um membro da equipa de desenvolvimento compreenda esta máquina de 
+estados sem uma representação concisa da mesma.
+
+% Diagrama de máquina de estados - Quota
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_quota.png}
+    \caption{Diagrama de máquina de estados dos estados de uma quota.}
+    \label{fig:maquina_estados_quota}
+\end{figure}
+
+Uma quota é criada no início de cada época desportiva com o estado ``Pendente'', aguardando o seu pagamento. 
+Quando o encarregado de educação ou atleta efetua o pagamento, a quota transita para o estado ``Paga''. 
+Caso o prazo de pagamento expire sem que o pagamento seja efetuado, a quota transita para o estado ``Em Atraso''. 
+A partir deste estado, o pagamento ainda pode ser realizado, transitando para ``Paga'', ou pode ser aplicada 
+uma suspensão ao atleta caso o atraso persista. Uma quota no estado ``Paga'' pode ainda ser reembolsada 
+em casos excecionais, transitando para o estado ``Reembolsada''.
+
+De forma análoga, foi construído um diagrama de máquina de estados para representar os possíveis 
+estados de uma convocatória:
+
+% Diagrama de máquina de estados - Convocatória
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/maquina_estados_convocatoria.png}
+    \caption{Diagrama de máquina de estados dos estados de uma convocatória.}
+    \label{fig:maquina_estados_convocatoria}
+\end{figure}
+
+Uma convocatória é criada pelo treinador com o estado ``Rascunho'', permitindo a sua edição. 
+Quando o treinador finaliza a seleção de atletas, a convocatória é publicada, transitando para o estado ``Publicada''. 
+Neste estado, os encarregados de educação podem confirmar ou recusar a presença dos seus educandos. 
+Quando o jogo ou treino associado termina, a convocatória transita automaticamente para o estado ``Finalizada''. 
+Uma convocatória pode ainda ser cancelada a partir dos estados ``Rascunho'' ou ``Publicada''.
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO GERAL
+% ============================================
+
+De seguida, foi construído um diagrama de casos de uso, que apresenta todas as operações suportadas 
+pelo sistema, e que atores as podem realizar. Devido ao elevado número de casos de uso, dividiu-se o 
+diagrama de acordo com os vários subsistemas. Apresenta-se, abaixo, um diagrama geral, onde se 
+encontram representados os vários atores e os subsistemas com que interagem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{imagens/casos_uso_geral.png}
+    \caption{Diagrama de casos de uso geral.}
+    \label{fig:casos_uso_geral}
+\end{figure}
+
+No diagrama, observam-se os vários atores que interagem com o sistema:
+\begin{itemize}
+    \item \textbf{Utilizador} -- ator genérico que representa operações comuns a todos os tipos de utilizador
+    \item \textbf{Atleta} -- praticante de uma ou mais modalidades do clube
+    \item \textbf{Treinador} -- responsável por equipas e gestão de treinos/jogos
+    \item \textbf{Encarregado de Educação} -- responsável legal por atletas menores
+    \item \textbf{Secretaria} -- funcionário responsável pela gestão administrativa
+    \item \textbf{Gerência} -- administrador do sistema com acesso total
+\end{itemize}
+
+Apresentam-se, abaixo, os diagramas de casos de uso correspondentes aos vários subsistemas:
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_utilizadores.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão de Utilizadores.}
+    \label{fig:casos_uso_utilizadores}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO DESPORTIVA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_desportiva.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Desportiva.}
+    \label{fig:casos_uso_desportiva}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO CLÍNICA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_clinica.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Clínica.}
+    \label{fig:casos_uso_clinica}
+\end{figure}
+
+% ============================================
+% DIAGRAMA DE CASOS DE USO - GESTÃO FINANCEIRA
+% ============================================
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/casos_uso_financeira.png}
+    \caption{Diagrama de casos de uso do subsistema de Gestão Financeira.}
+    \label{fig:casos_uso_financeira}
+\end{figure}
+
+% ============================================
+% DESCRIÇÃO DOS CASOS DE USO
+% ============================================
+
+\subsubsection{Descrição dos casos de uso}
+
+Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas por subsistema.
+
+% --- GESTÃO DE UTILIZADORES ---
+
+\paragraph{Subsistema de Gestão de Utilizadores}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar-se \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador cria uma conta para se poder autenticar e realizar outras operações. \\
+\hline
+\textbf{Pré-condição} & Utilizador não tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & É registada uma conta com os dados providenciados pelo utilizador, pendente de aprovação. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador solicita o seu registo. \newline
+2. Utilizador indica o seu nome, email, palavra-passe e tipo de conta pretendido. \newline
+3. Sistema verifica que não existe um utilizador com o email providenciado. \newline
+4. Sistema regista os dados do utilizador numa nova conta com estado ``Pendente''. \newline
+5. Sistema notifica a secretaria sobre o novo pedido de registo. \newline
+6. Sistema informa utilizador de sucesso na operação de registo. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[existe um utilizador com o email providenciado] (passo 3) \newline
+3.1. Sistema informa o utilizador que o email já corresponde a um utilizador registado. \newline
+3.2. Sistema cancela a operação de registo. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar-se''.}
+\label{tab:uc_registar}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Iniciar Sessão \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador autentica-se para poder realizar outras operações. \\
+\hline
+\textbf{Pré-condição} & Utilizador não tem sessão iniciada e a sua conta está aprovada. \\
+\hline
+\textbf{Pós-condição} & Utilizador fica com sessão iniciada no sistema. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador providencia email e palavra-passe. \newline
+2. Sistema verifica que existe um utilizador com as credenciais providenciadas e conta ativa. \newline
+3. Sistema inicia uma sessão para o utilizador. \newline
+4. Sistema redireciona o utilizador para a página principal correspondente ao seu tipo. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[credenciais inválidas ou conta não ativa] (passo 2) \newline
+2.1. Sistema informa que a autenticação não teve sucesso. \newline
+2.2. Sistema cancela a operação de autenticação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Iniciar Sessão''.}
+\label{tab:uc_iniciar_sessao}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Aprovar Registo \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria aprova ou rejeita um pedido de registo de utilizador. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem pedidos de registo pendentes. \\
+\hline
+\textbf{Pós-condição} & O pedido de registo é aprovado ou rejeitado, e o utilizador é notificado. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Secretaria consulta a lista de pedidos de registo pendentes. \newline
+2. Secretaria seleciona um pedido para análise. \newline
+3. Sistema apresenta os dados do pedido. \newline
+4. Secretaria aprova o pedido. \newline
+5. Sistema atualiza o estado da conta para ``Ativo''. \newline
+6. Sistema envia notificação ao utilizador sobre a aprovação. \\
+\hline
+\textbf{Fluxo alternativo 1} & 
+[secretaria rejeita o pedido] (passo 4) \newline
+4.1. Secretaria indica o motivo da rejeição. \newline
+4.2. Sistema atualiza o estado da conta para ``Rejeitado''. \newline
+4.3. Sistema envia notificação ao utilizador sobre a rejeição. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Aprovar Registo''.}
+\label{tab:uc_aprovar_registo}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerir Perfil \\
+\hline
+\textbf{Ator} & Utilizador \\
+\hline
+\textbf{Descrição} & Utilizador consulta e edita os seus dados pessoais. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & Os dados do perfil são atualizados conforme as alterações efetuadas. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador acede ao seu perfil. \newline
+2. Sistema apresenta os dados atuais do utilizador. \newline
+3. Utilizador edita os dados pretendidos. \newline
+4. Sistema valida os novos dados. \newline
+5. Sistema guarda as alterações. \newline
+6. Sistema confirma o sucesso da operação. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[dados inválidos] (passo 4) \newline
+4.1. Sistema informa quais campos contêm erros. \newline
+4.2. Regressa a 3. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerir Perfil''.}
+\label{tab:uc_gerir_perfil}
+\end{table}
+
+% --- GESTÃO DESPORTIVA ---
+
+\paragraph{Subsistema de Gestão Desportiva}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Criar Convocatória \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador cria uma convocatória para um jogo ou treino. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e está associado a pelo menos uma equipa. \\
+\hline
+\textbf{Pós-condição} & É criada uma convocatória com os atletas selecionados, em estado ``Rascunho''. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Treinador seleciona a equipa. \newline
+2. Sistema apresenta o plantel da equipa. \newline
+3. Treinador indica o tipo de evento (jogo/treino), data, hora e local. \newline
+4. Treinador seleciona os atletas a convocar. \newline
+5. Sistema cria a convocatória em estado ``Rascunho''. \newline
+6. Sistema confirma a criação da convocatória. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Criar Convocatória''.}
+\label{tab:uc_criar_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Publicar Convocatória \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador publica uma convocatória, notificando os atletas e encarregados. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e existe uma convocatória em estado ``Rascunho''. \\
+\hline
+\textbf{Pós-condição} & A convocatória passa ao estado ``Publicada'' e são enviadas notificações. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Treinador seleciona uma convocatória em rascunho. \newline
+2. Sistema apresenta os detalhes da convocatória. \newline
+3. Treinador confirma a publicação. \newline
+4. Sistema atualiza o estado para ``Publicada''. \newline
+5. Sistema envia notificações aos atletas convocados e seus encarregados de educação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Publicar Convocatória''.}
+\label{tab:uc_publicar_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Responder a Convocatória \\
+\hline
+\textbf{Ator} & Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Encarregado confirma ou recusa a presença do seu educando numa convocatória. \\
+\hline
+\textbf{Pré-condição} & Encarregado tem sessão iniciada e existe uma convocatória publicada para o seu educando. \\
+\hline
+\textbf{Pós-condição} & A resposta do encarregado é registada na convocatória. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Encarregado consulta as convocatórias pendentes de resposta. \newline
+2. Sistema apresenta a lista de convocatórias. \newline
+3. Encarregado seleciona uma convocatória. \newline
+4. Sistema apresenta os detalhes da convocatória. \newline
+5. Encarregado confirma a presença do educando. \newline
+6. Sistema regista a confirmação. \newline
+7. Sistema notifica o treinador sobre a resposta. \\
+\hline
+\textbf{Fluxo alternativo 1} & 
+[encarregado recusa a presença] (passo 5) \newline
+5.1. Encarregado indica o motivo da ausência. \newline
+5.2. Sistema regista a recusa com a justificação. \newline
+5.3. Sistema notifica o treinador sobre a resposta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Responder a Convocatória''.}
+\label{tab:uc_responder_convocatoria}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Estatísticas de Jogo \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador regista as estatísticas individuais e coletivas de um jogo. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e existe um jogo finalizado sem estatísticas registadas. \\
+\hline
+\textbf{Pós-condição} & As estatísticas do jogo são registadas no sistema. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Treinador seleciona o jogo. \newline
+2. Sistema apresenta a lista de atletas que participaram. \newline
+3. Treinador indica o resultado do jogo. \newline
+4. Para cada atleta, treinador regista estatísticas individuais (golos, assistências, tempo jogado, etc.). \newline
+5. Sistema valida e guarda as estatísticas. \newline
+6. Sistema confirma o registo das estatísticas. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Estatísticas de Jogo''.}
+\label{tab:uc_registar_estatisticas}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Consultar Plantel \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador consulta os atletas que compõem o plantel de uma equipa. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e está associado a pelo menos uma equipa. \\
+\hline
+\textbf{Pós-condição} & São apresentados ao treinador os atletas do plantel com os seus dados. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Treinador seleciona a equipa. \newline
+2. Sistema apresenta a lista de atletas do plantel com informações relevantes (posição, idade, atestado médico válido, quotas em dia). \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Consultar Plantel''.}
+\label{tab:uc_consultar_plantel}
+\end{table}
+
+% --- GESTÃO CLÍNICA ---
+
+\paragraph{Subsistema de Gestão Clínica}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Submeter Atestado Médico \\
+\hline
+\textbf{Ator} & Atleta / Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Atleta ou encarregado submete um atestado médico para validação. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & O atestado médico é submetido e fica pendente de validação pela secretaria. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador acede à secção de atestados médicos. \newline
+2. Utilizador carrega o ficheiro do atestado médico. \newline
+3. Utilizador indica a data de emissão e validade do atestado. \newline
+4. Sistema valida o formato do ficheiro. \newline
+5. Sistema regista o atestado com estado ``Pendente''. \newline
+6. Sistema notifica a secretaria sobre o novo atestado. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[formato de ficheiro inválido] (passo 4) \newline
+4.1. Sistema informa sobre os formatos aceites. \newline
+4.2. Regressa a 2. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Submeter Atestado Médico''.}
+\label{tab:uc_submeter_atestado}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Validar Atestado Médico \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria valida ou rejeita um atestado médico submetido. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem atestados pendentes de validação. \\
+\hline
+\textbf{Pós-condição} & O atestado é validado ou rejeitado, e o utilizador é notificado. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Secretaria consulta a lista de atestados pendentes. \newline
+2. Secretaria seleciona um atestado. \newline
+3. Sistema apresenta o documento e os dados do atestado. \newline
+4. Secretaria valida o atestado. \newline
+5. Sistema atualiza o estado para ``Válido''. \newline
+6. Sistema atualiza a situação clínica do atleta. \newline
+7. Sistema notifica o atleta/encarregado sobre a validação. \\
+\hline
+\textbf{Fluxo alternativo 1} & 
+[secretaria rejeita o atestado] (passo 4) \newline
+4.1. Secretaria indica o motivo da rejeição. \newline
+4.2. Sistema atualiza o estado para ``Rejeitado''. \newline
+4.3. Sistema notifica o utilizador sobre a rejeição. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Validar Atestado Médico''.}
+\label{tab:uc_validar_atestado}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Lesão \\
+\hline
+\textbf{Ator} & Treinador \\
+\hline
+\textbf{Descrição} & Treinador regista uma lesão sofrida por um atleta. \\
+\hline
+\textbf{Pré-condição} & Treinador tem sessão iniciada e o atleta pertence a uma das suas equipas. \\
+\hline
+\textbf{Pós-condição} & A lesão é registada no historial clínico do atleta. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Treinador seleciona o atleta. \newline
+2. Treinador indica o tipo de lesão, data de ocorrência e descrição. \newline
+3. Treinador indica a previsão de recuperação (se conhecida). \newline
+4. Sistema regista a lesão. \newline
+5. Sistema notifica o encarregado de educação sobre a lesão. \newline
+6. Sistema atualiza a disponibilidade do atleta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Lesão''.}
+\label{tab:uc_registar_lesao}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Reportar Queixa Física \\
+\hline
+\textbf{Ator} & Atleta / Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Atleta ou encarregado reporta uma queixa física ao treinador. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & A queixa física é registada e o treinador é notificado. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador acede à secção de queixas físicas. \newline
+2. Utilizador descreve a queixa (zona afetada, tipo de dor, intensidade). \newline
+3. Utilizador indica se pretende participar no próximo treino/jogo. \newline
+4. Sistema regista a queixa. \newline
+5. Sistema notifica os treinadores das equipas do atleta. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Reportar Queixa Física''.}
+\label{tab:uc_reportar_queixa}
+\end{table}
+
+% --- GESTÃO FINANCEIRA ---
+
+\paragraph{Subsistema de Gestão Financeira}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerar Quotas da Época \\
+\hline
+\textbf{Ator} & Gerência \\
+\hline
+\textbf{Descrição} & Sistema gera automaticamente as quotas para todos os atletas ativos numa nova época. \\
+\hline
+\textbf{Pré-condição} & Gerência tem sessão iniciada e foi criada uma nova época desportiva. \\
+\hline
+\textbf{Pós-condição} & São criadas quotas para todos os atletas ativos, em estado ``Pendente''. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Gerência inicia o processo de geração de quotas para a época. \newline
+2. Sistema identifica todos os atletas com inscrição ativa. \newline
+3. Sistema calcula o valor da quota para cada atleta (com base no escalão e modalidades). \newline
+4. Sistema cria as quotas em estado ``Pendente''. \newline
+5. Sistema notifica os encarregados de educação sobre as quotas geradas. \newline
+6. Sistema apresenta o resumo da operação. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerar Quotas da Época''.}
+\label{tab:uc_gerar_quotas}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Efetuar Pagamento \\
+\hline
+\textbf{Ator} & Encarregado de Educação \\
+\hline
+\textbf{Descrição} & Encarregado efetua o pagamento de uma quota pendente. \\
+\hline
+\textbf{Pré-condição} & Encarregado tem sessão iniciada e existem quotas pendentes associadas aos seus educandos. \\
+\hline
+\textbf{Pós-condição} & O pagamento é registado e a quota transita para o estado ``Paga''. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Encarregado consulta as quotas pendentes. \newline
+2. Sistema apresenta a lista de quotas com valores e prazos. \newline
+3. Encarregado seleciona as quotas a pagar. \newline
+4. Encarregado escolhe o método de pagamento (MB Way, transferência, numerário). \newline
+5. Sistema processa o pagamento. \newline
+6. Sistema atualiza o estado das quotas para ``Paga''. \newline
+7. Sistema gera o recibo/fatura. \newline
+8. Sistema envia confirmação ao encarregado. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[pagamento falha] (passo 5) \newline
+5.1. Sistema informa sobre a falha no pagamento. \newline
+5.2. Sistema mantém as quotas em estado ``Pendente''. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Efetuar Pagamento''.}
+\label{tab:uc_efetuar_pagamento}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Registar Pagamento Manual \\
+\hline
+\textbf{Ator} & Secretaria \\
+\hline
+\textbf{Descrição} & Secretaria regista um pagamento efetuado presencialmente ou por transferência. \\
+\hline
+\textbf{Pré-condição} & Secretaria tem sessão iniciada e existem quotas pendentes. \\
+\hline
+\textbf{Pós-condição} & O pagamento é registado e a quota transita para o estado ``Paga''. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Secretaria pesquisa o atleta ou encarregado. \newline
+2. Sistema apresenta as quotas pendentes. \newline
+3. Secretaria seleciona as quotas pagas. \newline
+4. Secretaria indica o método de pagamento e comprovativo (se aplicável). \newline
+5. Sistema atualiza o estado das quotas para ``Paga''. \newline
+6. Sistema gera o recibo/fatura. \newline
+7. Sistema notifica o encarregado sobre o pagamento registado. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Registar Pagamento Manual''.}
+\label{tab:uc_registar_pagamento}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Gerar Relatório SAF-T \\
+\hline
+\textbf{Ator} & Gerência \\
+\hline
+\textbf{Descrição} & Sistema gera o ficheiro SAF-T para submissão à Autoridade Tributária. \\
+\hline
+\textbf{Pré-condição} & Gerência tem sessão iniciada e existem transações financeiras registadas. \\
+\hline
+\textbf{Pós-condição} & É gerado um ficheiro SAF-T válido com todas as transações do período selecionado. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Gerência indica o período para o relatório (mês/ano). \newline
+2. Sistema recolhe todas as transações do período. \newline
+3. Sistema valida a conformidade dos dados. \newline
+4. Sistema gera o ficheiro SAF-T em formato XML. \newline
+5. Sistema disponibiliza o ficheiro para download. \\
+\hline
+\textbf{Fluxo de exceção 1} & 
+[dados incompletos ou inválidos] (passo 3) \newline
+3.1. Sistema apresenta lista de erros/inconsistências. \newline
+3.2. Sistema cancela a geração do ficheiro. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Gerar Relatório SAF-T''.}
+\label{tab:uc_gerar_saft}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Caso de uso} & Consultar Situação Financeira \\
+\hline
+\textbf{Ator} & Encarregado de Educação / Atleta \\
+\hline
+\textbf{Descrição} & Utilizador consulta o estado das suas quotas e histórico de pagamentos. \\
+\hline
+\textbf{Pré-condição} & Utilizador tem sessão iniciada. \\
+\hline
+\textbf{Pós-condição} & São apresentadas as quotas e pagamentos associados ao utilizador. \\
+\hline
+\textbf{Fluxo normal} & 
+1. Utilizador acede à secção financeira. \newline
+2. Sistema apresenta o resumo da situação (quotas pendentes, em atraso, pagas). \newline
+3. Sistema apresenta o histórico de pagamentos e faturas. \\
+\hline
+\end{tabularx}
+\caption{Caso de uso ``Consultar Situação Financeira''.}
+\label{tab:uc_consultar_financeira}
+\end{table}
+
+% ============================================
+% DIAGRAMAS DE ATIVIDADE
+% ============================================
+
+\subsubsection{Diagramas de atividade}
+
+Para a modelação do software, foram também construídos diagramas de atividade para as operações 
+com fluxos de controlo mais complexos. Estes diagramas descrevem operações da camada de negócio, 
+permitindo uma representação organizada do controlo de fluxo que facilita a implementação.
+
+\paragraph{Diagrama de atividade: Registo de utilizador}
+
+O diagrama seguinte descreve a resposta do sistema ao pedido de registo de um novo utilizador:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_registo.png}
+    \caption{Diagrama de atividade relativo ao registo de um utilizador.}
+    \label{fig:atividade_registo}
+\end{figure}
+
+A atividade inicia-se com a receção dos dados do utilizador. O sistema verifica se já existe um 
+utilizador com o email providenciado. Em caso afirmativo, o sistema informa o erro e termina. 
+Caso contrário, calcula a hash da palavra-passe, regista os dados com estado ``Pendente'', 
+notifica a secretaria e redireciona o utilizador para a página de confirmação.
+
+\paragraph{Diagrama de atividade: Processamento de pagamento}
+
+O diagrama seguinte descreve o fluxo de processamento de um pagamento de quotas:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/atividade_pagamento.png}
+    \caption{Diagrama de atividade relativo ao processamento de pagamento.}
+    \label{fig:atividade_pagamento}
+\end{figure}
+
+Após receber os dados do pagamento, o sistema valida as quotas selecionadas em paralelo com a 
+verificação do método de pagamento. Se ambas as validações forem bem-sucedidas, o sistema processa 
+o pagamento junto do gateway. Em caso de sucesso, atualiza o estado das quotas, gera a fatura e 
+envia a confirmação. Em caso de falha, informa o utilizador do erro.
+
+\paragraph{Diagrama de atividade: Publicação de convocatória}
+
+O diagrama seguinte descreve o processo de publicação de uma convocatória e envio de notificações:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_convocatoria.png}
+    \caption{Diagrama de atividade relativo à publicação de uma convocatória.}
+    \label{fig:atividade_convocatoria}
+\end{figure}
+
+A atividade inicia-se com a receção do pedido de publicação. O sistema valida que a convocatória 
+está em estado ``Rascunho'' e que tem pelo menos um atleta convocado. Se válido, atualiza o estado 
+para ``Publicada'' e, em paralelo, envia notificações para cada atleta convocado e respetivo 
+encarregado de educação. A estrutura cíclica itera por todos os atletas da convocatória.
+
+\paragraph{Diagrama de atividade: Verificação de quotas em atraso}
+
+O diagrama seguinte descreve o processo automático de verificação de quotas em atraso:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/atividade_quotas_atraso.png}
+    \caption{Diagrama de atividade relativo à verificação de quotas em atraso.}
+    \label{fig:atividade_quotas_atraso}
+\end{figure}
+
+Este processo é executado periodicamente pelo sistema. Para cada quota em estado ``Pendente'', 
+o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza o estado para 
+``Em Atraso'' e envia uma notificação ao encarregado de educação. Se o atraso ultrapassar um 
+limite configurável, o sistema pode sinalizar o atleta para suspensão de atividades.
+

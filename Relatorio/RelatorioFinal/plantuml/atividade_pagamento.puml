@@ -1,0 +1,63 @@
+@startuml atividade_pagamento
+
+' ============================================
+' DIAGRAMA DE ATIVIDADE - PROCESSAMENTO DE PAGAMENTO
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+
+title Diagrama de Atividade - Processamento de Pagamento
+
+start
+
+:Receber dados do pagamento\n(quotas selecionadas, método);
+
+fork
+    :Validar quotas selecionadas\n(estado pendente/em atraso);
+fork again
+    :Verificar método de pagamento\n(MB Way, transferência, etc.);
+end fork
+
+if (validações OK?) then (não)
+    :Informar erro de validação;
+    stop
+else (sim)
+    :Calcular valor total\n(incluir multas se aplicável);
+    
+    :Apresentar resumo ao utilizador;
+    
+    if (utilizador confirma?) then (não)
+        :Cancelar operação;
+        stop
+    else (sim)
+        :Processar pagamento\njunto do gateway;
+        
+        if (pagamento bem-sucedido?) then (não)
+            :Informar falha no pagamento;
+            :Registar tentativa falhada;
+            stop
+        else (sim)
+            fork
+                :Atualizar estado das quotas\npara "Paga";
+            fork again
+                :Gerar fatura/recibo;
+            fork again
+                :Registar transação financeira;
+            end fork
+            
+            :Enviar confirmação e fatura\nao encarregado;
+            
+            :Redirecionar para página\nde confirmação;
+            
+            stop
+        endif
+    endif
+endif
+
+@enduml

@@ -1,0 +1,95 @@
+@startuml casos_uso_clinica
+
+' ============================================
+' DIAGRAMA DE CASOS DE USO - GESTÃO CLÍNICA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam usecase {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 10
+}
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+}
+
+left to right direction
+
+title Subsistema de Gestão Clínica
+
+actor "Atleta" as Atleta
+actor "Treinador" as Treinador
+actor "Encarregado de\nEducação" as Encarregado
+actor "Secretaria" as Secretaria
+
+rectangle "Gestão Clínica" {
+    ' Atestados Médicos
+    usecase "Submeter Atestado\nMédico" as UC1
+    usecase "Validar Atestado\nMédico" as UC2
+    usecase "Consultar Atestados" as UC3
+    usecase "Alertar Atestado\na Expirar" as UC4
+    
+    ' Lesões
+    usecase "Registar Lesão" as UC5
+    usecase "Atualizar Estado\nde Lesão" as UC6
+    usecase "Consultar Historial\nde Lesões" as UC7
+    usecase "Registar Recuperação" as UC8
+    
+    ' Queixas Físicas
+    usecase "Reportar Queixa\nFísica" as UC9
+    usecase "Consultar Queixas\nFísicas" as UC10
+    
+    ' Consultas gerais
+    usecase "Consultar Situação\nClínica do Atleta" as UC11
+}
+
+' Relações - Atleta
+Atleta --> UC1
+Atleta --> UC3
+Atleta --> UC7
+Atleta --> UC9
+
+' Relações - Encarregado
+Encarregado --> UC1
+Encarregado --> UC3
+Encarregado --> UC7
+Encarregado --> UC9
+
+' Relações - Treinador
+Treinador --> UC5
+Treinador --> UC6
+Treinador --> UC7
+Treinador --> UC8
+Treinador --> UC10
+Treinador --> UC11
+
+' Relações - Secretaria
+Secretaria --> UC2
+Secretaria --> UC3
+Secretaria --> UC4
+Secretaria --> UC11
+
+' Sistema automático
+note as N1
+  O sistema verifica
+  automaticamente atestados
+  a expirar e envia alertas
+end note
+
+N1 .. UC4
+
+note right of UC5
+  Treinador regista lesão
+  ocorrida em treino/jogo
+end note
+
+note right of UC9
+  Atleta/Encarregado pode
+  reportar desconforto físico
+  antes de treinos/jogos
+end note
+
+@enduml

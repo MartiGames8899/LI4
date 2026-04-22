@@ -1,0 +1,72 @@
+@startuml casos_uso_utilizadores
+
+' ============================================
+' DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam usecase {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 10
+}
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+}
+
+left to right direction
+
+title Subsistema de Gestão de Utilizadores
+
+actor "Utilizador" as Utilizador
+actor "Secretaria" as Secretaria
+actor "Gerência" as Gerencia
+
+rectangle "Gestão de Utilizadores" {
+    usecase "Registar-se" as UC1
+    usecase "Iniciar Sessão" as UC2
+    usecase "Terminar Sessão" as UC3
+    usecase "Gerir Perfil" as UC4
+    usecase "Recuperar Palavra-passe" as UC5
+    usecase "Aprovar Registo" as UC6
+    usecase "Eliminar Utilizador" as UC7
+    usecase "Consultar Utilizadores" as UC8
+    usecase "Editar Dados de Utilizador" as UC9
+    usecase "Associar Atleta a\nEncarregado" as UC10
+    usecase "Atribuir Papel" as UC11
+}
+
+' Relações - Utilizador genérico
+Utilizador --> UC1
+Utilizador --> UC2
+Utilizador --> UC3
+Utilizador --> UC4
+Utilizador --> UC5
+
+' Relações - Secretaria
+Secretaria --> UC6
+Secretaria --> UC8
+Secretaria --> UC9
+Secretaria --> UC10
+
+' Relações - Gerência
+Gerencia --> UC7
+Gerencia --> UC8
+Gerencia --> UC11
+
+' Includes
+UC1 ..> UC2 : <<include>>
+
+note right of UC6
+  Secretaria valida documentos
+  e aprova novos registos
+end note
+
+note right of UC11
+  Apenas gerência pode
+  atribuir papéis especiais
+end note
+
+@enduml

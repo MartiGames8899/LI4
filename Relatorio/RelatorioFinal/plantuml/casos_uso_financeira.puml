@@ -1,0 +1,108 @@
+@startuml casos_uso_financeira
+
+' ============================================
+' DIAGRAMA DE CASOS DE USO - GESTÃO FINANCEIRA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam usecase {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 10
+}
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+}
+
+left to right direction
+
+title Subsistema de Gestão Financeira
+
+actor "Atleta" as Atleta
+actor "Encarregado de\nEducação" as Encarregado
+actor "Secretaria" as Secretaria
+actor "Gerência" as Gerencia
+
+rectangle "Gestão Financeira" {
+    ' Quotas
+    usecase "Gerar Quotas\nda Época" as UC1
+    usecase "Consultar Quotas\nPendentes" as UC2
+    usecase "Efetuar Pagamento" as UC3
+    usecase "Registar Pagamento\nManual" as UC4
+    usecase "Aplicar Desconto" as UC5
+    usecase "Processar Reembolso" as UC6
+    
+    ' Faturas
+    usecase "Gerar Fatura" as UC7
+    usecase "Consultar Faturas" as UC8
+    usecase "Anular Fatura" as UC9
+    
+    ' Relatórios
+    usecase "Gerar Relatório\nSAF-T" as UC10
+    usecase "Consultar Relatório\nFinanceiro" as UC11
+    usecase "Exportar Movimentos" as UC12
+    
+    ' Configurações
+    usecase "Definir Valores\nde Quotas" as UC13
+    usecase "Configurar Métodos\nde Pagamento" as UC14
+    
+    ' Consultas
+    usecase "Consultar Situação\nFinanceira" as UC15
+    usecase "Alertar Quotas\nem Atraso" as UC16
+}
+
+' Relações - Atleta
+Atleta --> UC15
+Atleta --> UC8
+
+' Relações - Encarregado
+Encarregado --> UC2
+Encarregado --> UC3
+Encarregado --> UC8
+Encarregado --> UC15
+
+' Relações - Secretaria
+Secretaria --> UC2
+Secretaria --> UC4
+Secretaria --> UC5
+Secretaria --> UC7
+Secretaria --> UC8
+Secretaria --> UC11
+Secretaria --> UC15
+
+' Relações - Gerência
+Gerencia --> UC1
+Gerencia --> UC6
+Gerencia --> UC9
+Gerencia --> UC10
+Gerencia --> UC11
+Gerencia --> UC12
+Gerencia --> UC13
+Gerencia --> UC14
+
+' Includes
+UC3 ..> UC7 : <<include>>
+UC4 ..> UC7 : <<include>>
+
+' Sistema automático
+note as N1
+  Sistema verifica quotas
+  em atraso e envia
+  notificações automáticas
+end note
+
+N1 .. UC16
+
+note right of UC10
+  Ficheiro XML conforme
+  especificações da AT
+end note
+
+note right of UC3
+  Pagamento online via
+  MB Way ou transferência
+end note
+
+@enduml

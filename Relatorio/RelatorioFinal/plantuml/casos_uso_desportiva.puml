@@ -1,0 +1,101 @@
+@startuml casos_uso_desportiva
+
+' ============================================
+' DIAGRAMA DE CASOS DE USO - GESTÃO DESPORTIVA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam usecase {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 10
+}
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+}
+
+left to right direction
+
+title Subsistema de Gestão Desportiva
+
+actor "Atleta" as Atleta
+actor "Treinador" as Treinador
+actor "Encarregado de\nEducação" as Encarregado
+actor "Secretaria" as Secretaria
+actor "Gerência" as Gerencia
+
+rectangle "Gestão Desportiva" {
+    ' Modalidades e Equipas
+    usecase "Gerir Modalidades" as UC1
+    usecase "Gerir Equipas" as UC2
+    usecase "Gerir Plantel" as UC3
+    usecase "Consultar Plantel" as UC4
+    
+    ' Convocatórias
+    usecase "Criar Convocatória" as UC5
+    usecase "Editar Convocatória" as UC6
+    usecase "Publicar Convocatória" as UC7
+    usecase "Cancelar Convocatória" as UC8
+    usecase "Responder a Convocatória" as UC9
+    usecase "Consultar Convocatórias" as UC10
+    
+    ' Jogos e Treinos
+    usecase "Agendar Jogo" as UC11
+    usecase "Agendar Treino" as UC12
+    usecase "Registar Estatísticas\nde Jogo" as UC13
+    usecase "Registar Presenças" as UC14
+    
+    ' Consultas
+    usecase "Consultar Calendário" as UC15
+    usecase "Consultar Estatísticas\nIndividuais" as UC16
+    usecase "Consultar Estatísticas\nda Equipa" as UC17
+}
+
+' Relações - Gerência
+Gerencia --> UC1
+Gerencia --> UC2
+
+' Relações - Secretaria
+Secretaria --> UC3
+
+' Relações - Treinador
+Treinador --> UC4
+Treinador --> UC5
+Treinador --> UC6
+Treinador --> UC7
+Treinador --> UC8
+Treinador --> UC11
+Treinador --> UC12
+Treinador --> UC13
+Treinador --> UC14
+Treinador --> UC17
+
+' Relações - Encarregado
+Encarregado --> UC9
+Encarregado --> UC10
+Encarregado --> UC15
+
+' Relações - Atleta
+Atleta --> UC10
+Atleta --> UC15
+Atleta --> UC16
+
+' Includes e Extends
+UC5 ..> UC4 : <<include>>
+UC7 ..> UC6 : <<include>>
+UC11 ..> UC5 : <<include>>
+UC12 ..> UC5 : <<include>>
+
+note right of UC9
+  Encarregado confirma ou
+  recusa presença do educando
+end note
+
+note bottom of UC13
+  Após finalização do jogo
+  treinador regista estatísticas
+end note
+
+@enduml

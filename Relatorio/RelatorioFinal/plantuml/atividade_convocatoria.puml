@@ -1,0 +1,65 @@
+@startuml atividade_convocatoria
+
+' ============================================
+' DIAGRAMA DE ATIVIDADE - PUBLICAÇÃO DE CONVOCATÓRIA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+
+title Diagrama de Atividade - Publicação de Convocatória
+
+start
+
+:Receber pedido de publicação\nda convocatória;
+
+:Consultar estado atual\nda convocatória;
+
+if (estado == "Rascunho"?) then (não)
+    :Informar que convocatória\nnão pode ser publicada;
+    stop
+else (sim)
+    :Consultar atletas\nna convocatória;
+    
+    if (tem atletas convocados?) then (não)
+        :Informar que é necessário\nconvocar pelo menos um atleta;
+        stop
+    else (sim)
+        :Validar disponibilidade\ndos atletas convocados;
+        
+        note right
+            Verificar:
+            - Atestado médico válido
+            - Quotas em dia
+            - Sem lesões ativas
+        end note
+        
+        :Atualizar estado da\nconvocatória para "Publicada";
+        
+        :Obter lista de atletas convocados;
+        
+        while (há atletas por notificar?) is (sim)
+            :Selecionar próximo atleta;
+            
+            fork
+                :Enviar notificação ao atleta;
+            fork again
+                :Consultar encarregado\nde educação do atleta;
+                :Enviar notificação ao\nencarregado de educação;
+            end fork
+        endwhile (não)
+        
+        :Registar data/hora da publicação;
+        
+        :Informar treinador do sucesso\nna publicação;
+        
+        stop
+    endif
+endif
+
+@enduml

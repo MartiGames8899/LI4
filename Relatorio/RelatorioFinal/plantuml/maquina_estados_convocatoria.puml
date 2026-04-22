@@ -1,0 +1,49 @@
+@startuml maquina_estados_convocatoria
+
+' ============================================
+' DIAGRAMA DE MÁQUINA DE ESTADOS - CONVOCATÓRIA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam state {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 12
+    ArrowColor #333333
+}
+
+title Diagrama de Máquina de Estados - Convocatória
+
+[*] --> Rascunho : Treinador cria\nconvocatória
+
+state Rascunho #LightYellow : Em edição
+state Publicada #LightBlue : Notificações enviadas\nAguardando respostas
+state Finalizada #LightGreen : Evento realizado
+state Cancelada #LightGray : Convocatória anulada
+
+Rascunho --> Publicada : Treinador publica
+Rascunho --> Cancelada : Treinador cancela
+
+Publicada --> Finalizada : Jogo/Treino termina
+Publicada --> Cancelada : Treinador cancela\n(evento desmarcado)
+
+Finalizada --> [*]
+Cancelada --> [*]
+
+note right of Rascunho
+  Treinador pode adicionar
+  ou remover atletas
+end note
+
+note right of Publicada
+  Encarregados podem
+  confirmar/recusar presença
+end note
+
+note bottom of Finalizada
+  Permite registo de
+  estatísticas e presenças
+end note
+
+@enduml

@@ -1,0 +1,67 @@
+@startuml atividade_quotas_atraso
+
+' ============================================
+' DIAGRAMA DE ATIVIDADE - VERIFICAÇÃO DE QUOTAS EM ATRASO
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+
+title Diagrama de Atividade - Verificação de Quotas em Atraso\n(Processo Automático Periódico)
+
+start
+
+:Obter data atual;
+
+:Consultar todas as quotas\nem estado "Pendente";
+
+while (há quotas por verificar?) is (sim)
+    :Selecionar próxima quota;
+    
+    :Consultar prazo de pagamento\nda quota;
+    
+    if (prazo expirou?) then (sim)
+        :Atualizar estado da quota\npara "Em Atraso";
+        
+        :Consultar encarregado de\neducação do atleta;
+        
+        :Enviar notificação de\nquota em atraso;
+        
+        :Calcular dias de atraso;
+        
+        if (dias de atraso > limite suspensão?) then (sim)
+            :Consultar configuração\nde suspensão;
+            
+            :Sinalizar atleta para\npossível suspensão;
+            
+            :Notificar gerência sobre\ncaso de atraso prolongado;
+        else (não)
+            note right
+                Enviar lembretes
+                progressivos conforme
+                dias de atraso
+            end note
+        endif
+        
+    else (não)
+        :Verificar se está próximo\ndo prazo (7 dias);
+        
+        if (próximo do prazo?) then (sim)
+            :Enviar lembrete preventivo\nao encarregado;
+        else (não)
+            ' Nenhuma ação necessária
+        endif
+    endif
+    
+endwhile (não)
+
+:Registar execução do\nprocesso de verificação;
+
+stop
+
+@enduml

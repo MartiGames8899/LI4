@@ -1,0 +1,49 @@
+@startuml atividade_registo
+
+' ============================================
+' DIAGRAMA DE ATIVIDADE - REGISTO DE UTILIZADOR
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+
+title Diagrama de Atividade - Registo de Utilizador
+
+start
+
+:Receber dados do utilizador\n(nome, email, password, tipo);
+
+:Consultar utilizador com\no email providenciado;
+
+if (utilizador existe?) then (sim)
+    :Informar que utilizador com\no mesmo email já existe;
+    stop
+else (não)
+    :Validar formato dos dados;
+    
+    if (dados válidos?) then (não)
+        :Informar erros de validação;
+        stop
+    else (sim)
+        :Calcular hash da palavra-passe;
+        
+        :Registar dados do utilizador\ncom estado "Pendente";
+        
+        fork
+            :Notificar secretaria sobre\nnovo pedido de registo;
+        fork again
+            :Enviar email de confirmação\nao utilizador;
+        end fork
+        
+        :Redirecionar utilizador para\npágina de confirmação;
+        
+        stop
+    endif
+endif
+
+@enduml

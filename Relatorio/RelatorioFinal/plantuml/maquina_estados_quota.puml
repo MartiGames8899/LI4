@@ -1,0 +1,51 @@
+@startuml maquina_estados_quota
+
+' ============================================
+' DIAGRAMA DE MÁQUINA DE ESTADOS - QUOTA
+' Sistema de Gestão Integrada - CAP
+' ============================================
+
+skinparam backgroundColor white
+skinparam state {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 12
+    ArrowColor #333333
+}
+
+title Diagrama de Máquina de Estados - Quota
+
+[*] --> Pendente : Início da época\n(quota gerada)
+
+state Pendente #LightBlue : Aguardando pagamento
+state EmAtraso #Orange : Prazo expirado
+state Paga #LightGreen : Pagamento confirmado
+state Reembolsada #LightGray : Valor devolvido
+
+Pendente --> Paga : Pagamento efetuado
+Pendente --> EmAtraso : Prazo de pagamento expira
+
+EmAtraso --> Paga : Pagamento efetuado\n(com possível multa)
+EmAtraso --> [*] : Suspensão do atleta\n(atraso prolongado)
+
+Paga --> Reembolsada : Reembolso aprovado\n(casos excecionais)
+Paga --> [*] : Fim da época
+
+Reembolsada --> [*]
+
+note right of Pendente
+  Estado inicial de todas as quotas
+  geradas no início da época
+end note
+
+note right of EmAtraso
+  O sistema envia notificações
+  automáticas de lembrete
+end note
+
+note bottom of Paga
+  Gera fatura/recibo
+  automaticamente
+end note
+
+@enduml
