@@ -1,0 +1,209 @@
+@startuml modelo_dominio
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam linetype ortho
+
+' ====================================
+' ENTIDADES PRINCIPAIS - UTILIZADORES
+' ====================================
+class Utilizador {
+}
+
+class Atleta {
+}
+
+class Treinador {
+}
+
+class "Encarregado de Educação" as EncarregadoEducacao {
+}
+
+class Funcionário {
+}
+
+class Secretaria {
+}
+
+class Gerência {
+}
+
+' ====================================
+' ENTIDADES DESPORTIVAS
+' ====================================
+class Modalidade {
+}
+
+class Equipa {
+}
+
+class Plantel {
+}
+
+class "Atleta no Plantel" as AtletaPlantel {
+}
+
+class Posição {
+}
+
+class "Número Camisola" as NumeroCamisola {
+}
+
+class Convocatória {
+}
+
+class "Item na Convocatória" as ItemConvocatoria {
+}
+
+class Evento {
+}
+
+class Treino {
+}
+
+class Jogo {
+}
+
+class "Participação em Jogo" as ParticipacaoJogo {
+}
+
+class Estatística {
+}
+
+' ====================================
+' ENTIDADES CLÍNICAS
+' ====================================
+class "Atestado Médico" as AtestadoMedico {
+}
+
+class "Queixa Física" as QueixaFisica {
+}
+
+class Lesão {
+}
+
+class "Data Validade" as DataValidade {
+}
+
+' ====================================
+' ENTIDADES FINANCEIRAS
+' ====================================
+class Quota {
+}
+
+class "Pagamento de Quota" as PagamentoQuota {
+}
+
+class Transação {
+}
+
+class Fatura {
+}
+
+class Época {
+}
+
+' ====================================
+' ENTIDADES DE COMUNICAÇÃO E INFRAESTRUTURA
+' ====================================
+class Notificação {
+}
+
+class Instalação {
+}
+
+class Reserva {
+}
+
+' ====================================
+' HIERARQUIAS (relações "é um")
+' ====================================
+
+' Hierarquia de Utilizadores
+Atleta --|> Utilizador : é um
+Treinador --|> Utilizador : é um
+EncarregadoEducacao --|> Utilizador : é um
+Funcionário --|> Utilizador : é um
+Secretaria --|> Funcionário : é um
+Gerência --|> Funcionário : é um
+
+' Hierarquia de Eventos
+Treino --|> Evento : é um
+Jogo --|> Evento : é um
+
+' Hierarquia de Transações
+PagamentoQuota --|> Transação : é uma
+Fatura --|> Transação : é uma
+
+' ====================================
+' RELAÇÕES MODALIDADE/EQUIPA/PLANTEL
+' ====================================
+Modalidade "1" -- "*" Equipa : possui
+Equipa "1" -- "1" Plantel : possui
+Plantel "1" -- "*" AtletaPlantel : constituído por
+AtletaPlantel "*" -- "1" Atleta : refere
+AtletaPlantel "1" -- "1" Posição : possui
+AtletaPlantel "1" -- "1" NumeroCamisola : possui
+
+' ====================================
+' RELAÇÕES TREINADOR
+' ====================================
+Treinador "*" -- "*" Equipa : treina
+
+' ====================================
+' RELAÇÕES CONVOCATÓRIA
+' ====================================
+Treinador "1" -- "*" Convocatória : emite
+Convocatória "1" -- "*" ItemConvocatoria : constituída por
+ItemConvocatoria "*" -- "1" Atleta : convoca
+Convocatória "*" -- "1" Evento : relativa a
+
+' ====================================
+' RELAÇÕES JOGO/PARTICIPAÇÃO
+' ====================================
+Jogo "1" -- "*" ParticipacaoJogo : possui
+ParticipacaoJogo "*" -- "1" Atleta : refere
+ParticipacaoJogo "1" -- "*" Estatística : regista
+
+' ====================================
+' RELAÇÕES CLÍNICAS
+' ====================================
+Atleta "1" -- "*" AtestadoMedico : possui
+AtestadoMedico "1" -- "1" DataValidade : possui
+Atleta "1" -- "*" QueixaFisica : regista
+Atleta "1" -- "*" Lesão : possui
+
+' ====================================
+' RELAÇÕES FINANCEIRAS
+' ====================================
+Atleta "1" -- "*" Quota : deve
+Quota "*" -- "1" Época : relativa a
+Quota "1" -- "0..1" PagamentoQuota : paga por
+PagamentoQuota "1" -- "1" Fatura : gera
+EncarregadoEducacao "1" -- "*" Atleta : responsável por
+EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
+
+' ====================================
+' RELAÇÕES NOTIFICAÇÕES
+' ====================================
+Utilizador "1" -- "*" Notificação : recebe
+
+' ====================================
+' RELAÇÕES INSTALAÇÕES
+' ====================================
+Instalação "1" -- "*" Reserva : possui
+Reserva "*" -- "1" Evento : para
+Reserva "*" -- "1" Equipa : por
+
+' ====================================
+' RELAÇÕES ADMINISTRAÇÃO
+' ====================================
+Secretaria "1" -- "*" Atleta : regista
+Secretaria "1" -- "*" Fatura : emite
+Gerência "1" -- "*" Funcionário : gere
+Gerência "1" -- "*" Modalidade : administra
+
+@enduml

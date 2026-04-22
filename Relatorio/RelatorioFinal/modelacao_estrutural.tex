@@ -1,0 +1,233 @@
+\section{Modelação Estrutural}
+
+O primeiro diagrama estrutural construído foi o modelo de domínio, que procura apresentar as várias entidades que fazem parte do problema de gestão integrada do clube desportivo, representadas como retângulos, e as relações entre elas, representadas como linhas retas, legendadas com os nomes das relações. Para não construir um modelo de dimensões muito elevadas, tornando difícil a sua leitura e invalidando o propósito da sua existência, não se representaram relações relativas a operações de consulta (ex.: ``Treinador'' consulta ``Estatística''), mesmo que operações de criação e alteração de entidades se encontrem representadas. Ademais, pelo mesmo motivo, não se representaram entidades que se consideraram irrelevantes para a visão geral do problema, como identificadores, nomes, preços, etc. Segue-se o modelo de domínio, construído com base no levantamento de requisitos e nas entrevistas realizadas:
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\textwidth]{modelo_dominio.png}}
+    \caption{Modelo de Domínio do Sistema CAP}
+    \label{fig:modelo-dominio}
+\end{figure}
+
+A natureza concetual do modelo de domínio e a simplicidade da sua linguagem (o diagrama faz uso de apenas uma pequena fração da linguagem de diagramas de classes UML) permitem que este seja lido facilmente. Logo, a totalidade do modelo não será descrita textualmente, e apenas serão tecidos comentários relativos a situações particulares.
+
+Em primeiro lugar, as entidades ``Utilizador'', ``Atleta'', ``Treinador'', ``Encarregado de Educação'', ``Funcionário'', ``Secretaria'' e ``Gerência'' são mencionadas ao longo das entrevistas e questionários realizados, que também permitem concluir sobre a existência de uma hierarquia entre estas entidades, representada através de relações do tipo ``é um'' (ex.: ``Atleta'' é um ``Utilizador'').
+
+São também descritas associações de multi-conjunto entre entidades. Por exemplo, um ``Plantel'' é constituído por ``Atleta''s, e a cada ``Atleta'' está associada a ``Posição'' no plantel e o ``Número da Camisola''. Esta relação reflete-se no RF-02 (Gestão de Plantéis e Alocação de Atletas). Para representar estas relações no modelo de domínio, foram utilizadas classes de associação, entidades que representam a relação entre outras duas entidades. No exemplo dado, foi criada a entidade ``Atleta no Plantel'', que se associou à relação ``Plantel constituído por Atletas''. O mesmo método foi utilizado para outras relações semelhantes, dando origem às entidades ``Item na Convocatória'', ``Participação em Jogo'' e ``Pagamento de Quota''.
+
+Uma classe de associação foi também utilizada para a representação das transações financeiras (RF-06 e RF-07): a relação de pagamento de uma quota foi identificada como um ``Pagamento de Quota'', por sua vez relacionada com uma ``Transação'' por uma relação do tipo ``é um''. A ``Fatura'', por já ser uma entidade, foi diretamente associada à ``Transação''. A ``Quota'', apesar de se tratar de um valor a pagar, foi representada como uma entidade separada que se associa ao ``Atleta'' e à ``Época'', permitindo assim o rastreamento completo do histórico financeiro.
+
+O modelo de domínio também captura a vertente clínica do sistema. A entidade ``Atestado Médico'' está associada ao ``Atleta'' através de uma relação ``possui'', com atributos de ``Data de Validade'' que permitem ao sistema gerar alertas automáticos de caducidade, conforme identificado nas entrevistas com os atletas. As ``Queixa Física'' e ``Lesão'' também se encontram modeladas, permitindo que os atletas registem autonomamente os seus problemas de saúde e que os treinadores consultem esta informação antes de elaborar convocatórias.
+
+A comunicação entre os diversos intervenientes do clube é suportada pela entidade ``Notificação'', que pode ser enviada a qualquer ``Utilizador'' e está associada a diversos eventos do sistema, como convocatórias publicadas, quotas em atraso ou alterações de horários.
+
+Por último, a gestão das infraestruturas do clube é representada através das entidades ``Instalação'', ``Reserva'' e ``Evento'' (que engloba ``Treino'' e ``Jogo''). Esta modelação surge da necessidade identificada pela gerência de evitar conflitos de agendamento entre as diferentes modalidades do clube.
+
+%% PlantUML source code for reference (to be compiled separately):
+%% 
+%% @startuml modelo_dominio
+%% 
+%% skinparam classAttributeIconSize 0
+%% skinparam monochrome true
+%% skinparam shadowing false
+%% 
+%% class Utilizador
+%% class Atleta
+%% class Treinador
+%% class "Encarregado de Educação" as EncarregadoEducacao
+%% class Funcionário
+%% class Secretaria
+%% class Gerência
+%% 
+%% class Modalidade
+%% class Equipa
+%% class Plantel
+%% class "Atleta no Plantel" as AtletaPlantel
+%% class Posição
+%% class "Número Camisola" as NumeroCamisola
+%% 
+%% class Convocatória
+%% class "Item na Convocatória" as ItemConvocatoria
+%% class Evento
+%% class Treino
+%% class Jogo
+%% class "Participação em Jogo" as ParticipacaoJogo
+%% class Estatística
+%% 
+%% class "Atestado Médico" as AtestadoMedico
+%% class "Queixa Física" as QueixaFisica
+%% class Lesão
+%% class "Data Validade" as DataValidade
+%% 
+%% class Quota
+%% class "Pagamento de Quota" as PagamentoQuota
+%% class Transação
+%% class Fatura
+%% class Época
+%% 
+%% class Notificação
+%% class Instalação
+%% class Reserva
+%% 
+%% ' Hierarquia de Utilizadores
+%% Atleta --|> Utilizador : é um
+%% Treinador --|> Utilizador : é um
+%% EncarregadoEducacao --|> Utilizador : é um
+%% Funcionário --|> Utilizador : é um
+%% Secretaria --|> Funcionário : é um
+%% Gerência --|> Funcionário : é um
+%% 
+%% ' Hierarquia de Eventos
+%% Treino --|> Evento : é um
+%% Jogo --|> Evento : é um
+%% 
+%% ' Hierarquia de Transações
+%% PagamentoQuota --|> Transação : é uma
+%% Fatura --|> Transação : é uma
+%% 
+%% ' Relações Modalidade/Equipa/Plantel
+%% Modalidade "1" -- "*" Equipa : possui
+%% Equipa "1" -- "1" Plantel : possui
+%% Plantel "1" -- "*" AtletaPlantel : constituído por
+%% AtletaPlantel "*" -- "1" Atleta : refere
+%% AtletaPlantel "1" -- "1" Posição : possui
+%% AtletaPlantel "1" -- "1" NumeroCamisola : possui
+%% 
+%% ' Relações Treinador
+%% Treinador "*" -- "*" Equipa : treina
+%% 
+%% ' Relações Convocatória
+%% Treinador "1" -- "*" Convocatória : emite
+%% Convocatória "1" -- "*" ItemConvocatoria : constituída por
+%% ItemConvocatoria "*" -- "1" Atleta : convoca
+%% Convocatória "*" -- "1" Evento : relativa a
+%% 
+%% ' Relações Jogo/Participação
+%% Jogo "1" -- "*" ParticipacaoJogo : possui
+%% ParticipacaoJogo "*" -- "1" Atleta : refere
+%% ParticipacaoJogo "1" -- "*" Estatística : regista
+%% 
+%% ' Relações Clínicas
+%% Atleta "1" -- "*" AtestadoMedico : possui
+%% AtestadoMedico "1" -- "1" DataValidade : possui
+%% Atleta "1" -- "*" QueixaFisica : regista
+%% Atleta "1" -- "*" Lesão : possui
+%% 
+%% ' Relações Financeiras
+%% Atleta "1" -- "*" Quota : deve
+%% Quota "*" -- "1" Época : relativa a
+%% Quota "1" -- "0..1" PagamentoQuota : paga por
+%% PagamentoQuota "1" -- "1" Fatura : gera
+%% EncarregadoEducacao "1" -- "*" Atleta : responsável por
+%% EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
+%% 
+%% ' Relações Notificações
+%% Utilizador "1" -- "*" Notificação : recebe
+%% 
+%% ' Relações Instalações
+%% Instalação "1" -- "*" Reserva : possui
+%% Reserva "*" -- "1" Evento : para
+%% Reserva "*" -- "1" Equipa : por
+%% 
+%% ' Relações Administração
+%% Secretaria "1" -- "*" Atleta : regista
+%% Secretaria "1" -- "*" Fatura : emite
+%% Gerência "1" -- "*" Funcionário : gere
+%% Gerência "1" -- "*" Modalidade : administra
+%% 
+%% @enduml
+
+O outro diagrama estrutural construído trata-se de um diagrama de componentes, que tem como intuito decompor o sistema a desenvolver em componentes menores, cada um com uma área de foco mais específica. Com o desenvolvimento deste diagrama, obtém-se uma ideia arquitetural de alto nível do sistema a desenvolver. Este diagrama encontra-se alinhado com a decisão arquitetural de Monólito Modular apresentada na secção anterior.
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{diagrama_componentes.png}}
+    \caption{Diagrama de Componentes a definir a arquitetura do sistema}
+    \label{fig:diagrama-componentes}
+\end{figure}
+
+%% PlantUML source code for reference (to be compiled separately):
+%% 
+%% @startuml diagrama_componentes
+%% 
+%% skinparam monochrome true
+%% skinparam shadowing false
+%% 
+%% package "Camada de Apresentação" {
+%%     [Web Application] as WebApp
+%%     [Mobile Application] as MobileApp
+%% }
+%% 
+%% package "Camada de Negócio" {
+%%     [<<subsystem>>\nGestão de Utilizadores] as GestaoUtilizadores
+%%     [<<subsystem>>\nGestão Desportiva] as GestaoDesportiva
+%%     [<<subsystem>>\nGestão Clínica] as GestaoClinica
+%%     [<<subsystem>>\nGestão Financeira] as GestaoFinanceira
+%%     [<<subsystem>>\nGestão de Notificações] as GestaoNotificacoes
+%%     [<<subsystem>>\nGestão de Instalações] as GestaoInstalacoes
+%%     
+%%     interface "IGestaoUtilizadores" as IGU
+%%     interface "IGestaoDesportiva" as IGD
+%%     interface "IGestaoClinica" as IGC
+%%     interface "IGestaoFinanceira" as IGF
+%%     interface "IGestaoNotificacoes" as IGN
+%%     interface "IGestaoInstalacoes" as IGI
+%%     
+%%     GestaoUtilizadores -up- IGU
+%%     GestaoDesportiva -up- IGD
+%%     GestaoClinica -up- IGC
+%%     GestaoFinanceira -up- IGF
+%%     GestaoNotificacoes -up- IGN
+%%     GestaoInstalacoes -up- IGI
+%% }
+%% 
+%% interface "ICamadaNegocio" as ICN
+%% 
+%% package "Camada de Dados" {
+%%     [Base de Dados PostgreSQL] as BD
+%% }
+%% 
+%% interface "ICamadaDados" as ICD
+%% 
+%% WebApp ..> ICN
+%% MobileApp ..> ICN
+%% 
+%% ICN ..> IGU
+%% ICN ..> IGD
+%% ICN ..> IGC
+%% ICN ..> IGF
+%% ICN ..> IGN
+%% ICN ..> IGI
+%% 
+%% GestaoUtilizadores ..> ICD
+%% GestaoDesportiva ..> ICD
+%% GestaoClinica ..> ICD
+%% GestaoFinanceira ..> ICD
+%% GestaoNotificacoes ..> ICD
+%% GestaoInstalacoes ..> ICD
+%% 
+%% BD -up- ICD
+%% 
+%% @enduml
+
+Do diagrama, lê-se que a aplicação pode ser dividida em três componentes principais, correspondentes às três camadas da arquitetura decidida: Camada de Apresentação, Camada de Negócio e Camada de Dados. Esta arquitetura foi escolhida porque, apesar de apresentar uma maior complexidade do que a de uma arquitetura monolítica tradicional, conduz à escrita de código mais fácil de manter, uma vez que a separação entre camadas permite a alteração do funcionamento interno de cada camada sem alterações às restantes, desde que sejam cumpridas as interfaces através das quais as camadas interagem (``ICamadaDados'' e ``ICamadaNegocio'').
+
+Verifica-se que o componente ``Camada de Negócio'' se subdivide em seis subsistemas, apresentados com o estereótipo <<subsystem>>:
+
+\begin{itemize}
+    \item \textbf{Gestão de Utilizadores}: Responsável pelo registo, autenticação e gestão de perfis de todos os utilizadores do sistema (atletas, treinadores, encarregados de educação, secretaria e gerência).
+    
+    \item \textbf{Gestão Desportiva}: Engloba a gestão de modalidades, equipas, plantéis, convocatórias, jogos e estatísticas desportivas.
+    
+    \item \textbf{Gestão Clínica}: Responsável pelo controlo de atestados médicos, registo de queixas físicas e lesões, bem como pela geração de alertas de caducidade.
+    
+    \item \textbf{Gestão Financeira}: Abrange o controlo de quotas, processamento de pagamentos, emissão de faturas e geração do ficheiro SAF-T para conformidade fiscal.
+    
+    \item \textbf{Gestão de Notificações}: Sistema transversal responsável pelo envio de alertas e avisos automáticos a todos os utilizadores.
+    
+    \item \textbf{Gestão de Instalações}: Controla o agendamento e reserva das infraestruturas do clube, evitando conflitos de utilização.
+\end{itemize}
+
+Justifica-se a divisão da camada de negócio em subsistemas para que estes possam ser desenvolvidos independentemente e para que possam ser modificados sem necessidade de se fazerem alterações ao código de outros subsistemas da camada de negócio, tornando mais simples a manutenção da aplicação. O código correspondente a cada subsistema pode ser alterado, desde que continue a ser corretamente implementada a interface a que o subsistema se encontra associado.
+
+Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural de Monólito Modular, onde cada módulo possui fronteiras bem definidas e comunica através de eventos de domínio internos, garantindo um acoplamento débil entre os diferentes componentes de negócio.

@@ -1,0 +1,92 @@
+@startuml diagrama_componentes
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam componentStyle rectangle
+
+' ====================================
+' CAMADA DE APRESENTAÇÃO
+' ====================================
+package "Camada de Apresentação" as CamadaApresentacao {
+    [Web Application\n(Blazor)] as WebApp
+    [Mobile Application] as MobileApp
+}
+
+' ====================================
+' INTERFACE CAMADA NEGÓCIO
+' ====================================
+interface "ICamadaNegocio" as ICN
+
+' ====================================
+' CAMADA DE NEGÓCIO
+' ====================================
+package "Camada de Negócio" as CamadaNegocio {
+    
+    [<<subsystem>>\nGestão de\nUtilizadores] as GestaoUtilizadores
+    [<<subsystem>>\nGestão\nDesportiva] as GestaoDesportiva
+    [<<subsystem>>\nGestão\nClínica] as GestaoClinica
+    [<<subsystem>>\nGestão\nFinanceira] as GestaoFinanceira
+    [<<subsystem>>\nGestão de\nNotificações] as GestaoNotificacoes
+    [<<subsystem>>\nGestão de\nInstalações] as GestaoInstalacoes
+    
+    interface "IGestaoUtilizadores" as IGU
+    interface "IGestaoDesportiva" as IGD
+    interface "IGestaoClinica" as IGC
+    interface "IGestaoFinanceira" as IGF
+    interface "IGestaoNotificacoes" as IGN
+    interface "IGestaoInstalacoes" as IGI
+    
+    GestaoUtilizadores -up- IGU
+    GestaoDesportiva -up- IGD
+    GestaoClinica -up- IGC
+    GestaoFinanceira -up- IGF
+    GestaoNotificacoes -up- IGN
+    GestaoInstalacoes -up- IGI
+}
+
+' ====================================
+' INTERFACE CAMADA DADOS
+' ====================================
+interface "ICamadaDados" as ICD
+
+' ====================================
+' CAMADA DE DADOS
+' ====================================
+package "Camada de Dados" as CamadaDados {
+    database "PostgreSQL\nDatabase" as BD
+}
+
+' ====================================
+' CONEXÕES CAMADA APRESENTAÇÃO -> NEGÓCIO
+' ====================================
+WebApp ..> ICN : utiliza
+MobileApp ..> ICN : utiliza
+
+' ====================================
+' CONEXÕES INTERFACE NEGÓCIO -> SUBSISTEMAS
+' ====================================
+ICN ..> IGU
+ICN ..> IGD
+ICN ..> IGC
+ICN ..> IGF
+ICN ..> IGN
+ICN ..> IGI
+
+' ====================================
+' CONEXÕES SUBSISTEMAS -> CAMADA DADOS
+' ====================================
+GestaoUtilizadores ..> ICD
+GestaoDesportiva ..> ICD
+GestaoClinica ..> ICD
+GestaoFinanceira ..> ICD
+GestaoNotificacoes ..> ICD
+GestaoInstalacoes ..> ICD
+
+' ====================================
+' CONEXÃO BASE DE DADOS
+' ====================================
+BD -up- ICD
+
+@enduml
