@@ -15,3 +15,14 @@
 9. Reuniao para Validar tudo ❌
 
 
+1- Introducao
+2- Tratar dos metodos e acrescentar de onde veio cada requisito
+3- Fzaer a arquitetura com diagramas
+4- Modelo de dominio
+5- DIagrama de componentes
+6- maquina de estados
+7- Diagramas de caso de uso
+8- Diagrama de atividade VARIOS (6)
+9- Maquete da base de dados
+10- Maquina de estados interface do utilizador
+11- Interface

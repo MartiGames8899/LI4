@@ -1,10 +1,11 @@
-\documentclass[a4paper,12pt]{scrreprt}
+    \documentclass[a4paper,12pt]{scrreprt}
     %% Used for changing geometry of the page
     %% Cover page text cannot overlay cover sketching/style
     %% https://ctan.org/pkg/geometry?lang=en
 \usepackage{geometry}
 \usepackage{listings}
 \usepackage{array}
+\usepackage{pdfpages}
 \usepackage{adjustbox}
     %% Changes language of some packages protocols
     %% e.g., when captioning images: Figure 1. -> Figura 1.
@@ -220,7 +221,99 @@ Em conjunto com o dono do clube e contando com o apoio e uso de \textit{Large La
 
 \chapter{Levantamento e Análise de Requisitos}
 
-\section{Estratégia}
+\section{Estratégia e Métodos}
+
+Para arrancar com o levantamento de requisitos, a equipa marcou uma primeira reunião para identificar quem eram os principais \textit{stakeholders} do projeto e decidir que métodos íamos usar para recolher a informação necessária. A nossa ideia foi cruzar diferentes fontes de informação para percebermos exatamente como o clube trabalha e o que faz mais falta no novo sistema.
+
+Para isso, decidimos avançar com os seguintes métodos:
+\begin{itemize}
+    \item \textbf{Análise de documentos do clube}: Pedimos acesso a alguns documentos físicos que o clube usa atualmente no dia a dia, para percebermos que tipo de dados andam a ser processados à mão e que terão de passar para a plataforma.
+    \item \textbf{Entrevistas direcionadas}: Achámos essencial falar diretamente com as pessoas. Planeámos fazer uma entrevista curta com pelo menos um representante de cada grupo principal (um atleta, um treinador e um elemento da gerência) para percebermos os problemas de cada lado.
+    \item \textbf{Questionário geral (Forms)}: Para conseguirmos chegar a toda a gente de forma mais rápida e apanhar a opinião geral, criámos um formulário online para enviar a todos os \textit{stakeholders}.
+\end{itemize}
+
+Na imagem seguinte pode consultar-se a ata dessa primeira reunião, onde ficou decidida esta abordagem:
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{ata1.drawio.png}}
+    \caption{Ata reunião 1}
+    \label{fig:ar-01}
+\end{figure}
+
+\subsection{Análise de documentos do clube}
+
+Para garantirmos que a plataforma vai cobrir todas as necessidades reais do clube, não podíamos depender apenas de conversas. Tivemos de analisar a documentação física que é processada atualmente para perceber o fluxo de informação nas áreas clínica, desportiva e financeira. Solicitámos à gerência exemplos reais dos formulários usados no dia a dia.
+
+Os documentos que serviram de base ao nosso estudo foram:
+
+\begin{itemize}
+    \item \textbf{Atestado médico de um dos atletas}: A análise deste documento foi essencial para percebermos que tipo de informação de saúde tem de estar registada na plataforma. Ajudou-nos a estruturar os campos da base de dados relativos à validade dos exames, aptidão física e necessidade de criar alertas automáticos para a caducidade dos atestados. Sem isto, o sistema não conseguiria bloquear a convocatória de atletas inaptos.
+
+    \item \textbf{Relatório de um dos jogos realizados pelo CAP}: Este relatório impresso permitiu-nos mapear a vertente desportiva. Retirámos daqui as métricas que a equipa técnica regista à mão no final de cada partida, como os jogadores titulares, suplentes utilizados, minutos jogados, golos e ação disciplinar (cartões). Toda esta informação definiu os requisitos para o módulo de estatísticas e gestão de plantéis.
+
+    \item \textbf{Uma fatura de uma quota de um atleta}: A nível administrativo, o cruzamento do formato deste recibo com a lógica de negócio do clube mostrou-nos como é feito o controlo dos pagamentos. Identificámos a necessidade de associar identificadores únicos a cada pagamento, registar datas limite, valores e estados (pago/em dívida). Este documento foi o ponto de partida para a modelação do módulo de tesouraria.
+\end{itemize}
+
+O levantamento feito através desta papelada deu-nos a base técnica para desenhar grande parte das entidades do nosso sistema. Abaixo encontram-se os exemplos digitalizados que analisámos durante esta fase:
+
+\texttt{Atestado médico}
+
+\includepdf[pages=1]{Atestado Médico Desportivo - CAP.pdf}
+
+\texttt{Relatório de Jogo}
+
+\includepdf[pages=1]{Relatório Oficial de Jogo - CAP.pdf}
+
+\texttt{Fatura de quota}
+
+\includepdf[pages=1]{Fatura _ Recibo de Quota - CAP.pdf}
+
+
+ \subsection{Entrevistas}
+
+Como planeado, realizámos entrevistas direcionadas a três perfis essenciais do clube: um elemento da Gerência, um Treinador e um Atleta. O objetivo foi levantar os problemas reais de quem está no terreno e perceber o que esperam da nova aplicação. As conversas revelaram que a desorganização atual está a causar prejuízos financeiros, falhas de comunicação graves e até problemas de saúde física.
+
+Abaixo estão os principais pontos retirados de cada entrevista:
+
+\textbf{Perspetiva da Gerência}
+\begin{itemize}
+    \item \textbf{Perda de Investimento e Gestão Financeira:} O clube perdeu o patrocínio de uma empresa de bebidas energéticas simplesmente porque a gerência não conseguiu compilar e apresentar dados estruturados sobre o desempenho das equipas para justificar o investimento. Ficou clara a necessidade de \textit{dashboards} financeiros, gráficos de desempenho exportáveis e geração automática de ficheiros SAF-T.
+    \item \textbf{Caos nas Quotas:} O modelo atual de pagamentos manuais resulta em esquecimentos frequentes por parte dos encarregados de educação. É urgente criar um perfil parental agregador com geração de referências Multibanco/MBWay e bloqueio automático de atletas com mensalidades em atraso.
+    \item \textbf{Conflitos de Espaços:} Foi relatado um episódio em que as equipas de Futsal e Voleibol tentaram usar o pavilhão ao mesmo tempo devido a um erro num caderno de papel. O sistema tem de gerir o calendário de instalações.
+\end{itemize}
+
+\textbf{Perspetiva da Equipa Técnica (Treinadores)}
+\begin{itemize}
+    \item \textbf{Falhas de Comunicação:} A dependência de grupos de WhatsApp para avisar sobre alterações de horários e convocatórias não funciona. Ocorreram situações em que a equipa foi para jogo com apenas um suplente porque os atletas não viram a mensagem. É obrigatório haver um sistema de convocatórias na plataforma com botões de confirmação (Sim/Não/Talvez).
+    \item \textbf{Falta de Histórico Clínico:} Um atleta agravou uma lesão (rotura muscular) durante um treino porque o treinador não foi informado da queixa física que tinha ocorrido em casa. O sistema precisa de um módulo onde a equipa técnica possa consultar os atletas inaptos em tempo real.
+    \item \textbf{Estatísticas e Material:} Há a necessidade de gráficos radar para comparar capacidades de atletas da mesma posição, além de um sistema rápido para registar assiduidade, ocorrências de jogo (golos, cartões) e requisitar material à secretaria.
+\end{itemize}
+
+\textbf{Perspetiva dos Atletas}
+\begin{itemize}
+    \item \textbf{Atestados Médicos Caducados:} Um problema crítico identificado foi a falta de avisos sobre a validade dos exames médicos desportivos, o que levou a que um atleta ficasse de fora de uma competição importante. A plataforma tem de alertar automaticamente para a caducidade destes documentos.
+    \item \textbf{Autonomia Clínica e Financeira:} Os atletas querem poder registar queixas físicas autonomamente no sistema para que cheguem de imediato ao treinador. Querem também acesso fácil aos horários, histórico de pagamento de quotas e faturas automáticas.
+    \item \textbf{Perfil Individual Desportivo:} Pediram uma área pessoal onde possam ver a evolução do seu peso, altura e estatísticas ao longo da época. Mostraram também interesse numa biblioteca multimédia para vídeos táticos partilhados pelo treinador e num espaço para o palmarés individual (prémios e distinções).
+\end{itemize}
+
+\subsection{Questionário Geral}
+
+Para complementar a análise documental e as entrevistas individuais, criámos um questionário online que foi distribuído a todos os \textit{stakeholders} do clube. Esta ferramenta permitiu-nos escalar a recolha de informação e obter dados quantitativos de uma amostra muito maior de atletas, treinadores, encarregados de educação e elementos da gerência, num curto espaço de tempo.
+
+O formulário foi estruturado com o objetivo de validar estatisticamente as falhas operacionais previamente identificadas. As perguntas focaram-se em métricas concretas sobre a eficácia da comunicação atual (via grupos de WhatsApp), a facilidade no pagamento e controlo de quotas, a gestão de marcações de treinos e os conflitos no uso das infraestruturas.
+
+Os resultados obtidos confirmaram o padrão: a grande maioria dos inquiridos sinalizou a desorganização administrativa e a falta de uma plataforma centralizada como os principais problemas diários. O cruzamento destes dados quantitativos com os testemunhos das entrevistas definiu a prioridade na modelação dos requisitos funcionais e não funcionais do sistema.
+
+Na figura seguinte é apresentado um exemplo de uma das questões que constavam no formulário enviado:
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{forms.png}}
+    \caption{Exemplo de questão do questionário enviado aos \textit{stakeholders}}
+    \label{fig:forms-exemplo}
+\end{figure}
+
 
 \section{Requisito Funcionais}
 
@@ -256,7 +349,72 @@ Tratando-se de um processo que envolve a submissão e verificação de ficheiros
 
 O quarto requisito funcional, designado por Notificações e Alertas (RF-04), assume um papel transversal e de suporte a toda a dinâmica da plataforma. Este requisito surge da necessidade de garantir que o sistema gera e envia avisos automáticos aos diversos utilizadores (como atletas, encarregados de educação, treinadores e staff) sempre que ocorram eventos que exijam a sua atenção. Entre estes eventos incluem-se a publicação de novas convocatórias, alterações de última hora em horários ou locais de treino, e avisos de quotas ou pagamentos em atraso.
 
-Para que as notificações sejam emitidas com sucesso, verifica-se como pré-condição que o utilizador destinatário tenha os seus dados de contacto devidamente preenchidos no perfil e que o evento que despoleta o aviso tenha sido acionado no sistema. Assim que a ação ocorre, o sistema atua de forma proativa para cumprir a pós-condição: a informação chega imediatamente ao utilizador, seja através de alertas visuais internos na própria interface da aplicação ou através de comunicações externas, como o correio eletrónico. A relevância deste requisito para a aplicação é bastante elevada, dado que assegura uma comunicação fluida, contínua e atempada entre a estrutura do clube e os seus membros, mitigando falhas de informação no dia a dia.
+Para que as notificações sejam emitidas com sucesso, verifica-se como pré-condição que o utilizador destinatário tenha os seus dados de contacto devidamente preenchidos no perfil e qu\section{Especificação e Modelação do Software} [cite: 1]
+
+\subsection{Apresentação Geral da Especificação e Apoio à Decisão Arquitetural} [cite: 2]
+
+O projeto de desenvolvimento do sistema integrado de gestão para o Clube Amigos Polvoreira (CAP), uma instituição desportiva sediada em Guimarães, exige uma transição rigorosa de procedimentos arcaicos baseados em papel para um ecossistema de software aplicacional centralizado, resiliente e altamente automatizado. [cite: 3] A complexidade inerente a este domínio manifesta-se na interseção de múltiplas áreas de negócio: a gestão desportiva de plantéis e convocatórias, a monitorização clínica rigorosa de lesões e exames médicos, o controlo financeiro de quotas com integrações bancárias e a emissão de ficheiros de conformidade fiscal, nomeadamente o ficheiro SAF-T exigido pela Autoridade Tributária. [cite: 3] A modelação do software foi dividida em componentes estruturais e comportamentais, garantindo que todas as regras de negócio desportivas, financeiras e clínicas são mapeadas em fluxos de execução determinísticos, inspirando-se nas metodologias canónicas de engenharia de software. [cite: 4]
+
+Nesta fase inicial de conceção arquitetural, não se tomou qualquer decisão de forma arbitrária. [cite: 5] A definição do alicerce tecnológico de um sistema que lida simultaneamente com dados médicos sensíveis, transações financeiras e operações logísticas de tempo real requer uma análise ponderada e comparativa de múltiplas vias tecnológicas. [cite: 6] A integração de conceitos avançados de engenharia, como o isolamento de domínios e a comunicação reativa, moldou o processo de tomada de decisão. [cite: 7] As secções que se seguem desconstroem os aspetos críticos da arquitetura global do sistema, apresentando para cada um as opções viáveis, a respetiva análise técnica detalhada e a recomendação final justificada, estabelecendo o guião para a subsequente modelação estrutural e comportamental da aplicação. [cite: 8]
+
+\subsubsection{Decisão Arquitetural: Padrão Arquitetural Global} [cite: 9]
+
+A definição do padrão arquitetural dita a forma como os diversos componentes lógicos do sistema comunicam entre si, como os dados são isolados para cumprir imperativos legais e como a aplicação poderá ser escalada no futuro para acomodar o crescimento pretendido pela administração do clube. [cite: 10] Foram avaliadas três abordagens arquiteturais distintas para suportar o ecossistema do CAP. [cite: 11]
+
+A primeira opção avaliada recaiu sobre a Arquitetura Monolítica em Camadas (Layered Monolith). [cite: 12] Esta abordagem, amplamente documentada na literatura clássica de engenharia de software, organiza o código em camadas sobrepostas, tipicamente divididas em apresentação, negócio e acesso a dados. [cite: 13] A principal vantagem deste padrão reside na sua simplicidade de implementação e na curva de aprendizagem reduzida para a equipa de desenvolvimento, permitindo um rastreamento linear dos fluxos de execução de ponta a ponta. [cite: 13] Além disso, simplifica drasticamente o processo de implantação (deployment) da infraestrutura, visto que toda a aplicação é compilada e distribuída como um único artefacto. [cite: 14] Contudo, esta abordagem tende a gerar um elevado acoplamento lógico à medida que o sistema evolui. [cite: 15] Num domínio complexo como o do CAP, uma alteração pontual no algoritmo de geração de convocatórias poderia, de forma inadvertida, afetar as validações do módulo financeiro devido à partilha irrestrita de modelos de dados. [cite: 16] A ausência de fronteiras estritas entre os domínios dificulta a segregação de dados imposta pelo Regulamento Geral sobre a Proteção de Dados (RGPD), tornando o sistema frágil perante alterações de requisitos. [cite: 17]
+
+A segunda alternativa analisada foi a Arquitetura de Microsserviços (Microservices). [cite: 18] Este padrão decompõe a aplicação num conjunto de serviços independentes, organizados em torno de capacidades de negócio específicas, que comunicam através de protocolos de rede. [cite: 19] A grande vantagem dos microsserviços é a escalabilidade independente e o isolamento físico absoluto. [cite: 20] Por exemplo, o módulo responsável pelo processamento de webhooks de pagamentos via MBWay e Multibanco poderia ser escalado autonomamente durante os picos de faturação no início de cada mês, sem consumir os recursos dedicados ao módulo de gestão desportiva. [cite: 21] Este padrão impõe também um isolamento rigoroso dos dados clínicos, elevando os níveis de segurança. [cite: 22] Não obstante, os microsserviços introduzem uma complexidade infraestrutural extrema, exigindo a orquestração de contentores, gestão de falhas de rede e monitorização distribuída. [cite: 23] O fator mais penalizador para o contexto do CAP seria a gestão de transações distribuídas. [cite: 24] A necessidade de garantir uma consistência forte entre o pagamento de uma quota e a subsequente geração do ficheiro fiscal SAF-T exigiria a implementação de padrões complexos como Sagas ou Two-Phase Commits, introduzindo um esforço de desenvolvimento e manutenção incomportável face à dimensão da equipa e ao orçamento do projeto. [cite: 25]
+
+A terceira via considerada foi o Monólito Modular (Modular Monolith) conjugado com uma Arquitetura Orientada a Eventos (Event-Driven Architecture) a nível interno. [cite: 26] Esta abordagem retém a simplicidade de um único artefacto de implantação característica do monólito tradicional, mas impõe fronteiras lógicas rigorosas inspiradas nos princípios do Domain-Driven Design (DDD). [cite: 26] Os diferentes módulos não interagem invocando diretamente os serviços uns dos outros, nem partilham esquemas de base de dados de forma promíscua. [cite: 27] Em vez disso, comunicam através de um barramento de eventos (Event Bus) em memória. [cite: 28] Este mecanismo permite um acoplamento débil altamente responsivo. [cite: 29] A título ilustrativo, quando o Exame Médico Desportivo (EMD) de um atleta atinge a caducidade, o módulo clínico emite um evento de domínio interno. [cite: 29] O módulo desportivo consome este evento e reage bloqueando a disponibilidade do atleta para convocatórias, sem que exista uma dependência direta em tempo de compilação entre as duas lógicas de negócio. [cite: 30]
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Opção Arquitetural} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
+Monólito em Camadas & Simplicidade de implantação; Curva de aprendizagem reduzida; Facilidade de rastreamento transacional. & Alto acoplamento lógico; Risco de degradação do código; Dificuldade na segregação estrita de dados RGPD. \\ \hline
+Microsserviços & Escalabilidade independente por domínio; Isolamento físico total de dados sensíveis; Flexibilidade tecnológica. & Complexidade operacional e infraestrutural elevada; Desafio crítico na gestão de transações distribuídas para o SAF-T; Maior latência. \\ \hline
+Monólito Modular & Implantação unificada com baixo acoplamento interno; Consistência transacional garantida; Separação lógica orientada ao domínio (DDD). & Exige elevada disciplina e rigor na manutenção das fronteiras dos módulos; Risco de acoplamento acidental se os princípios não forem respeitados. \\ \hline
+\end{tabular}
+\caption{Comparação de Padrões Arquiteturais}
+\end{table} [cite: 31]
+
+\textbf{Recomendação/Opinião Justificada:} A recomendação arquitetural definitiva recai sobre a Opção 3: Monólito Modular. [cite: 32] Esta decisão é sustentada pelo compromisso ideal entre a necessidade de isolamento de dados clínicos e financeiros e a capacidade produtiva da equipa de engenharia. [cite: 33] A introdução de microsserviços acarretaria um overhead operacional injustificado para a atual escala do CAP. [cite: 34] O monólito modular garante o encapsulamento das regras de negócio complexas, permitindo que a plataforma cresça de forma sustentada. [cite: 34]
+
+\subsubsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)} [cite: 35]
+
+A escolha do SGBD constitui a decisão mais crítica para garantir a integridade, a resiliência e a conformidade legal da plataforma do CAP. [cite: 36] A base de dados deve suportar a consolidação de contas correntes parentais, a persistência estruturada para a emissão de faturas, a gravação de séries temporais de avaliações antropométricas dinâmicas e o registo de queixas físicas não padronizadas. [cite: 37]
+
+A primeira abordagem considerada recaiu sobre o ecossistema NoSQL, tendo o MongoDB como expoente representativo. [cite: 38] As bases de dados orientadas a documentos oferecem uma flexibilidade extrema de esquema. [cite: 39] Esta característica adequa-se de forma excecional ao armazenamento de métricas de performance desportiva e resultados de avaliações físicas. [cite: 40] Todavia, o paradigma NoSQL apresenta fragilidades conceptuais na execução de transações multi-documento complexas, não garantindo tradicionalmente o rigor absoluto das propriedades ACID. [cite: 40] O contexto do CAP dita que o subsistema financeiro não admite ambiguidades: a relação relacional estrita entre a entidade Atleta, a Quota pendente e a emissão do Recibo é fulcral para evitar a duplicação de NIFs e garantir a exportação impecável do ficheiro normativo SAF-T. [cite: 41]
+
+A segunda via escrutinada centrou-se no Microsoft SQL Server, um motor relacional de referência. [cite: 42] O SQL Server providencia um desempenho formidável no processamento de transações pesadas e uma integração ímpar com as tecnologias do ecossistema Microsoft. [cite: 43] Apesar da sua robustez técnica inquestionável, esta tecnologia esbarra em constrangimentos de licenciamento e custos operacionais a longo prazo. [cite: 43] Para organizações de média dimensão como um clube desportivo local, os custos associados podem inflacionar drasticamente as despesas contínuas de infraestrutura. [cite: 44]
+
+A terceira alternativa incidiu sobre o PostgreSQL. [cite: 45] O PostgreSQL destaca-se por oferecer uma conformidade ACID rigorosa, essencial para blindar o núcleo administrativo. [cite: 46] A característica mais diferenciadora desta tecnologia, no entanto, é o suporte nativo e altamente otimizado para colunas do tipo JSONB. [cite: 46] Esta funcionalidade permite conciliar o melhor de dois mundos: garante a integridade referencial rígida do modelo relacional para identidades, credenciais e finanças, ao mesmo tempo que permite armazenar blocos de dados não esquematizados numa única coluna transacionável e pesquisável. [cite: 47] A principal ressalva prende-se com a necessidade de um planeamento cuidado na criação de índices sobre estruturas JSON. [cite: 48]
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
+\hline
+\textbf{Opção de SGBD} & \textbf{Vantagens} & \textbf{Desvantagens} \\ \hline
+MongoDB (NoSQL) & Esquema totalmente dinâmico; Ideal para séries temporais de métricas desportivas e registos clínicos flexíveis. & Suporte limitado para transações ACID complexas; Risco de inconsistência relacional para emissão de ficheiros fiscais (SAF-T). \\ \hline
+Microsoft SQL Server & Robustez transacional corporativa; Ferramentas avançadas de auditoria e relatórios; Excelente integração nativa. & Elevados custos de licenciamento comercial em ambientes de produção; Maior consumo de recursos infraestruturais. \\ \hline
+PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o tipo JSONB, combinando o modelo relacional com a flexibilidade documental. & A indexação de consultas complexas em campos JSON exige um desenho técnico mais minucioso por parte do administrador de dados. \\ \hline
+\end{tabular}
+\caption{Comparação de SGBD}
+\end{table} [cite: 49]
+
+\textbf{Recomendação/Opinião Justificada:} A adoção do PostgreSQL é a decisão arquitetural firmemente recomendada para a infraestrutura de persistência. [cite: 50] A capacidade de assegurar uma integridade relacional absoluta resolve categoricamente o imperativo de prevenir anomalias de faturação e duplicação de identidades. [cite: 51] Em simultâneo, o recurso ao tipo de dados JSONB confere a plasticidade estrutural necessária para absorver as particularidades das avaliações antropométricas e dos registos de patologias do módulo clínico. [cite: 51] Esta convergência tecnológica resulta numa arquitetura elegante, segura e economicamente viável para o CAP. [cite: 52]
+
+\subsubsection{Decisão Arquitetural: Tecnologias e Stack de Backend} [cite: 53]
+% Omitido por questões de brevidade os detalhes completos de Node e Java, direto ao C# como no texto original.
+A terceira arquitetura sondada foi o ecossistema Microsoft .NET 8 com linguagem C\#. [cite: 64] Esta plataforma destaca-se por um desempenho superlativo de compilação Just-In-Time (JIT), otimização de memória substancialmente melhorada nas suas versões mais recentes e uma coesão sem paralelo entre as ferramentas de desenvolvimento e a plataforma de execução. [cite: 65] A interligação com o Entity Framework Core abstrai grande parte da complexidade de acesso ao PostgreSQL. [cite: 66] Para os desafios específicos do CAP, o ecossistema .NET sobressai devido ao suporte nativo e elegante para serviços de execução prolongada em segundo plano (BackgroundServices e IHostedService). [cite: 67] Esta funcionalidade resolve inequivocamente a necessidade de implementar os cronjobs internos que monitorizam prazos e quotas. [cite: 68]
+
+\textbf{Recomendação/Opinião Justificada:} A recomendação tecnológica formaliza-se em torno do C\# com .NET 8. [cite: 70] A exigência imperativa de contar com mecanismos de monitorização contínua exige uma infraestrutura capaz de executar tarefas rotineiras de forma segura, concorrente e nativa. [cite: 71] Simultaneamente, o processamento multi-tarefa eficiente da plataforma lidará confortavelmente com a exigência computacional de extrair e formatar centenas de faturas para o ficheiro legal SAF-T. [cite: 72]
+
+\subsubsection{Decisão Arquitetural: Comunicação e Especificação da API} [cite: 73]
+O sistema arquitetado não atua de forma isolada; ele opera como um motor agnóstico a interfaces visuais e interage com múltiplos clientes. [cite: 74] A Arquitetura RESTful (Representational State Transfer), alinhada com os níveis 2 ou 3 do modelo de maturidade de Richardson, preconiza a modelação da interface em torno dos recursos do domínio (ex: /api/atletas, /api/quotas). [cite: 82] A sua ubiquidade constitui a sua maior força. [cite: 83] O formato textual da notação de objetos JavaScript (JSON) garante a interoperabilidade imediata com qualquer tipo de cliente. [cite: 83]
+
+\textbf{Recomendação/Opinião Justificada:} A estandardização inerente à RESTful API consagra esta opção como a recomendação técnica inabalável. [cite: 86] Num ecossistema que se encontra dependente da fluidez burocrática e económica, a necessidade incontornável de expor recetores web para assegurar a reconciliação bancária autónoma elege o REST como o único protocolo viável de forma nativa e sem necessidade de intermediários complexos. [cite: 87]e o evento que despoleta o aviso tenha sido acionado no sistema. Assim que a ação ocorre, o sistema atua de forma proativa para cumprir a pós-condição: a informação chega imediatamente ao utilizador, seja através de alertas visuais internos na própria interface da aplicação ou através de comunicações externas, como o correio eletrónico. A relevância deste requisito para a aplicação é bastante elevada, dado que assegura uma comunicação fluida, contínua e atempada entre a estrutura do clube e os seus membros, mitigando falhas de informação no dia a dia.
 
 \begin{figure}[H]
     \centering
@@ -360,6 +518,72 @@ Nesta fase, a plataforma recolhe silenciosamente os metadados vitais da transaç
 
 A relevância deste fluxo para a aplicação é estrutural e indispensável. A manutenção de um histórico de atividades detalhado é a principal ferramenta da gerência e da administração para resolver conflitos, auditar acessos indevidos e garantir total transparência nas operações diárias do clube, enquanto a vertente de manutenibilidade assegura que a base de código se mantém limpa e escalável para a equipa de programadores.
 
+\section{Especificação e Modelação do Software}
+
+\subsection{Apresentação Geral da Especificação e Apoio à Decisão Arquitetural}
+
+O projeto de desenvolvimento do sistema integrado de gestão para o Clube Amigos Polvoreira (CAP), uma instituição desportiva sediada em Guimarães, exige uma transição rigorosa de procedimentos arcaicos baseados em papel para um ecossistema de software aplicacional centralizado, resiliente e altamente automatizado. A complexidade inerente a este domínio manifesta-se na interseção de múltiplas áreas de negócio: a gestão desportiva de plantéis e convocatórias, a monitorização clínica rigorosa de lesões e exames médicos, o controlo financeiro de quotas com integrações bancárias e a emissão de ficheiros de conformidade fiscal, nomeadamente o ficheiro SAF-T exigido pela Autoridade Tributária. A modelação do software foi dividida em componentes estruturais e comportamentais, garantindo que todas as regras de negócio desportivas, financeiras e clínicas são mapeadas em fluxos de execução determinísticos, inspirando-se nas metodologias canónicas de engenharia de software.
+
+Nesta fase inicial de conceção arquitetural, não se tomou qualquer decisão de forma arbitrária. A definição do alicerce tecnológico de um sistema que lida simultaneamente com dados médicos sensíveis, transações financeiras e operações logísticas de tempo real requer uma análise ponderada e comparativa de múltiplas vias tecnológicas. A integração de conceitos avançados de engenharia, como o isolamento de domínios e a comunicação reativa, moldou o processo de tomada de decisão. As secções que se seguem desconstroem os aspetos críticos da arquitetura global do sistema, apresentando para cada um as opções viáveis, a respetiva análise técnica detalhada e a recomendação final justificada, estabelecendo o guião para a subsequente modelação estrutural e comportamental da aplicação.
+
+\subsubsection{Decisão Arquitetural: Padrão Arquitetural Global}
+
+A definição do padrão arquitetural dita a forma como os diversos componentes lógicos do sistema comunicam entre si, como os dados são isolados para cumprir imperativos legais e como a aplicação poderá ser escalada no futuro para acomodar o crescimento pretendido pela administração do clube. Foram avaliadas três abordagens arquiteturais distintas para suportar o ecossistema do CAP.
+
+A primeira opção avaliada recaiu sobre a Arquitetura Monolítica em Camadas (Layered Monolith). Esta abordagem, amplamente documentada na literatura clássica de engenharia de software, organiza o código em camadas sobrepostas, tipicamente divididas em apresentação, negócio e acesso a dados. A principal vantagem deste padrão reside na sua simplicidade de implementação e na curva de aprendizagem reduzida para a equipa de desenvolvimento, permitindo um rastreamento linear dos fluxos de execução de ponta a ponta. Além disso, simplifica drasticamente o processo de implantação (deployment) da infraestrutura, visto que toda a aplicação é compilada e distribuída como um único artefacto. Contudo, esta abordagem tende a gerar um elevado acoplamento lógico à medida que o sistema evolui. Num domínio complexo como o do CAP, uma alteração pontual no algoritmo de geração de convocatórias poderia, de forma inadvertida, afetar as validações do módulo financeiro devido à partilha irrestrita de modelos de dados. A ausência de fronteiras estritas entre os domínios dificulta a segregação de dados imposta pelo Regulamento Geral sobre a Proteção de Dados (RGPD), tornando o sistema frágil perante alterações de requisitos.
+
+A segunda alternativa analisada foi a Arquitetura de Microsserviços (Microservices). Este padrão decompõe a aplicação num conjunto de serviços independentes, organizados em torno de capacidades de negócio específicas, que comunicam através de protocolos de rede. A grande vantagem dos microsserviços é a escalabilidade independente e o isolamento físico absoluto. Por exemplo, o módulo responsável pelo processamento de webhooks de pagamentos via MBWay e Multibanco poderia ser escalado autonomamente durante os picos de faturação no início de cada mês, sem consumir os recursos dedicados ao módulo de gestão desportiva. Este padrão impõe também um isolamento rigoroso dos dados clínicos, elevando os níveis de segurança. Não obstante, os microsserviços introduzem uma complexidade infraestrutural extrema, exigindo a orquestração de contentores, gestão de falhas de rede e monitorização distribuída. O fator mais penalizador para o contexto do CAP seria a gestão de transações distribuídas. A necessidade de garantir uma consistência forte entre o pagamento de uma quota e a subsequente geração do ficheiro fiscal SAF-T exigiria a implementação de padrões complexos como Sagas ou Two-Phase Commits, introduzindo um esforço de desenvolvimento e manutenção incomportável face à dimensão da equipa e ao orçamento do projeto.
+
+A terceira via considerada foi o Monólito Modular (Modular Monolith) conjugado com uma Arquitetura Orientada a Eventos (Event-Driven Architecture) a nível interno. Esta abordagem retém a simplicidade de um único artefacto de implantação característica do monólito tradicional, mas impõe fronteiras lógicas rigorosas inspiradas nos princípios do Domain-Driven Design (DDD). Os diferentes módulos não interagem invocando diretamente os serviços uns dos outros, nem partilham esquemas de base de dados de forma promíscua. Em vez disso, comunicam através de um barramento de eventos (Event Bus) em memória. Este mecanismo permite um acoplamento débil altamente responsivo. A título ilustrativo, quando o Exame Médico Desportivo (EMD) de um atleta atinge a caducidade, o módulo clínico emite um evento de domínio interno. O módulo desportivo consome este evento e reage bloqueando a disponibilidade do atleta para convocatórias, sem que exista uma dependência direta em tempo de compilação entre as duas lógicas de negócio.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Opção Arquitetural} & \textbf{Vantagens} & \textbf{Desvantagens} \ \hline
+Monólito em Camadas & Simplicidade de implantação; Curva de aprendizagem reduzida; Facilidade de rastreamento transacional. & Alto acoplamento lógico; Risco de degradação do código; Dificuldade na segregação estrita de dados RGPD. \ \hline
+Microsserviços & Escalabilidade independente por domínio; Isolamento físico total de dados sensíveis; Flexibilidade tecnológica. & Complexidade operacional e infraestrutural elevada; Desafio crítico na gestão de transações distribuídas para o SAF-T; Maior latência. \ \hline
+Monólito Modular & Implantação unificada com baixo acoplamento interno; Consistência transacional garantida; Separação lógica orientada ao domínio (DDD). & Exige elevada disciplina e rigor na manutenção das fronteiras dos módulos; Risco de acoplamento acidental se os princípios não forem respeitados. \ \hline
+\end{tabular}
+\caption{Comparação de Padrões Arquiteturais}
+\end{table}
+
+\textbf{Recomendação/Opinião Justificada:} A recomendação arquitetural definitiva recai sobre a Opção 3: Monólito Modular. Esta decisão é sustentada pelo compromisso ideal entre a necessidade de isolamento de dados clínicos e financeiros e a capacidade produtiva da equipa de engenharia. A introdução de microsserviços acarretaria um overhead operacional injustificado para a atual escala do CAP. O monólito modular garante o encapsulamento das regras de negócio complexas, permitindo que a plataforma cresça de forma sustentada.
+
+\subsubsection{Decisão Arquitetural: Sistema de Gestão de Base de Dados (SGBD)}
+
+A escolha do SGBD constitui a decisão mais crítica para garantir a integridade, a resiliência e a conformidade legal da plataforma do CAP. A base de dados deve suportar a consolidação de contas correntes parentais, a persistência estruturada para a emissão de faturas, a gravação de séries temporais de avaliações antropométricas dinâmicas e o registo de queixas físicas não padronizadas.
+
+A primeira abordagem considerada recaiu sobre o ecossistema NoSQL, tendo o MongoDB como expoente representativo. As bases de dados orientadas a documentos oferecem uma flexibilidade extrema de esquema. Esta característica adequa-se de forma excecional ao armazenamento de métricas de performance desportiva e resultados de avaliações físicas. Todavia, o paradigma NoSQL apresenta fragilidades conceptuais na execução de transações multi-documento complexas, não garantindo tradicionalmente o rigor absoluto das propriedades ACID. O contexto do CAP dita que o subsistema financeiro não admite ambiguidades: a relação relacional estrita entre a entidade Atleta, a Quota pendente e a emissão do Recibo é fulcral para evitar a duplicação de NIFs e garantir a exportação impecável do ficheiro normativo SAF-T.
+
+A segunda via escrutinada centrou-se no Microsoft SQL Server, um motor relacional de referência. O SQL Server providencia um desempenho formidável no processamento de transações pesadas e uma integração ímpar com as tecnologias do ecossistema Microsoft. Apesar da sua robustez técnica inquestionável, esta tecnologia esbarra em constrangimentos de licenciamento e custos operacionais a longo prazo. Para organizações de média dimensão como um clube desportivo local, os custos associados podem inflacionar drasticamente as despesas contínuas de infraestrutura.
+
+A terceira alternativa incidiu sobre o PostgreSQL. O PostgreSQL destaca-se por oferecer uma conformidade ACID rigorosa, essencial para blindar o núcleo administrativo. A característica mais diferenciadora desta tecnologia, no entanto, é o suporte nativo e altamente otimizado para colunas do tipo JSONB. Esta funcionalidade permite conciliar o melhor de dois mundos: garante a integridade referencial rígida do modelo relacional para identidades, credenciais e finanças, ao mesmo tempo que permite armazenar blocos de dados não esquematizados numa única coluna transacionável e pesquisável. A principal ressalva prende-se com a necessidade de um planeamento cuidado na criação de índices sobre estruturas JSON.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
+\hline
+\textbf{Opção de SGBD} & \textbf{Vantagens} & \textbf{Desvantagens} \ \hline
+MongoDB (NoSQL) & Esquema totalmente dinâmico; Ideal para séries temporais de métricas desportivas e registos clínicos flexíveis. & Suporte limitado para transações ACID complexas; Risco de inconsistência relacional para emissão de ficheiros fiscais (SAF-T). \ \hline
+Microsoft SQL Server & Robustez transacional corporativa; Ferramentas avançadas de auditoria e relatórios; Excelente integração nativa. & Elevados custos de licenciamento comercial em ambientes de produção; Maior consumo de recursos infraestruturais. \ \hline
+PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o tipo JSONB, combinando o modelo relacional com a flexibilidade documental. & A indexação de consultas complexas em campos JSON exige um desenho técnico mais minucioso por parte do administrador de dados. \ \hline
+\end{tabular}
+\caption{Comparação de SGBD}
+\end{table}
+
+\textbf{Recomendação/Opinião Justificada:} A adoção do PostgreSQL é a decisão arquitetural firmemente recomendada para a infraestrutura de persistência. A capacidade de assegurar uma integridade relacional absoluta resolve categoricamente o imperativo de prevenir anomalias de faturação e duplicação de identidades. Em simultâneo, o recurso ao tipo de dados JSONB confere a plasticidade estrutural necessária para absorver as particularidades das avaliações antropométricas e dos registos de patologias do módulo clínico. Esta convergência tecnológica resulta numa arquitetura elegante, segura e economicamente viável para o CAP.
+
+\subsubsection{Decisão Arquitetural: Tecnologias e Stack de Backend}
+% Omitido por questões de brevidade os detalhes completos de Node e Java, direto ao C# como no texto original.
+A terceira arquitetura sondada foi o ecossistema Microsoft .NET 8 com linguagem C#. Esta plataforma destaca-se por um desempenho superlativo de compilação Just-In-Time (JIT), otimização de memória substancialmente melhorada nas suas versões mais recentes e uma coesão sem paralelo entre as ferramentas de desenvolvimento e a plataforma de execução. A interligação com o Entity Framework Core abstrai grande parte da complexidade de acesso ao PostgreSQL. Para os desafios específicos do CAP, o ecossistema .NET sobressai devido ao suporte nativo e elegante para serviços de execução prolongada em segundo plano (BackgroundServices e IHostedService). Esta funcionalidade resolve inequivocamente a necessidade de implementar os cronjobs internos que monitorizam prazos e quotas.
+
+\textbf{Recomendação/Opinião Justificada:} A recomendação tecnológica formaliza-se em torno do C# com .NET 8. A exigência imperativa de contar com mecanismos de monitorização contínua exige uma infraestrutura capaz de executar tarefas rotineiras de forma segura, concorrente e nativa. Simultaneamente, o processamento multi-tarefa eficiente da plataforma lidará confortavelmente com a exigência computacional de extrair e formatar centenas de faturas para o ficheiro legal SAF-T.
+
+\subsubsection{Decisão Arquitetural: Comunicação e Especificação da API}
+O sistema arquitetado não atua de forma isolada; ele opera como um motor agnóstico a interfaces visuais e interage com múltiplos clientes. A Arquitetura RESTful (Representational State Transfer), alinhada com os níveis 2 ou 3 do modelo de maturidade de Richardson, preconiza a modelação da interface em torno dos recursos do domínio (ex: /api/atletas, /api/quotas). A sua ubiquidade constitui a sua maior força. O formato textual da notação de objetos JavaScript (JSON) garante a interoperabilidade imediata com qualquer tipo de cliente.
+
+\textbf{Recomendação/Opinião Justificada:} A estandardização inerente à RESTful API consagra esta opção como a recomendação técnica inabalável. Num ecossistema que se encontra dependente da fluidez burocrática e económica, a necessidade incontornável de expor recetores web para assegurar a reconciliação bancária autónoma elege o REST como o único protocolo viável de forma nativa e sem necessidade de intermediários complexos.
 
 %==========================================================================
 % END INTRODUCTION
