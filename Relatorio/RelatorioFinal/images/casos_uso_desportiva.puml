@@ -1,0 +1,25 @@
+@startuml casos_uso_desportiva
+
+skinparam monochrome true
+skinparam shadowing false
+
+actor "Treinador" as T
+actor "Encarregado de Educação" as EE
+actor "Atleta" as A
+
+package "Gestão Desportiva" {
+    usecase "Criar Convocatória" as UC1
+    usecase "Publicar Convocatória" as UC2
+    usecase "Responder a Convocatória" as UC3
+    usecase "Registar Estatísticas de Jogo" as UC4
+    usecase "Consultar Plantel" as UC5
+}
+
+T --> UC1
+T --> UC2
+T --> UC4
+T --> UC5
+EE --> UC3
+A --> UC5
+
+@enduml

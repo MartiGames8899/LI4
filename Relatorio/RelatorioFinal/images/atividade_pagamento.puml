@@ -1,0 +1,28 @@
+@startuml atividade_pagamento
+
+skinparam monochrome true
+skinparam shadowing false
+
+start
+:Receber dados do pagamento;
+fork
+  :Validar quotas selecionadas;
+fork again
+  :Verificar método de pagamento;
+end fork
+
+if (Validações OK?) then (sim)
+  :Processar pagamento (Gateway);
+  if (Sucesso?) then (sim)
+    :Atualizar estado das quotas (Paga);
+    :Gerar Fatura/Recibo;
+    :Enviar confirmação;
+  else (não)
+    :Informar erro de processamento;
+  endif
+else (não)
+  :Informar erro de validação;
+endif
+stop
+
+@enduml

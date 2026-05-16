@@ -1,0 +1,20 @@
+@startuml maquina_estados_quota
+
+skinparam monochrome true
+skinparam shadowing false
+hide empty description
+
+[*] --> Pendente : Criar quota
+
+Pendente --> Paga : Efetuar pagamento
+Pendente --> Em_Atraso : Prazo expira
+
+Em_Atraso --> Paga : Efetuar pagamento
+Em_Atraso --> [*] : Suspensão do atleta
+
+Paga --> Reembolsada : Reembolsar (exceção)
+Paga --> [*] : Fim da época
+
+Reembolsada --> [*]
+
+@enduml

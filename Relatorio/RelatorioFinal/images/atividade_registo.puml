@@ -1,0 +1,19 @@
+@startuml atividade_registo
+
+skinparam monochrome true
+skinparam shadowing false
+
+start
+:Receber dados do utilizador;
+if (Email já existe?) then (sim)
+  :Informar erro;
+  stop
+else (não)
+  :Calcular hash da palavra-passe;
+  :Registar dados (Estado: Pendente);
+  :Notificar Secretaria;
+  :Redirecionar para confirmação;
+  stop
+endif
+
+@enduml

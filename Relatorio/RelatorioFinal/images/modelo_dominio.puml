@@ -1,0 +1,111 @@
+@startuml modelo_dominio
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam shadowing false
+
+class Utilizador
+class Atleta
+class Treinador
+class "Encarregado de Educação" as EncarregadoEducacao
+class Funcionário
+class Secretaria
+class Gerência
+
+class Modalidade
+class Equipa
+class Plantel
+class "Atleta no Plantel" as AtletaPlantel
+class Posição
+class "Número Camisola" as NumeroCamisola
+
+class Convocatória
+class "Item na Convocatória" as ItemConvocatoria
+class Evento
+class Treino
+class Jogo
+class "Participação em Jogo" as ParticipacaoJogo
+class Estatística
+
+class "Atestado Médico" as AtestadoMedico
+class "Queixa Física" as QueixaFisica
+class Lesão
+class "Data Validade" as DataValidade
+
+class Quota
+class "Pagamento de Quota" as PagamentoQuota
+class Transação
+class Fatura
+class Época
+
+class Notificação
+class Instalação
+class Reserva
+
+' Hierarquia de Utilizadores
+Atleta --|> Utilizador : é um
+Treinador --|> Utilizador : é um
+EncarregadoEducacao --|> Utilizador : é um
+Funcionário --|> Utilizador : é um
+Secretaria --|> Funcionário : é um
+Gerência --|> Funcionário : é um
+
+' Hierarquia de Eventos
+Treino --|> Evento : é um
+Jogo --|> Evento : é um
+
+' Hierarquia de Transações
+PagamentoQuota --|> Transação : é uma
+Fatura --|> Transação : é uma
+
+' Relações Modalidade/Equipa/Plantel
+Modalidade "1" -- "*" Equipa : possui
+Equipa "1" -- "1" Plantel : possui
+Plantel "1" -- "*" AtletaPlantel : constituído por
+AtletaPlantel "*" -- "1" Atleta : refere
+AtletaPlantel "1" -- "1" Posição : possui
+AtletaPlantel "1" -- "1" NumeroCamisola : possui
+
+' Relações Treinador
+Treinador "*" -- "*" Equipa : treina
+
+' Relações Convocatória
+Treinador "1" -- "*" Convocatória : emite
+Convocatória "1" -- "*" ItemConvocatoria : constituída por
+ItemConvocatoria "*" -- "1" Atleta : convoca
+Convocatória "*" -- "1" Evento : relativa a
+
+' Relações Jogo/Participação
+Jogo "1" -- "*" ParticipacaoJogo : possui
+ParticipacaoJogo "*" -- "1" Atleta : refere
+ParticipacaoJogo "1" -- "*" Estatística : regista
+
+' Relações Clínicas
+Atleta "1" -- "*" AtestadoMedico : possui
+AtestadoMedico "1" -- "1" DataValidade : possui
+Atleta "1" -- "*" QueixaFisica : regista
+Atleta "1" -- "*" Lesão : possui
+
+' Relações Financeiras
+Atleta "1" -- "*" Quota : deve
+Quota "*" -- "1" Época : relativa a
+Quota "1" -- "0..1" PagamentoQuota : paga por
+PagamentoQuota "1" -- "1" Fatura : gera
+EncarregadoEducacao "1" -- "*" Atleta : responsável por
+EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
+
+' Relações Notificações
+Utilizador "1" -- "*" Notificação : recebe
+
+' Relações Instalações
+Instalação "1" -- "*" Reserva : possui
+Reserva "*" -- "1" Evento : para
+Reserva "*" -- "1" Equipa : por
+
+' Relações Administração
+Secretaria "1" -- "*" Atleta : regista
+Secretaria "1" -- "*" Fatura : emite
+Gerência "1" -- "*" Funcionário : gere
+Gerência "1" -- "*" Modalidade : administra
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml casos_uso_clinica
+
+skinparam monochrome true
+skinparam shadowing false
+
+actor "Atleta" as A
+actor "Encarregado de Educação" as EE
+actor "Secretaria" as S
+actor "Treinador" as T
+
+package "Gestão Clínica" {
+    usecase "Submeter Atestado Médico" as UC1
+    usecase "Validar Atestado Médico" as UC2
+    usecase "Registar Lesão" as UC3
+    usecase "Reportar Queixa Física" as UC4
+}
+
+A --> UC1
+EE --> UC1
+S --> UC2
+T --> UC3
+A --> UC4
+EE --> UC4
+
+@enduml

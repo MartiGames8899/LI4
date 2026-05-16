@@ -1,0 +1,24 @@
+@startuml casos_uso_financeira
+
+skinparam monochrome true
+skinparam shadowing false
+
+actor "Gerência" as G
+actor "Encarregado de Educação" as EE
+actor "Secretaria" as S
+
+package "Gestão Financeira" {
+    usecase "Gerar Quotas da Época" as UC1
+    usecase "Efetuar Pagamento" as UC2
+    usecase "Registar Pagamento Manual" as UC3
+    usecase "Gerar Relatório SAF-T" as UC4
+    usecase "Consultar Situação Financeira" as UC5
+}
+
+G --> UC1
+G --> UC4
+EE --> UC2
+EE --> UC5
+S --> UC3
+
+@enduml

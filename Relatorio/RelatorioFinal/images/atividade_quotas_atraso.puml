@@ -1,0 +1,20 @@
+@startuml atividade_quotas_atraso
+
+skinparam monochrome true
+skinparam shadowing false
+
+start
+:Verificação periódica;
+while (Existem quotas Pendentes?) is (sim)
+  :Selecionar quota;
+  if (Prazo expirou?) then (sim)
+    :Atualizar estado para Em Atraso;
+    :Notificar Encarregado;
+    if (Atraso > Limite?) then (sim)
+      :Sinalizar Atleta para Suspensão;
+    endif
+  endif
+endwhile (não)
+stop
+
+@enduml

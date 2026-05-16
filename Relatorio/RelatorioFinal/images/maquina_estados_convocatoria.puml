@@ -1,0 +1,18 @@
+@startuml maquina_estados_convocatoria
+
+skinparam monochrome true
+skinparam shadowing false
+hide empty description
+
+[*] --> Rascunho : Criar convocatória
+
+Rascunho --> Publicada : Publicar
+Rascunho --> Cancelada : Cancelar
+
+Publicada --> Finalizada : Evento termina
+Publicada --> Cancelada : Cancelar
+
+Finalizada --> [*]
+Cancelada --> [*]
+
+@enduml

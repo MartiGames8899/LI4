@@ -1,0 +1,21 @@
+@startuml atividade_convocatoria
+
+skinparam monochrome true
+skinparam shadowing false
+
+start
+:Receber pedido de publicação;
+if (Estado: Rascunho AND Atletas > 0?) then (sim)
+  :Atualizar estado para Publicada;
+  fork
+    :Notificar Atletas;
+  fork again
+    :Notificar Encarregados;
+  end fork
+  :Confirmar publicação;
+else (não)
+  :Informar erro;
+endif
+stop
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml casos_uso_utilizadores
+
+skinparam monochrome true
+skinparam shadowing false
+
+actor "Utilizador" as U
+actor "Secretaria" as S
+
+package "Gestão de Utilizadores" {
+    usecase "Registar-se" as UC1
+    usecase "Iniciar Sessão" as UC2
+    usecase "Gerir Perfil" as UC3
+    usecase "Aprovar Registo" as UC4
+}
+
+U --> UC1
+U --> UC2
+U --> UC3
+S --> UC4
+
+@enduml

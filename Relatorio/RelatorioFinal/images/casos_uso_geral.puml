@@ -1,0 +1,39 @@
+@startuml casos_uso_geral
+
+skinparam monochrome true
+skinparam shadowing false
+
+actor "Utilizador" as U
+actor "Atleta" as A
+actor "Treinador" as T
+actor "Encarregado de Educação" as EE
+actor "Secretaria" as S
+actor "Gerência" as G
+
+A --|> U
+T --|> U
+EE --|> U
+S --|> U
+G --|> U
+
+package "Sistema de Gestão CAP" {
+    usecase "Gestão de Utilizadores" as UC_Utilizadores
+    usecase "Gestão Desportiva" as UC_Desportiva
+    usecase "Gestão Clínica" as UC_Clinica
+    usecase "Gestão Financeira" as UC_Financeira
+}
+
+U --> UC_Utilizadores
+T --> UC_Desportiva
+A --> UC_Desportiva
+EE --> UC_Desportiva
+A --> UC_Clinica
+EE --> UC_Clinica
+T --> UC_Clinica
+EE --> UC_Financeira
+S --> UC_Financeira
+G --> UC_Financeira
+S --> UC_Utilizadores
+G --> UC_Utilizadores
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml diagrama_componentes
+
+skinparam monochrome true
+skinparam shadowing false
+
+package "Camada de Apresentação" {
+    [Web Application] as WebApp
+    [Mobile Application] as MobileApp
+}
+
+package "Camada de Negócio" {
+    [<<subsystem>>\nGestão de Utilizadores] as GestaoUtilizadores
+    [<<subsystem>>\nGestão Desportiva] as GestaoDesportiva
+    [<<subsystem>>\nGestão Clínica] as GestaoClinica
+    [<<subsystem>>\nGestão Financeira] as GestaoFinanceira
+    [<<subsystem>>\nGestão de Notificações] as GestaoNotificacoes
+    [<<subsystem>>\nGestão de Instalações] as GestaoInstalacoes
+
+    interface "IGestaoUtilizadores" as IGU
+    interface "IGestaoDesportiva" as IGD
+    interface "IGestaoClinica" as IGC
+    interface "IGestaoFinanceira" as IGF
+    interface "IGestaoNotificacoes" as IGN
+    interface "IGestaoInstalacoes" as IGI
+
+    GestaoUtilizadores -up- IGU
+    GestaoDesportiva -up- IGD
+    GestaoClinica -up- IGC
+    GestaoFinanceira -up- IGF
+    GestaoNotificacoes -up- IGN
+    GestaoInstalacoes -up- IGI
+}
+
+interface "ICamadaNegocio" as ICN
+
+package "Camada de Dados" {
+    [Base de Dados PostgreSQL] as BD
+}
+
+interface "ICamadaDados" as ICD
+
+WebApp ..> ICN
+MobileApp ..> ICN
+
+ICN ..> IGU
+ICN ..> IGD
+ICN ..> IGC
+ICN ..> IGF
+ICN ..> IGN
+ICN ..> IGI
+
+GestaoUtilizadores ..> ICD
+GestaoDesportiva ..> ICD
+GestaoClinica ..> ICD
+GestaoFinanceira ..> ICD
+GestaoNotificacoes ..> ICD
+GestaoInstalacoes ..> ICD
+
+ICD -up- BD
+
+@enduml
