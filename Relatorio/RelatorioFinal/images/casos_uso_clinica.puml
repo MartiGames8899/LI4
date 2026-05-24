@@ -27,7 +27,6 @@ Secretary --> UC_ViewMedical
 
 Coach --> UC_LogInjury
 Coach --> UC_ViewClinicalStatus
-Coach --> UC_ConsultarAtletasInaptos
 
 Athlete --> UC_ViewMedical
 Parent --> UC_ViewMedical

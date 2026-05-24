@@ -460,9 +460,7 @@ A complementaridade destes métodos foi essencial para garantir uma cobertura ab
     \item \textbf{Prototipagem Rápida:} Criar ecrãs falsos (\textit{mockups}) do sistema e mostrar à gerência para garantir que a usabilidade se adequa à literacia digital dos funcionários.
 \end{itemize}
 
-Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}
-
- métodos que não tínhamos tempo de executar com rigor. Mantivemos apenas análise documental, entrevistas e questionário, documentando essa redução na tabela seguinte para ficar explícito onde a automação exagerou no âmbito e onde a equipa cortou.}
+Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto. Mantivemos apenas análise documental, entrevistas e questionário, documentando essa seleção para ficar explícito onde a automação exagerou no âmbito e onde a equipa cortou.
 
 \subsection{Planeamento do Levantamento}
 
@@ -543,9 +541,7 @@ Da análise do documento, foram identificadas as seguintes necessidades:
     \item Observações técnicas do treinador.
 \end{itemize}
 
-\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}}
-
- estatísticas exóticas para patrocínio) porque o treino com o técnico mostrou urgência maior em garantir vínculo imutável após ``fecho'' do relatório e em alertar lesionados aos encarregados.}
+\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório)}.}
 
 A partir da estrutura e dos dados necessários para preencher este relatório de jogo, definiram-se como adenda os seguintes RF para o módulo desportivo:
 
@@ -645,8 +641,6 @@ A partir das respostas consolidadas ao guião anterior, destacaram‑se sob form
 
 \caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}}
 
- e confirmação de presença. Reescrevemos os RF omitindo tecnologias de visualização extravagantes até termos infraestrutura que as suporte. Também marcámos explícitos estados onde o telefone do treinador no relvado obriga UX minimalista --- lição tirada quando o modelo sugeriu fluxos apenas desktop.}
-
 Sob esta ótica, sintetizaram-se os seguintes RF de apoio à equipa técnica:
 
 \begin{itemize}
@@ -665,8 +659,6 @@ Sob esta ótica, sintetizaram-se os seguintes RF de apoio à equipa técnica:
 \end{itemize}
 
 \caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}}
-
- que já coexistem na modelação comportamental posterior. Os RF abaixo refletem o equilíbrio negociado entre desejável e obrigatório.}
 
 Dos tópicos validados pelo atleta/EE, destacaram‑se estas necessidades funcionais nucleares:
 
@@ -1088,8 +1080,6 @@ RESTful API & Aceitação universal; Clareza na manipulação de recursos; Integ
 
 \textbf{Decisão da Equipa:} A equipa decidiu implementar uma \textbf{RESTful API}. Esta escolha assegura uma comunicação padronizada e robusta, facilitando tanto a integração com serviços de pagamento externos como a gestão rigorosa de permissões de acesso aos dados clínicos e financeiros.
 
- escolhemos, tal como se espera de um processo dirigido pelo engenheiro.}
-
 \section{Apresentação Geral da Especificação}
 
 A especificação do software do CAP foi organizada em duas vertentes complementares. Na vertente estrutural, construíram-se os artefactos que identificam as entidades do domínio do problema e as relações entre elas, bem como a decomposição do sistema nos seus principais componentes e interfaces. Na vertente comportamental, desenvolveram-se os diagramas que descrevem de que forma o sistema responde a eventos externos e internos, nomeadamente os estados possíveis das suas entidades mais relevantes, as operações suportadas por cada ator e os fluxos de execução das funcionalidades mais críticas.
@@ -1331,8 +1321,6 @@ Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural
 
 \section{Modelação comportamental}
 
- atestados inválidos na mesma decisão de convocatória). Cada figura desta secção foi recomposta em PlantUML só depois de perguntarmos ``isto falha em que canto do regulamento interno CAP?'' --- o que explica notas e rótulos suplementares que um export automático directo não teria.}
-
 Foram construídos vários diagramas que procuravam representar o comportamento do sistema.
 O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma
 quota se pode encontrar, e que ações a fazem mudar de estado. O motivo para a construção deste
@@ -1372,8 +1360,6 @@ Quando o treinador finaliza a seleção de atletas, a convocatória é publicada
 Neste estado, os encarregados de educação podem confirmar ou recusar a presença dos seus educandos.
 Quando o jogo ou treino associado termina, a convocatória transita automaticamente para o estado ``Finalizada''.
 Uma convocatória pode ainda ser cancelada a partir dos estados ``Rascunho'' ou ``Publicada''.
-
- e \textit{diagrama útil}.}
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO GERAL
@@ -1947,7 +1933,7 @@ Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas
 
 \subsection{Diagramas de sequência}
 
- e bifurcações \texttt{alt}, aceitando maior verbosidade porque o objectivo é comunicar contrato e não vender simplicidade falsa. Qualquer futura alteração de API terá de atualizar estes desenhos, tal como num projecto sem IA.}
+ e bifurcações \texttt{alt}, aceitando maior verbosidade porque o objectivo é comunicar contrato e não vender simplicidade falsa. Qualquer futura alteração de API terá de atualizar estes desenhos, tal como num projecto sem IA.
 
 Para complementar os diagramas de casos de uso e de atividade, elaboraram-se \textbf{diagramas de sequência} que descrevem, nos cenários considerados mais críticos, a ordem temporal das mensagens entre o utilizador, a camada de apresentação (\textit{frontend}), os serviços expostos pela API REST, a persistência na base de dados PostgreSQL e componentes externos (gateway de pagamento e serviço de notificações). Estes diagramas tornam explícitos os contratos pedido/resposta e os cenários alternativos (por exemplo falha de validação ou recusa por parte do sistema de pagamentos), prolongando os fluxos normais já tabelados na subsecção anterior.
 
@@ -1983,8 +1969,6 @@ A Figura~\ref{fig:seq_publicar_convocatoria} conecta a máquina de estados (tran
 % ============================================
 
 \subsection{Diagramas de atividade}
-
-) e a mostrar validações impossíveis (ex.: dois caminhos mutuamente exclusivos sem fusão). Ao redesenhar manualmente, forçámos visibilidade sobre quem é responsável pela ação --- preparando terreno para testes de aceitação e para o código de revisão cruzada --- e recusámos simplificações que escondiam falhas de rede com o gateway financeiro.}
 
 Para a modelação do software, foram também construídos diagramas de atividade para as operações
 com fluxos de controlo mais complexos. Estes diagramas descrevem operações da camada de negócio,
