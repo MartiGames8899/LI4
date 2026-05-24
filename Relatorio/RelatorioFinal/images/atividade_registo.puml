@@ -1,18 +1,27 @@
 @startuml atividade_registo
+!include _cap_skin.puml
+title Diagrama de atividade — **Registo de utilizador**
 
-skinparam monochrome true
-skinparam shadowing false
-
+|Utilizador|
 start
-:Receber dados do utilizador;
+:Solicita registo e envia\ndados obrigatórios;
+
+|Sistema (API + domínio)|
+:Validar formato /\nregras básicas;
+
 if (Email já existe?) then (sim)
-  :Informar erro;
+  |Sistema|
+  :Responder **409** /\nmensagem guiada;
   stop
 else (não)
-  :Calcular hash da palavra-passe;
-  :Registar dados (Estado: Pendente);
-  :Notificar Secretaria;
-  :Redirecionar para confirmação;
+  |Sistema|
+  :Derivar hash segura\nda palavra‑passe;
+  :Persistir conta com\nestado **Pendente**;
+  :Emitir evento de\nnotificação;
+  |Secretaria|
+  :Recebe alerta na área\nadministrativa;
+  |Utilizador|
+  :Vê ecrã de confirmação\nde submissão;
   stop
 endif
 

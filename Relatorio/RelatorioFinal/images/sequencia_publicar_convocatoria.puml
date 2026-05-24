@@ -1,0 +1,45 @@
+@startuml sequencia_publicar_convocatoria
+!include _cap_skin.puml
+title Diagrama de sequência — **Publicação de convocatória**
+
+autonumber
+actor "Treinador" as T
+participant "Interface Web" as Web
+participant "API REST" as API
+database "PostgreSQL" as DB
+participant "Motor de\nnotificações" as Notif
+
+T -> Web : Solicita **publicar**\nconvocatória
+activate Web
+Web -> API : **PUT**\n/api/convocatorias/{id}/publicar
+activate API
+
+API -> DB : Carregar agregado + itens
+activate DB
+DB --> API : dados normalizados
+deactivate DB
+
+alt regras negociais inválidas
+  API --> Web : **400**
+  Web --> T : Corrigir rascunho
+else rascunho consistente
+  API -> DB : Atualizar estado → **Publicada**
+  activate DB
+  DB --> API : confirmação
+  deactivate DB
+  
+  loop para cada atleta convocado
+    API -> Notif : Enfileirar mensagem\n(prioridade média)
+    activate Notif
+    Notif --> API : ack
+    deactivate Notif
+  end
+  
+  API --> Web : **200** + resumo
+  Web --> T : Convocatória visível\npara elenco
+end
+
+deactivate API
+deactivate Web
+
+@enduml

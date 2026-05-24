@@ -1,18 +1,31 @@
 @startuml maquina_estados_convocatoria
+!include _cap_skin.puml
 
-skinparam monochrome true
-skinparam shadowing false
+title Máquina de estados — ciclo de vida de uma **Convocatória**
+
+skinparam StateFontStyle bold
 hide empty description
 
-[*] --> Rascunho : Criar convocatória
+state "Rascunho" as Rasc
+state "Publicada" as Pub
+state "Finalizada" as Fin
+state "Cancelada" as Canc
 
-Rascunho --> Publicada : Publicar
-Rascunho --> Cancelada : Cancelar
+[*] --> Rasc : Treinador cria\nlista de convocados
 
-Publicada --> Finalizada : Evento termina
-Publicada --> Cancelada : Cancelar
+Rasc --> Pub : Validar dados e\nconfirmar publicação
+Rasc --> Canc : Eliminar /\ndesistir da convocatória
 
-Finalizada --> [*]
-Cancelada --> [*]
+Pub --> Fin : Data do evento\ncumprida (encerramento)
+Pub --> Canc : Cancelamento\n(força maior)
+
+Fin --> [*]
+Canc --> [*]
+
+note bottom of Pub
+  Na transição para **Publicada** o sistema
+  distribui confirmações aos atletas
+  e encarregados conforme modelo de dados.
+end note
 
 @enduml

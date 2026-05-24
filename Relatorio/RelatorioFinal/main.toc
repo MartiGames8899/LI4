@@ -14,47 +14,71 @@
 \contentsline {section}{\numberline {2.4}Justificação e Utilidade do Sistema}{9}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Recursos Necessários}{9}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Análise de Viabilidade}{10}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Plano de Execução do Projeto}{11}{section.2.7}%
+\contentsline {section}{\numberline {2.7}Plano de Execução do Projeto}{10}{section.2.7}%
 \contentsline {section}{\numberline {2.8}Estrutura do Relatório}{11}{section.2.8}%
 \contentsline {chapter}{\numberline {3}Levantamento e Análise de Requisitos}{13}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Estratégia e Métodos}{13}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Fundamentação Metodológica}{13}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Identificação dos \textit {Stakeholders}}{13}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Métodos de Levantamento Utilizados}{15}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Planeamento do Levantamento}{17}{subsection.3.1.4}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{15}{paragraph*.3}%
+\contentsline {subsection}{\numberline {3.1.3}Métodos de Levantamento Utilizados}{16}{subsection.3.1.3}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{17}{paragraph*.4}%
+\contentsline {subsection}{\numberline {3.1.4}Planeamento do Levantamento}{18}{subsection.3.1.4}%
 \contentsline {subsection}{\numberline {3.1.5}Análise Documental}{19}{subsection.3.1.5}%
-\contentsline {subsubsection}{\nonumberline Objetivo e Abordagem}{19}{subsubsection*.3}%
-\contentsline {subsubsection}{\nonumberline Documentos Analisados}{19}{subsubsection*.4}%
-\contentsline {paragraph}{\nonumberline Atestado Médico Desportivo}{19}{paragraph*.5}%
-\contentsline {paragraph}{\nonumberline Relatório Oficial de Jogo}{20}{paragraph*.6}%
-\contentsline {paragraph}{\nonumberline Fatura/Recibo de Quota}{21}{paragraph*.7}%
-\contentsline {subsection}{\numberline {3.1.6}Entrevistas Direcionadas}{23}{subsection.3.1.6}%
-\contentsline {subsubsection}{\nonumberline Metodologia das Entrevistas}{23}{subsubsection*.8}%
-\contentsline {subsubsection}{\nonumberline Resultados por Perfil de \textit {Stakeholder}}{23}{subsubsection*.9}%
-\contentsline {subsection}{\numberline {3.1.7}Questionário Online}{27}{subsection.3.1.7}%
-\contentsline {subsubsection}{\nonumberline Objetivo e Metodologia}{27}{subsubsection*.10}%
-\contentsline {subsubsection}{\nonumberline Estrutura do Questionário}{28}{subsubsection*.11}%
-\contentsline {subsubsection}{\nonumberline Análise dos Resultados}{29}{subsubsection*.12}%
-\contentsline {subsubsection}{\nonumberline Exemplo de Questão}{30}{subsubsection*.13}%
-\contentsline {subsection}{\numberline {3.1.8}Síntese e Validação dos Requisitos Levantados}{31}{subsection.3.1.8}%
-\contentsline {section}{\numberline {3.2}Requisitos Funcionais}{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Requisitos Não Funcionais}{40}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Especificação e Modelação do Software}{46}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Introdução e Contexto das Decisões Arquiteturais}{46}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Padrão Arquitetural Global}{46}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Sistema de Gestão de Base de Dados (SGBD)}{48}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Tecnologias e Stack de Backend}{49}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Comunicação e Especificação da API}{49}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}Modelação Estrutural}{51}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Modelação comportamental}{55}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Descrição dos casos de uso}{59}{subsection.4.3.1}%
-\contentsline {paragraph}{\nonumberline Subsistema de Gestão de Utilizadores}{62}{table.4.12}%
-\contentsline {paragraph}{\nonumberline Subsistema de Gestão Desportiva}{64}{table.4.22}%
-\contentsline {paragraph}{\nonumberline Subsistema de Gestão Clínica}{66}{table.4.30}%
-\contentsline {paragraph}{\nonumberline Subsistema de Gestão Financeira}{69}{table.4.40}%
-\contentsline {subsubsection}{\nonumberline Diagramas de atividade}{69}{subsubsection*.18}%
-\contentsline {paragraph}{\nonumberline Diagrama de atividade: Registo de utilizador}{69}{paragraph*.19}%
-\contentsline {paragraph}{\nonumberline Diagrama de atividade: Processamento de pagamento}{70}{paragraph*.20}%
-\contentsline {paragraph}{\nonumberline Diagrama de atividade: Publicação de convocatória}{71}{paragraph*.21}%
-\contentsline {paragraph}{\nonumberline Diagrama de atividade: Verificação de quotas em atraso}{72}{paragraph*.22}%
+\contentsline {subsubsection}{\nonumberline Objetivo e Abordagem}{19}{subsubsection*.5}%
+\contentsline {subsubsection}{\nonumberline Documentos Analisados}{20}{subsubsection*.6}%
+\contentsline {paragraph}{\nonumberline Atestado Médico Desportivo}{20}{paragraph*.7}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{21}{paragraph*.8}%
+\contentsline {paragraph}{\nonumberline Relatório Oficial de Jogo}{21}{paragraph*.9}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{22}{paragraph*.10}%
+\contentsline {paragraph}{\nonumberline Fatura/Recibo de Quota}{23}{paragraph*.11}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{23}{paragraph*.12}%
+\contentsline {subsection}{\numberline {3.1.6}Entrevistas Direcionadas}{24}{subsection.3.1.6}%
+\contentsline {subsubsection}{\nonumberline Metodologia das Entrevistas}{24}{subsubsection*.13}%
+\contentsline {subsubsection}{\nonumberline Resultados por Perfil de \textit {Stakeholder}}{25}{subsubsection*.14}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{26}{paragraph*.15}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{27}{paragraph*.16}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{28}{paragraph*.17}%
+\contentsline {subsection}{\numberline {3.1.7}Questionário Online}{29}{subsection.3.1.7}%
+\contentsline {subsubsection}{\nonumberline Objetivo e Metodologia}{29}{subsubsection*.18}%
+\contentsline {subsubsection}{\nonumberline Estrutura do Questionário}{29}{subsubsection*.19}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{30}{paragraph*.20}%
+\contentsline {subsubsection}{\nonumberline Análise dos Resultados}{31}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Exemplo de Questão}{31}{subsubsection*.22}%
+\contentsline {subsection}{\numberline {3.1.8}Síntese e Validação dos Requisitos Levantados}{32}{subsection.3.1.8}%
+\contentsline {section}{\numberline {3.2}Requisitos Funcionais}{33}{section.3.2}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{41}{paragraph*.23}%
+\contentsline {section}{\numberline {3.3}Requisitos Não Funcionais}{41}{section.3.3}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{47}{paragraph*.24}%
+\contentsline {chapter}{\numberline {4}Especificação e Modelação do Software}{48}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introdução e Contexto das Decisões Arquiteturais}{48}{section.4.1}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{49}{paragraph*.25}%
+\contentsline {subsection}{\numberline {4.1.1}Padrão Arquitetural Global}{49}{subsection.4.1.1}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{50}{paragraph*.26}%
+\contentsline {subsection}{\numberline {4.1.2}Sistema de Gestão de Base de Dados (SGBD)}{51}{subsection.4.1.2}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{52}{paragraph*.27}%
+\contentsline {subsection}{\numberline {4.1.3}Tecnologias e Stack de Backend}{52}{subsection.4.1.3}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{53}{paragraph*.28}%
+\contentsline {subsection}{\numberline {4.1.4}Comunicação e Especificação da API}{53}{subsection.4.1.4}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{54}{paragraph*.29}%
+\contentsline {section}{\numberline {4.2}Modelação Estrutural}{54}{section.4.2}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{55}{paragraph*.30}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{57}{paragraph*.31}%
+\contentsline {section}{\numberline {4.3}Modelação comportamental}{58}{section.4.3}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{58}{paragraph*.32}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{61}{paragraph*.33}%
+\contentsline {subsection}{\numberline {4.3.1}Descrição dos casos de uso}{66}{subsection.4.3.1}%
+\contentsline {paragraph}{\nonumberline Subsistema de Gestão de Utilizadores}{69}{table.4.12}%
+\contentsline {paragraph}{\nonumberline Subsistema de Gestão Desportiva}{71}{table.4.22}%
+\contentsline {paragraph}{\nonumberline Subsistema de Gestão Clínica}{73}{table.4.30}%
+\contentsline {paragraph}{\nonumberline Subsistema de Gestão Financeira}{76}{table.4.40}%
+\contentsline {subsection}{\numberline {4.3.2}Diagramas de sequência}{76}{subsection.4.3.2}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{76}{paragraph*.38}%
+\contentsline {subsection}{\numberline {4.3.3}Diagramas de atividade}{79}{subsection.4.3.3}%
+\contentsline {paragraph}{\nonumberline Leitura crítica da equipa.}{79}{paragraph*.39}%
+\contentsline {paragraph}{\nonumberline Diagrama de atividade: Registo de utilizador}{80}{paragraph*.40}%
+\contentsline {paragraph}{\nonumberline Diagrama de atividade: Processamento de pagamento}{81}{paragraph*.41}%
+\contentsline {paragraph}{\nonumberline Diagrama de atividade: Publicação de convocatória}{81}{paragraph*.42}%
+\contentsline {paragraph}{\nonumberline Diagrama de atividade: Verificação de quotas em atraso}{82}{paragraph*.43}%
+\contentsline {section}{\numberline {4.4}Síntese da especificação e modelação}{84}{section.4.4}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

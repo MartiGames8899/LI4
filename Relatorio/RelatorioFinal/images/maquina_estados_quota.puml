@@ -1,20 +1,31 @@
 @startuml maquina_estados_quota
+!include _cap_skin.puml
 
-skinparam monochrome true
-skinparam shadowing false
+title Máquina de estados — ciclo de vida de uma **Quota**
+
+skinparam StateFontStyle bold
 hide empty description
 
-[*] --> Pendente : Criar quota
+state "Pendente" as Pendente
+state "Em Atraso" as Atraso
+state "Paga" as Paga
+state "Reembolsada" as Reemb
 
-Pendente --> Paga : Efetuar pagamento
-Pendente --> Em_Atraso : Prazo expira
+[*] --> Pendente : Gerar quota\n(nova época / inscrição)
 
-Em_Atraso --> Paga : Efetuar pagamento
-Em_Atraso --> [*] : Suspensão do atleta
+Pendente --> Paga : Pagamento\nregistado com sucesso
+Pendente --> Atraso : Prazo limite\nultrapassado
 
-Paga --> Reembolsada : Reembolsar (exceção)
-Paga --> [*] : Fim da época
+Atraso --> Paga : Pagamento\n(tardio) validado
+Atraso --> [*] : Suspensão\natleta (política CAP)
 
-Reembolsada --> [*]
+Paga --> Reemb : Reverso /\n(anulação fiscal)
+Reemb --> [*]
+Paga --> [*] : Encerramento época\n(consulta apenas)
+
+note right of Atraso
+  Em **Em Atraso** disparam‑se\nnotificações e bloqueios
+  desportivos configuráveis.
+end note
 
 @enduml

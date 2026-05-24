@@ -1,20 +1,30 @@
 @startuml atividade_quotas_atraso
+!include _cap_skin.puml
+title Diagrama de atividade — **Worker de quotas em atraso**
 
-skinparam monochrome true
-skinparam shadowing false
-
+|Sistema (serviço agendado)|
 start
-:Verificação periódica;
-while (Existem quotas Pendentes?) is (sim)
-  :Selecionar quota;
-  if (Prazo expirou?) then (sim)
-    :Atualizar estado para Em Atraso;
-    :Notificar Encarregado;
-    if (Atraso > Limite?) then (sim)
-      :Sinalizar Atleta para Suspensão;
+:Disparo periódico\n(_cron_ / _background service_);
+
+while (Fila de quotas\n**Pendentes**?) is (tem próximo)
+  :Obter próxima quota;
+  if (Data limite < hoje ?) then (sim)
+    :Atualizar estado →\n**Em Atraso**;
+    :Notificar encarregado\ncom prazo e valor;
+    if (Dias em atraso\n> limite político ?) then (sim)
+      :Registar **sinalização**\npara suspensão desportiva;
+      :Opcionalmente notificar\nsecretaria /\ntreinador;
     endif
+  else (não)
+    :Manter Pendente /\nmonitorizar no próximo ciclo;
   endif
-endwhile (não)
+endwhile (fila vazia)
 stop
+
+note right
+  Fluxo típico de **processamento batch**;
+  a mesma lógica alimenta
+  relatórios de cobrança.
+end note
 
 @enduml

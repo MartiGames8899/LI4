@@ -1,0 +1,74 @@
+' Estilo partilhado — relatório CAP (cores alinhadas ao cabeçalho #00529B)
+' Incluir no topo de cada diagrama: !include _cap_skin.puml
+skinparam shadowing false
+skinparam handwritten false
+skinparam HyperlinkUnderline false
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam dpi 300
+skinparam roundcorner 10
+skinparam arrowThickness 1.1
+skinparam maxMessageSize 180
+
+skinparam packageStyle rectangle
+skinparam package {
+  BackgroundColor #F4F9FC
+  BorderColor #00529B
+  FontColor #002B5C
+  FontStyle bold
+}
+
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #00529B
+  FontColor #1A1A1A
+  AttributeFontColor #333333
+}
+skinparam classAttributeIconSize 0
+
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #00529B
+  FontColor #1A1A1A
+}
+skinparam interface {
+  BackgroundColor #EBF5FF
+  BorderColor #00529B
+}
+
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #00529B
+  FontColor #1A1A1A
+}
+skinparam actor {
+  BorderColor #00529B
+  FontColor #002B5C
+}
+
+skinparam state {
+  BackgroundColor #FFFFFF
+  BorderColor #00529B
+  FontColor #1A1A1A
+}
+skinparam activity {
+  BackgroundColor #FFFFFF
+  BorderColor #888888
+  FontColor #1A1A1A
+  DiamondBackgroundColor #FFF8E6
+  DiamondBorderColor #00529B
+}
+
+skinparam sequence {
+  ArrowColor #333333
+  LifeLineBorderColor #00529B
+  LifeLineBackgroundColor #F4F9FC
+  ParticipantBorderColor #00529B
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontColor #002B5C
+}
+
+skinparam note {
+  BackgroundColor #FFFDE7
+  BorderColor #C9A012
+}

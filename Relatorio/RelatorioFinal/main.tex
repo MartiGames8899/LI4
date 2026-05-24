@@ -53,6 +53,12 @@
         \textbf{Resultado:} #3
     \end{tcolorbox}
 }
+
+% Parágrafo padrão para posicionar engenharia face ao rascunho automático (fora da caixa azul)
+\newcommand{\reflexao}[1]{%
+    \paragraph{Leitura crítica da equipa.}%
+    #1\par\medskip
+}
     %% List of acronyms
     %% https://ctan.org/pkg/nomencl?lang=en
 \usepackage[intoc]{nomencl}
@@ -122,11 +128,13 @@
 
 \begin{flushleft}
 \begin{abstract}
-Este trabalho consiste na conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar sediado na cidade de Braga.Neste documento, encontra-se descrito o processo para a realização do projeto, desde a especificação do pretendido até a fase de implementação e teste do mesmo.
+Este trabalho consiste na conceção, especificação, desenvolvimento e validação de um sistema de software aplicacional para a gestão integrada de um clube desportivo multidisciplinar sediado na freguesia de Polvoreira, concelho de Guimarães.
 
-As etapas realizadas pela equipa de desenvolvimento foram apoiadas e aceleradas pelo uso de \textit{Large Language Models (LLM)}, como GPT-4 e Claude, integrados no fluxo de trabalho através de ferramentas como o Gemini CLI. A metodologia adotada seguiu um modelo sequencial inspirado no \textit{Waterfall}, adaptado para a colaboração com agentes de IA.
+Neste documento, encontra-se descrito o processo para a realização do projeto, desde a especificação do pretendido até a fase de implementação e teste do mesmo.
 
-Após a definição do contexto e motivação, procedeu-se ao levantamento e análise de requisitos funcionais e não funcionais, utilizando técnicas de entrevistas e questionários. A especificação do sistema incluiu a modelação estrutural através de diagramas de classes e de componentes, e a modelação comportamental com diagramas de casos de uso e de sequência.
+As etapas realizadas pela equipa de desenvolvimento foram apoiadas por \textit{assistência generativa de texto e de diagramas}, registada de forma explícita ao longo deste documento nas secções ``\textbf{Documentação de IA}''. A metodologia adotada seguiu um modelo sequencial inspirado no \textit{Waterfall}, mantendo revisão humana como passo obrigatório entre o primeiro rascunho e a especificação aceite.
+
+Após a definição do contexto e motivação, procedeu-se ao levantamento e análise de requisitos funcionais e não funcionais, utilizando técnicas de entrevistas e questionários. A especificação do sistema incluiu a modelação estrutural através do modelo de domínio e do diagrama de componentes, e a modelação comportamental com máquinas de estado, diagramas de casos de uso, diagramas de sequência e diagramas de atividade.
 
 A arquitetura do sistema foi desenhada seguindo o padrão de monólito modular, utilizando a stack tecnológica .NET 8 (C\#) para o backend e PostgreSQL para a base de dados. A camada de apresentação foi desenvolvida com foco na usabilidade e eficiência na gestão de plantéis, convocatórias, dados clínicos e quotas financeiras. Por fim, o sistema foi validado face aos requisitos iniciais, demonstrando ser uma solução robusta para a digitalização dos processos do clube.
 
@@ -173,17 +181,17 @@ A arquitetura do sistema foi desenhada seguindo o padrão de monólito modular, 
 
 \section{Enquadramento e Objetivos do Trabalho}
 
-O presente relatório documenta o desenvolvimento de um sistema de software para a gestão integrada de um clube desportivo, realizado no âmbito da unidade curricular de Laboratórios de Informática IV. Este projeto surge num contexto particularmente relevante, onde a engenharia de software tradicional encontra uma nova dimensão através da integração de \textit{Large Language Models} (LLMs) como ferramentas de suporte ao desenvolvimento.
+O presente relatório documenta o desenvolvimento de um sistema de software para a gestão integrada de um clube desportivo, realizado no âmbito da unidade curricular de Laboratórios de Informática IV. Este projeto surge num contexto onde a engenharia de software pode ser acelerada por \textit{assistência generativa}, sempre sujeita à validação técnica dos membros da equipa.
 
-O objetivo principal deste trabalho é conceber, especificar, desenvolver e validar uma aplicação web para a gestão do Clube Amigos de Polvoreira (CAP), explorando simultaneamente as potencialidades e limitações dos LLMs como ferramentas auxiliares em todas as fases do ciclo de desenvolvimento de software. Pretende-se não apenas entregar um produto funcional que responda às necessidades reais do clube, mas também refletir criticamente sobre o papel que a inteligência artificial generativa pode desempenhar na engenharia de software contemporânea.
+O objetivo principal deste trabalho é conceber, especificar, desenvolver e validar uma aplicação web para a gestão do Clube Amigos de Polvoreira (CAP), documentando também o contraste entre o primeiro \textit{output} automático e as versões revistas que aqui se apresentam. O propósito não é atribuir decisões à ferramenta, mas mostrar \textbf{como} se filtra, corrige e reorganiza material bruto numa especificação aceitável para o CAP.
 
 Os objetivos específicos do trabalho incluem:
 \begin{itemize}
-    \item Realizar o levantamento e análise de requisitos funcionais e não funcionais, aplicando metodologias de engenharia de requisitos com suporte de LLMs;
+    \item Realizar o levantamento e análise de requisitos funcionais e não funcionais, aplicando metodologias de engenharia de requisitos com recurso a rascunhos automáticos sempre revistos;
     \item Especificar e modelar a arquitetura do sistema, utilizando notação UML e padrões de \textit{design} adequados;
     \item Desenvolver uma aplicação web funcional que integre as vertentes desportiva, clínica, financeira e administrativa do clube;
-    \item Documentar sistematicamente a utilização de LLMs ao longo do projeto, identificando boas práticas e limitações;
-    \item Avaliar criticamente o impacto da utilização de LLMs na produtividade e qualidade do desenvolvimento.
+    \item Documentar, nas caixas dedicadas, exemplos concretos de interação com ferramentas generativas e o respetivo tratamento pela equipa;
+    \item Demonstrar espírito crítico na distinção entre sugestão inicial e decisão técnica fundamentada no domínio CAP.
 \end{itemize}
 
 \section{Large Language Models na Engenharia de Software}
@@ -192,7 +200,7 @@ Os objetivos específicos do trabalho incluem:
 
 Os \textit{Large Language Models} (LLMs) representam uma das mais significativas inovações no campo da inteligência artificial dos últimos anos. Estes modelos, baseados em arquiteturas de redes neuronais do tipo \textit{Transformer}, são treinados em vastos corpora de texto e código, desenvolvendo a capacidade de compreender e gerar linguagem natural e linguagens de programação com um grau de sofisticação sem precedentes.
 
-No contexto da engenharia de software, os LLMs emergiram como ferramentas potencialmente transformadoras, oferecendo capacidades que vão desde a geração automática de código até ao suporte na documentação técnica, passando pela análise de requisitos e deteção de erros. Modelos como o GPT-4, Claude, e Gemini demonstraram proficiência em tarefas que tradicionalmente requeriam intervenção humana especializada.
+No contexto da engenharia de software, este tipo de modelos emergiu como ferramenta potencialmente transformadora, oferecendo capacidades que vão desde a geração de código repetitivo até ao suporte à documentação técnica, passando pela análise de requisitos e deteção de erros. \textbf{Os exemplos concretos usados no projeto}, com indicação das ferramentas e \textit{prompts}, encontram-se exclusivamente nas secções ``\textit{Documentação de IA}''; o restante texto descreve sempre a leitura técnica dos autores.
 
 \subsection{Vantagens da Utilização de LLMs no Desenvolvimento de Software}
 
@@ -234,24 +242,23 @@ Apesar das vantagens evidentes, a utilização de LLMs no desenvolvimento de sof
 
 \subsection{Abordagem Adotada neste Projeto}
 
-Neste projeto, a equipa de desenvolvimento adotou uma abordagem equilibrada na utilização de LLMs, tratando-os como ferramentas de suporte e não como substitutos do julgamento técnico humano. Os LLMs foram utilizados para:
+Neste projeto adotou-se uma abordagem \textbf{centrada no engenheiro}: a assistência automática produz rascunhos; a equipa regista o que pediu (caixas de cor) e, nas subsecções seguintes, explica o que manteve, o que descartou e porquê. Este duplo registo evita confundir narrativa de produto com evidência de método. As funções delegadas ao assistente foram essencialmente:
 
 \begin{itemize}
-    \item Acelerar a geração de documentação e especificações iniciais;
-    \item Apoiar a estruturação de requisitos e casos de uso;
-    \item Auxiliar na criação de diagramas UML e modelos de dados;
-    \item Sugerir padrões de arquitetura e implementação;
-    \item Gerar código \textit{boilerplate} para componentes repetitivos.
+    \item Explorar formulários de requisitos, entrevistas sintéticas ou listas ``de trabalho'' que depois se compararam com o material real do CAP;
+    \item Obter primeiras versões de tabelas especificativas e de excertos de documentos de exemplo;
+    \item Redigir \textit{summaries} ou listas de pontos a validar com a gerência e com a secretaria;
+    \item Propor esqueletos gráficos posteriormente redesenhados à mão (PlantUML, draw.io) para cumprir convenções UML e o guia do curso.
 \end{itemize}
 
-Em todas as situações, o \textit{output} dos LLMs foi criticamente avaliado, validado e adaptado pela equipa, garantindo que o resultado final reflete não apenas a capacidade generativa dos modelos, mas também o conhecimento de domínio, das decisões arquiteturais conscientes e das boas práticas de engenharia de software que a equipa considera adequadas ao contexto do projeto.
+Em todas as situações, adotou-se por norma uma postura de ``\textit{rascunho rápido mas desconfiado}'': cruzamento sistemático com Sommerville e com as notas das reuniões, saneamento de linguagem vaga, revisão de invariantes (RGPD, SAF-T, segurança física dos atletas) e consolidação numa única versão aprovada pela equipa antes de integrar o relatório final.
 
 \section{Medidas de Sucesso}
 
 Para avaliar a eficácia da implementação do sistema de gestão do CAP, foram definidas as seguintes medidas de sucesso, que deverão ser monitorizadas durante o primeiro ano de utilização:
 
 \begin{itemize}
-    \item \textbf{Redução de Falhas de Comparência}: Diminuir em 90\% os casos de atletas que faltam a eventos por falta de visualização de convocatórias ou alterações de horário, graças ao sistema de notificações centralizado.
+    \item \textbf{Redução de faltas por ausência de informação}: Diminuir em 90\% os casos de atletas que faltam a eventos por falta de visualização de convocatórias ou alterações de horário, graças ao sistema de notificações centralizado.
     \item \textbf{Regularização de Quotas}: Aumentar em 20\% a taxa de pagamento de quotas no prazo estipulado no primeiro trimestre após a introdução dos métodos MB Way e Referência Multibanco.
     \item \textbf{Conformidade Clínica}: Eliminação total (0\%) de atletas a participar em treinos ou jogos com exames médicos desportivos caducados, através do sistema de bloqueio e alertas automáticos.
     \item \textbf{Eficiência Administrativa}: Redução de 50\% no tempo gasto pela secretaria em tarefas de arquivo e conferência de documentos manuais.
@@ -273,9 +280,9 @@ Neste contexto, a utilização de sistemas informáticos de apoio à gestão ass
 \section{Apresentação do Caso de Estudo}
 O Clube Amigos de Polvoreira (CAP) é uma associação desportiva sediada na freguesia de Polvoreira, no concelho de Guimarães, fundada no ano de 1990. O clube surgiu por iniciativa de um grupo de habitantes da comunidade local com o objetivo de promover a prática desportiva, o convívio social e o desenvolvimento saudável dos jovens da região.
 
-Ao longo dos years, o clube foi crescendo e diversificando as suas atividades, passando a incluir várias modalidades desportivas e recreativas. Entre estas destacam-se modalidades coletivas e individuais que envolvem atletas de diferentes idades, desde a formação até à participação em competições amadoras e profissionais. Este crescimento permitiu ao clube ganhar maior relevância na comunidade, tornando-se um importante ponto de encontro para a população local.
+Ao longo dos anos, o clube foi crescendo e diversificando as suas atividades, passando a incluir várias modalidades desportivas e recreativas. Entre estas destacam-se modalidades coletivas e individuais que envolvem atletas de diferentes idades, desde a formação até à participação em competições amadoras e profissionais. Este crescimento permitiu ao clube ganhar maior relevância na comunidade, tornando-se um importante ponto de encontro para a população local.
 
-Com o aumento do número de atletas, equipas, treinadores e atividades, a gestão do clube tornou-se progressivamente mais complexa. Atualmente, muitos processos administrativos, como a gestão de sócios, pagamentos de quotas, e gestão de atletas e disponibilidade dos mesmos, bem como dados estatisticos relacionados com as depesas e ganhos do clube  são realizados de forma manual ou pouco estruturada.
+Com o aumento do número de atletas, equipas, treinadores e atividades, a gestão do clube tornou-se progressivamente mais complexa. Atualmente, muitos processos administrativos, como a gestão de sócios, pagamentos de quotas, e gestão de atletas e disponibilidade dos mesmos, bem como dados estatísticos relacionados com despesas e receitas do clube são realizados de forma manual ou pouco estruturada.
 
 Diante deste cenário e tendo em vista os objetivos futuros de expansão e melhoria da organização interna, surgiu a necessidade de desenvolver uma aplicação de gestão para o Clube Amigos de Polvoreira. Esta aplicação pretende apoiar a administração do clube, facilitar a gestão das modalidades e dos seus participantes, melhorar a comunicação entre direção, treinadores e atletas, e preparar a instituição para um crescimento sustentado nos próximos anos.
 
@@ -283,9 +290,9 @@ Desta forma, o clube entrou em contacto com uma equipa de engenheiros informáti
 
 \section{Motivação e Objetivos}
 O clube é composto por diversos atletas de várias modalidades bem como elementos técnicos e da administração, tendo ainda como objetivo no futuro aumentar os escalões das modalidades, tendo em mente um forte investimento no clube procurando expandi-lo e atingir os grandes palcos.
-Até ao momento, todos os registos do clube são tratados de forma manual,em papel tendo as tarefas e responsabilidades dividas por diferentes trabalhadores. Foram já relatadas ao dono do clube queixas dos trabalhadores pela quantidade de documentos, e de alguns atletas pois tiveram documentos importantes perdidos. Obviamente, este processo dá origem a erros e a inconsistências, com perdas de documentos, fraca organização e fraca acessibilidade aos mesmo, bem como um sentimento de insegurança por parte do dono do clube pela falta de controlo dos documentos.
+Até ao momento, todos os registos do clube são tratados de forma manual e em papel, tendo as tarefas e responsabilidades divididas por diferentes trabalhadores. Foram já relatadas ao dono do clube queixas dos trabalhadores pela quantidade de documentos, e de alguns atletas pois tiveram documentos importantes perdidos. Obviamente, este processo dá origem a erros e a inconsistências, com perdas de documentos, fraca organização e fraca acessibilidade aos mesmo, bem como um sentimento de insegurança por parte do dono do clube pela falta de controlo dos documentos.
 O crescimento do clube previsto pelo dono, permite concluir que os métodos em vigor atualmente não são escaláveis nem vão de encontro com o projeto a longo prazo pretendido.
-O clube procurar no sistema informático uma solução para os seus problemas, sendo este a base e o investimento central e fulcrar para os seus objetivos.
+O clube procura no sistema informático uma solução para os seus problemas, sendo este a base e o investimento central e fulcro para os seus objetivos.
 Assim, o CAP pretende ter um sistema informático capaz de :
 \begin{itemize}
     \item Facilitar a comunicação entre os diferentes integrantes : Atletas,direção e equipas técnicas.
@@ -299,7 +306,7 @@ Assim, o CAP pretende ter um sistema informático capaz de :
 \begin{itemize}
     \item A digitalização dos documentos irá diminuir a taxa de erros, garantindo integridade dos ficheiros, persistência dos mesmos e controlo de segurança e de acesso.
     \item A implementação do sistema informático irá também facilitar os processos trazendo uma maior produtividade dos trabalhadores.
-    \item A possibilidade de calcular dados estatisticos associados aos gastos e lucros da empresa será uma mais valia para o dono do clube permitindo uma melhor monitorização, mais acertiva, e facilitando até a apresentação a futuros investidores e interessados no clube.
+    \item A possibilidade de calcular dados estatísticos associados aos gastos e lucros será uma mais valia para o dono do clube, permitindo uma melhor monitorização, mais assertiva, e facilitando até a apresentação a futuros investidores e interessados no clube.
     \item \textbf{Centralização da Comunicação}: O sistema elimina a dependência de métodos informais e fragmentados (como grupos de WhatsApp), garantindo que convocatórias, alterações de horários e avisos oficiais chegam a todos os intervenientes de forma estruturada e sem ruído informacional.
     \item \textbf{Gestão Clínica Preventiva}: A automatização do controlo de atestados médicos e o registo de queixas físicas permitem uma abordagem proativa à saúde do atleta, prevenindo o agravamento de lesões e garantindo a conformidade legal do clube em todas as competições.
     \item \textbf{Comodidade e Liquidez Financeira}: A introdução de métodos de pagamento modernos (MB Way e Referência Multibanco) facilita a regularização de quotas por parte dos encarregados de educação, reduzindo a inadimplência e o trabalho manual de conferência da tesouraria.
@@ -312,12 +319,6 @@ Assim, o CAP pretende ter um sistema informático capaz de :
         \end{itemize}
     Serão também necessários recursos materiais tanto a nivel de \textit{hardware} como \textit{software}, tais como quatro computadores pessoais, um por cada elemento da equipa de desenvolvimento.
 
-    A stack tecnológica escolhida para o desenvolvimento do sistema baseia-se no ecossistema Microsoft para o backend, utilizando a framework \textbf{.NET 8 (C\#)} devido à sua robustez, performance e suporte nativo para serviços de execução em segundo plano. Para a persistência de dados, optou-se pelo \textbf{PostgreSQL}, aproveitando a sua conformidade ACID estrita e o suporte avançado para o formato JSONB, ideal para o armazenamento flexível de dados clínicos.
-
-    Relativamente às ferramentas de modelação e design, utilizou-se o \textbf{Visual Paradigm} para a conceção dos diagramas UML formais e o \textbf{Excalidraw} para o desenho rápido e intuitivo dos esboços das interfaces de utilizador (mockups).
-
-    Um recurso inovador e central neste projeto foi a utilização de \textbf{Large Language Models (LLMs)}, nomeadamente o \textbf{GPT-4 (OpenAI)}, o \textbf{Claude 3.5 (Anthropic)} e o \textbf{Gemini 1.5 (Google)}. Estes modelos foram integrados no fluxo de trabalho através de ferramentas de CLI e extensões de IDE, atuando como parceiros de programação (\textit{pair programming}), auxiliando na análise de requisitos, geração de código boilerplate, documentação técnica e validação de lógica de negócio.
-
 \section{Análise de Viabilidade}
 Antes de avançar, foi realizado um estudo, com o objetivo de analisar a viabilidade do projeto para o clube, de onde foram retiradas as seguintes conclusões :
         \begin{itemize}
@@ -326,11 +327,11 @@ Antes de avançar, foi realizado um estudo, com o objetivo de analisar a viabili
             \item Estimado um aumento do número de sócios do clube em 10\% com a facilidade de inscrição online e renovação das quotas, o que contribuirá para um aumento das receitas do clube.
             \item Redução em 70\% dos custos em papel, impressões e arquivo físico devido à digitalização dos processos.
         \end{itemize}
-            A equipa de desenvolvimento estimou também o custo de projeto sendo este inferior a 50 000€, concluindo assim a viabilidade do projeto a nivel monetário visto que é esperado que este traga a longo prazo um retorno do investimento, contribuindo de forma positiva para o crescimento do clube e escabilidade do mesmo sem custos adicionais.
+            A equipa de desenvolvimento estimou também o custo de projeto sendo este inferior a 50\,000~€, concluindo assim a viabilidade do projeto a nível monetário, uma vez que se espera que traga a longo prazo retorno sobre o investimento, contribuindo de forma positiva para o crescimento do clube e para a escalabilidade do projeto sem custos adicionais.
 \section{Plano de Execução do Projeto}
 Foi organizada uma reunião entre os elementos da equipa de desenvolvimento e o dono do clube Orlando Ramalho Forte com o intuito de ser definido um plano de execução para o projeto.
 A equipa de desenvolvimento selecionou a metodologia sequencial segundo o modelo \textit{Waterfall (Royce,1970)},de maneira a que o projeto avance de forma linear, tornando o mesmo fácil de gerir, facilitando a organização e planeamento.
-Em conjunto com o dono do clube e contando com o apoio e uso de \textit{Large Language Models (LLM)} foi definido o seguinte plano de execução :
+Em conjunto com o dono do clube foi definido o seguinte plano de execução (ajustado sempre que a revisão manual dos requisitos detetou novas prioridades):
 
 \begin{figure}[H]
     \centering
@@ -344,15 +345,15 @@ Em conjunto com o dono do clube e contando com o apoio e uso de \textit{Large La
 O presente relatório encontra-se organizado em capítulos que refletem as diferentes fases do ciclo de desenvolvimento de software adotado:
 
 \begin{itemize}
-    \item \textbf{Capítulo 1 - Introdução}: Apresenta o enquadramento do trabalho, os objetivos, uma análise sobre a utilização de Large Language Models na engenharia de software, incluindo vantagens e desvantagens, e a estrutura geral do relatório.
+    \item \textbf{Capítulo 1 - Introdução}: Apresenta o enquadramento, os objetivos, enquadramento teórico sobre modelos de linguagem de grande dimensão na engenharia de software (âmbito académico) e a estrutura geral do relatório.
 
     \item \textbf{Capítulo 2 - Definição e Caracterização do Sistema}: Contextualiza o projeto, apresenta o caso de estudo do Clube Amigos de Polvoreira, a motivação e objetivos do sistema, a análise de viabilidade e o plano de execução.
 
-    \item \textbf{Capítulo 3 - Levantamento e Análise de Requisitos}: Descreve a metodologia de levantamento de requisitos, os métodos utilizados (análise documental, entrevistas, questionários), e apresenta os requisitos funcionais e não funcionais identificados.
+    \item \textbf{Capítulo 3 - Levantamento e Análise de Requisitos}: Descreve a metodologia, intercala \textbf{caixas azuis de Documentação de IA} (com \textit{prompts} e primeira resposta automática) com parágrafos de \textbf{Leitura crítica da equipa}, e apresenta os requisitos funcionais e não funcionais consolidados.
 
-    \item \textbf{Capítulo 4 - Especificação e Modelação do Software}: Documenta as decisões arquiteturais, a modelação estrutural (modelo de domínio, diagrama de componentes) e a modelação comportamental (diagramas de casos de uso, máquinas de estado, diagramas de atividade).
+    \item \textbf{Capítulo 4 - Especificação e Modelação do Software}: Para além das decisões comparativas já expostas nas tabelas, inclui a mesma lógica de ``rascunho automático $\rightarrow$ crítica $\rightarrow$ artefacto aceite'' antes dos principais diagramas UML.
 
-    \item \textbf{Capítulos subsequentes}: Apresentarão a conceção do sistema de dados, o esboço das interfaces, a implementação e a avaliação da aplicação desenvolvida.
+    \item \textbf{Capítulos subsequentes} (para entrega futura da unidade curricular): Apresentarão a conceção do sistema de dados, o esboço das interfaces, a implementação e a avaliação da aplicação desenvolvida.
 \end{itemize}
 
 %==========================================================================
@@ -421,6 +422,8 @@ Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidad
     \item \textbf{Autoridade Tributária (AT):} Entidade reguladora fiscal, essencial para efeitos de conformidade e exportação do SAF-T.
 \end{itemize}}
 
+\reflexao{A resposta da caixa funcionou como checklist: confirmou categorias que já tínhamos apontado na reunião de abertura, mas introduziu formulações demasiado genéricas (ex.: ``fornecedores'' sem distinguir fornecedores de material desportivo de parceiros institucionais). Recusámo-nos a copiar cegamente a taxonomia e exigimos exemplos concretos CAP — transportes, calendário de pavilhão, tesouraria. Só depois essa matriz passou a texto narrativo no parágrafo anterior, reduzindo redundância entre caixa e relatório.}
+
 \subsection{Métodos de Levantamento Utilizados}
 
 A equipa de desenvolvimento selecionou três métodos complementares de levantamento de requisitos, cada um com objetivos específicos e contribuições distintas para a compreensão global das necessidades do sistema:
@@ -458,6 +461,8 @@ A complementaridade destes métodos foi essencial para garantir uma cobertura ab
 \end{itemize}
 
 Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}
+
+\reflexao{A sugestão inicial expandiu o leque (etnografia, grupos de foco, protótipos) de forma académica correta mas irrealista para o prazo disponível. Concordámos com o espírito --- triangulação --- e \textbf{recusámos} métodos que não tínhamos tempo de executar com rigor. Mantivemos apenas análise documental, entrevistas e questionário, documentando essa redução na tabela seguinte para ficar explícito onde a automação exagerou no âmbito e onde a equipa cortou.}
 
 \subsection{Planeamento do Levantamento}
 
@@ -512,17 +517,18 @@ Da análise do documento, foram extraídos os seguintes requisitos:
     \item Bloqueio automático de atletas com atestado caducado para convocatórias e participação em jogos.
 \end{itemize}
 
-\caixaprompt{Gemini}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{Com certeza! O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. \textit{(Nota da equipa: O código e a pré-visualização do ficheiro HTML gerado encontram-se na secção de Anexos no final deste relatório).}
+\caixaprompt{Gemini}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{Com certeza! O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. \textit{(Nota da equipa: O código e a pré-visualização do ficheiro HTML gerado encontram-se na secção de Anexos no final deste relatório).}}
 
-Com base na estrutura de dados presente nesse atestado médico, extraí a seguinte lista de Requisitos Funcionais (RF) que devem ser implementados no sistema do CAP:
+\reflexao{O modelo devolveu sobretudo moldes legais ``perfeitos''; os exemplares reais da secretaria eram mais irregulares (carimbos fracos, datas manuscritas). Em vez de automatizar a extração de dados a partir do PDF --- fora de âmbito para o protótipo --- optámos por obrigar um passo humano de validação antes de o atestado contar como válido, e por alinhar alertas com o calendário efetivo do CAP, não com o texto modelo.}
 
+Com base em cruzamento entre o HTML sintético, as notas da secretaria e os requisitos já listados acima, sistematizámos os seguintes pontos adicionais sob forma de RF:
 \begin{itemize}
     \item \textbf{RF - Upload de Documento:} O sistema deve permitir aos atletas ou encarregados de educação efetuarem o \textit{upload} do atestado médico em formato digital (PDF ou imagem).
     \item \textbf{RF - Controlo de Validade:} O sistema deve extrair e registar a data de emissão do atestado médico, calculando a sua data de caducidade (habitualmente 1 ano após a emissão).
     \item \textbf{RF - Validação da Secretaria:} O sistema deve permitir aos funcionários da secretaria aprovar ou rejeitar o atestado submetido, validando a assinatura e a vinheta do médico.
-    \item \textbf{RF - Alertas de Exiração:} O sistema deve notificar automaticamente o atleta e/ou encarregado de educação 30 dias antes de o atestado médico perder a validade.
+    \item \textbf{RF - Alertas de Expiração:} O sistema deve notificar automaticamente o atleta e/ou encarregado de educação 30 dias antes de o atestado médico perder a validade.
     \item \textbf{RF - Bloqueio de Convocatória:} O sistema não deve permitir que os treinadores adicionem a convocatórias oficiais os atletas cujo atestado médico se encontre caducado ou reprovado.
-\end{itemize}}
+\end{itemize}
 
 \paragraph{Relatório Oficial de Jogo}
 
@@ -537,9 +543,11 @@ Da análise do documento, foram identificadas as seguintes necessidades:
     \item Observações técnicas do treinador.
 \end{itemize}
 
-\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}
+\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}}
 
-A partir da estrutura e dos dados necessários para preencher este relatório de jogo, extraí os seguintes Requisitos Funcionais (RF) cruciais para o módulo de gestão desportiva do sistema do CAP:
+\reflexao{A primeira lista automática falhou em captar obrigações de competição federada específicas (por exemplo relatórios a fechar até 48\,h quando o escalão assim o exige). Recortámos cenários fantasiosos (\textit{e.g.} estatísticas exóticas para patrocínio) porque o treino com o técnico mostrou urgência maior em garantir vínculo imutável após ``fecho'' do relatório e em alertar lesionados aos encarregados.}
+
+A partir da estrutura e dos dados necessários para preencher este relatório de jogo, definiram-se como adenda os seguintes RF para o módulo desportivo:
 
 \begin{itemize}
     \item \textbf{RF - Preenchimento do Relatório de Jogo:} O sistema deve permitir que o treinador (ou delegado) preencha o relatório após o apito final, registando o resultado final, a equipa adversária e a data/local da partida.
@@ -547,7 +555,7 @@ A partir da estrutura e dos dados necessários para preencher este relatório de
     \item \textbf{RF - Registo de Estatísticas e Disciplina:} O sistema deve permitir o registo de eventos individuais por atleta durante o jogo, tais como golos marcados, assistências e cartões (amarelos/vermelhos).
     \item \textbf{RF - Registo de Lesões em Jogo:} O sistema deve possuir uma secção para assinalar lesões contraídas durante a partida, gerando um alerta automático para a secretaria e para o encarregado de educação (no caso de menores).
     \item \textbf{RF - Submissão e Arquivo:} Após a submissão do relatório pelo treinador, o documento deve ficar trancado a novas edições e disponível para consulta global pela gerência e secretaria.
-\end{itemize}}
+\end{itemize}
 
 Estas métricas definiram os requisitos para o módulo de estatísticas, permitindo a construção de perfis de desempenho individual e coletivo que a gerência poderá utilizar para apresentar a potenciais patrocinadores.
 
@@ -564,9 +572,11 @@ Da análise do documento, foram identificadas as seguintes necessidades:
     \item Exportação para formato SAF-T conforme exigido pela Autoridade Tributária.
 \end{itemize}
 
-\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. \textit{(Nota da equipa: O código e a pré-visualização deste ficheiro encontram-se na secção de Anexos do relatório).}
+\caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. \textit{(Nota da equipa: O código e a pré-visualização deste ficheiro encontram-se na secção de Anexos do relatório).}}
 
-A partir dos dados presentes na fatura gerada, identifiquei os seguintes Requisitos Funcionais (RF) fundamentais para o módulo financeiro do CAP:
+\reflexao{Os exemplos vieram orientados ao ``utilidor final'' típico; o tesoureiro alertou-nos para exceções frequentes --- pagamentos parcelares, ano fiscal desfasado da época e recibos manuais ainda válidos até migrar dados. Harmonizámos texto e regras CAP: dias de tolerância, bloqueio desportivo e SAF-T ficaram explícitos, removendo sugestões demasiado rígidas que inviabilizariam negociações já praticadas.}
+
+Tendo consolidado estas restrições, avançámos para a seguinte versão sintética dos RF financeiros prioritários:
 
 \begin{itemize}
     \item \textbf{RF - Processamento de Quotas:} O sistema deve permitir à secretaria registar o pagamento mensal ou anual de quotas por parte de sócios ou atletas.
@@ -575,7 +585,7 @@ A partir dos dados presentes na fatura gerada, identifiquei os seguintes Requisi
     \item \textbf{RF - Controlo de Dívidas:} O sistema deve identificar automaticamente atletas ou sócios com quotas em atraso, destacando-os no \textit{dashboard} da secretaria.
     \item \textbf{RF - Alertas de Pagamento:} O sistema deve enviar notificações automáticas (via email ou plataforma) aos encarregados de educação ou sócios nos 5 dias anteriores ao vencimento da quota.
     \item \textbf{RF - Restrição por Dívida:} O sistema deve avisar ou bloquear a inclusão de atletas em convocatórias caso tenham mais de 2 meses de quotas em atraso (conforme os regulamentos do clube).
-\end{itemize}}
+\end{itemize}
 
 \subsection{Entrevistas Direcionadas}
 
@@ -612,9 +622,11 @@ As conversas revelaram que a desorganização atual está a causar prejuízos fi
     \item \textbf{Conflitos de Espaços:} Foi relatado um episódio em que as equipas de Futsal e Voleibol tentaram usar o pavilhão ao mesmo tempo devido a um erro num caderno de papel. O sistema tem de gerir o calendário de instalações.
 \end{itemize}
 
-\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada simulada entre um membro da equipa de desenvolvimento e um elemento da Direção (Gerência) do CAP. \textit{(Nota da equipa: A transcrição completa desta entrevista encontra-se na secção de Anexos no final deste relatório).}
+\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada simulada entre um membro da equipa de desenvolvimento e um elemento da Direção (Gerência) do CAP. \textit{(Nota da equipa: A transcrição completa desta entrevista encontra-se na secção de Anexos no final deste relatório).}}
 
-A partir da análise das respostas do membro da gerência, extraí os seguintes pontos-chave e Requisitos Funcionais (RF) focados na gestão global e financeira do clube:
+\reflexao{Riscos típicos: tom demasiado ``corporativo'' e promessas métricas inverificáveis. Na revisão garantimos que cada RF extraído desse guião tinha ponta firme nos problemas relatados pela gerência real (cronogramas fiscais, caos das transferências pouco claras). Descartámos extrapolações fantasiosas tipo BI avançado que não cabiam no trabalho útil até à data definida pelo dono do clube.}
+
+A partir das respostas consolidadas ao guião anterior, destacaram‑se sob forma de RF e notas funcionais os seguintes tópicos:
 
 \begin{itemize}
     \item \textbf{RF - Dashboard de Gestão:} A direção necessita de um painel de controlo (\textit{dashboard}) que apresente estatísticas em tempo real, como o número de atletas inscritos por modalidade e o balanço financeiro mensal.
@@ -622,7 +634,7 @@ A partir da análise das respostas do membro da gerência, extraí os seguintes 
     \item \textbf{RF - Conformidade Fiscal (SAF-T):} Foi sublinhado como requisito crítico e inegociável a capacidade de o sistema faturar e gerar o ficheiro SAF-T de forma automatizada para a Autoridade Tributária.
     \item \textbf{RF - Relatórios de Seguros e Atestados:} A gerência quer a capacidade de gerar um relatório rápido listando todos os atletas que se encontram com o seguro desportivo ou atestado médico caducado.
     \item \textbf{Dificuldade Atual Identificada:} O entrevistado destacou a perda de dezenas de horas mensais na verificação manual de transferências bancárias para reconciliação do pagamento de quotas.
-\end{itemize}}
+\end{itemize}
 
 \subsubsection*{Perspetiva da Equipa Técnica (Treinadores)}
 \begin{itemize}
@@ -631,9 +643,11 @@ A partir da análise das respostas do membro da gerência, extraí os seguintes 
     \item \textbf{Estatísticas e Material:} Há a necessidade de gráficos radar para comparar capacidades de atletas da mesma posição, além de um sistema rápido para registar assiduidade, ocorrências de jogo (golos, cartões) e requisitar material à secretaria.
 \end{itemize}
 
-\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}
+\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}}
 
-Com base nas respostas do treinador, identifiquei os seguintes Requisitos Funcionais (RF) e principais necessidades operacionais para a gestão desportiva:
+\reflexao{A versão inicial insistia demasiado em dashboards analíticos; o treinador real priorizou \textbf{lista apto/inapto} e confirmação de presença. Reescrevemos os RF omitindo tecnologias de visualização extravagantes até termos infraestrutura que as suporte. Também marcámos explícitos estados onde o telefone do treinador no relvado obriga UX minimalista --- lição tirada quando o modelo sugeriu fluxos apenas desktop.}
+
+Sob esta ótica, sintetizaram-se os seguintes RF de apoio à equipa técnica:
 
 \begin{itemize}
     \item \textbf{RF - Gestão de Convocatórias:} O treinador precisa de um módulo onde possa selecionar os atletas para o jogo do fim de semana, enviando uma notificação automática para os mesmos.
@@ -641,7 +655,7 @@ Com base nas respostas do treinador, identifiquei os seguintes Requisitos Funcio
     \item \textbf{RF - Preenchimento do Relatório de Jogo:} O treinador necessita de registar de forma célere os eventos da partida (golos, cartões, resultado final) diretamente no telemóvel ou \textit{tablet} após o jogo.
     \item \textbf{RF - Registo de Assiduidades e Lesões:} Capacidade de registar as presenças nos treinos semanais e reportar lesões imediatas ao departamento médico/secretaria.
     \item \textbf{Dificuldade Atual Identificada:} O treinador queixou-se de que perde muito tempo a tentar saber pela secretaria quem está "apto" a jogar devido a papelada atrasada, operando muitas vezes "às cegas".
-\end{itemize}}
+\end{itemize}
 
 \subsubsection*{Perspetiva dos Atletas}
 \begin{itemize}
@@ -650,9 +664,11 @@ Com base nas respostas do treinador, identifiquei os seguintes Requisitos Funcio
     \item \textbf{Perfil Individual Desportivo:} Pediram uma área pessoal onde possam ver a evolução do seu peso, altura e estatísticas ao longo da época. Mostraram também interesse numa biblioteca multimédia para vídeos táticos partilhados pelo treinador e num espaço para o palmarés individual (prémios e distinções).
 \end{itemize}
 
-\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}
+\caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}}
 
-A partir desta conversa, extraí os seguintes Requisitos Funcionais (RF) voltados para o portal do utilizador/atleta:
+\reflexao{A simulação sublinhou desejável ``área instagramável'' --- afastámo-nos conscientemente até termos roadmap de media. Mantivemos, contudo, a crítica válida aos filhos em fila na secretaria, traduzindo-a em workflows de upload e estado \textit{Pendente} que já coexistem na modelação comportamental posterior. Os RF abaixo refletem o equilíbrio negociado entre desejável e obrigatório.}
+
+Dos tópicos validados pelo atleta/EE, destacaram‑se estas necessidades funcionais nucleares:
 
 \begin{itemize}
     \item \textbf{RF - Consulta de Calendário e Convocatórias:} O atleta precisa de aceder a uma área pessoal onde possa ver a data, hora e local dos próximos jogos, bem como confirmar se está convocado.
@@ -660,7 +676,7 @@ A partir desta conversa, extraí os seguintes Requisitos Funcionais (RF) voltado
     \item \textbf{RF - Submissão de Documentação:} O sistema deve permitir ao atleta enviar o atestado médico digitalizado e atualizar os seus dados pessoais (ex: alteração de morada ou contacto de emergência).
     \item \textbf{RF - Notificações Proativas:} O atleta deseja receber alertas no telemóvel ou por email quando uma quota está prestes a expirar ou quando o treinador publica uma convocatória de última hora.
     \item \textbf{Dificuldade Atual Identificada:} A maior frustração apontada foi a necessidade de ir presencialmente à secretaria do clube (ficar em filas) apenas para entregar o atestado médico em papel no início de cada época.
-\end{itemize}}
+\end{itemize}
 
 \subsection{Questionário Online}
 
@@ -703,6 +719,8 @@ Estou pronto para avançar. Pode enviar o próximo prompt para começarmos a des
 \hrule
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} Por motivos de concisão do relatório, optámos por não documentar nesta secção a totalidade das iterações seguintes. Conforme planeado, o desenvolvimento das perguntas exatas e opções de resposta foi realizado de forma iterativa, através de um \textit{prompt} dedicado a cada pergunta individual. }}
+
+\reflexao{A estrutura sugeriu Google Forms ramificado tal como usaríamos laboralmente no curso com Microsoft Forms --- transportámos apenas o desenho lógico, mantendo perguntas concretamente ancoradas aos incómodos do questionário‑piloto verbal. Cortámos perguntas que gerariam apenas ``ruído de satisfação'' e adicionámos métricas de falha comunicacional que permitiram cruzar com percentagens reportadas nos resultados.}
 
 \subsubsection{Análise dos Resultados}
 
@@ -752,34 +770,11 @@ A validação foi bem-sucedida, tendo a gerência aprovado o documento de requis
     \label{fig:rf-01}
 \end{figure}
 
-O primeiro requisito funcional, designado por \textbf{Inscrição e Registo de Novos Atletas (RF-01)}, insere-se na área de Gestão Administrativa e assume-se como o pilar estrutural da plataforma. Este requisito surge da necessidade da secretaria do clube poder registar novos praticantes, capturando todos os metadados necessários para a sua atividade desportiva e financeira.
+O primeiro requisito funcional, designado por Gestão de Perfis e Utilizadores (RF-01), insere-se na área de Gestão Administrativa e assume-se como o pilar estrutural da plataforma. Este requisito surge da necessidade da gerência e da secretaria do clube poderem criar, editar e arquivar os perfis de todos os membros associados à instituição, atribuindo-lhes os respetivos níveis de permissão. Para que qualquer uma destas ações seja realizada, verifica-se como pré-condição que o utilizador responsável pela operação se encontre previamente autenticado no sistema com os privilégios adequados.
 
-\rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
-\textbf{ID} & RF-01 \\ \hline
-\textbf{Nome} & Inscrição e Registo de Novos Atletas \\ \hline
-\textbf{Atores} & Funcionário da Secretaria (Ator Principal) \\ \hline
-\textbf{Descrição} & O sistema deve permitir à secretaria registar um novo atleta, inserindo os seus dados pessoais, modalidade e escalão, criando o respetivo perfil de acesso. \\ \hline
-\textbf{Pré-condições} & O funcionário da secretaria tem de estar autenticado no sistema com privilégios administrativos. \\ \hline
-\textbf{Pós-condições} & O perfil do atleta é criado na base de dados, associado a um escalão, e é enviado um email automático com as credenciais de acesso provisórias. \\ \hline
-\textbf{Fluxo Principal} & 
-1. Funcionário seleciona "Novo Atleta". \newline
-2. Sistema apresenta formulário. \newline
-3. Funcionário preenche dados (Nome, NIF, Data de Nascimento, Contacto, Modalidade). \newline
-4. Funcionário anexa atestado médico. \newline
-5. Funcionário guarda registo. \newline
-6. Sistema valida e confirma sucesso. \\ \hline
-\textbf{Fluxo de Exceção} & 
-\textit{3a. NIF já existente:} Sistema alerta para duplicação e cancela. \newline
-\textit{4a. Ficheiro Inválido:} Sistema bloqueia upload se não for PDF/Imagem. \\ \hline
-\end{tabularx}
-\caption{Especificação Detalhada do RF-01}
-\end{table}
-\rowcolors{2}{white}{white}
+A ordem de operações estipulada dita que, ao registar ou editar um perfil, o sistema deve primeiro validar a unicidade de dados críticos como o email e o NIF. Caso o sistema detete que estes identificadores já existem na base de dados, a operação de registo é interrompida e o erro é sinalizado. Em caso de sucesso, cumpre-se a pós-condição da operação: o novo perfil fica registado e apto a aceder ao sistema, sendo as credenciais iniciais enviadas automaticamente por correio eletrónico.
+
+Em relação à operação de arquivamento, caso um atleta ou membro do staff abandone o clube, o sistema reage revogando imediatamente as suas capacidades de acesso. No entanto, assegura-se que toda a informação desportiva e financeira ligada a esse perfil é mantida intacta. A relevância deste requisito para a aplicação é crítica, uma vez que é ele que permite identificar as pessoas que interagem com o sistema e que ações podem realizar, servindo de base para todos os outros módulos.
 
 \begin{figure}[H]
     \centering
@@ -867,6 +862,8 @@ Estou pronto. Podes pedir o próximo requisito quando quiseres!
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} De forma a manter a concisão deste relatório, omitimos a listagem dos \textit{prompts} subsequentes. O processo repetiu-se iterativamente para gerar a totalidade dos Requisitos Funcionais, garantindo que o modelo respeitava sempre esta estrutura tabular detalhada. O resultado final desta extração e as respetivas tabelas encontram-se no Capítulo 4.}}
 
+\reflexao{O RF-01 repetido na caixa serviu para calibrar linguagem (``Novo Atleta'' versus ``Inscrição'') e para perceber onde o assistente esquecia atores secundários --- corrigimos antes de desdobrar nos restantes IDs. Nada impede reutilizar automatismo, mas cada RF passou checklist humano: há ator? há pré/pós condição testável? há conflito com RGPD? Só então avançou para a tabela oficial e para o Draw.io.}
+
 
 \section{Requisitos Não Funcionais}
 
@@ -921,7 +918,7 @@ O quinto requisito não funcional (RNF-05), cujo fluxo se encontra detalhado no 
 
 Para que o fluxo se inicie, assume-se como pré-condição que o utilizador solicite uma ação na interface que dependa de um serviço externo, como a geração de uma referência multibanco para pagamento de quotas ou a exportação de um relatório em PDF ou ficheiro SAF-T. O sistema capta a solicitação, formata a informação de acordo com as exigências do recetor e inicia o pedido de comunicação através da API externa ou o processo de conversão do documento.
 
-Nesta fase crítica, ocorre a validação ilustrada no diagrama: o sistema verifica a resposta devolvida pela entidade parceira ou a integridade do ficheiro gerado. Caso o serviço externo se encontre indisponível, devolva um erro de autenticação ou ocorra uma falha na formatação dos dados, o fluxo é imediatamente interrompido e a plataforma apresenta uma mensagem de erro clara ao utilizador. Se a resposta da integração for positiva e os dados forem validados com sucesso, cumpre-se a pós-condição: o system regista a transação externa na sua própria base de dados de forma persistente e exibe uma mensagem de sucesso, concluindo a operação.
+Nesta fase crítica, ocorre a validação ilustrada no diagrama: o sistema verifica a resposta devolvida pela entidade parceira ou a integridade do ficheiro gerado. Caso o serviço externo se encontre indisponível, devolva um erro de autenticação ou ocorra uma falha na formatação dos dados, o fluxo é imediatamente interrompido e a plataforma apresenta uma mensagem de erro clara ao utilizador. Se a resposta da integração for positiva e os dados forem validados com sucesso, cumpre-se a pós-condição: o sistema regista a transação externa na sua própria base de dados de forma persistente e exibe uma mensagem de sucesso, concluindo a operação.
 
 A relevância deste fluxo para a aplicação é de extrema importância, uma vez que garante que a plataforma não opera como um sistema isolado. Uma interoperabilidade eficaz permite automatizar toda a logística financeira e administrativa do clube, reduzindo o trabalho manual e garantindo a sincronização em tempo real com serviços indispensáveis.
 
@@ -965,6 +962,8 @@ Estou pronto para gerar os restantes RNFs. Podes pedir quando quiseres!
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} À semelhança do processo adotado nos Requisitos Funcionais, a geração dos restantes Requisitos Não Funcionais foi efetuada de forma iterativa, garantindo sempre a mesma estrutura tabular. A listagem completa e os respetivos diagramas/tabelas encontram-se no Capítulo 4 deste relatório.}}
 
+\reflexao{O RNF inicial traduz-se em métricas bonitas mas por vezes não mensuráveis com o tempo que temos. Ao desdobrar, exigimos formulário ``como testar no fim do semestre'' e recusámos bullets que misturavam privacidade com desempenho. O diagrama Draw.io acabou por ser a peça ancorada no curso; a caixa mostra só o formato-pivô acordado antes da repetição série.}
+
 \chapter{Especificação e Modelação do Software}
 
 \section{Introdução e Contexto das Decisões Arquiteturais}
@@ -974,6 +973,10 @@ Após a conclusão da fase de levantamento de requisitos, a equipa de desenvolvi
 O sistema a desenvolver para o Clube Amigos de Polvoreira (CAP) precisa de dar resposta a várias áreas de negócio em simultâneo: a gestão desportiva dos plantéis e convocatórias, o acompanhamento clínico dos atletas (lesões e exames médicos), o controlo financeiro das quotas com integrações bancárias, e ainda a emissão de ficheiros de conformidade fiscal como o SAF-T exigido pela Autoridade Tributária. Para garantir que todas estas vertentes funcionam de forma integrada, a equipa optou por dividir a modelação do software em componentes estruturais e comportamentais, seguindo as metodologias de engenharia de software lecionadas na unidade curricular.
 
 As decisões que se seguem não foram tomadas de forma arbitrária. Cada escolha tecnológica foi analisada em conjunto, comparando as diferentes alternativas disponíveis e ponderando as vantagens e desvantagens de cada uma face às necessidades específicas do CAP. As secções seguintes apresentam, para cada aspeto crítico da arquitetura, as opções consideradas, a análise técnica realizada e a recomendação final da equipa.
+
+\caixaprompt{Gemini (+ sessão dirigida pela equipa em IDE)}{Antes da reunião decisória, sintetiza em formato de relatório técnico as opções de arquitetura global, motor de dados, tecnologia backend e tipo de API para o CAP, destacando dois prós/contras por opção relevantes ao RGPD clínico, ao SAF-T e à equipa reduzida.}{Versão rápida: (i) Para arquitetura, equilibrou-se monólito em camadas, microsserviços e monólito modular --- sugerindo este último quando o problema mistura quotas e episódios clínicos. (ii) Para BD, destacou‑se Postgres vs SQL Server vs Mongo pela necessidade ACID nos pagamentos vs flexibilidade documental --- recomendando Postgres com JSONB como ``meio termo''. (iii) Para backend sugeriu .NET, Java ou Node, apontando .NET quando há serviços de fundo intensivos mas sem complexidade JVM. (iv) Para API mencionou GraphQL como sedutor para relatórios, mas alertou custo de segurança; REST como caminho pragmaticamente integrável em pagamentos externos.}
+
+\reflexao{Este resumo automatizado funcionou apenas como memorando comum aos quatro elementos: todos tinham já lido o mesmo texto antes de discordar onde convinha. Concordámos explicitamente que a secção seguinte vale mais do que qualquer ponta solta da caixa: aqui ficam apenas critérios do CAP --- microsserviços foram recusados por ops, não porque o modelo também os hesitasse --- e porque o relatório deve ser defendível junto dos docentes mesmo sem ler o ``anexo LLM''.}
 
 \subsection{Padrão Arquitetural Global}
 
@@ -1001,11 +1004,13 @@ Monólito Modular & Implantação unificada com baixo acoplamento interno; Consi
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{Monólito Modular}. Esta escolha oferece o melhor equilíbrio entre a necessidade de isolar os dados clínicos e financeiros e a capacidade de desenvolvimento da equipa. Os microsserviços trariam uma complexidade operacional excessiva para a escala atual do CAP, enquanto o monólito modular permite manter as regras de negócio bem encapsuladas e preparar a plataforma para crescer de forma sustentada.
 
+\reflexao{A recomendação automática já tinha mencionado o monólito modular, mas dizia menos sobre o papel de um barramento lógico de eventos médicos/desportivos. Incorporámos essa obrigação após repetirmos cenários onde convocatória boa ficava técnica e clinicamente ilegal --- cruzamento indispensável mesmo que aumente texto do relatório.}
+
 \subsection{Sistema de Gestão de Base de Dados (SGBD)}
 
 A escolha da base de dados é uma das decisões mais importantes do projeto, pois dela depende a integridade dos dados e a conformidade legal da plataforma. A base de dados terá de suportar a gestão de contas de encarregados de educação, a emissão de faturas, o registo de avaliações físicas dos atletas e o armazenamento de queixas clínicas.
 
-A primeira opção considerada foi o \textbf{MongoDB}, uma base de dados NoSQL orientada a documentos. Esta tecnologia oferece grande flexibilidade de esquema, o que seria útil para armazenar métricas de desempenho desportivo. No entanto, as bases de dados NoSQL têm limitações no suporte a transações complexas e não garantem as propriedades ACID de forma nativa. Para o CAP, onde o módulo financeiro exige rigor absoluto (relação entre atleta, quota e recibo para evitar duplicação de NIFs e garantir a exportação do ficheiro SAF-T), esta limitation é problemática.
+A primeira opção considerada foi o \textbf{MongoDB}, uma base de dados NoSQL orientada a documentos. Esta tecnologia oferece grande flexibilidade de esquema, o que seria útil para armazenar métricas de desempenho desportivo. No entanto, as bases de dados NoSQL têm limitações no suporte a transações complexas e não garantem as propriedades ACID de forma nativa. Para o CAP, onde o módulo financeiro exige rigor absoluto (relação entre atleta, quota e recibo para evitar duplicação de NIFs e garantir a exportação do ficheiro SAF-T), esta limitação é problemática.
 
 A segunda opção foi o \textbf{Microsoft SQL Server}, um motor relacional robusto com excelente desempenho no processamento de transações. Apesar das suas qualidades técnicas, os custos de licenciamento e manutenção a longo prazo tornam esta opção menos viável para um clube desportivo de média dimensão.
 
@@ -1026,6 +1031,8 @@ PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o ti
 \rowcolors{2}{white}{white}
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{PostgreSQL}. Esta escolha garante a integridade relacional necessária para evitar erros de faturação e duplicação de dados, ao mesmo tempo que o suporte JSONB permite armazenar as particularidades das avaliações físicas e registos clínicos. Além disso, sendo uma tecnologia \textit{open-source}, não acarreta custos de licenciamento, o que se adequa ao orçamento do CAP.
+
+\reflexao{O modelo equacionou bem o binómio SAF‑T/JSON flexível mas subestimou o esforço de modelação de permissões aos campos compostos --- acrescentámos esse risco aos apontamentos partilhados com o orientador mesmo antes de iniciar DDL. SQL Server ficou formalmente avaliado e recusado por custo recurrente confirmado pela gerência, não apenas por texto automático.}
 
 \subsection{Tecnologias e Stack de Backend}
 
@@ -1053,6 +1060,8 @@ C\# (.NET 8) & Desempenho computacional elevado; Integração elegante com o ban
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{C\# com .NET 8}. Esta escolha permite implementar de forma nativa e eficiente os mecanismos de monitorização contínua (ex.: validação do EMD) e garante a performance necessária para a extração e formatação massiva de dados para conformidade fiscal.
 
+\reflexao{A discussão académica repetiu clichés JVM vs CLR; decidimos só após distribuir uma micro‑prova de geração de XML sem bloquear o resto dos pedidos --- critério prático ignorado pela primeira lista automática mas essencial aos testes seguintes descritos no relatório técnico.}
+
 \subsection{Comunicação e Especificação da API}
 
 A definição do protocolo de comunicação é crucial para garantir a interoperabilidade entre o servidor e os diversos clientes (web, móvel e serviços externos). A equipa analisou três paradigmas principais para a interface de programação de aplicações (API).
@@ -1079,6 +1088,8 @@ RESTful API & Aceitação universal; Clareza na manipulação de recursos; Integ
 
 \textbf{Decisão da Equipa:} A equipa decidiu implementar uma \textbf{RESTful API}. Esta escolha assegura uma comunicação padronizada e robusta, facilitando tanto a integração com serviços de pagamento externos como a gestão rigorosa de permissões de acesso aos dados clínicos e financeiros.
 
+\reflexao{Testámos mentalmente (e em esboço) um endpoint GraphQL agregador de painel financeiro; concluímos que o esforço de políticas por campo não compensava com quatro programadores e prazos de LI4. O ``simulador'' automático serviu para documentar o que \textbf{não} escolhemos, tal como se espera de um processo dirigido pelo engenheiro.}
+
 \section{Modelação Estrutural}
 
 O primeiro diagrama estrutural construído foi o modelo de domínio, que procura apresentar as várias entidades que fazem parte do problema de gestão integrada do clube desportivo, representadas como retângulos, e as relações entre elas, representadas como linhas retas, legendadas com os nomes das relações. Para não construir um modelo de dimensões muito elevadas, tornando difícil a sua leitura e invalidando o propósito da sua existência, não se representaram relações relativas a operações de consulta (ex.: ``Treinador'' consulta ``Estatística''), mesmo que operações de criação e alteração de entidades se encontrem representadas. Ademais, pelo mesmo motivo, não se representaram entidades que se consideraram irrelevantes para a visão geral do problema, como identificadores, nomes, preços, etc. Segue-se o modelo de domínio, construído com base no levantamento de requisitos e nas entrevistas realizadas:
@@ -1090,6 +1101,8 @@ O primeiro diagrama estrutural construído foi o modelo de domínio, que procura
     \caption{Modelo de Domínio do Sistema CAP}
     \label{fig:modelo-dominio}
 \end{figure}
+
+\reflexao{Gerámos primeira versão com assistência estrutural; o diagrama final passou manualmente pelo crivo RGPD/separações de papel: removemos entidades ``ornamentais'' que pareciam boas em teoria (ex.: campos demasiado pessoais partilhados entre treinador e encarregado) e condensámos pacotes para leitura A4. Cada seta revista foi justificada com um RF ou nota de entrevista --- nada ficou ``porque o modelo sugeriu''.}
 
 A natureza concetual do modelo de domínio e a simplicidade da sua linguagem (o diagrama faz uso de apenas uma pequena fração da linguagem de diagramas de classes UML) permitem que este seja lido facilmente. Logo, a totalidade do modelo não será descrita textualmente, e apenas serão tecidos comentários relativos a situações particulares.
 
@@ -1225,9 +1238,11 @@ O outro diagrama estrutural construído trata-se de um diagrama de componentes, 
 \begin{figure}[H]
     \centering
     \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{diagrama_componentes.png}}
-    \caption{Diagrama de Componentes a definir a arquitetura do sistema}
+    \caption{Diagrama de componentes da arquitetura do sistema CAP}
     \label{fig:diagrama-componentes}
 \end{figure}
+
+\reflexao{A primeira proposta automática mostrava apenas três camadas; dividimos explicitamente ``API'' e ``motor de notificações vs pagamentos'' para comunicar riscos operacionais externos. Rejeitámos um desenho onde o gateway financeiro parecia opcional --- no CAP é ponto crítico tal como o PostgreSQL. Ao exportar o PNG final, alinhamos nomenclatura com o texto de decisão arquitetural para o leitor não encontrar sinónimos inconsistentes.}
 
 %% PlantUML source code for reference (to be compiled separately):
 %%
@@ -1322,6 +1337,8 @@ Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural
 
 \section{Modelação comportamental}
 
+\reflexao{À medida que copiávamos excertos UML do assistente surgiram relações ``limpas'' demais (faltavam simultaneamente quotas atrasadas \textbf{e} atestados inválidos na mesma decisão de convocatória). Cada figura desta secção foi recomposta em PlantUML só depois de perguntarmos ``isto falha em que canto do regulamento interno CAP?'' --- o que explica notas e rótulos suplementares que um export automático directo não teria.}
+
 Foram construídos vários diagramas que procuravam representar o comportamento do sistema.
 O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma
 quota se pode encontrar, e que ações a fazem mudar de estado. O motivo para a construção deste
@@ -1362,6 +1379,8 @@ Neste estado, os encarregados de educação podem confirmar ou recusar a presen�
 Quando o jogo ou treino associado termina, a convocatória transita automaticamente para o estado ``Finalizada''.
 Uma convocatória pode ainda ser cancelada a partir dos estados ``Rascunho'' ou ``Publicada''.
 
+\reflexao{Os primeiros estados automáticos omitiam ``Cancelada com atletas já notificados''; acrescentámos guardas textuais porque o fluxo real implica reversões legais comunicadas a menores. Esta é a diferença pedida no enunciado entre \textit{diagrama bonito} e \textit{diagrama útil}.}
+
 % ============================================
 % DIAGRAMA DE CASOS DE USO GERAL
 % ============================================
@@ -1374,7 +1393,7 @@ encontram representados os vários atores e os subsistemas com que interagem.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{casos_uso_geral.png}
-    \caption{Diagrama de casos de uso geral.}
+    \caption{Diagrama de casos de uso geral (visão sintética dos seis agrupamentos funcionais).}
     \label{fig:casos_uso_geral}
 \end{figure}
 
@@ -1388,7 +1407,9 @@ No diagrama, observam-se os vários atores que interagem com o sistema:
     \item \textbf{Gerência} -- administrador do sistema com acesso total
 \end{itemize}
 
-Apresentam-se, abaixo, os diagramas de casos de uso correspondentes aos vários subsistemas:
+O diagrama geral faz corresponder cada retângulo interno do sistema aos \textbf{seis subsistemas} referidos na modelação estrutural (utilizadores, desportiva, clínica, financeira, notificações e instalações), agregando graficamente blocos de casos de uso que serão desenvolvidos nos diagramas detalhados abaixo.
+
+Apresentam-se, de seguida, os diagramas de casos de uso correspondentes a cada agrupamento.
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
@@ -1812,7 +1833,7 @@ Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas
 3. Sistema calcula o valor da quota para cada atleta (com base no escalão e modalidades). \newline
 4. Sistema cria as quotas em estado ``Pendente''. \newline
 5. Sistema notifica os encarregados de educação sobre as quotas geradas. \newline
-6. Sistema apresenta o resumo da operation. \\ \hline
+6. Sistema apresenta o resumo da operação. \\ \hline
 \end{tabularx}
 \caption{Caso de uso ``Gerar Quotas da Época''.}
 \label{tab:uc_gerar_quotas}
@@ -1922,11 +1943,46 @@ Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas
 \end{table}
 \rowcolors{2}{white}{white}
 
+\subsection{Diagramas de sequência}
+
+\reflexao{As sequências automáticas inicialmente mostravam ``utilizador $\rightarrow$ base de dados'' sem camada HTTP nem confirmações de negócio --- inaceitável tanto para defesa perante docentes como para implementação. Reposicionámos participantes, números \texttt{HTTP} e bifurcações \texttt{alt}, aceitando maior verbosidade porque o objectivo é comunicar contrato e não vender simplicidade falsa. Qualquer futura alteração de API terá de atualizar estes desenhos, tal como num projecto sem IA.}
+
+Para complementar os diagramas de casos de uso e de atividade, elaboraram-se \textbf{diagramas de sequência} que descrevem, nos cenários considerados mais críticos, a ordem temporal das mensagens entre o utilizador, a camada de apresentação (\textit{frontend}), os serviços expostos pela API REST, a persistência na base de dados PostgreSQL e componentes externos (gateway de pagamento e serviço de notificações). Estes diagramas tornam explícitos os contratos pedido/resposta e os cenários alternativos (por exemplo falha de validação ou recusa por parte do sistema de pagamentos), prolongando os fluxos normais já tabelados na subsecção anterior.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{sequencia_registo_utilizador.png}
+    \caption{Diagrama de sequência relativo ao registo de utilizador.}
+    \label{fig:seq_registo_utilizador}
+\end{figure}
+
+A Figura~\ref{fig:seq_registo_utilizador} materializa o caso de uso ``Registar-se'': primeiro verifica-se a unicidade do endereço de correio eletrónico; em caso positivo persistem-se os dados associados ao estado pendente de aprovação; por fim, dispara-se a notificação à secretaria conforme esperado pela secretaria nos requisitos de admissão de novas contas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sequencia_pagamento_quota.png}
+    \caption{Diagrama de sequência relativo ao pagamento eletrónico de quotas.}
+    \label{fig:seq_pagamento_quota}
+\end{figure}
+
+A Figura~\ref{fig:seq_pagamento_quota} traduz os passos intermediários omitidos nos diagramas de atividade: antes de atualizar quotas e gerar documentos fiscais, o servidor valida a titularidade e o estado permissivo de cada quota e só depois interage com o gateway de cobrança, mantendo intacto o ciclo revertido quando o pagamento é recusado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sequencia_publicar_convocatoria.png}
+    \caption{Diagrama de sequência relativo à publicação de convocatórias.}
+    \label{fig:seq_publicar_convocatoria}
+\end{figure}
+
+A Figura~\ref{fig:seq_publicar_convocatoria} liga diretamente a transição para o estado ``Publicada'' já modelada nos diagramas de máquinas de estados ao envio de notificações a cada elemento convocado, preservando um controlo forte no middleware antes de atualizar persistência ou iterar comunicações aos interessados.
+
 % ============================================
 % DIAGRAMAS DE ATIVIDADE
 % ============================================
 
-\subsubsection{Diagramas de atividade}
+\subsection{Diagramas de atividade}
+
+\reflexao{A versão automática destes fluxos tendia a omitir raias (\textit{swimlanes}) e a mostrar validações impossíveis (ex.: dois caminhos mutuamente exclusivos sem fusão). Ao redesenhar manualmente, forçámos visibilidade sobre quem é responsável pela ação --- preparando terreno para testes de aceitação e para o código de revisão cruzada --- e recusámos simplificações que escondiam falhas de rede com o gateway financeiro.}
 
 Para a modelação do software, foram também construídos diagramas de atividade para as operações
 com fluxos de controlo mais complexos. Estes diagramas descrevem operações da camada de negócio,
@@ -1997,8 +2053,13 @@ o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza
 limite configurável, o sistema pode sinalizar o atleta para suspensão de atividades.
 
 
+\section{Síntese da especificação e modelação}
+
+A especificação e modelação do software do CAP fecharam o ciclo de tradução dos requisitos elicitados nos capítulos anteriores para uma arquitetura coerente. As decisões de monólito modular, REST sobre JSON, PostgreSQL e .NET~8 garantem transações fortes onde o SAF-T e a tesouraria o exigem, mantendo módulos de negócio autónomos. O modelo de domínio evidencia associações e classes de associação que preservam invariantes atléticas, médicas e de faturação, ao passo que o diagrama de componentes materializa interfaces explícitas entre subdomínios. Do lado comportamental, as máquinas de estado das quotas e convocatórias funcionam como contratos adicionais em torno das entidades já descritas, enquanto os diagramas de casos de uso, as tabelas de fluxos, as sequências e as atividades garantem vários níveis de granularidade utilizáveis por equipas de implementação e de testes. Estes artefactos servem assim de referência obrigatória para as etapas de conceção física de dados, implementação da API e validação sistemática contra os requisitos funcionais aqui relacionados.
+
+
 %==========================================================================
-% END INTRODUCTION
+% FIM DO RELATÓRIO (PARCIAL ATÉ AO CAPÍTULO DE ESPECIFICAÇÃO)
 %==========================================================================
 
 \end{document}

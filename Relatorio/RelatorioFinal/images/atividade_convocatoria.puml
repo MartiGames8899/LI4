@@ -1,20 +1,24 @@
 @startuml atividade_convocatoria
+!include _cap_skin.puml
+title Diagrama de atividade — **Publicação de convocatória**
 
-skinparam monochrome true
-skinparam shadowing false
-
+|Treinador|
 start
-:Receber pedido de publicação;
-if (Estado: Rascunho AND Atletas > 0?) then (sim)
-  :Atualizar estado para Publicada;
+:Solicita publicação de\nconvocatória em curso;
+
+|Sistema|
+if (Estado = Rascunho\nE nº atletas > 0 ?) then (sim)
+  :Persistir **Publicada**\ncom carimbo temporal;
   fork
-    :Notificar Atletas;
+    :Para cada atleta convocado:\nenviar notificação;
   fork again
-    :Notificar Encarregados;
+    :Para cada encarregado\nligado aos menores:\nenviar resumo e link;
   end fork
-  :Confirmar publicação;
+  |Treinador|
+  :Vê confirmação na interface;
 else (não)
-  :Informar erro;
+  |Sistema|
+  :Responder com erro de\nvalidação negocial;
 endif
 stop
 

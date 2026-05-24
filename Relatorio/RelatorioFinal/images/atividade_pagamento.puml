@@ -1,27 +1,35 @@
 @startuml atividade_pagamento
+!include _cap_skin.puml
+title Diagrama de atividade — **Pagamento de quotas**
 
-skinparam monochrome true
-skinparam shadowing false
-
+|Encarregado de Educação|
 start
-:Receber dados do pagamento;
+:Escolhe quotas e método\nde pagamento;
+
+|Sistema|
 fork
-  :Validar quotas selecionadas;
+  :Validar titularidade /\nestado das quotas;
 fork again
-  :Verificar método de pagamento;
+  :Validar método e limites\ndo gateway;
 end fork
 
-if (Validações OK?) then (sim)
-  :Processar pagamento (Gateway);
-  if (Sucesso?) then (sim)
-    :Atualizar estado das quotas (Paga);
-    :Gerar Fatura/Recibo;
-    :Enviar confirmação;
+if (Validações globais OK?) then (sim)
+  |Gateway de pagamentos|
+  :Autorizar transação;
+  if (Resultado OK?) then (sim)
+    |Sistema|
+    :Atualizar quotas → **Paga**;
+    :Gerar documento fiscal /\nrecibo;
+    :Enviar confirmação ao\nencarregado;
   else (não)
-    :Informar erro de processamento;
+    |Sistema|
+    :Registar falha e motivo;
+    |Encarregado de Educação|
+    :Recebe feedback para\nrepetir tentativa;
   endif
 else (não)
-  :Informar erro de validação;
+  |Sistema|
+  :Informar campos /\nregras inconsistentes;
 endif
 stop
 

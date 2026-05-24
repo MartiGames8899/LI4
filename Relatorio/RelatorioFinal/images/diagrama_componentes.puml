@@ -1,61 +1,83 @@
 @startuml diagrama_componentes
+!include _cap_skin.puml
 
-skinparam monochrome true
-skinparam shadowing false
+title Diagrama de componentes — Arquitetura em camadas (monólito modular)
 
 package "Camada de Apresentação" {
-    [Web Application] as WebApp
-    [Mobile Application] as MobileApp
+  component [Aplicação Web] as WebApp
+  component [Aplicação Móvel] as MobileApp
+  note right of WebApp
+    Clientes HTML/JS ou SPA;
+    consomem a API REST stateless.
+  end note
 }
 
-package "Camada de Negócio" {
-    [<<subsystem>>\nGestão de Utilizadores] as GestaoUtilizadores
-    [<<subsystem>>\nGestão Desportiva] as GestaoDesportiva
-    [<<subsystem>>\nGestão Clínica] as GestaoClinica
-    [<<subsystem>>\nGestão Financeira] as GestaoFinanceira
-    [<<subsystem>>\nGestão de Notificações] as GestaoNotificacoes
-    [<<subsystem>>\nGestão de Instalações] as GestaoInstalacoes
+interface "HTTP / JSON\n(REST)" as REST
 
-    interface "IGestaoUtilizadores" as IGU
-    interface "IGestaoDesportiva" as IGD
-    interface "IGestaoClinica" as IGC
-    interface "IGestaoFinanceira" as IGF
-    interface "IGestaoNotificacoes" as IGN
-    interface "IGestaoInstalacoes" as IGI
-
-    GestaoUtilizadores -up- IGU
-    GestaoDesportiva -up- IGD
-    GestaoClinica -up- IGC
-    GestaoFinanceira -up- IGF
-    GestaoNotificacoes -up- IGN
-    GestaoInstalacoes -up- IGI
+package "Camada de Serviços (API)" <<Rectangle>> #F4F9FC {
+  component [API Gateway\nASP.NET Core] as API
 }
 
-interface "ICamadaNegocio" as ICN
+package "Camada de Negócio" <<Rectangle>> #F4F9FC {
+  component [Gestão de Utilizadores] as GU
+  component [Gestão Desportiva] as GD
+  component [Gestão Clínica] as GC
+  component [Gestão Financeira] as GF
+  component [Gestão de Notificações] as GN
+  component [Gestão de Instalações] as GI
+
+  interface IGU
+  interface IGD
+  interface IGC
+  interface IGF
+  interface IGN
+  interface IGI
+
+  GU -up- IGU
+  GD -up- IGD
+  GC -up- IGC
+  GF -up- IGF
+  GN -up- IGN
+  GI -up- IGI
+}
 
 package "Camada de Dados" {
-    [Base de Dados PostgreSQL] as BD
+  database "PostgreSQL" as DB
+  interface "ORM / repositórios\n(EF Core)" as ORM
 }
 
-interface "ICamadaDados" as ICD
+package "Serviços externos" #FFFAF0 {
+  cloud "Gateway\nde pagamentos" as PGW
+  cloud "Correio /\nnotificações push" as SMTP
+}
 
-WebApp ..> ICN
-MobileApp ..> ICN
+WebApp -down- REST
+MobileApp -down- REST
+REST -down- API
 
-ICN ..> IGU
-ICN ..> IGD
-ICN ..> IGC
-ICN ..> IGF
-ICN ..> IGN
-ICN ..> IGI
+API -down- IGU
+API -down- IGD
+API -down- IGC
+API -down- IGF
+API -down- IGN
+API -down- IGI
 
-GestaoUtilizadores ..> ICD
-GestaoDesportiva ..> ICD
-GestaoClinica ..> ICD
-GestaoFinanceira ..> ICD
-GestaoNotificacoes ..> ICD
-GestaoInstalacoes ..> ICD
+GU ..> ORM
+GD ..> ORM
+GC ..> ORM
+GF ..> ORM
+GN ..> ORM
+GI ..> ORM
 
-ICD -up- BD
+ORM -down- DB
+
+GF ..> PGW : cobrança /\nwebhooks
+GN ..> SMTP : envio async.
+
+note as N1
+  Cada caixa de negócio encapsula regras do respetivo subdomínio;
+  o acoplamento lateral reduz-se por **interfaces** e eventos de aplicação,
+  mantendo implantação única (monólito modular).
+end note
 
 @enduml
