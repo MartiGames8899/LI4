@@ -422,7 +422,7 @@ Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidad
     \item \textbf{Autoridade Tributária (AT):} Entidade reguladora fiscal, essencial para efeitos de conformidade e exportação do SAF-T.
 \end{itemize}}
 
-\reflexao{A resposta da caixa funcionou como checklist: confirmou categorias que já tínhamos apontado na reunião de abertura, mas introduziu formulações demasiado genéricas (ex.: ``fornecedores'' sem distinguir fornecedores de material desportivo de parceiros institucionais). Recusámo-nos a copiar cegamente a taxonomia e exigimos exemplos concretos CAP — transportes, calendário de pavilhão, tesouraria. Só depois essa matriz passou a texto narrativo no parágrafo anterior, reduzindo redundância entre caixa e relatório.}
+
 
 \subsection{Métodos de Levantamento Utilizados}
 
@@ -462,7 +462,7 @@ A complementaridade destes métodos foi essencial para garantir uma cobertura ab
 
 Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}
 
-\reflexao{A sugestão inicial expandiu o leque (etnografia, grupos de foco, protótipos) de forma académica correta mas irrealista para o prazo disponível. Concordámos com o espírito --- triangulação --- e \textbf{recusámos} métodos que não tínhamos tempo de executar com rigor. Mantivemos apenas análise documental, entrevistas e questionário, documentando essa redução na tabela seguinte para ficar explícito onde a automação exagerou no âmbito e onde a equipa cortou.}
+ métodos que não tínhamos tempo de executar com rigor. Mantivemos apenas análise documental, entrevistas e questionário, documentando essa redução na tabela seguinte para ficar explícito onde a automação exagerou no âmbito e onde a equipa cortou.}
 
 \subsection{Planeamento do Levantamento}
 
@@ -519,7 +519,7 @@ Da análise do documento, foram extraídos os seguintes requisitos:
 
 \caixaprompt{Gemini}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{Com certeza! O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. \textit{(Nota da equipa: O código e a pré-visualização do ficheiro HTML gerado encontram-se na secção de Anexos no final deste relatório).}}
 
-\reflexao{O modelo devolveu sobretudo moldes legais ``perfeitos''; os exemplares reais da secretaria eram mais irregulares (carimbos fracos, datas manuscritas). Em vez de automatizar a extração de dados a partir do PDF --- fora de âmbito para o protótipo --- optámos por obrigar um passo humano de validação antes de o atestado contar como válido, e por alinhar alertas com o calendário efetivo do CAP, não com o texto modelo.}
+
 
 Com base em cruzamento entre o HTML sintético, as notas da secretaria e os requisitos já listados acima, sistematizámos os seguintes pontos adicionais sob forma de RF:
 \begin{itemize}
@@ -545,7 +545,7 @@ Da análise do documento, foram identificadas as seguintes necessidades:
 
 \caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}}
 
-\reflexao{A primeira lista automática falhou em captar obrigações de competição federada específicas (por exemplo relatórios a fechar até 48\,h quando o escalão assim o exige). Recortámos cenários fantasiosos (\textit{e.g.} estatísticas exóticas para patrocínio) porque o treino com o técnico mostrou urgência maior em garantir vínculo imutável após ``fecho'' do relatório e em alertar lesionados aos encarregados.}
+ estatísticas exóticas para patrocínio) porque o treino com o técnico mostrou urgência maior em garantir vínculo imutável após ``fecho'' do relatório e em alertar lesionados aos encarregados.}
 
 A partir da estrutura e dos dados necessários para preencher este relatório de jogo, definiram-se como adenda os seguintes RF para o módulo desportivo:
 
@@ -574,7 +574,7 @@ Da análise do documento, foram identificadas as seguintes necessidades:
 
 \caixaprompt{Gemini}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. \textit{(Nota da equipa: O código e a pré-visualização deste ficheiro encontram-se na secção de Anexos do relatório).}}
 
-\reflexao{Os exemplos vieram orientados ao ``utilidor final'' típico; o tesoureiro alertou-nos para exceções frequentes --- pagamentos parcelares, ano fiscal desfasado da época e recibos manuais ainda válidos até migrar dados. Harmonizámos texto e regras CAP: dias de tolerância, bloqueio desportivo e SAF-T ficaram explícitos, removendo sugestões demasiado rígidas que inviabilizariam negociações já praticadas.}
+
 
 Tendo consolidado estas restrições, avançámos para a seguinte versão sintética dos RF financeiros prioritários:
 
@@ -624,7 +624,7 @@ As conversas revelaram que a desorganização atual está a causar prejuízos fi
 
 \caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada simulada entre um membro da equipa de desenvolvimento e um elemento da Direção (Gerência) do CAP. \textit{(Nota da equipa: A transcrição completa desta entrevista encontra-se na secção de Anexos no final deste relatório).}}
 
-\reflexao{Riscos típicos: tom demasiado ``corporativo'' e promessas métricas inverificáveis. Na revisão garantimos que cada RF extraído desse guião tinha ponta firme nos problemas relatados pela gerência real (cronogramas fiscais, caos das transferências pouco claras). Descartámos extrapolações fantasiosas tipo BI avançado que não cabiam no trabalho útil até à data definida pelo dono do clube.}
+
 
 A partir das respostas consolidadas ao guião anterior, destacaram‑se sob forma de RF e notas funcionais os seguintes tópicos:
 
@@ -645,7 +645,7 @@ A partir das respostas consolidadas ao guião anterior, destacaram‑se sob form
 
 \caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}}
 
-\reflexao{A versão inicial insistia demasiado em dashboards analíticos; o treinador real priorizou \textbf{lista apto/inapto} e confirmação de presença. Reescrevemos os RF omitindo tecnologias de visualização extravagantes até termos infraestrutura que as suporte. Também marcámos explícitos estados onde o telefone do treinador no relvado obriga UX minimalista --- lição tirada quando o modelo sugeriu fluxos apenas desktop.}
+ e confirmação de presença. Reescrevemos os RF omitindo tecnologias de visualização extravagantes até termos infraestrutura que as suporte. Também marcámos explícitos estados onde o telefone do treinador no relvado obriga UX minimalista --- lição tirada quando o modelo sugeriu fluxos apenas desktop.}
 
 Sob esta ótica, sintetizaram-se os seguintes RF de apoio à equipa técnica:
 
@@ -666,7 +666,7 @@ Sob esta ótica, sintetizaram-se os seguintes RF de apoio à equipa técnica:
 
 \caixaprompt{Gemini}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}}
 
-\reflexao{A simulação sublinhou desejável ``área instagramável'' --- afastámo-nos conscientemente até termos roadmap de media. Mantivemos, contudo, a crítica válida aos filhos em fila na secretaria, traduzindo-a em workflows de upload e estado \textit{Pendente} que já coexistem na modelação comportamental posterior. Os RF abaixo refletem o equilíbrio negociado entre desejável e obrigatório.}
+ que já coexistem na modelação comportamental posterior. Os RF abaixo refletem o equilíbrio negociado entre desejável e obrigatório.}
 
 Dos tópicos validados pelo atleta/EE, destacaram‑se estas necessidades funcionais nucleares:
 
@@ -720,7 +720,7 @@ Estou pronto para avançar. Pode enviar o próximo prompt para começarmos a des
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} Por motivos de concisão do relatório, optámos por não documentar nesta secção a totalidade das iterações seguintes. Conforme planeado, o desenvolvimento das perguntas exatas e opções de resposta foi realizado de forma iterativa, através de um \textit{prompt} dedicado a cada pergunta individual. }}
 
-\reflexao{A estrutura sugeriu Google Forms ramificado tal como usaríamos laboralmente no curso com Microsoft Forms --- transportámos apenas o desenho lógico, mantendo perguntas concretamente ancoradas aos incómodos do questionário‑piloto verbal. Cortámos perguntas que gerariam apenas ``ruído de satisfação'' e adicionámos métricas de falha comunicacional que permitiram cruzar com percentagens reportadas nos resultados.}
+
 
 \subsubsection{Análise dos Resultados}
 
@@ -862,7 +862,7 @@ Estou pronto. Podes pedir o próximo requisito quando quiseres!
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} De forma a manter a concisão deste relatório, omitimos a listagem dos \textit{prompts} subsequentes. O processo repetiu-se iterativamente para gerar a totalidade dos Requisitos Funcionais, garantindo que o modelo respeitava sempre esta estrutura tabular detalhada. O resultado final desta extração e as respetivas tabelas encontram-se no Capítulo 4.}}
 
-\reflexao{O RF-01 repetido na caixa serviu para calibrar linguagem (``Novo Atleta'' versus ``Inscrição'') e para perceber onde o assistente esquecia atores secundários --- corrigimos antes de desdobrar nos restantes IDs. Nada impede reutilizar automatismo, mas cada RF passou checklist humano: há ator? há pré/pós condição testável? há conflito com RGPD? Só então avançou para a tabela oficial e para o Draw.io.}
+
 
 
 \section{Requisitos Não Funcionais}
@@ -962,7 +962,7 @@ Estou pronto para gerar os restantes RNFs. Podes pedir quando quiseres!
 \vspace{0.2cm}
 \textit{\textbf{Nota da Equipa de Desenvolvimento:} À semelhança do processo adotado nos Requisitos Funcionais, a geração dos restantes Requisitos Não Funcionais foi efetuada de forma iterativa, garantindo sempre a mesma estrutura tabular. A listagem completa e os respetivos diagramas/tabelas encontram-se no Capítulo 4 deste relatório.}}
 
-\reflexao{O RNF inicial traduz-se em métricas bonitas mas por vezes não mensuráveis com o tempo que temos. Ao desdobrar, exigimos formulário ``como testar no fim do semestre'' e recusámos bullets que misturavam privacidade com desempenho. O diagrama Draw.io acabou por ser a peça ancorada no curso; a caixa mostra só o formato-pivô acordado antes da repetição série.}
+
 
 \chapter{Especificação e Modelação do Software}
 
@@ -976,7 +976,7 @@ As decisões que se seguem não foram tomadas de forma arbitrária. Cada escolha
 
 \caixaprompt{Gemini (+ sessão dirigida pela equipa em IDE)}{Antes da reunião decisória, sintetiza em formato de relatório técnico as opções de arquitetura global, motor de dados, tecnologia backend e tipo de API para o CAP, destacando dois prós/contras por opção relevantes ao RGPD clínico, ao SAF-T e à equipa reduzida.}{Versão rápida: (i) Para arquitetura, equilibrou-se monólito em camadas, microsserviços e monólito modular --- sugerindo este último quando o problema mistura quotas e episódios clínicos. (ii) Para BD, destacou‑se Postgres vs SQL Server vs Mongo pela necessidade ACID nos pagamentos vs flexibilidade documental --- recomendando Postgres com JSONB como ``meio termo''. (iii) Para backend sugeriu .NET, Java ou Node, apontando .NET quando há serviços de fundo intensivos mas sem complexidade JVM. (iv) Para API mencionou GraphQL como sedutor para relatórios, mas alertou custo de segurança; REST como caminho pragmaticamente integrável em pagamentos externos.}
 
-\reflexao{Este resumo automatizado funcionou apenas como memorando comum aos quatro elementos: todos tinham já lido o mesmo texto antes de discordar onde convinha. Concordámos explicitamente que a secção seguinte vale mais do que qualquer ponta solta da caixa: aqui ficam apenas critérios do CAP --- microsserviços foram recusados por ops, não porque o modelo também os hesitasse --- e porque o relatório deve ser defendível junto dos docentes mesmo sem ler o ``anexo LLM''.}
+
 
 \subsection{Padrão Arquitetural Global}
 
@@ -1004,7 +1004,7 @@ Monólito Modular & Implantação unificada com baixo acoplamento interno; Consi
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{Monólito Modular}. Esta escolha oferece o melhor equilíbrio entre a necessidade de isolar os dados clínicos e financeiros e a capacidade de desenvolvimento da equipa. Os microsserviços trariam uma complexidade operacional excessiva para a escala atual do CAP, enquanto o monólito modular permite manter as regras de negócio bem encapsuladas e preparar a plataforma para crescer de forma sustentada.
 
-\reflexao{A recomendação automática já tinha mencionado o monólito modular, mas dizia menos sobre o papel de um barramento lógico de eventos médicos/desportivos. Incorporámos essa obrigação após repetirmos cenários onde convocatória boa ficava técnica e clinicamente ilegal --- cruzamento indispensável mesmo que aumente texto do relatório.}
+
 
 \subsection{Sistema de Gestão de Base de Dados (SGBD)}
 
@@ -1032,7 +1032,7 @@ PostgreSQL & Conformidade ACID estrita a custo zero; Suporte avançado para o ti
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{PostgreSQL}. Esta escolha garante a integridade relacional necessária para evitar erros de faturação e duplicação de dados, ao mesmo tempo que o suporte JSONB permite armazenar as particularidades das avaliações físicas e registos clínicos. Além disso, sendo uma tecnologia \textit{open-source}, não acarreta custos de licenciamento, o que se adequa ao orçamento do CAP.
 
-\reflexao{O modelo equacionou bem o binómio SAF‑T/JSON flexível mas subestimou o esforço de modelação de permissões aos campos compostos --- acrescentámos esse risco aos apontamentos partilhados com o orientador mesmo antes de iniciar DDL. SQL Server ficou formalmente avaliado e recusado por custo recurrente confirmado pela gerência, não apenas por texto automático.}
+
 
 \subsection{Tecnologias e Stack de Backend}
 
@@ -1060,7 +1060,7 @@ C\# (.NET 8) & Desempenho computacional elevado; Integração elegante com o ban
 
 \textbf{Decisão da Equipa:} A equipa decidiu adotar o \textbf{C\# com .NET 8}. Esta escolha permite implementar de forma nativa e eficiente os mecanismos de monitorização contínua (ex.: validação do EMD) e garante a performance necessária para a extração e formatação massiva de dados para conformidade fiscal.
 
-\reflexao{A discussão académica repetiu clichés JVM vs CLR; decidimos só após distribuir uma micro‑prova de geração de XML sem bloquear o resto dos pedidos --- critério prático ignorado pela primeira lista automática mas essencial aos testes seguintes descritos no relatório técnico.}
+
 
 \subsection{Comunicação e Especificação da API}
 
@@ -1088,7 +1088,7 @@ RESTful API & Aceitação universal; Clareza na manipulação de recursos; Integ
 
 \textbf{Decisão da Equipa:} A equipa decidiu implementar uma \textbf{RESTful API}. Esta escolha assegura uma comunicação padronizada e robusta, facilitando tanto a integração com serviços de pagamento externos como a gestão rigorosa de permissões de acesso aos dados clínicos e financeiros.
 
-\reflexao{Testámos mentalmente (e em esboço) um endpoint GraphQL agregador de painel financeiro; concluímos que o esforço de políticas por campo não compensava com quatro programadores e prazos de LI4. O ``simulador'' automático serviu para documentar o que \textbf{não} escolhemos, tal como se espera de um processo dirigido pelo engenheiro.}
+ escolhemos, tal como se espera de um processo dirigido pelo engenheiro.}
 
 \section{Apresentação Geral da Especificação}
 
@@ -1108,7 +1108,7 @@ O primeiro diagrama estrutural construído foi o modelo de domínio, que procura
     \label{fig:modelo-dominio}
 \end{figure}
 
-\reflexao{Gerámos primeira versão com assistência estrutural; o diagrama final passou manualmente pelo crivo RGPD/separações de papel: removemos entidades ``ornamentais'' que pareciam boas em teoria (ex.: campos demasiado pessoais partilhados entre treinador e encarregado) e condensámos pacotes para leitura A4. Cada seta revista foi justificada com um RF ou nota de entrevista --- nada ficou ``porque o modelo sugeriu''.}
+
 
 No diagrama, os retângulos representam as entidades concetualmente significativas identificadas durante o levantamento de requisitos, e as linhas que os ligam representam as relações entre elas, anotadas com multiplicidades e rótulos. Merece destaque a utilização de classes de associação --- nomeadamente ``Atleta no Plantel'', ``Item na Convocatória'', ``Participação em Jogo'' e ``Pagamento de Quota'' --- para capturar entidades que resultam da própria relação entre dois conceitos e que transportam informação adicional relevante para o domínio (por exemplo, a posição e o número de camisola de um atleta numa equipa). Do lado financeiro, tanto o ``Pagamento de Quota'' como a ``Fatura'' são modelados como especializações de ``Transação'', preservando o rastreamento histórico exigido pela conformidade SAF-T.
 
@@ -1236,7 +1236,7 @@ O outro diagrama estrutural construído trata-se de um diagrama de componentes, 
     \label{fig:diagrama-componentes}
 \end{figure}
 
-\reflexao{A primeira proposta automática mostrava apenas três camadas; dividimos explicitamente ``API'' e ``motor de notificações vs pagamentos'' para comunicar riscos operacionais externos. Rejeitámos um desenho onde o gateway financeiro parecia opcional --- no CAP é ponto crítico tal como o PostgreSQL. Ao exportar o PNG final, alinhamos nomenclatura com o texto de decisão arquitetural para o leitor não encontrar sinónimos inconsistentes.}
+
 
 %% PlantUML source code for reference (to be compiled separately):
 %%
@@ -1331,7 +1331,7 @@ Esta divisão em subsistemas alinha-se perfeitamente com a decisão arquitetural
 
 \section{Modelação comportamental}
 
-\reflexao{À medida que copiávamos excertos UML do assistente surgiram relações ``limpas'' demais (faltavam simultaneamente quotas atrasadas \textbf{e} atestados inválidos na mesma decisão de convocatória). Cada figura desta secção foi recomposta em PlantUML só depois de perguntarmos ``isto falha em que canto do regulamento interno CAP?'' --- o que explica notas e rótulos suplementares que um export automático directo não teria.}
+ atestados inválidos na mesma decisão de convocatória). Cada figura desta secção foi recomposta em PlantUML só depois de perguntarmos ``isto falha em que canto do regulamento interno CAP?'' --- o que explica notas e rótulos suplementares que um export automático directo não teria.}
 
 Foram construídos vários diagramas que procuravam representar o comportamento do sistema.
 O primeiro deles foi um diagrama de máquina de estados, que descreve os estados em que uma
@@ -1373,7 +1373,7 @@ Neste estado, os encarregados de educação podem confirmar ou recusar a presen�
 Quando o jogo ou treino associado termina, a convocatória transita automaticamente para o estado ``Finalizada''.
 Uma convocatória pode ainda ser cancelada a partir dos estados ``Rascunho'' ou ``Publicada''.
 
-\reflexao{Os primeiros estados automáticos omitiam ``Cancelada com atletas já notificados''; acrescentámos guardas textuais porque o fluxo real implica reversões legais comunicadas a menores. Esta é a diferença pedida no enunciado entre \textit{diagrama bonito} e \textit{diagrama útil}.}
+ e \textit{diagrama útil}.}
 
 % ============================================
 % DIAGRAMA DE CASOS DE USO GERAL
@@ -1947,7 +1947,7 @@ Seguem-se as descrições detalhadas dos casos de uso identificados, organizadas
 
 \subsection{Diagramas de sequência}
 
-\reflexao{As sequências automáticas inicialmente mostravam ``utilizador $\rightarrow$ base de dados'' sem camada HTTP nem confirmações de negócio --- inaceitável tanto para defesa perante docentes como para implementação. Reposicionámos participantes, números \texttt{HTTP} e bifurcações \texttt{alt}, aceitando maior verbosidade porque o objectivo é comunicar contrato e não vender simplicidade falsa. Qualquer futura alteração de API terá de atualizar estes desenhos, tal como num projecto sem IA.}
+ e bifurcações \texttt{alt}, aceitando maior verbosidade porque o objectivo é comunicar contrato e não vender simplicidade falsa. Qualquer futura alteração de API terá de atualizar estes desenhos, tal como num projecto sem IA.}
 
 Para complementar os diagramas de casos de uso e de atividade, elaboraram-se \textbf{diagramas de sequência} que descrevem, nos cenários considerados mais críticos, a ordem temporal das mensagens entre o utilizador, a camada de apresentação (\textit{frontend}), os serviços expostos pela API REST, a persistência na base de dados PostgreSQL e componentes externos (gateway de pagamento e serviço de notificações). Estes diagramas tornam explícitos os contratos pedido/resposta e os cenários alternativos (por exemplo falha de validação ou recusa por parte do sistema de pagamentos), prolongando os fluxos normais já tabelados na subsecção anterior.
 
@@ -1958,7 +1958,7 @@ Para complementar os diagramas de casos de uso e de atividade, elaboraram-se \te
     \label{fig:seq_registo_utilizador}
 \end{figure}
 
-A Figura~\ref{fig:seq_registo_utilizador} materializa o caso de uso ``Registar-se'': primeiro verifica-se a unicidade do endereço de correio eletrónico; em caso positivo persistem-se os dados associados ao estado pendente de aprovação; por fim, dispara-se a notificação à secretaria conforme esperado pela secretaria nos requisitos de admissão de novas contas.
+A Figura~\ref{fig:seq_registo_utilizador} materializa o caso de uso ``Registar-se'' com detalhe completo das interações assíncronas. O utilizador submete o formulário (email, password, tipo) através da interface web para a API REST. O sistema valida formato de email e força da password (mínimo 8 caracteres, maiúsculas, números). Se dados inválidos, retorna erro HTTP 400 e o utilizador corrige. Se válidos, a API consulta a base de dados para verificar unicidade de email: se duplicado, retorna HTTP 409 Conflict e o utilizador recebe mensagem amigável de erro. Se email novo, o sistema insere o novo utilizador com estado ``PENDING'' e password em hash bcrypt (nunca plaintext). A API publica então um evento ``RegistrationPending'' na fila de notificações (padrão pub-sub assíncrono), retorna HTTP 201 Created ao frontend, e a interface mostra ecrã de sucesso informando que a Secretaria validará em breve. O evento dispara uma notificação à Secretaria com os dados do novo utilizador para aprovação manual. Uma vez aprovado, o utilizador recebe email confirmação e pode fazer login, momento em que o sistema gera um token JWT para sessão.
 
 \begin{figure}[H]
     \centering
@@ -1967,7 +1967,7 @@ A Figura~\ref{fig:seq_registo_utilizador} materializa o caso de uso ``Registar-s
     \label{fig:seq_pagamento_quota}
 \end{figure}
 
-A Figura~\ref{fig:seq_pagamento_quota} traduz os passos intermediários omitidos nos diagramas de atividade: antes de atualizar quotas e gerar documentos fiscais, o servidor valida a titularidade e o estado permissivo de cada quota e só depois interage com o gateway de cobrança, mantendo intacto o ciclo revertido quando o pagamento é recusado.
+A Figura~\ref{fig:seq_pagamento_quota} expõe os passos intermediários críticos omitidos na linearidade dos diagramas de atividade. O Encarregado seleciona quotas via interface e submete POST /api/payments. O sistema carrega as quotas da BD e valida: (1) estado = Pendente?, (2) titularidade correcta?, (3) montante > 0? Se qualquer validação falha, retorna HTTP 400 Bad Request com detalhes do erro. Se todas passam, o sistema calcula montante total + IVA, apresenta ecrã de confirmação visual, e coloca ordem para o Gateway de Pagamentos com método de pagamento. O gateway tenta autorizar a transação (pode exigir 3D Secure para cartão). Se recusada, retorna erro e o sistema notifica frontend, permitindo novo tentativa ou método alternativo. Se autorizada (recebe token), o gateway devolve token válido por 30 minutos. O utilizador confirma o pagamento, e o gateway executa a captura dos fundos. Se a captura falha (erro rede, timeout, etc.), a transação fica em estado de retenção e a Secretaria é contactada manualmente. Se captura bem-sucedida, o webhook ``payment.completed'' é enviado à API com referência de transação. A API cria registo Transação na BD com valor, data, referência, atualiza Quota para estado ``PAGA'', chama Serviço de Facturas para gerar PDF, e envia email ao Encarregado com comprovativo em anexo. Retorna HTTP 200 Success ao frontend com URL da fatura, e o utilizador vê confirmação com opção de descarregar documentos. O atleta transita para estado apto e pode ser convocado.
 
 \begin{figure}[H]
     \centering
@@ -1976,7 +1976,7 @@ A Figura~\ref{fig:seq_pagamento_quota} traduz os passos intermediários omitidos
     \label{fig:seq_publicar_convocatoria}
 \end{figure}
 
-A Figura~\ref{fig:seq_publicar_convocatoria} liga diretamente a transição para o estado ``Publicada'' já modelada nos diagramas de máquinas de estados ao envio de notificações a cada elemento convocado, preservando um controlo forte no middleware antes de atualizar persistência ou iterar comunicações aos interessados.
+A Figura~\ref{fig:seq_publicar_convocatoria} conecta a máquina de estados (transição Rascunho → Publicada) com a verdadeira complexidade operacional: validações de negócio antes de publicação, e iteração assíncrona sobre múltiplos beneficiários. O Treinador submete PUT /api/callouts/{id}/publish. O sistema carrega a Convocatória e itens associados (lista de atletas convocados). Em seguida aplica validações em sequência: (1) regras negócio (atletas válidos, sem atrasos financeiros, atestados não-caducados, data do evento no futuro); se qualquer falha, retorna HTTP 400 com lista detalhada de erros. Se válidas, começa transação ACID: atualiza Convocatória estado → ``PUBLICADA'', regista timestamp, faz commit na BD. A seguir publica evento ``CalloutPublished'' para a fila de notificações (padrão fire-and-forget assíncrono), retorna HTTP 200 ao frontend imediatamente. O Serviço de Notificações, de forma independente e paralela, processa o evento num loop: para cada atleta convocado, prepara 3 notificações (email, SMS, notificação push) destinadas ao atleta e seu Encarregado, enfileira-as por prioridade (média), e regista ACK de sucesso. O frontend apresenta ao Treinador um resumo com contagem de notificações enviadas. Os Encarregados recebem notificações e clicam para confirmar presença (SIM/NÃO/TALVEZ) dentro do prazo. O Treinador consulta dashborad real-time mostrando quantos confirmaram, recusaram, e quantos ainda não responderam. Após a data/hora do evento passar, o sistema executa job automático que fecha a Convocatória (estado → ``FINALIZADA''), computa estatísticas finais, e armazena historial completo para auditoria.
 
 % ============================================
 % DIAGRAMAS DE ATIVIDADE
@@ -1984,7 +1984,7 @@ A Figura~\ref{fig:seq_publicar_convocatoria} liga diretamente a transição para
 
 \subsection{Diagramas de atividade}
 
-\reflexao{A versão automática destes fluxos tendia a omitir raias (\textit{swimlanes}) e a mostrar validações impossíveis (ex.: dois caminhos mutuamente exclusivos sem fusão). Ao redesenhar manualmente, forçámos visibilidade sobre quem é responsável pela ação --- preparando terreno para testes de aceitação e para o código de revisão cruzada --- e recusámos simplificações que escondiam falhas de rede com o gateway financeiro.}
+) e a mostrar validações impossíveis (ex.: dois caminhos mutuamente exclusivos sem fusão). Ao redesenhar manualmente, forçámos visibilidade sobre quem é responsável pela ação --- preparando terreno para testes de aceitação e para o código de revisão cruzada --- e recusámos simplificações que escondiam falhas de rede com o gateway financeiro.}
 
 Para a modelação do software, foram também construídos diagramas de atividade para as operações
 com fluxos de controlo mais complexos. Estes diagramas descrevem operações da camada de negócio,
@@ -1996,15 +1996,12 @@ O diagrama seguinte descreve a resposta do sistema ao pedido de registo de um no
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{atividade_registo.png}
+    \includegraphics[width=0.85\textwidth]{atividade_registo_utilizador.png}
     \caption{Diagrama de atividade relativo ao registo de um utilizador.}
     \label{fig:atividade_registo}
 \end{figure}
 
-A atividade inicia-se com a receção dos dados do utilizador. O sistema verifica se já existe um
-utilizador com o email providenciado. Em caso afirmativo, o sistema informa o erro e termina.
-Caso contrário, calcula a hash da palavra-passe, regista os dados com estado ``Pendente'',
-notifica a secretaria e redireciona o utilizador para a página de confirmação.
+Este fluxo detalha o processo completo de criação de conta no sistema. O utilizador preenche o formulário com email, senha, nome, tipo de utilizador e contacto. O sistema valida o formato e verifica a unicidade do email. Se o email já existe, o utilizador recebe um erro e pode tentar com outro email. Se válido, o sistema executa hash da password com bcrypt e salt, insere o novo utilizador com estado ``PENDENTE'' na base de dados, regista auditoria (IP, timestamp, tipo), e publica um evento de notificação para a fila administrativa. A Secretaria recebe um alerta para validação manual dos dados e tipo de utilizador. Após aprovação pela Secretaria, o utilizador recebe email de confirmação e pode fazer login para aceder ao sistema com token JWT.
 
 \paragraph{Diagrama de atividade: Processamento de pagamento}
 
@@ -2012,15 +2009,12 @@ O diagrama seguinte descreve o fluxo de processamento de um pagamento de quotas:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{atividade_pagamento.png}
-    \caption{Diagrama de atividade relativo ao processamento de pagamento.}
+    \includegraphics[width=0.9\textwidth]{atividade_pagamento_quota.png}
+    \caption{Diagrama de atividade relativo ao processamento de pagamento de quota.}
     \label{fig:atividade_pagamento}
 \end{figure}
 
-Após receber os dados do pagamento, o sistema valida as quotas selecionadas em paralelo com a
-verificação do método de pagamento. Se ambas as validações forem bem-sucedidas, o sistema processa
-o pagamento junto do gateway. Em caso de sucesso, atualiza o estado das quotas, gera a fatura e
-envia a confirmação. Em caso de falha, informa o utilizador do erro.
+Este fluxo materializa o caso de uso ``Efetuar Pagamento'' com todos os detalhes de validação e tratamento de exceções. O Encarregado acede ao portal, seleciona quota(s) pendente(s) e confirma o montante. O sistema valida que cada quota está em estado ``Pendente'', que a titularidade está correta, e que o montante é positivo. Se as validações falharem, o utilizador é notificado para corrigir. Se passarem, o sistema calcula o montante total com IVA, apresenta resumo de confirmação, e envia a transação ao Gateway de Pagamentos. O gateway autentica a transação (com 3D Secure se necessário). Se recusada, o utilizador recebe o motivo e pode tentar novamente. Se autorizada, o sistema processa a captura de fundos. Se captura falha por erro de rede, a transação fica marcada para retenção manual e contacto da Secretaria. Se captura tem sucesso, o sistema cria registo de Transação na BD, atualiza a Quota para estado ``PAGA'' com data e referência de transação, gera Fatura PDF, e envia email de confirmação com fatura anexada. O utilizador recebe confirmação de sucesso e o atleta fica apto para ser convocado.
 
 \paragraph{Diagrama de atividade: Publicação de convocatória}
 
@@ -2028,31 +2022,12 @@ O diagrama seguinte descreve o processo de publicação de uma convocatória e e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{atividade_convocatoria.png}
+    \includegraphics[width=0.85\textwidth]{atividade_publicar_convocatoria.png}
     \caption{Diagrama de atividade relativo à publicação de uma convocatória.}
     \label{fig:atividade_convocatoria}
 \end{figure}
 
-A atividade inicia-se com a receção do pedido de publicação. O sistema valida que a convocatória
-está em estado ``Rascunho'' e que tem pelo menos um atleta convocado. Se válido, atualiza o estado
-para ``Publicada'' e, em paralelo, envia notificações para cada atleta convocado e respetivo
-encarregado de educação. A estrutura cíclica itera por todos os atletas da convocatória.
-
-\paragraph{Diagrama de atividade: Verificação de quotas em atraso}
-
-O diagrama seguinte descreve o processo automático de verificação de quotas em atraso:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{atividade_quotas_atraso.png}
-    \caption{Diagrama de atividade relativo à verificação de quotas em atraso.}
-    \label{fig:atividade_quotas_atraso}
-\end{figure}
-
-Este processo é executado periodicamente pelo sistema. Para cada quota em estado ``Pendente'',
-o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza o estado para
-``Em Atraso'' e envia uma notificação ao encarregado de educação. Se o atraso ultrapassar um
-limite configurável, o sistema pode sinalizar o atleta para suspensão de atividades.
+Este fluxo detalha o processo crítico de publicação de convocatórias com múltiplas validações de negócio. O Treinador acede ao módulo, seleciona um rascunho de convocatória e clica ``Publicar''. O sistema inicia validações: primeiramente verifica que todas as quotas dos atletas estão pagas (caso contrário exibe atletas bloqueados). Em seguida valida que todos os atestados médicos são válidos e não caducados (caso contrário permite remover atleta ou aguardar nova documentação). Finalmente verifica que a data do evento é no futuro (rejeita se evento passou). Se todas validações passam, o sistema atualiza a Convocatória de ``RASCUNHO'' para ``PUBLICADA'', regista timestamp de publicação, e publica um evento ``CalloutPublished'' para a fila assíncrona de notificações. O Serviço de Notificações prepara mensagens para cada atleta (email, SMS, push mobile) e envia aos Encarregados para confirmação de presença. Os atletas/encarregados respondem ``ACEITA'', ``RECUSA'' ou ``TALVEZ'', e o Treinador visualiza as confirmações em tempo real. Após a data/hora do evento passar, o sistema fecha a convocatória automaticamente e disponibiliza relatório de presença e estatísticas.
 
 
 \section{Validação da especificação construída}

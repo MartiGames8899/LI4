@@ -1,31 +1,60 @@
 @startuml maquina_estados_quota
-!include _cap_skin.puml
+skinparam monochrome true
+skinparam shadowing false
+hide stereotypes
 
-title Máquina de estados — ciclo de vida de uma **Quota**
+title Máquina de Estados: Ciclo de Vida da Quota
 
-skinparam StateFontStyle bold
-hide empty description
+[*] --> Gerada
 
-state "Pendente" as Pendente
-state "Em Atraso" as Atraso
-state "Paga" as Paga
-state "Reembolsada" as Reemb
+state Gerada {
+    note right
+        A quota é gerada automaticamente
+        no início de cada época pela Gerência.
+        Estado inicial do ciclo de vida.
+    end note
+}
 
-[*] --> Pendente : Gerar quota\n(nova época / inscrição)
+state Pendente {
+    note right
+        A quota aguarda pagamento.
+        O Encarregado de Educação
+        recebe a referência de pagamento.
+    end note
+}
 
-Pendente --> Paga : Pagamento\nregistado com sucesso
-Pendente --> Atraso : Prazo limite\nultrapassado
+state Paga {
+    note right
+        A quota foi paga com sucesso.
+        Fatura emitida automaticamente.
+        Atleta pode ser convocado.
+    end note
+}
 
-Atraso --> Paga : Pagamento\n(tardio) validado
-Atraso --> [*] : Suspensão\natleta (política CAP)
+state Atraso {
+    note right
+        Prazo de pagamento expirou.
+        Notificações enviadas.
+        Atleta não pode ser convocado
+        até regularizar a situação.
+    end note
+}
 
-Paga --> Reemb : Reverso /\n(anulação fiscal)
-Reemb --> [*]
-Paga --> [*] : Encerramento época\n(consulta apenas)
+state Cancelada {
+    note right
+        Quota anulada por motivos
+        administrativos (ex: atleta
+        deixou o clube).
+    end note
+}
 
-note right of Atraso
-  Em **Em Atraso** disparam‑se\nnotificações e bloqueios
-  desportivos configuráveis.
-end note
+Gerada --> Pendente : gerar referência
+Pendente --> Paga : detectar pagamento
+Pendente --> Atraso : prazo expirado
+Atraso --> Paga : pagamento atrasado\naceitável
+Atraso --> Cancelada : anulação\nadministrativa
+Gerada --> Cancelada : anulação\nantecipada
+Pendente --> Cancelada : cancelamento
+Paga --> [*]
 
 @enduml

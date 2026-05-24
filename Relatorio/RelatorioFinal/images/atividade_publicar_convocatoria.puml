@@ -1,0 +1,80 @@
+@startuml atividade_publicar_convocatoria
+skinparam monochrome true
+skinparam shadowing false
+hide stereotypes
+
+title Diagrama de Atividade: Fluxo de Publicação de Convocatória
+
+start
+
+:Treinador acede
+ao módulo Convocatórias;
+
+:Sistema apresenta
+lista de rascunhos;
+
+:Treinador seleciona\nrascunho a publicar;
+
+:Visualizar detalhes:\n- Atletas convocados\n- Data/hora evento\n- Local;
+
+:Treinador clica\nbotão "Publicar";
+
+:Sistema inicia\nvalidações de negócio;
+
+:Verificação 1:\nTodas as quotas\ndos atletas pagas?;
+
+if (Quotas OK?) then (não)
+    :Exibir atletas com\natrasos:\nBloqueados\npara participação;
+    :Treinador pode:\n- Remover atleta\n- Corrigir atrasos\n- Cancelar publicação;
+    :Voltar a tentar\npublicação;
+else (sim)
+endif
+
+:Verificação 2:\nAtestados médicos\nválidos e não caducados?;
+
+if (Atestados OK?) then (não)
+    :Exibir atletas\ncom atestados\ninválidos ou caducados;
+    :Treinador pode:\n- Remover atleta\n- Aguardar nova\ndocumentação;
+else (sim)
+endif
+
+:Verificação 3:\nData do evento\nno futuro?;
+
+if (Data futura?) then (não)
+    :Erro: Evento passou\nImpossível publicar;
+    :Treinador cancela\noperação;
+else (sim)
+endif
+
+:Todas validações
+passaram ✓;
+
+:Atualizar estado\nda Convocatória:\nRASCUNHO → PUBLICADA;
+
+:Registar timestamp\nde publicação;
+
+:Publicar evento\n"CalloutPublished"\npara sistema notificações;
+
+:Notificações preparadas\nde forma assíncrona:\n- 1 email por atleta\n- SMS + push mobile\n- Aviso a encarregados;
+
+:Encarregados recebem:\n"Novo evento agendado\nFilho(a) convocado(a)";
+
+:Atletas recebem:\nPedido de confirmação\n(SIM/NÃO/TALVEZ);
+
+:Treinador visualiza\nrealtime:\n- Quantos confirmaram\n- Quantos recusaram\n- Quantos pendentes;
+
+:Atleta/Encarregado\nresponde:\nACEITA, RECUSA\nou TALVEZ;
+
+:Sistema regista\nconfirmações;
+
+:Treinador pode\nenviar lembretes\nantes do evento;
+
+:Após data/hora evento\npassar:;
+
+:Sistema fecha\nconvocatória\nautomaticamente;\n Estado = FINALIZADA;
+
+:Relatório disponível:\n- Presença vs absência\n- Estatísticas jogo;
+
+stop
+
+@enduml

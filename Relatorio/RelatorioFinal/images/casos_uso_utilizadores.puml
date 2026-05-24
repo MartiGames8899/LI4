@@ -1,28 +1,30 @@
 @startuml casos_uso_utilizadores
-!include _cap_skin.puml
-title Subsistema — Gestão de Utilizadores
-
+skinparam monochrome true
+skinparam shadowing false
 left to right direction
 
-actor Utilizador as U
-actor Secretaria as S
+actor "Utilizador" as User
+actor "Secretaria" as Secretary
 
-rectangle "Gestão de Utilizadores" {
-  usecase "Registar-se" as UC1
-  usecase "Iniciar Sessão" as UC2
-  usecase "Gerir Perfil" as UC3
-  usecase "Aprovar Registo" as UC4
+rectangle "Subsistema: Gestão de Utilizadores" {
+    usecase "Registar-se" as UC_Register
+    usecase "Iniciar Sessão" as UC_Login
+    usecase "Consultar Perfil" as UC_ViewProfile
+    usecase "Atualizar Perfil" as UC_EditProfile
+    usecase "Aprovar Pedidos\nRegistro" as UC_ApproveRegistration
+    usecase "Gerir Permissões" as UC_ManagePermissions
 }
 
-U --> UC1
-U --> UC2
-U --> UC3
-S --> UC4
+User --> UC_Register
+User --> UC_Login
+User --> UC_ViewProfile
+User --> UC_EditProfile
 
-note right of UC4
-  Fluxo com **estado Pendente**
-  na conta até validação
-  administrativa.
-end note
+Secretary --> UC_ApproveRegistration
+Secretary --> UC_ManagePermissions
+Secretary --> UC_ViewProfile
+
+UC_Register .> UC_Login : após aprovação
+UC_Login .> UC_ViewProfile : acesso autorizado
 
 @enduml

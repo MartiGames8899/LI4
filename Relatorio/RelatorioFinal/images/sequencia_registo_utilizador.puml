@@ -1,45 +1,55 @@
 @startuml sequencia_registo_utilizador
-!include _cap_skin.puml
-title Diagrama de sequência — **Registo de utilizador**
+skinparam monochrome true
+skinparam shadowing false
+hide footbox
+
+title Diagrama de Sequência: Registo de Novo Utilizador
 
 autonumber
-actor "Utilizador" as U
-participant "Interface Web" as Web
-participant "API REST" as API
-database "PostgreSQL" as DB
-participant "Canal de\nnotificações" as Notif
-actor "Secretaria" as Sec
 
-U -> Web : Submete formulário\nde registo
+actor "Utilizador" as User
+participant "Interface Web" as Web
+participant "API REST\n(ASP.NET)" as API
+database "PostgreSQL" as DB
+participant "Serviço de\nNotificações" as NotifService
+actor "Secretaria" as Secretary
+
+User -> Web: 1. Submete formulário\nregistro (email, password, tipo)
 activate Web
-Web -> API : **POST** /api/registos
+
+Web -> API: 2. POST /api/users/register
 activate API
 
-API -> DB : Pesquisar por email
+API -> API: 3. Validar email format\ne força password
+API -> DB: 4. Consultar email\n(verificar unicidade)
 activate DB
-DB --> API : resultado
-deactivate DB
-
-alt email duplicado
-  API --> Web : **409**\nConflito
-  Web --> U : Mensagem guiada
-else email disponível
-  API -> DB : **INSERT** conta (Pendente)
-  activate DB
-  DB --> API : identificador criado
-  deactivate DB
-  API -> Notif : Publicar **evento**\npedido de validação
-  activate Notif
-  Notif -> Sec : Alerta na fila\nadministrativa
-  deactivate Notif
-  API --> Web : **201**\nCriação aceite
-  Web --> U : Ecrã de sucesso
+alt Email já existe
+    DB --> API: Email duplicado
+    API --> Web: 409 Conflict
+    Web --> User: Erro: Email registado
+else Email disponível
+    DB --> API: OK - novo email
+    deactivate DB
+    
+    API -> DB: 5. INSERT user\nstatus = PENDING\npassword = hash(bcrypt)
+    activate DB
+    DB --> API: UserID criado
+    deactivate DB
+    
+    API -> NotifService: 6. Publicar evento\n"RegistrationPending"\n(enviar para fila)
+    activate NotifService
+    NotifService -> Secretary: 7. Notificação:\nNovo pedido de validação
+    deactivate NotifService
+    
+    API --> Web: 8. 201 Created\n{userID, message}
+    Web --> User: 9. Sucesso!\nAguarde validação da Secretaria
+    deactivate API
+    deactivate Web
+    
+    note over API, DB
+        Password nunca em plaintext;
+        Token JWT gerado após aprovação.
+    end note
 end
-deactivate API
-deactivate Web
-
-note over API, DB
-  Payload em JSON; password **nunca**\npersistida em claro.
-end note
 
 @enduml

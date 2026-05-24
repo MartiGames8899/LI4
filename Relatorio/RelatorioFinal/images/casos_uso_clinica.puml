@@ -1,31 +1,38 @@
 @startuml casos_uso_clinica
-!include _cap_skin.puml
-title Subsistema — Gestão Clínica
-
+skinparam monochrome true
+skinparam shadowing false
 left to right direction
 
-actor Atleta as A
-actor "Encarregado de Educação" as EE
-actor Treinador as T
-actor Secretaria as S
+actor "Atleta" as Athlete
+actor "Encarregado\nEducação" as Parent
+actor "Treinador" as Coach
+actor "Secretaria" as Secretary
 
-rectangle "Gestão Clínica" {
-  usecase "Submeter Atestado Médico" as UC1
-  usecase "Validar Atestado Médico" as UC2
-  usecase "Registar Lesão" as UC3
-  usecase "Reportar Queixa Física" as UC4
+rectangle "Subsistema: Gestão Clínica" {
+    usecase "Submeter Atestado\nMédico" as UC_SubmitMedical
+    usecase "Consultar Atestados" as UC_ViewMedical
+    usecase "Validar Atestado" as UC_ValidateMedical
+    usecase "Registar Lesão" as UC_LogInjury
+    usecase "Reportar Queixa\nFísica" as UC_ReportComplaint
+    usecase "Consultar Estado\nClínico" as UC_ViewClinicalStatus
 }
 
-A --> UC1
-EE --> UC1
-S --> UC2
-T --> UC3
-A --> UC4
-EE --> UC4
+Athlete --> UC_SubmitMedical
+Parent --> UC_SubmitMedical
+Athlete --> UC_ReportComplaint
+Parent --> UC_ReportComplaint
 
-note bottom of UC2
-  Secretaria confirma conformidade
-  do documento antes de **Válido**.
-end note
+Secretary --> UC_ValidateMedical
+Secretary --> UC_ViewMedical
+
+Coach --> UC_LogInjury
+Coach --> UC_ViewClinicalStatus
+Coach --> UC_ConsultarAtletasInaptos
+
+Athlete --> UC_ViewMedical
+Parent --> UC_ViewMedical
+
+UC_SubmitMedical .> UC_ValidateMedical : para validação
+UC_ValidateMedical .> UC_ViewClinicalStatus : após aprovação
 
 @enduml

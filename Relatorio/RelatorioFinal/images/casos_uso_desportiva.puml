@@ -1,26 +1,36 @@
 @startuml casos_uso_desportiva
-!include _cap_skin.puml
-title Subsistema — Gestão Desportiva
-
+skinparam monochrome true
+skinparam shadowing false
 left to right direction
 
-actor Treinador as T
-actor "Encarregado de Educação" as EE
-actor Atleta as A
+actor "Treinador" as Coach
+actor "Encarregado\nEducação" as Parent
+actor "Atleta" as Athlete
 
-rectangle "Gestão Desportiva" {
-  usecase "Criar Convocatória" as UC1
-  usecase "Publicar Convocatória" as UC2
-  usecase "Responder a Convocatória" as UC3
-  usecase "Registar Estatísticas\nde Jogo" as UC4
-  usecase "Consultar Plantel" as UC5
+rectangle "Subsistema: Gestão Desportiva" {
+    usecase "Gerir Plantéis" as UC_ManageSquad
+    usecase "Criar Convocatória" as UC_CreateCallout
+    usecase "Validar Convocatória" as UC_ValidateCallout
+    usecase "Publicar Convocatória" as UC_PublishCallout
+    usecase "Responder\nConvocatória" as UC_RespondCallout
+    usecase "Consultar Calendário" as UC_ViewCalendar
+    usecase "Registar Estatísticas\nJogo" as UC_LogGameStats
 }
 
-T --> UC1
-T --> UC2
-T --> UC4
-T --> UC5
-EE --> UC3
-A --> UC5
+Coach --> UC_ManageSquad
+Coach --> UC_CreateCallout
+Coach --> UC_ValidateCallout
+Coach --> UC_PublishCallout
+Coach --> UC_LogGameStats
+Coach --> UC_ViewCalendar
+
+Athlete --> UC_RespondCallout
+Parent --> UC_RespondCallout
+Athlete --> UC_ViewCalendar
+Parent --> UC_ViewCalendar
+
+UC_CreateCallout .> UC_ValidateCallout : validar dados
+UC_ValidateCallout .> UC_PublishCallout : após ok
+UC_PublishCallout .> UC_RespondCallout : enviadas notificações
 
 @enduml

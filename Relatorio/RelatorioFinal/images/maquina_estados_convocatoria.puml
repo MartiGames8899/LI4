@@ -1,31 +1,61 @@
 @startuml maquina_estados_convocatoria
-!include _cap_skin.puml
+skinparam monochrome true
+skinparam shadowing false
+hide stereotypes
 
-title Máquina de estados — ciclo de vida de uma **Convocatória**
+title Máquina de Estados: Ciclo de Vida da Convocatória
 
-skinparam StateFontStyle bold
-hide empty description
+[*] --> Rascunho
 
-state "Rascunho" as Rasc
-state "Publicada" as Pub
-state "Finalizada" as Fin
-state "Cancelada" as Canc
+state Rascunho {
+    note right
+        O Treinador cria a lista
+        de atletas convocados.
+        Pode ser editada livremente.
+    end note
+}
 
-[*] --> Rasc : Treinador cria\nlista de convocados
+state ValidacaoPrevia {
+    note right
+        Sistema valida:
+        - Quotas pagas
+        - Atestados válidos
+        - Disponibilidade
+    end note
+}
 
-Rasc --> Pub : Validar dados e\nconfirmar publicação
-Rasc --> Canc : Eliminar /\ndesistir da convocatória
+state Publicada {
+    note right
+        Convocatória enviada
+        aos atletas e Encarregados.
+        Confirmações de presença
+        são registadas.
+    end note
+}
 
-Pub --> Fin : Data do evento\ncumprida (encerramento)
-Pub --> Canc : Cancelamento\n(força maior)
+state Finalizada {
+    note right
+        Data do evento passou.
+        Arquivada para histórico.
+        Estatísticas processadas.
+    end note
+}
 
-Fin --> [*]
-Canc --> [*]
+state Cancelada {
+    note right
+        Cancelada por motivos
+        de força maior ou
+        decisão do Treinador.
+    end note
+}
 
-note bottom of Pub
-  Na transição para **Publicada** o sistema
-  distribui confirmações aos atletas
-  e encarregados conforme modelo de dados.
-end note
+Rascunho --> ValidacaoPrevia : submeter para\npublicação
+ValidacaoPrevia --> Publicada : validação\nok
+ValidacaoPrevia --> Rascunho : erros\ndetectados
+Publicada --> Finalizada : data do evento\npassada
+Rascunho --> Cancelada : cancelar
+Publicada --> Cancelada : cancelar\n(força maior)
+Finalizada --> [*]
+Cancelada --> [*]
 
 @enduml

@@ -1,45 +1,61 @@
 @startuml sequencia_publicar_convocatoria
-!include _cap_skin.puml
-title Diagrama de sequência — **Publicação de convocatória**
+skinparam monochrome true
+skinparam shadowing false
+hide footbox
+
+title Diagrama de Sequência: Publicação de Convocatória
 
 autonumber
-actor "Treinador" as T
-participant "Interface Web" as Web
-participant "API REST" as API
-database "PostgreSQL" as DB
-participant "Motor de\nnotificações" as Notif
 
-T -> Web : Solicita **publicar**\nconvocatória
+actor "Treinador" as Coach
+participant "Interface Web" as Web
+participant "API REST\n(ASP.NET)" as API
+database "PostgreSQL" as DB
+participant "Serviço de\nNotificações" as NotifService
+
+Coach -> Web: 1. Clica botão\n"Publicar Convocatória"
 activate Web
-Web -> API : **PUT**\n/api/convocatorias/{id}/publicar
+
+Web -> API: 2. PUT /api/callouts/{id}/publish
 activate API
 
-API -> DB : Carregar agregado + itens
+API -> DB: 3. Carregar Convocatória\ne itens relacionados
 activate DB
-DB --> API : dados normalizados
+DB --> API: Dados da convocatória\n(status=Rascunho)
 deactivate DB
 
-alt regras negociais inválidas
-  API --> Web : **400**
-  Web --> T : Corrigir rascunho
-else rascunho consistente
-  API -> DB : Atualizar estado → **Publicada**
-  activate DB
-  DB --> API : confirmação
-  deactivate DB
-  
-  loop para cada atleta convocado
-    API -> Notif : Enfileirar mensagem\n(prioridade média)
-    activate Notif
-    Notif --> API : ack
-    deactivate Notif
-  end
-  
-  API --> Web : **200** + resumo
-  Web --> T : Convocatória visível\npara elenco
+alt Validações falharam
+    API -> API: 4a. Verificar:\n- Atletas válidos\n- Sem atrasos quotas\n- Atestados válidos\n- Data evento futuro
+    API --> Web: 400 Bad Request\n{erros validação}
+    Web --> Coach: 5a. Mensagem erro\nCorrigir rascunho
+else Todas validações passaram
+    API -> API: 4b. Validações OK
+    
+    API -> DB: 5b. Atualizar Convocatória\nestado = Publicada\ntimestamp publicação
+    activate DB
+    DB --> API: Confirmado
+    deactivate DB
+    
+    API -> NotifService: 6. Publicar evento\n"CalloutPublished"\n(fila assíncrona)
+    activate NotifService
+    
+    loop para cada atleta convocado
+        NotifService -> NotifService: 7. Preparar notificação\n(email, SMS, push)
+        NotifService -> NotifService: 8. Enfileirar para\nEncarregado + Atleta
+    end
+    
+    NotifService --> API: Confirmação:\nN notificações enfileiradas
+    deactivate NotifService
+    
+    API --> Web: 9. 200 OK\n{calloutId, timestamp,\nathletes_count}
+    
+    Web --> Coach: 10. Convocatória publicada!\nAtletas notificados
+    deactivate API
+    deactivate Web
+    
+    note over NotifService
+        Notificações processadas\nemsegundo plano (fire-and-forget).
+    end note
 end
-
-deactivate API
-deactivate Web
 
 @enduml

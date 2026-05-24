@@ -1,47 +1,72 @@
 @startuml sequencia_pagamento_quota
-!include _cap_skin.puml
-title Diagrama de sequência — **Pagamento eletrónico de quotas**
+skinparam monochrome true
+skinparam shadowing false
+hide footbox
+
+title Diagrama de Sequência: Pagamento de Quota
 
 autonumber
-actor "Encarregado\nde Educação" as EE
-participant "Interface Web" as Web
-participant "API REST" as API
-database "PostgreSQL" as DB
-participant "Gateway\nde pagamentos" as GW
 
-EE -> Web : Confirma quotas /\nmétodo de pagamento
+actor "Encarregado\nEducação" as Parent
+participant "Interface Web" as Web
+participant "API REST\n(ASP.NET)" as API
+database "PostgreSQL" as DB
+participant "Gateway\nPagamentos" as PaymentGW
+participant "Serviço\nFaturas" as InvoiceService
+
+Parent -> Web: 1. Seleciona quotas\ne método pagamento
 activate Web
-Web -> API : **POST** /api/pagamentos
+
+Web -> API: 2. POST /api/payments
 activate API
 
-API -> DB : Validar estados /\ntitularidade das quotas
+API -> DB: 3. Carregar quotas\ne validar estado
 activate DB
-DB --> API : coleção validada
-deactivate DB
-
-alt validação falhou
-  API --> Web : **400** detalhes
-  Web --> EE : Corrigir seleção
-else validação ok
-  API -> GW : Autorização /\ncaptura montante
-  activate GW
-  GW --> API : resultado (OK / recusado)
-  deactivate GW
-  
-  alt pagamento recusado
-    API --> Web : Estado **falhado**
-    Web --> EE : Mensagem financeira\namigável
-  else pagamento autorizado
-    API -> DB : Transação +\natualização quota → **Paga**
-    activate DB
-    DB --> API : commit efetuado
+alt Quota em estado inválido\n(não Pendente)
+    DB --> API: Erro validação
+    API --> Web: 400 Bad Request
+    Web --> Parent: Erro: Quota inválida
+else Quotas válidas
+    DB --> API: Quotas carregadas
     deactivate DB
-    API --> Web : **200**\nreferência /\nPDF fatura
-    Web --> EE : Confirmação\ncomprovativo digital
-  end
+    
+    API -> API: 4. Calcular montante total\ne validar regras negócio
+    
+    API -> PaymentGW: 5. POST /authorize\n(montante, método)
+    activate PaymentGW
+    PaymentGW --> API: Token autorização\n(30 min validade)
+    deactivate PaymentGW
+    
+    API --> Web: 6. 200 OK\nRedirecionar para\ncomprovativo de pagamento
+    Web --> Parent: 7. Apresentar ecrã\nconfirmação pagamento
+    
+    Parent -> PaymentGW: 8. Confirma pagamento\n(3D Secure se necessário)
+    activate PaymentGW
+    PaymentGW --> Parent: 9. Pagamento processado\n(Sucesso/Falha)
+    deactivate PaymentGW
+    
+    PaymentGW -> API: 10. Webhook:\npayment.completed\n(com referência)
+    activate API
+    
+    API -> DB: 11. Atualizar Quota\nestado = Paga,\ndata pagamento,\nref transação
+    activate DB
+    DB --> API: Confirmado
+    deactivate DB
+    
+    API -> InvoiceService: 12. Gerar Fatura PDF
+    activate InvoiceService
+    InvoiceService --> API: PDF gerado (caminho)
+    deactivate InvoiceService
+    
+    API --> Web: 13. 200 Success\n{invoiceUrl, reference}
+    Web --> Parent: 14. Confirmação:\nPagamento aceito!\nFatura em anexo
+    
+    deactivate API
+    deactivate Web
 end
 
-deactivate API
-deactivate Web
+note over API, DB
+    Transação ACID; rollback\nautomático se falhar em qualquer etapa.
+end note
 
 @enduml

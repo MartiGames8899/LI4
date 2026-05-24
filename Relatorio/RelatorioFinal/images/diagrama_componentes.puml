@@ -1,83 +1,65 @@
 @startuml diagrama_componentes
-!include _cap_skin.puml
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle rectangle
+hide stereotypes
 
-title Diagrama de componentes — Arquitetura em camadas (monólito modular)
+top to bottom direction
 
 package "Camada de Apresentação" {
-  component [Aplicação Web] as WebApp
-  component [Aplicação Móvel] as MobileApp
-  note right of WebApp
-    Clientes HTML/JS ou SPA;
-    consomem a API REST stateless.
-  end note
+    component [Aplicação Web\n(SPA React)] as WebUI
+    component [Aplicação Móvel\n(React Native)] as MobileUI
 }
 
-interface "HTTP / JSON\n(REST)" as REST
+interface "HTTP/REST/JSON" as REST
 
-package "Camada de Serviços (API)" <<Rectangle>> #F4F9FC {
-  component [API Gateway\nASP.NET Core] as API
+package "Camada de API (ASP.NET Core 8)" {
+    component [API Gateway] as APIGateway
 }
 
-package "Camada de Negócio" <<Rectangle>> #F4F9FC {
-  component [Gestão de Utilizadores] as GU
-  component [Gestão Desportiva] as GD
-  component [Gestão Clínica] as GC
-  component [Gestão Financeira] as GF
-  component [Gestão de Notificações] as GN
-  component [Gestão de Instalações] as GI
-
-  interface IGU
-  interface IGD
-  interface IGC
-  interface IGF
-  interface IGN
-  interface IGI
-
-  GU -up- IGU
-  GD -up- IGD
-  GC -up- IGC
-  GF -up- IGF
-  GN -up- IGN
-  GI -up- IGI
+package "Camada de Negócio (Monólito Modular)" {
+    component [Gestão de Utilizadores\n& Autenticação] as ModUser
+    component [Gestão Desportiva\n(Plantéis, Convocatórias)] as ModSports
+    component [Gestão Clínica\n(Atestados, Lesões)] as ModClinical
+    component [Gestão Financeira\n(Quotas, Pagamentos)] as ModFinance
+    component [Gestão de Instalações\n(Reservas, Eventos)] as ModFacilities
+    component [Serviço de Notificações] as ModNotifications
+    component [Serviço de Relatórios\n(SAF-T, Exports)] as ModReports
 }
 
 package "Camada de Dados" {
-  database "PostgreSQL" as DB
-  interface "ORM / repositórios\n(EF Core)" as ORM
+    database "PostgreSQL" as DB
+    component [Entity Framework Core\n(ORM & Repositórios)] as EFC
 }
 
-package "Serviços externos" #FFFAF0 {
-  cloud "Gateway\nde pagamentos" as PGW
-  cloud "Correio /\nnotificações push" as SMTP
+package "Integrações Externas" {
+    cloud "Serviço de Email/SMS" as EmailService
+    cloud "Autoridade Tributária\n(SAF-T)" as TaxAuth
 }
 
-WebApp -down- REST
-MobileApp -down- REST
-REST -down- API
+WebUI -down- REST
+MobileUI -down- REST
+REST -down- APIGateway
 
-API -down- IGU
-API -down- IGD
-API -down- IGC
-API -down- IGF
-API -down- IGN
-API -down- IGI
+APIGateway -down- ModUser
+APIGateway -down- ModSports
+APIGateway -down- ModClinical
+APIGateway -down- ModFinance
+APIGateway -down- ModFacilities
+APIGateway -down- ModNotifications
+APIGateway -down- ModReports
 
-GU ..> ORM
-GD ..> ORM
-GC ..> ORM
-GF ..> ORM
-GN ..> ORM
-GI ..> ORM
+ModUser -down- EFC
+ModSports -down- EFC
+ModClinical -down- EFC
+ModFinance -down- EFC
+ModFacilities -down- EFC
+ModNotifications -down- EFC
+ModReports -down- EFC
 
-ORM -down- DB
+EFC -down- DB
 
-GF ..> PGW : cobrança /\nwebhooks
-GN ..> SMTP : envio async.
-
-note as N1
-  Cada caixa de negócio encapsula regras do respetivo subdomínio;
-  o acoplamento lateral reduz-se por **interfaces** e eventos de aplicação,
-  mantendo implantação única (monólito modular).
-end note
+ModNotifications ..> EmailService : envia notificações
+ModFinance ..> TaxAuth : exporta SAF-T
 
 @enduml

@@ -1,64 +1,67 @@
 @startuml casos_uso_geral
-!include _cap_skin.puml
-
-title Diagrama de casos de uso geral — agrupamento por subsistemas
-
+skinparam monochrome true
+skinparam shadowing false
 left to right direction
 
-actor "Utilizador\n(abstracto)" as U #EBF5FF
-actor "Atleta" as A
-actor "Treinador" as T
-actor "Encarregado de Educação" as EE
-actor "Secretaria" as S
-actor "Gerência" as G
+actor "Utilizador" as User
+actor "Atleta" as Athlete
+actor "Treinador" as Coach
+actor "Encarregado\nEducação" as Parent
+actor "Secretaria" as Secretary
+actor "Gerência" as Management
 
-A -up-|> U
-T -up-|> U
-EE -up-|> U
-S -up-|> U
-G -up-|> U
+Athlete --|> User
+Coach --|> User
+Parent --|> User
+Secretary --|> User
+Management --|> User
 
-rectangle "Sistema de Gestão Integrada — CAP" {
-  package "Gestão de Utilizadores" {
-    usecase "Autenticação e\ncontas de acesso" as UC_U
-  }
-  package "Gestão Desportiva" {
-    usecase "Plantéis, jogos e\nconvocatórias" as UC_D
-  }
-  package "Gestão Clínica" {
-    usecase "EMD, lesões e\nqueixas" as UC_C
-  }
-  package "Gestão Financeira" {
-    usecase "Quotas, pagamentos\ne SAF-T" as UC_F
-  }
-  package "Gestão de Notificações" {
-    usecase "Alertas e avisos\na utilizadores" as UC_N
-  }
-  package "Gestão de Instalações" {
-    usecase "Reservas e agenda\nde recursos" as UC_I
-  }
+rectangle "Sistema de Gestão Integrada CAP" {
+    package "Gestão de Utilizadores" {
+        usecase "Autenticação\ne Perfil" as UC_Auth
+    }
+    
+    package "Gestão Desportiva" {
+        usecase "Plantéis,\nEventos,\nConvocatórias" as UC_Sports
+    }
+    
+    package "Gestão Clínica" {
+        usecase "Atestados,\nLesões,\nQueixas" as UC_Clinical
+    }
+    
+    package "Gestão Financeira" {
+        usecase "Quotas,\nPagamentos,\nFaturas" as UC_Finance
+    }
+    
+    package "Gestão de Instalações" {
+        usecase "Reservas\ne Eventos" as UC_Facilities
+    }
+    
+    package "Notificações" {
+        usecase "Alertas\ne Avisos" as UC_Notifications
+    }
 }
 
-U --> UC_U
-U --> UC_N
+User --> UC_Auth
+User --> UC_Notifications
 
-T --> UC_D
-A --> UC_D
-EE --> UC_D
+Athlete --> UC_Sports
+Coach --> UC_Sports
+Parent --> UC_Sports
 
-A --> UC_C
-EE --> UC_C
-T --> UC_C
+Athlete --> UC_Clinical
+Parent --> UC_Clinical
+Coach --> UC_Clinical
 
-EE --> UC_F
-S --> UC_F
-G --> UC_F
+Parent --> UC_Finance
+Secretary --> UC_Finance
+Management --> UC_Finance
 
-T --> UC_I
-S --> UC_I
-G --> UC_I
+Coach --> UC_Facilities
+Secretary --> UC_Facilities
+Management --> UC_Facilities
 
-S --> UC_U
-G --> UC_U
+Secretary --> UC_Auth
+Management --> UC_Auth
 
 @enduml

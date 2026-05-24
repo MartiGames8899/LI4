@@ -1,0 +1,71 @@
+@startuml atividade_pagamento_quota
+skinparam monochrome true
+skinparam shadowing false
+hide stereotypes
+
+title Diagrama de Atividade: Fluxo de Pagamento de Quota
+
+start
+
+:Encarregado acede
+ao portal de quotas;
+
+:Sistema lista quotas\nem estado PENDENTE
+(não pagas);
+
+:Utilizador seleciona\nquota(s) a pagar
+e confirma montante;
+
+:Escolher método pagamento:\n- Cartão crédito\n- MBWay\n- Multibanco;
+
+:API valida quotas:\n- Estado = Pendente?\n- Titularidade?\n- Montante > 0?;
+
+if (Validações OK?) then (não)
+    :Exibir erros\ne permitir corrigir;
+    goto CONFIRMACAO
+else (sim)
+endif
+
+:Calcular montante\ntotal + IVA se aplicável;
+
+:Apresentar ecrã\nde resumo e confirmação;
+
+:Utilizador confirma
+pagamento;
+
+:Enviar requisição
+para Gateway Pagamentos;
+
+:Gateway autentica\ntransação
+(verificação 3D Secure\nse necessário);
+
+if (Transação autorizada?) then (não - recusada)
+    :Apresentar motivo recusa;
+    :Ofercer alternativas:\n- Tentar novamente\n- Outro método;
+else (sim - autorizada)
+    :Sistema registra
+    referência autorização;
+endif
+
+:Processar captura\nfundo (payment capture);
+
+if (Captura OK?) then (não - erro rede/timeout)
+    :Marcar para retenção\ne investigação manual;
+    :Contactar Secretaria;
+else (sim - capturado)
+    :Criar Transação\nna BD;
+    :Atualizar quota:\n  Estado = PAGA\n  Data pagamento\n  Ref transação;
+    :Gerar Fatura PDF;
+    :Enviar email confirmação\ncom fatura anexada;
+endif
+
+:Apresentar confirmação\nsucesso ao utilizador;
+
+:Atleta pode agora:\n- Ser convocado\n- Participar jogos;
+
+:Secretaria recebe\nresumo de pagamentos
+(para reconciliação);
+
+stop
+
+@enduml

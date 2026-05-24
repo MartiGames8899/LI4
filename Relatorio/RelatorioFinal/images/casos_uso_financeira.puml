@@ -1,30 +1,37 @@
 @startuml casos_uso_financeira
-!include _cap_skin.puml
-title Subsistema — Gestão Financeira
-
+skinparam monochrome true
+skinparam shadowing false
 left to right direction
 
-actor Gerência as G
-actor "Encarregado de Educação" as EE
-actor Secretaria as S
+actor "Gerência" as Management
+actor "Encarregado\nEducação" as Parent
+actor "Secretaria" as Secretary
 
-rectangle "Gestão Financeira" {
-  usecase "Gerar Quotas da Época" as UC1
-  usecase "Efetuar Pagamento" as UC2
-  usecase "Registar Pagamento Manual" as UC3
-  usecase "Gerar Relatório SAF-T" as UC4
-  usecase "Consultar Situação\nFinanceira" as UC5
+rectangle "Subsistema: Gestão Financeira" {
+    usecase "Gerar Quotas\nÉpoca" as UC_GenerateQuotas
+    usecase "Obter Referência\nPagamento" as UC_GetPaymentRef
+    usecase "Efetuar Pagamento" as UC_MakePayment
+    usecase "Registar Pagamento\nManual" as UC_RegisterPayment
+    usecase "Consultar Situação\nFinanceira" as UC_ViewFinance
+    usecase "Descarregar Fatura" as UC_DownloadInvoice
+    usecase "Exportar SAF-T" as UC_ExportSAFT
 }
 
-G --> UC1
-G --> UC4
-EE --> UC2
-EE --> UC5
-S --> UC3
+Management --> UC_GenerateQuotas
+Management --> UC_ExportSAFT
+Management --> UC_ViewFinance
 
-note right of UC4
-  Exportação XML para
-  **conformidade fiscal** (AT).
-end note
+Parent --> UC_GetPaymentRef
+Parent --> UC_MakePayment
+Parent --> UC_ViewFinance
+Parent --> UC_DownloadInvoice
+
+Secretary --> UC_RegisterPayment
+Secretary --> UC_ViewFinance
+Secretary --> UC_ExportSAFT
+
+UC_GenerateQuotas .> UC_GetPaymentRef : nova quota
+UC_MakePayment .> UC_DownloadInvoice : após confirmação
+UC_RegisterPayment .> UC_DownloadInvoice : gera fatura
 
 @enduml

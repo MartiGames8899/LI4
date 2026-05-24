@@ -1,0 +1,70 @@
+@startuml atividade_registo_utilizador
+skinparam monochrome true
+skinparam shadowing false
+hide stereotypes
+
+title Diagrama de Atividade: Fluxo de Registo de Utilizador
+
+start
+
+:Utilizador acessa\nformulário de registo;
+
+:Preenchimento dos campos:\n- Email\n- Password\n- Nome Completo\n- Tipo Utilizador\n- Dados Contacto;
+
+:Envio do formulário
+para servidor;
+
+if (Email já registado?) then (sim)
+    :Exibir erro:\n"Email já existe"\nno sistema;
+    :Utilizador tenta\ncom email diferente;
+    note on right
+        Loop até sucesso
+        ou abandono
+    end note
+    goto ENVIO
+else (não)
+    :Dados recebidos
+    pela API;
+endif
+
+:Validação de campos:\n- Formato email válido?\n- Password cumpre\nrequisitos (8+ chars,\nmaisculas, números)?;
+
+if (Dados válidos?) then (não)
+    :Retornar erros\nde validação;
+    goto ENVIO
+else (sim)
+endif
+
+:Fazer hash da password\n(bcrypt com salt);
+
+:Inserir novo utilizador\ncom estado PENDENTE\nna base de dados;
+
+:Registar auditoria\n(IP, timestamp, tipo);
+
+:Publicar evento\n"RegistrationPending"\npara fila de notificações;
+
+:Secretaria recebe\nalerta administrativo;
+
+:Utilizador recebe\nmensagem de sucesso:\n"Registo enviado,\naguarde validação";
+
+:Secretaria revê\npedido (tipo utilizador,\ndados preenchidos);
+
+if (Dados OK?) then (não - informações\nsuspeitas)
+    :Contactar utilizador\npara esclarecimentos\nou recusar pedido;
+else (sim - validar)
+    :Aprovar registo;
+    :Utilizador recebe email:\n"Conta aprovada,\nfaça login";
+    :Estado conta = ATIVO;
+endif
+
+:Utilizador faz login
+com email + password;
+
+:Token JWT gerado\ne guardado cliente;
+
+:Utilizador acede
+ao sistema;
+
+stop
+
+@enduml
