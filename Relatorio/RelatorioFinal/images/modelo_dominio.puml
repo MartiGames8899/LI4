@@ -1,111 +1,102 @@
 @startuml modelo_dominio
-!include _cap_skin.puml
-
-title Modelo de domínio conceptual — Sistema de gestão CAP
-top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 12
 hide circle
+hide members
 
-package "Utilizadores e papéis" <<Rectangle>> #F4F9FC {
-  class Utilizador
-  class Atleta
-  class Treinador
-  class "Encarregado de Educação" as EncarregadoEducacao
-  class Funcionário
-  class Secretaria
-  class Gerência
+top to bottom direction
 
-  Atleta --|> Utilizador
-  Treinador --|> Utilizador
-  EncarregadoEducacao --|> Utilizador
-  Funcionário --|> Utilizador
-  Secretaria --|> Funcionário
-  Gerência --|> Funcionário
-}
+' ── Utilizadores e papéis ──────────────────────────────────────────
+class Utilizador
+class Atleta
+class Treinador
+class "Encarregado de Educação" as EncarregadoEducacao
+class Funcionário
+class Secretaria
+class Gerência
 
-package "Organização desportiva" <<Rectangle>> #F4F9FC {
-  class Modalidade
-  class Equipa
-  class Plantel
-  class "Atleta no Plantel" as AtletaPlantel
-  class Posição
-  class "Número Camisola" as NumeroCamisola
+Atleta --|> Utilizador : é um
+Treinador --|> Utilizador : é um
+EncarregadoEducacao --|> Utilizador : é um
+Funcionário --|> Utilizador : é um
+Secretaria --|> Funcionário : é um
+Gerência --|> Funcionário : é um
 
-  Modalidade "1" -- "*" Equipa : possui
-  Equipa "1" -- "1" Plantel : possui
-  Plantel "1" -- "*" AtletaPlantel : constituído por
-  AtletaPlantel "*" -- "1" Atleta : refere
-  AtletaPlantel "1" -- "1" Posição : possui
-  AtletaPlantel "1" -- "1" NumeroCamisola : possui
-  Treinador "*" -- "*" Equipa : treina
-}
+' ── Organização desportiva ─────────────────────────────────────────
+class Modalidade
+class Equipa
+class Plantel
+class "Atleta no Plantel" as AtletaPlantel
+class Posição
+class "Número Camisola" as NumeroCamisola
 
-package "Eventos, jogos e convocatórias" <<Rectangle>> #F4F9FC {
-  class Evento
-  class Treino
-  class Jogo
-  class Convocatória
-  class "Item na Convocatória" as ItemConvocatoria
-  class "Participação em Jogo" as ParticipacaoJogo
-  class Estatística
+Modalidade "1" -- "*" Equipa : possui
+Equipa "1" -- "1" Plantel : possui
+Plantel "1" -- "*" AtletaPlantel : constituído por
+AtletaPlantel "*" -- "1" Atleta : refere
+AtletaPlantel "1" -- "1" Posição : possui
+AtletaPlantel "1" -- "1" NumeroCamisola : possui
+Treinador "*" -- "*" Equipa : treina
 
-  Treino --|> Evento
-  Jogo --|> Evento
-  Treinador "1" -- "*" Convocatória : emite
-  Convocatória "1" -- "*" ItemConvocatoria : constituída por
-  ItemConvocatoria "*" -- "1" Atleta : convoca
-  Convocatória "*" -- "1" Evento : relativa a
-  Jogo "1" -- "*" ParticipacaoJogo : possui
-  ParticipacaoJogo "*" -- "1" Atleta : refere
-  ParticipacaoJogo "1" -- "*" Estatística : regista
-}
+' ── Eventos, jogos e convocatórias ────────────────────────────────
+class Evento
+class Treino
+class Jogo
+class Convocatória
+class "Item na Convocatória" as ItemConvocatoria
+class "Participação em Jogo" as ParticipacaoJogo
+class Estatística
 
-package "Acompanhamento clínico" <<Rectangle>> #F4F9FC {
-  class "Atestado Médico" as AtestadoMedico
-  class "Queixa Física" as QueixaFisica
-  class Lesão
-  class "Data Validade" as DataValidade
+Treino --|> Evento : é um
+Jogo --|> Evento : é um
+Treinador "1" -- "*" Convocatória : emite
+Convocatória "1" -- "*" ItemConvocatoria : constituída por
+ItemConvocatoria "*" -- "1" Atleta : convoca
+Convocatória "*" -- "1" Evento : relativa a
+Jogo "1" -- "*" ParticipacaoJogo : possui
+ParticipacaoJogo "*" -- "1" Atleta : refere
+ParticipacaoJogo "1" -- "*" Estatística : regista
 
-  Atleta "1" -- "*" AtestadoMedico : possui
-  AtestadoMedico "1" -- "1" DataValidade : possui
-  Atleta "1" -- "*" QueixaFisica : regista
-  Atleta "1" -- "*" Lesão : possui
-}
+' ── Acompanhamento clínico ─────────────────────────────────────────
+class "Atestado Médico" as AtestadoMedico
+class "Queixa Física" as QueixaFisica
+class Lesão
+class "Data Validade" as DataValidade
 
-package "Quotas, transações e faturação" <<Rectangle>> #F4F9FC {
-  class "Época" as Epoca
-  class Quota
-  class Transação
-  class "Pagamento de Quota" as PagamentoQuota
-  class Fatura
+Atleta "1" -- "*" AtestadoMedico : possui
+AtestadoMedico "1" -- "1" DataValidade : possui
+Atleta "1" -- "*" QueixaFisica : regista
+Atleta "1" -- "*" Lesão : possui
 
-  PagamentoQuota --|> Transação
-  Fatura --|> Transação
-  Atleta "1" -- "*" Quota : deve
-  Quota "*" -- "1" Epoca : relativa a
-  Quota "1" -- "0..1" PagamentoQuota : paga por
-  PagamentoQuota "1" -- "1" Fatura : gera
-  EncarregadoEducacao "1" -- "*" Atleta : responsável por
-  EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
-}
+' ── Quotas, transações e faturação ────────────────────────────────
+class Época
+class Quota
+class Transação
+class "Pagamento de Quota" as PagamentoQuota
+class Fatura
 
-package "Comunicação e instalações" <<Rectangle>> #F4F9FC {
-  class Notificação
-  class Instalação
-  class Reserva
+PagamentoQuota --|> Transação : é uma
+Fatura --|> Transação : é uma
+Atleta "1" -- "*" Quota : deve
+Quota "*" -- "1" Época : relativa a
+Quota "1" -- "0..1" PagamentoQuota : paga por
+PagamentoQuota "1" -- "1" Fatura : gera
+EncarregadoEducacao "1" -- "*" Atleta : responsável por
+EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
 
-  Utilizador "1" -- "*" Notificação : recebe
-  Instalação "1" -- "*" Reserva : possui
-  Reserva "*" -- "1" Evento : para
-  Reserva "*" -- "1" Equipa : por
-}
+' ── Comunicação e instalações ──────────────────────────────────────
+class Notificação
+class Instalação
+class Reserva
 
-note bottom of Utilizador
-  **Leitura**: retângulos = entidades conceptualmente significativas;
-  multiplicidades e rótulos seguem o levantamento de requisitos.
-  Não se modelam atributos internos (IDs, nomes) para manter
-  o diagrama legível, tal como no guião da disciplina.
-end note
+Utilizador "1" -- "*" Notificação : recebe
+Instalação "1" -- "*" Reserva : possui
+Reserva "*" -- "1" Evento : para
+Reserva "*" -- "1" Equipa : por
 
+' ── Relações administrativas ───────────────────────────────────────
 Secretaria "1" -- "*" Atleta : regista
 Secretaria "1" -- "*" Fatura : emite
 Gerência "1" -- "*" Funcionário : gere

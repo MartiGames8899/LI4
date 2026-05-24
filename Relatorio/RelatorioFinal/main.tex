@@ -1090,6 +1090,12 @@ RESTful API & Aceitação universal; Clareza na manipulação de recursos; Integ
 
 \reflexao{Testámos mentalmente (e em esboço) um endpoint GraphQL agregador de painel financeiro; concluímos que o esforço de políticas por campo não compensava com quatro programadores e prazos de LI4. O ``simulador'' automático serviu para documentar o que \textbf{não} escolhemos, tal como se espera de um processo dirigido pelo engenheiro.}
 
+\section{Apresentação Geral da Especificação}
+
+A especificação do software do CAP foi organizada em duas vertentes complementares. Na vertente estrutural, construíram-se os artefactos que identificam as entidades do domínio do problema e as relações entre elas, bem como a decomposição do sistema nos seus principais componentes e interfaces. Na vertente comportamental, desenvolveram-se os diagramas que descrevem de que forma o sistema responde a eventos externos e internos, nomeadamente os estados possíveis das suas entidades mais relevantes, as operações suportadas por cada ator e os fluxos de execução das funcionalidades mais críticas.
+
+Desta forma, a modelação procura cobrir simultaneamente a estrutura e o comportamento do sistema, produzindo um conjunto coerente de artefactos que servem de referência às etapas de implementação e de validação.
+
 \section{Modelação Estrutural}
 
 O primeiro diagrama estrutural construído foi o modelo de domínio, que procura apresentar as várias entidades que fazem parte do problema de gestão integrada do clube desportivo, representadas como retângulos, e as relações entre elas, representadas como linhas retas, legendadas com os nomes das relações. Para não construir um modelo de dimensões muito elevadas, tornando difícil a sua leitura e invalidando o propósito da sua existência, não se representaram relações relativas a operações de consulta (ex.: ``Treinador'' consulta ``Estatística''), mesmo que operações de criação e alteração de entidades se encontrem representadas. Ademais, pelo mesmo motivo, não se representaram entidades que se consideraram irrelevantes para a visão geral do problema, como identificadores, nomes, preços, etc. Segue-se o modelo de domínio, construído com base no levantamento de requisitos e nas entrevistas realizadas:
@@ -1104,19 +1110,7 @@ O primeiro diagrama estrutural construído foi o modelo de domínio, que procura
 
 \reflexao{Gerámos primeira versão com assistência estrutural; o diagrama final passou manualmente pelo crivo RGPD/separações de papel: removemos entidades ``ornamentais'' que pareciam boas em teoria (ex.: campos demasiado pessoais partilhados entre treinador e encarregado) e condensámos pacotes para leitura A4. Cada seta revista foi justificada com um RF ou nota de entrevista --- nada ficou ``porque o modelo sugeriu''.}
 
-A natureza concetual do modelo de domínio e a simplicidade da sua linguagem (o diagrama faz uso de apenas uma pequena fração da linguagem de diagramas de classes UML) permitem que este seja lido facilmente. Logo, a totalidade do modelo não será descrita textualmente, e apenas serão tecidos comentários relativos a situações particulares.
-
-Em primeiro lugar, as entidades ``Utilizador'', ``Atleta'', ``Treinador'', ``Encarregado de Educação'', ``Funcionário'', ``Secretaria'' e ``Gerência'' são mencionadas ao longo das entrevistas e questionários realizados, que também permitem concluir sobre a existência de uma hierarquia entre estas entidades, representada através de relações do tipo ``é um'' (ex.: ``Atleta'' é um ``Utilizador'').
-
-São também descritas associações de multi-conjunto entre entidades. Por exemplo, um ``Plantel'' é constituído por ``Atleta''s, e a cada ``Atleta'' está associada a ``Posição'' no plantel e o ``Número da Camisola''. Esta relação reflete-se no RF-02 (Gestão de Plantéis e Alocação de Atletas). Para representar estas relações no modelo de domínio, foram utilizadas classes de associação, entidades que representam a relação entre outras duas entidades. No exemplo dado, foi criada a entidade ``Atleta no Plantel'', que se associou à relação ``Plantel constituído por Atletas''. O mesmo método foi utilizado para outras relações semelhantes, dando origem às entidades ``Item na Convocatória'', ``Participação em Jogo'' e ``Pagamento de Quota''.
-
-Uma classe de associação foi também utilizada para a representação das transações financeiras (RF-06 e RF-07): a relação de pagamento de uma quota foi identificada como um ``Pagamento de Quota'', por sua vez relacionada com uma ``Transação'' por uma relação do tipo ``é um''. A ``Fatura'', por já ser uma entidade, foi diretamente associada à ``Transação''. A ``Quota'', apesar de se tratar de um valor a pagar, foi representada como uma entidade separada que se associa ao ``Atleta'' e à ``Época'', permitindo assim o rastreamento completo do histórico financeiro.
-
-O modelo de domínio também captura a vertente clínica do sistema. A entidade ``Atestado Médico'' está associada ao ``Atleta'' através de uma relação ``possui'', com atributos de ``Data de Validade'' que permitem ao sistema gerar alertas automáticos de caducidade, conforme identificado nas entrevistas com os atletas. As ``Queixa Física'' e ``Lesão'' também se encontram modeladas, permitindo que os atletas registem autonomamente os seus problemas de saúde e que os treinadores consultem esta informação antes de elaborar convocatórias.
-
-A comunicação entre os diversos intervenientes do clube é suportada pela entidade ``Notificação'', que pode ser enviada a qualquer ``Utilizador'' e está associada a diversos eventos do sistema, como convocatórias publicadas, quotas em atraso ou alterações de horários.
-
-Por último, a gestão das infraestruturas do clube é representada através das entidades ``Instalação'', ``Reserva'' e ``Evento'' (que engloba ``Treino'' e ``Jogo''). Esta modelação surge da necessidade identificada pela gerência de evitar conflitos de agendamento entre as diferentes modalidades do clube.
+No diagrama, os retângulos representam as entidades concetualmente significativas identificadas durante o levantamento de requisitos, e as linhas que os ligam representam as relações entre elas, anotadas com multiplicidades e rótulos. Merece destaque a utilização de classes de associação --- nomeadamente ``Atleta no Plantel'', ``Item na Convocatória'', ``Participação em Jogo'' e ``Pagamento de Quota'' --- para capturar entidades que resultam da própria relação entre dois conceitos e que transportam informação adicional relevante para o domínio (por exemplo, a posição e o número de camisola de um atleta numa equipa). Do lado financeiro, tanto o ``Pagamento de Quota'' como a ``Fatura'' são modelados como especializações de ``Transação'', preservando o rastreamento histórico exigido pela conformidade SAF-T.
 
 %% PlantUML source code for reference (to be compiled separately):
 %%
@@ -1415,6 +1409,8 @@ Apresentam-se, de seguida, os diagramas de casos de uso correspondentes a cada a
 % DIAGRAMA DE CASOS DE USO - GESTÃO DE UTILIZADORES
 % ============================================
 
+O subsistema de Gestão de Utilizadores agrupa as operações relacionadas com o ciclo de vida das contas no sistema. O ator genérico ``Utilizador'' pode registar-se e iniciar sessão, enquanto a ``Secretaria'' é responsável pela aprovação dos pedidos de registo e, após autenticação, qualquer utilizador pode consultar e atualizar o seu perfil.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{casos_uso_utilizadores.png}
@@ -1425,6 +1421,8 @@ Apresentam-se, de seguida, os diagramas de casos de uso correspondentes a cada a
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO DESPORTIVA
 % ============================================
+
+O subsistema de Gestão Desportiva concentra as operações relativas à organização das equipas e à atividade desportiva do clube. O ``Treinador'' gere plantéis, cria e publica convocatórias e regista as estatísticas de jogo dos atletas. O ``Encarregado de Educação'' pode confirmar ou recusar a presença do seu educando nas convocatórias publicadas.
 
 \begin{figure}[H]
     \centering
@@ -1437,6 +1435,8 @@ Apresentam-se, de seguida, os diagramas de casos de uso correspondentes a cada a
 % DIAGRAMA DE CASOS DE USO - GESTÃO CLÍNICA
 % ============================================
 
+O subsistema de Gestão Clínica cobre o acompanhamento do estado de saúde dos atletas. O ``Atleta'' e o ``Encarregado de Educação'' podem submeter atestados médicos e registar queixas físicas. A ``Secretaria'' valida os atestados e atualiza o estado clínico do atleta. O ``Treinador'' consulta a informação clínica relevante antes de elaborar convocatórias.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{casos_uso_clinica.png}
@@ -1447,6 +1447,8 @@ Apresentam-se, de seguida, os diagramas de casos de uso correspondentes a cada a
 % ============================================
 % DIAGRAMA DE CASOS DE USO - GESTÃO FINANCEIRA
 % ============================================
+
+O subsistema de Gestão Financeira abrange o controlo das quotas e o processamento de pagamentos. A ``Gerência'' gera as quotas no início de cada época. O ``Encarregado de Educação'' efetua os pagamentos, que resultam na emissão automática de uma fatura. A ``Secretaria'' pode registar pagamentos manuais e exportar o ficheiro SAF-T para cumprimento das obrigações fiscais.
 
 \begin{figure}[H]
     \centering
@@ -2053,9 +2055,9 @@ o sistema verifica se o prazo de pagamento expirou. Em caso afirmativo, atualiza
 limite configurável, o sistema pode sinalizar o atleta para suspensão de atividades.
 
 
-\section{Síntese da especificação e modelação}
+\section{Validação da especificação construída}
 
-A especificação e modelação do software do CAP fecharam o ciclo de tradução dos requisitos elicitados nos capítulos anteriores para uma arquitetura coerente. As decisões de monólito modular, REST sobre JSON, PostgreSQL e .NET~8 garantem transações fortes onde o SAF-T e a tesouraria o exigem, mantendo módulos de negócio autónomos. O modelo de domínio evidencia associações e classes de associação que preservam invariantes atléticas, médicas e de faturação, ao passo que o diagrama de componentes materializa interfaces explícitas entre subdomínios. Do lado comportamental, as máquinas de estado das quotas e convocatórias funcionam como contratos adicionais em torno das entidades já descritas, enquanto os diagramas de casos de uso, as tabelas de fluxos, as sequências e as atividades garantem vários níveis de granularidade utilizáveis por equipas de implementação e de testes. Estes artefactos servem assim de referência obrigatória para as etapas de conceção física de dados, implementação da API e validação sistemática contra os requisitos funcionais aqui relacionados.
+Os artefactos produzidos ao longo deste capítulo foram revistos à luz dos requisitos funcionais e não funcionais elicitados nos capítulos anteriores, com o objetivo de confirmar que a especificação cobre integralmente as necessidades identificadas. O modelo de domínio foi cruzado com os RF relativos à gestão de atletas, plantéis, convocatórias, quotas e instalações, verificando-se que todas as entidades relevantes e as suas relações se encontram representadas. O diagrama de componentes foi validado face às decisões arquiteturais apresentadas na secção de Introdução e Contexto, confirmando o alinhamento entre a decomposição em subsistemas e a opção de monólito modular. Do lado comportamental, as máquinas de estado das quotas e das convocatórias foram confrontadas com os fluxos de exceção descritos nas tabelas de casos de uso, assegurando que todos os estados e transições relevantes se encontram contemplados. Os diagramas de sequência e de atividade validam, por sua vez, a correção dos principais fluxos de execução, nomeadamente o pagamento de quotas e a publicação de convocatórias. Conclui-se, assim, que o conjunto de artefactos produzidos constitui uma base consistente e suficientemente detalhada para suportar as etapas de implementação e de testes do sistema.
 
 
 %==========================================================================
