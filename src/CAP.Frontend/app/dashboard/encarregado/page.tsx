@@ -48,7 +48,7 @@ const mockAtletas = [
   },
 ]
 
-const mockConvocatoriasPendentes = [
+const initialConvocatoriasPendentes = [
   { id: 1, atleta: "Joao Silva", evento: "Jogo vs FC Exemplo", data: "Sabado, 15:00", tipo: "jogo" },
   { id: 2, atleta: "Maria Silva", evento: "Treino Especial", data: "Domingo, 10:00", tipo: "treino" },
 ]
@@ -62,6 +62,7 @@ const mockPagamentosPendentes = [
 export default function DashboardEncarregadoPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState(initialConvocatoriasPendentes)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -83,6 +84,14 @@ export default function DashboardEncarregadoPage() {
 
   const totalPendente = mockPagamentosPendentes.reduce((acc, p) => acc + p.valor, 0)
   const atletasSemAtestado = mockAtletas.filter((a) => !a.atestadoValido).length
+
+  const handleConfirmarConvocatoria = (id: number) => {
+    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  }
+
+  const handleRecusarConvocatoria = (id: number) => {
+    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  }
 
   return (
     <DashboardLayout role="encarregado" userName="Manuel Encarregado">
@@ -159,7 +168,7 @@ export default function DashboardEncarregadoPage() {
               <ClipboardList className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-gold">{mockConvocatoriasPendentes.length}</div>
+              <div className="text-2xl font-bold text-cap-gold">{convocatoriasPendentes.length}</div>
               <p className="text-xs text-muted-foreground">Pendentes de resposta</p>
             </CardContent>
           </Card>
@@ -274,7 +283,13 @@ export default function DashboardEncarregadoPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockConvocatoriasPendentes.map((conv) => (
+                {convocatoriasPendentes.length === 0 ? (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <CheckCircle className="size-8 mx-auto mb-2 text-success" />
+                    <p>Todas as convocatorias respondidas!</p>
+                  </div>
+                ) : (
+                  convocatoriasPendentes.map((conv) => (
                   <div
                     key={conv.id}
                     className="p-4 rounded-lg border border-border"
@@ -288,17 +303,18 @@ export default function DashboardEncarregadoPage() {
                     <p className="font-medium text-sm mb-1">{conv.evento}</p>
                     <p className="text-xs text-muted-foreground mb-3">Atleta: {conv.atleta}</p>
                     <div className="flex gap-2">
-                      <Button size="sm" className="flex-1 bg-success hover:bg-success/90">
+                      <Button size="sm" className="flex-1 bg-success hover:bg-success/90" onClick={() => handleConfirmarConvocatoria(conv.id)}>
                         <CheckCircle className="size-4 mr-1" />
                         Confirmar
                       </Button>
-                      <Button size="sm" variant="outline" className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10">
+                      <Button size="sm" variant="outline" className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => handleRecusarConvocatoria(conv.id)}>
                         <XCircle className="size-4 mr-1" />
                         Recusar
                       </Button>
                     </div>
                   </div>
-                ))}
+                ))
+                )}
               </div>
               <Button variant="outline" className="w-full mt-4" onClick={() => router.push("/dashboard/encarregado/convocatorias")}>
                 Ver Todas as Convocatorias

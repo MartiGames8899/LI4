@@ -129,6 +129,9 @@ export default function ConvocatoriasPage() {
   const [activeTab, setActiveTab] = useState("todas")
   const [selectedConvocatoria, setSelectedConvocatoria] = useState<Convocatoria | null>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [editingConvocatoria, setEditingConvocatoria] = useState<Convocatoria | null>(null)
+  const [convocatorias, setConvocatorias] = useState<Convocatoria[]>(mockConvocatorias)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -142,7 +145,7 @@ export default function ConvocatoriasPage() {
     }
   }, [router])
 
-  const filteredConvocatorias = mockConvocatorias.filter((c) => {
+  const filteredConvocatorias = convocatorias.filter((c) => {
     if (activeTab === "todas") return true
     if (activeTab === "enviadas") return c.status === "enviada"
     if (activeTab === "rascunhos") return c.status === "rascunho"
@@ -170,6 +173,20 @@ export default function ConvocatoriasPage() {
       case "fechada":
         return <Badge variant="secondary">Fechada</Badge>
     }
+  }
+
+  const handleEditConvocatoria = (conv: Convocatoria) => {
+    setEditingConvocatoria(conv)
+    setIsEditDialogOpen(true)
+  }
+
+  const handleDeleteConvocatoria = (id: number) => {
+    setConvocatorias(prev => prev.filter(c => c.id !== id))
+  }
+
+  const handleReenviarNotificacao = () => {
+    // Simula reenvio de notificacao
+    setSelectedConvocatoria(null)
   }
 
   return (
@@ -330,12 +347,12 @@ export default function ConvocatoriasPage() {
                                 <Eye className="size-4 mr-2" />
                                 Ver Detalhes
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleEditConvocatoria(convocatoria)}>
                                 <Edit className="size-4 mr-2" />
                                 Editar
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive">
+                              <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteConvocatoria(convocatoria.id)}>
                                 <Trash2 className="size-4 mr-2" />
                                 Eliminar
                               </DropdownMenuItem>
@@ -457,7 +474,7 @@ export default function ConvocatoriasPage() {
                   <Button variant="outline" onClick={() => setSelectedConvocatoria(null)}>
                     Fechar
                   </Button>
-                  <Button>
+                  <Button onClick={handleReenviarNotificacao}>
                     <Send className="size-4 mr-2" />
                     Reenviar Notificacao
                   </Button>
