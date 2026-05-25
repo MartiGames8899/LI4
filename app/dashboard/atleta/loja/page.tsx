@@ -150,7 +150,7 @@ export default function LojaAtletaPage() {
   const totalItens = carrinho.reduce((sum, item) => sum + item.quantidade, 0)
 
   return (
-    <DashboardLayout userRole="atleta" userName="Joao Silva">
+    <DashboardLayout role="atleta" userName="Joao Silva">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -159,7 +159,7 @@ export default function LojaAtletaPage() {
             <p className="text-muted-foreground">Equipamentos e acessorios oficiais do clube</p>
           </div>
           <Dialog open={carrinhoAberto} onOpenChange={setCarrinhoAberto}>
-            <DialogTrigger asChild>
+            <DialogTrigger>
               <Button className="relative">
                 <ShoppingCart className="mr-2" />
                 Carrinho
@@ -335,7 +335,7 @@ export default function LojaAtletaPage() {
                     {produtoSelecionado.stock} em stock
                   </Badge>
                 </div>
-                <Select value={tamanhoSelecionado} onValueChange={setTamanhoSelecionado}>
+                <Select value={tamanhoSelecionado} onValueChange={(value) => setTamanhoSelecionado(value ?? "")}>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecionar tamanho" />
                   </SelectTrigger>

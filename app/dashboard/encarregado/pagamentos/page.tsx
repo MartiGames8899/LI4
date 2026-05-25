@@ -94,7 +94,7 @@ export default function PagamentosEncarregadoPage() {
   const totalPago = pagos.reduce((sum, p) => sum + p.valor, 0)
 
   return (
-    <DashboardLayout userRole="encarregado" userName="Carlos Silva">
+    <DashboardLayout role="encarregado" userName="Carlos Silva">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -196,7 +196,7 @@ export default function PagamentosEncarregadoPage() {
                     </CardContent>
                     <CardFooter>
                       <Dialog>
-                        <DialogTrigger asChild>
+                        <DialogTrigger>
                           <Button className="w-full">
                             <CreditCard className="mr-2 size-4" />
                             Pagar Agora

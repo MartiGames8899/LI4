@@ -91,7 +91,7 @@ export default function ConvocatoriasEncarregadoPage() {
   }
 
   return (
-    <DashboardLayout userRole="encarregado" userName="Carlos Silva">
+    <DashboardLayout role="encarregado" userName="Carlos Silva">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div>

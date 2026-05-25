@@ -130,7 +130,7 @@ export default function QuotasSecretariaPage() {
   const quotasAtrasadas = quotas.filter(q => q.estado === "atrasado").length
 
   return (
-    <DashboardLayout userRole="secretaria" userName="Ana Secretaria">
+    <DashboardLayout role="secretaria" userName="Ana Secretaria">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -144,7 +144,7 @@ export default function QuotasSecretariaPage() {
               Exportar
             </Button>
             <Dialog open={emitirQuotasOpen} onOpenChange={setEmitirQuotasOpen}>
-              <DialogTrigger asChild>
+              <DialogTrigger>
                 <Button>
                   <Plus className="mr-2 size-4" />
                   Emitir Quotas
@@ -282,7 +282,7 @@ export default function QuotasSecretariaPage() {
                   className="pl-10"
                 />
               </div>
-              <Select value={filtroEstado} onValueChange={setFiltroEstado}>
+              <Select value={filtroEstado} onValueChange={(value) => setFiltroEstado(value ?? "")}>
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
@@ -293,7 +293,7 @@ export default function QuotasSecretariaPage() {
                   <SelectItem value="atrasado">Atrasado</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={filtroMes} onValueChange={setFiltroMes}>
+              <Select value={filtroMes} onValueChange={(value) => setFiltroMes(value ?? "")}>
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Mes" />
                 </SelectTrigger>
@@ -371,7 +371,7 @@ export default function QuotasSecretariaPage() {
                     <TableCell className="text-right">
                       {quota.estado !== "pago" && (
                         <Dialog>
-                          <DialogTrigger asChild>
+                          <DialogTrigger>
                             <Button variant="outline" size="sm">
                               Registar Pagamento
                             </Button>

@@ -103,7 +103,7 @@ export default function SociosSecretariaPage() {
   const quotasEmAtraso = socios.filter(s => !s.quotasEmDia).length
 
   return (
-    <DashboardLayout userRole="secretaria" userName="Ana Secretaria">
+    <DashboardLayout role="secretaria" userName="Ana Secretaria">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -117,7 +117,7 @@ export default function SociosSecretariaPage() {
               Exportar
             </Button>
             <Dialog open={novoSocioOpen} onOpenChange={setNovoSocioOpen}>
-              <DialogTrigger asChild>
+              <DialogTrigger>
                 <Button>
                   <Plus className="mr-2 size-4" />
                   Novo Socio
@@ -243,7 +243,7 @@ export default function SociosSecretariaPage() {
                   className="pl-10"
                 />
               </div>
-              <Select value={filtroEstado} onValueChange={setFiltroEstado}>
+              <Select value={filtroEstado} onValueChange={(value) => setFiltroEstado(value ?? "")}>
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
@@ -253,7 +253,7 @@ export default function SociosSecretariaPage() {
                   <SelectItem value="suspenso">Suspenso</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={filtroTipo} onValueChange={setFiltroTipo}>
+              <Select value={filtroTipo} onValueChange={(value) => setFiltroTipo(value ?? "")}>
                 <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>

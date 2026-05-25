@@ -182,7 +182,7 @@ export default function ConvocatoriasPage() {
             <p className="text-muted-foreground">Gestao de convocatorias para treinos e jogos</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
+            <DialogTrigger>
               <Button>
                 <Plus className="size-4 mr-2" />
                 Nova Convocatoria
@@ -298,7 +298,7 @@ export default function ConvocatoriasPage() {
         </div>
 
         {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value ?? "")}>
           <TabsList>
             <TabsTrigger value="todas">Todas</TabsTrigger>
             <TabsTrigger value="enviadas">Enviadas</TabsTrigger>
@@ -320,7 +320,7 @@ export default function ConvocatoriasPage() {
                             {getStatusBadge(convocatoria.status)}
                           </div>
                           <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
+                            <DropdownMenuTrigger>
                               <Button variant="ghost" size="icon" className="size-8">
                                 <MoreVertical className="size-4" />
                               </Button>

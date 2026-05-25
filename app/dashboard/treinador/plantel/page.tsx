@@ -172,7 +172,7 @@ export default function PlantelPage() {
                   className="pl-9"
                 />
               </div>
-              <Select value={posicaoFilter} onValueChange={setPosicaoFilter}>
+              <Select value={posicaoFilter} onValueChange={(value) => setPosicaoFilter(value ?? "")}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Posicao" />
                 </SelectTrigger>
@@ -184,7 +184,7 @@ export default function PlantelPage() {
                   <SelectItem value="Avancado">Avancado</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value ?? "")}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
@@ -258,7 +258,7 @@ export default function PlantelPage() {
                       <TableCell>{getStatusBadge(atleta.status)}</TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
+                          <DropdownMenuTrigger>
                             <Button variant="ghost" size="icon" className="size-8">
                               <MoreVertical className="size-4" />
                             </Button>

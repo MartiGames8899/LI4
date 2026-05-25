@@ -213,7 +213,7 @@ export default function AtestadosPage() {
                   className="pl-9"
                 />
               </div>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value ?? "")}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
@@ -224,7 +224,7 @@ export default function AtestadosPage() {
                   <SelectItem value="expirado">Expirados</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={tipoFilter} onValueChange={setTipoFilter}>
+              <Select value={tipoFilter} onValueChange={(value) => setTipoFilter(value ?? "")}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
