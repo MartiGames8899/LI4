@@ -12,6 +12,8 @@ import {
   Calendar,
   FileText,
   AlertTriangle,
+  Eye,
+  X,
 } from "lucide-react"
 
 import { DashboardLayout } from "@/components/dashboard-layout"
@@ -41,6 +43,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 
 interface Atleta {
   id: number
@@ -72,6 +83,9 @@ export default function PlantelPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [posicaoFilter, setPosicaoFilter] = useState<string>("todas")
   const [statusFilter, setStatusFilter] = useState<string>("todos")
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [selectedAtleta, setSelectedAtleta] = useState<Atleta | null>(null)
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -113,7 +127,7 @@ export default function PlantelPage() {
             <h1 className="text-2xl font-bold text-foreground">Plantel</h1>
             <p className="text-muted-foreground">Gestao de atletas da equipa</p>
           </div>
-          <Button>
+          <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="size-4 mr-2" />
             Adicionar Atleta
           </Button>
@@ -264,19 +278,19 @@ export default function PlantelPage() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setSelectedAtleta(atleta); setIsProfileDialogOpen(true); }}>
                               <FileText className="size-4 mr-2" />
                               Ver Perfil
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/dashboard/treinador/presencas")}>
                               <Calendar className="size-4 mr-2" />
                               Historico
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => window.open(`mailto:${atleta.email}`)}>
                               <Mail className="size-4 mr-2" />
                               Enviar Email
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => window.open(`tel:${atleta.telefone}`)}>
                               <Phone className="size-4 mr-2" />
                               Contactar
                             </DropdownMenuItem>
@@ -290,6 +304,127 @@ export default function PlantelPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Add Atleta Dialog */}
+        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Adicionar Atleta</DialogTitle>
+              <DialogDescription>
+                Adicione um novo atleta ao plantel da equipa.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="nome">Nome Completo</Label>
+                <Input id="nome" placeholder="Ex: Joao Silva" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="numero">Numero</Label>
+                  <Input id="numero" type="number" placeholder="10" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="posicao">Posicao</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="guarda-redes">Guarda-Redes</SelectItem>
+                      <SelectItem value="defesa">Defesa</SelectItem>
+                      <SelectItem value="medio">Medio</SelectItem>
+                      <SelectItem value="avancado">Avancado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="idade">Idade</Label>
+                  <Input id="idade" type="number" placeholder="16" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="telefone">Telefone</Label>
+                  <Input id="telefone" placeholder="912345678" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="atleta@email.com" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={() => setIsAddDialogOpen(false)}>
+                Adicionar Atleta
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Profile Dialog */}
+        <Dialog open={isProfileDialogOpen} onOpenChange={setIsProfileDialogOpen}>
+          <DialogContent className="max-w-md">
+            {selectedAtleta && (
+              <>
+                <DialogHeader>
+                  <DialogTitle>Perfil do Atleta</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <Avatar className="size-16">
+                      <AvatarFallback className="text-lg bg-primary text-primary-foreground">
+                        {selectedAtleta.nome.split(" ").map((n) => n[0]).join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="text-lg font-semibold">{selectedAtleta.nome}</h3>
+                      <p className="text-muted-foreground">#{selectedAtleta.numero} - {selectedAtleta.posicao}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-secondary/30">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Idade</p>
+                      <p className="font-medium">{selectedAtleta.idade} anos</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Presenca</p>
+                      <p className="font-medium">{selectedAtleta.presencaMedia}%</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Email</p>
+                      <p className="font-medium text-sm">{selectedAtleta.email}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Telefone</p>
+                      <p className="font-medium">{selectedAtleta.telefone}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Atestado</p>
+                      {selectedAtleta.atestadoValido ? (
+                        <Badge className="bg-success/10 text-success border-success/20">Valido</Badge>
+                      ) : (
+                        <Badge variant="destructive">Em Falta</Badge>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Status</p>
+                      {getStatusBadge(selectedAtleta.status)}
+                    </div>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsProfileDialogOpen(false)}>
+                    Fechar
+                  </Button>
+                </DialogFooter>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </DashboardLayout>
   )

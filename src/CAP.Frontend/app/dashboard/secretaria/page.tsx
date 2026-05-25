@@ -47,15 +47,16 @@ const mockRecentActivity = [
   { id: 4, tipo: "reserva", descricao: "Reserva Campo 1 - Sub-15", data: "Ontem, 10:00" },
 ]
 
-const mockQuotasAtraso = [
-  { id: 1, nome: "Carlos Almeida", meses: 3, valor: 75 },
-  { id: 2, nome: "Ana Ferreira", meses: 2, valor: 50 },
-  { id: 3, nome: "Bruno Martins", meses: 2, valor: 50 },
+const initialQuotasAtraso = [
+  { id: 1, nome: "Carlos Almeida", meses: 3, valor: 75, notificado: false },
+  { id: 2, nome: "Ana Ferreira", meses: 2, valor: 50, notificado: false },
+  { id: 3, nome: "Bruno Martins", meses: 2, valor: 50, notificado: false },
 ]
 
 export default function DashboardSecretariaPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const [quotasAtraso, setQuotasAtraso] = useState(initialQuotasAtraso)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -73,6 +74,10 @@ export default function DashboardSecretariaPage() {
 
   if (!user) {
     return null
+  }
+
+  const handleNotificarSocio = (id: number) => {
+    setQuotasAtraso(prev => prev.map(s => s.id === id ? { ...s, notificado: true } : s))
   }
 
   return (
@@ -246,7 +251,7 @@ export default function DashboardSecretariaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockQuotasAtraso.map((socio) => (
+                {quotasAtraso.map((socio) => (
                   <div key={socio.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
                     <div className="flex items-center gap-3">
                       <Avatar className="size-10">
@@ -261,8 +266,14 @@ export default function DashboardSecretariaPage() {
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-cap-red">{socio.valor}EUR</p>
-                      <Button variant="outline" size="sm" className="mt-1 h-7 text-xs">
-                        Notificar
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="mt-1 h-7 text-xs"
+                        onClick={() => handleNotificarSocio(socio.id)}
+                        disabled={socio.notificado}
+                      >
+                        {socio.notificado ? "Notificado" : "Notificar"}
                       </Button>
                     </div>
                   </div>

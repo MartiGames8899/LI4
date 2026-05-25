@@ -43,7 +43,7 @@ const mockProximosEventos = [
   { id: 3, tipo: "Treino", data: "Quarta, 18:30", local: "Campo Principal", convocado: true },
 ]
 
-const mockConvocatoriasPendentes = [
+const initialConvocatoriasPendentes = [
   { id: 1, evento: "Jogo vs FC Exemplo", data: "Sabado, 15:00", tipo: "jogo" },
 ]
 
@@ -55,6 +55,7 @@ const mockNotificacoes = [
 export default function DashboardAtletaPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState(initialConvocatoriasPendentes)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -72,6 +73,14 @@ export default function DashboardAtletaPage() {
 
   if (!user) {
     return null
+  }
+
+  const handleConfirmarConvocatoria = (id: number) => {
+    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  }
+
+  const handleRecusarConvocatoria = (id: number) => {
+    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
   }
 
   return (
@@ -113,7 +122,7 @@ export default function DashboardAtletaPage() {
         </Card>
 
         {/* Convocatoria Pendente Alert */}
-        {mockConvocatoriasPendentes.length > 0 && (
+        {convocatoriasPendentes.length > 0 && (
           <Card className="border-cap-gold/50 bg-cap-gold/5">
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -122,16 +131,16 @@ export default function DashboardAtletaPage() {
                   <div>
                     <p className="font-medium text-cap-gold">Convocatoria Pendente</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {mockConvocatoriasPendentes[0].evento} - {mockConvocatoriasPendentes[0].data}
+                      {convocatoriasPendentes[0].evento} - {convocatoriasPendentes[0].data}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" className="bg-success hover:bg-success/90">
+                  <Button size="sm" className="bg-success hover:bg-success/90" onClick={() => handleConfirmarConvocatoria(convocatoriasPendentes[0].id)}>
                     <CheckCircle className="size-4 mr-1" />
                     Confirmar
                   </Button>
-                  <Button size="sm" variant="outline" className="text-destructive border-destructive/30">
+                  <Button size="sm" variant="outline" className="text-destructive border-destructive/30" onClick={() => handleRecusarConvocatoria(convocatoriasPendentes[0].id)}>
                     <XCircle className="size-4 mr-1" />
                     Recusar
                   </Button>

@@ -85,6 +85,7 @@ const mockSessoes: Sessao[] = [
 export default function PresencasPage() {
   const router = useRouter()
   const [selectedSessao, setSelectedSessao] = useState<Sessao>(mockSessoes[0])
+  const [sessaoIndex, setSessaoIndex] = useState(0)
   const [presencas, setPresencas] = useState<Record<number, boolean | null>>({})
   const [hasChanges, setHasChanges] = useState(false)
 
@@ -113,6 +114,22 @@ export default function PresencasPage() {
   const handlePresencaChange = (atletaId: number, value: boolean | null) => {
     setPresencas((prev) => ({ ...prev, [atletaId]: value }))
     setHasChanges(true)
+  }
+
+  const handlePrevSessao = () => {
+    if (sessaoIndex < mockSessoes.length - 1) {
+      const newIndex = sessaoIndex + 1
+      setSessaoIndex(newIndex)
+      setSelectedSessao(mockSessoes[newIndex])
+    }
+  }
+
+  const handleNextSessao = () => {
+    if (sessaoIndex > 0) {
+      const newIndex = sessaoIndex - 1
+      setSessaoIndex(newIndex)
+      setSelectedSessao(mockSessoes[newIndex])
+    }
   }
 
   const handleSave = () => {
@@ -160,7 +177,11 @@ export default function PresencasPage() {
                 value={selectedSessao.id.toString()}
                 onValueChange={(value) => {
                   const sessao = mockSessoes.find((s) => s.id.toString() === value)
-                  if (sessao) setSelectedSessao(sessao)
+                  if (sessao) {
+                    const index = mockSessoes.findIndex(s => s.id.toString() === value)
+                    setSessaoIndex(index)
+                    setSelectedSessao(sessao)
+                  }
                 }}
               >
                 <SelectTrigger className="w-full md:w-80">
@@ -176,10 +197,10 @@ export default function PresencasPage() {
               </Select>
 
               <div className="flex gap-2">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={handlePrevSessao} disabled={sessaoIndex >= mockSessoes.length - 1}>
                   <ChevronLeft className="size-4" />
                 </Button>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={handleNextSessao} disabled={sessaoIndex <= 0}>
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
