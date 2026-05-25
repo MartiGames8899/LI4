@@ -1,0 +1,189 @@
+\documentclass[a4paper,12pt]{scrreprt}
+    %% Used for changing geometry of the page
+    %% Cover page text cannot overlay cover sketching/style
+    %% https://ctan.org/pkg/geometry?lang=en
+\usepackage{geometry}
+\usepackage{xltabular}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+    %% Changes language of some packages protocols
+    %% e.g., when captioning images: Figure 1. -> Figura 1.
+    %% https://ctan.org/pkg/babel?lang=en
+\usepackage[portuguese]{babel}
+\usepackage{ltablex}
+\keepXColumns
+    %% Used for special fonts
+    %% Cannot be compiled with pdflatex
+    %% https://ctan.org/pkg/fontspec?lang=en
+\usepackage{fontspec}
+\usepackage{float}
+    %% More colors and color options
+    %% https://ctan.org/pkg/xcolor?lang=en
+    %% https://ctan.org/pkg/colortbl?lang=en
+\usepackage{xcolor,colortbl}
+    %% More tabular options, like dashed/dotted lines
+    %% https://ctan.org/pkg/arydshln?lang=en
+\usepackage{arydshln}
+\usepackage[most]{tcolorbox} % Pacote para as caixas
+\usepackage{xcolor}          % Para as cores
+
+% Definições de cores para tabelas profissionais
+\definecolor{headerblue}{RGB}{0, 82, 155}
+\definecolor{rowblue}{RGB}{235, 245, 255}
+\definecolor{azulclaro}{RGB}{240, 248, 255} 
+
+% Comando customizado para o registo de prompts
+\newcommand{\caixaprompt}[3]{
+    \begin{tcolorbox}[
+        enhanced,
+        colback=azulclaro,      % Cor de fundo
+        colframe=blue!50!black, % Cor da borda (um azul mais escuro)
+        arc=2mm,                % Arredondamento dos cantos
+        boxrule=0.5mm,          % Espessura da borda
+        title=\textbf{Documentação de IA}, % Título fixo da caixa
+        fonttitle=\sffamily,
+        coltitle=black,
+        attach title to upper,
+        after title={\par\medskip},
+    ]
+        \textbf{Modelo Usado:} #1 \\
+        \textbf{Prompt:} \textit{"#2"} \\
+        \tcbline % Linha divisória interna
+        \textbf{Resultado:} #3
+    \end{tcolorbox}
+}
+
+% Parágrafo padrão para posicionar engenharia face ao rascunho automático (fora da caixa azul)
+\newcommand{\reflexao}[1]{%
+    %
+    #1\par\medskip
+}
+    %% List of acronyms
+    %% https://ctan.org/pkg/nomencl?lang=en
+\usepackage[intoc]{nomencl}
+    %% Must be called to init nomencl environment
+    \makenomenclature
+    %% More images options/settings
+    %% https://ctan.org/pkg/graphicx?lang=en
+\usepackage{graphics}
+    %% Defining subdirectories to image path enviornment
+    %% \graphicspath{{sub1}{sub2}...{subN}}
+    \graphicspath{{images}}
+
+    %% used to handle cross-referencing commands in LaTeX to produce hypertext links in the document
+    %% https://ctan.org/pkg/hyperref?lang=en
+\usepackage{hyperref}
+\usepackage{longtable}
+    %% math environments
+    %% https://ctan.org/pkg/amsmath?lang=en
+
+    %% settings
+    \hypersetup{
+        colorlinks,
+        citecolor=black,
+        filecolor=black,
+        linkcolor=black,
+        urlcolor=black
+    }
+
+
+\usepackage{amsmath}
+    %% Defining background, used to make the cover
+    %% https://ctan.org/pkg/background?lang=en
+\usepackage[some]{background}
+    %% Used to make drawings or complex graphics
+    %% http://pgf.sourceforge.net/pgf_CVS.pdf
+\usepackage{tikz}
+    %% Tikz library to point operations ((x1,y1) + (x2,y2))
+    \usetikzlibrary{calc}
+
+%% Defining sfdefault font and default font for document
+\renewcommand{\familydefault}{\sfdefault}
+
+
+%% Costume made cover
+%% From there you can use \makecover command to build the cover
+\include{cover}
+
+%==========================================================================
+% DOCUMENT
+%==========================================================================
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+% builds the cover
+\makecover
+
+%% smaller footer and header size
+\newgeometry{top=3cm,left=3cm,right=3cm,bottom=4cm}
+
+
+%% Abstract name: \Large font size, flushed left and paragraph skip before abstract content
+\renewenvironment{abstract}
+ {\par\noindent\textbf{\Large\abstractname}\par\bigskip}
+ {}
+
+\begin{flushleft}
+\begin{abstract}
+Este projeto foca-se na criação de um sistema de gestão para o Clube Amigos de Polvoreira (CAP), um clube desportivo multidisciplinar de Guimarães. O objetivo é digitalizar os processos do clube, que até agora eram feitos quase totalmente em papel, facilitando a vida a quem gere o clube, aos treinadores e aos atletas.
+
+Neste relatório, descrevemos todo o percurso que fizemos: desde perceber o que o clube precisava até ao desenho da arquitetura e desenvolvimento do software. Um ponto importante do nosso trabalho foi o uso de Inteligência Artificial Generativa para nos ajudar a escrever e a criar diagramas. Documentámos estas interações nas secções de "Documentação de IA", mas garantimos sempre que o resultado final foi revisto e adaptado por nós para o contexto real do clube.
+
+O trabalho começou com a recolha de requisitos através de entrevistas e questionários. Depois, desenhámos a estrutura do sistema usando o padrão de monólito modular, com tecnologias modernas como .NET 8 e PostgreSQL. O resultado é uma plataforma que permite gerir equipas, marcar jogos e treinos, controlar atestados médicos e tratar da parte financeira (quotas) de forma simples e segura. No final, validámos se o sistema cumpria o que foi pedido inicialmente, garantindo uma solução útil para o dia a dia do CAP.
+
+    \paragraph*{Área de Aplicação:} Engenharia de Software Assistida por IA.
+    \paragraph*{Palavras-Chave:} Engenharia de Software, LLMs, Gestão Desportiva, Requisitos, Arquitetura, Clube Desportivo.
+\end{abstract}
+\end{flushleft}
+
+
+\pagebreak
+
+%==========================================================================
+% END ABSTRACT PAGE
+%==========================================================================
+
+%==========================================================================
+% BEGIN INDEXES PAGES
+%==========================================================================
+
+%% Changes table of content name
+%% Portuguese babel default : "Conteúdo"
+%% Personally I prefer "índice"
+\renewcommand{\contentsname}{Índice}
+
+\tableofcontents
+
+\pagebreak
+
+\listoffigures
+
+%==========================================================================
+% END INDEXES PAGES
+%==========================================================================
+
+%% Starting page numbering here
+\pagenumbering{arabic}
+
+%==========================================================================
+% CHAPTERS
+%==========================================================================
+
+\include{chapters/01_introducao}
+
+\include{chapters/02_definicao_sistema}
+
+\include{chapters/03_analise_requisitos}
+
+\include{chapters/04_especificacao_modelacao}
+
+%==========================================================================
+% FIM DO RELATÓRIO
+%==========================================================================
+
+\end{document}

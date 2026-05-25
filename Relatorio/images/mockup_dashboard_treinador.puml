@@ -1,0 +1,41 @@
+@startsalt
+{+
+  <b>CAP</b> | Dashboard do Treinador - Equipa Sub-17 | [Sair]
+  ==
+  {
+    {+
+      <b>Próximos Eventos</b>
+      ==
+      {T
+        + <b>Data</b>       | <b>Evento</b>           | <b>Local</b>
+        + 28 Mai 16:00 | Treino Tático     | Campo A
+        + 01 Jun 15:30 | Jogo vs FC Braga  | Estádio Municipal
+        + 05 Jun 16:00 | Treino Físico     | Ginásio
+      }
+      .
+      [+ Nova Convocatória]
+    }
+    |
+    {+
+      <b>Alertas de Plantel</b>
+      ==
+      {T
+        + <b>Atleta</b>       | <b>Problema</b>
+        + João Silva     | Atestado expirado
+        + Pedro Alves    | Quota em atraso
+      }
+      .
+      <b>Confirmações Pendentes</b>
+      ==
+      {T
+        + <b>Atleta</b>       | <b>Resposta</b>
+        + Rui Costa      | Confirmado
+        + Miguel Lopes   | Pendente
+        + André Sousa    | Recusado
+      }
+    }
+  }
+  ==
+  [Ver Plantel Completo]  [Registar Assiduidade]  [Estatísticas]
+}
+@endsalt

@@ -1,0 +1,52 @@
+@startuml atividade_reserva
+!include _cap_skin.puml
+hide stereotypes
+
+title Diagrama de Atividade: Reserva de Instalação
+
+|Treinador / Secretaria|
+start
+:Acede ao calendário de instalações;
+:Seleciona instalação, data e horário;
+:Preenche motivo e equipa associada;
+:Submete pedido de reserva;
+
+|Sistema|
+:Verifica sobreposição de horários\n(SQL timestamp overlap);
+
+if (Conflito detetado?) then (sim)
+    :Apresentar conflitos existentes\ne sugerir horários alternativos;
+    |Treinador / Secretaria|
+    if (Aceita sugestão?) then (sim)
+        :Seleciona horário alternativo;
+    else (não)
+        :Cancela pedido;
+        stop
+    endif
+    |Sistema|
+endif
+
+:Criar reserva com estado CONFIRMADA;
+:Bloquear slot no calendário;
+:Enviar notificação de confirmação;
+
+|Treinador / Secretaria|
+:Recebe confirmação da reserva;
+
+|Sistema|
+:24h antes do evento: enviar lembrete;
+
+if (Reserva cancelada antes do evento?) then (sim)
+    |Treinador / Secretaria|
+    :Solicita cancelamento;
+    |Sistema|
+    :Libertar slot no calendário;
+    :Notificar equipa afetada;
+    stop
+else (não)
+    |Sistema|
+    :Reserva finalizada após o evento;
+    stop
+endif
+
+@enduml

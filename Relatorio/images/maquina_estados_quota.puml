@@ -1,0 +1,71 @@
+@startuml maquina_estados_quota
+!include _cap_skin.puml
+hide stereotypes
+
+title Máquina de Estados: Ciclo de Vida da Quota
+
+[*] --> Gerada
+
+state Gerada {
+    note right
+        A quota é gerada automaticamente
+        no início de cada época pela Gerência.
+        Estado inicial do ciclo de vida.
+    end note
+}
+
+state Pendente {
+    note right
+        A quota aguarda pagamento.
+        O Encarregado de Educação
+        recebe a referência de pagamento.
+    end note
+}
+
+state Paga {
+    note right
+        A quota foi paga com sucesso.
+        Fatura emitida automaticamente.
+        Atleta pode ser convocado.
+    end note
+}
+
+state Atraso {
+    note right
+        Prazo de pagamento expirou.
+        Notificações enviadas.
+        Atleta não pode ser convocado
+        até regularizar a situação.
+    end note
+}
+
+state Reembolsada {
+    note right
+        O valor foi devolvido ao pagador.
+        A fatura correspondente deve ser
+        anulada/estornada no SAF-T.
+    end note
+}
+
+state Cancelada {
+    note right
+        Quota anulada por motivos
+        administrativos (ex: atleta
+        deixou o clube).
+    end note
+}
+
+Gerada --> Pendente : gerar referência
+Pendente --> Paga : detectar pagamento
+Pendente --> Atraso : prazo expirado
+Atraso --> Paga : pagamento atrasado\naceitável
+Atraso --> Cancelada : anulação\nadministrativa
+Gerada --> Cancelada : anulação\nantecipada
+Pendente --> Cancelada : cancelamento
+Paga --> Reembolsada : estorno / erro adm.
+Reembolsada --> Pendente : reabrir débito
+Paga --> [*]
+Cancelada --> [*]
+Reembolsada --> [*]
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml casos_uso_clinica
+!include _cap_skin.puml
+left to right direction
+
+actor "Atleta" as Athlete
+actor "Encarregado" as Parent
+actor "Treinador" as Coach
+actor "Secretaria" as Secretary
+
+rectangle "Subsistema: Gestão Clínica e Performance" {
+    usecase "Submeter Atestado Médico" as UC_SubmitMedical
+    usecase "Validar Atestado" as UC_ValidateMedical
+    usecase "Registar Lesão" as UC_LogInjury
+    usecase "Reportar Queixa Física" as UC_ReportComplaint
+    usecase "Registar Métricas Físicas" as UC_LogMetrics
+    usecase "Visualizar Dashboard de Desempenho" as UC_ViewDashboard
+}
+
+Athlete --> UC_SubmitMedical
+Parent --> UC_SubmitMedical
+Athlete --> UC_ReportComplaint
+Parent --> UC_ReportComplaint
+Athlete --> UC_ViewDashboard
+
+Secretary --> UC_ValidateMedical
+
+Coach --> UC_LogInjury
+Coach --> UC_LogMetrics
+Coach --> UC_ViewDashboard
+
+@enduml

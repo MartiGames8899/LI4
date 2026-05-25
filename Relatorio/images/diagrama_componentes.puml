@@ -1,0 +1,73 @@
+@startuml diagrama_componentes
+!include _cap_skin.puml
+
+top to bottom direction
+skinparam componentStyle rectangle
+
+package "Camada de Apresentação" {
+    component [Aplicação Web\n(SPA React)] as WebUI
+    component [Aplicação Móvel\n(React Native)] as MobileUI
+}
+
+interface "HTTP/REST/JSON\n(JWT Bearer)" as REST
+
+package "Camada de API (ASP.NET Core 8)" {
+    component [API Gateway\n& Autenticação] as APIGateway
+}
+
+package "Camada de Negócio (Monólito Modular)" {
+    component [Gestão de Utilizadores\n& RBAC] as ModUser
+    component [Gestão Desportiva\n(Plantéis, Convocatórias)] as ModSports
+    component [Gestão Clínica\n(Atestados, Lesões)] as ModClinical
+    component [Gestão Financeira\n(Quotas, Pagamentos)] as ModFinance
+    component [Gestão de Instalações\n(Reservas)] as ModFacilities
+    component [Serviço de Notificações\n(Email, Push, SMS)] as ModNotifications
+    component [Serviço de Relatórios\n(SAF-T, Exports PDF)] as ModReports
+
+    interface "Barramento de Eventos\n(em memória)" as EventBus
+
+    ModUser ..> EventBus
+    ModSports ..> EventBus
+    ModClinical ..> EventBus
+    ModFinance ..> EventBus
+    ModFacilities ..> EventBus
+    EventBus ..> ModNotifications
+    EventBus ..> ModReports
+}
+
+package "Camada de Dados" {
+    database "PostgreSQL\n(+ JSONB)" as DB
+    component [Entity Framework Core\n(ORM & Repositórios)] as EFC
+}
+
+package "Integrações Externas" {
+    cloud "Easypay / Stripe\n(Gateway Pagamentos)" as PaymentGW
+    cloud "Serviço Email/SMS\n(SendGrid / Twilio)" as EmailService
+    cloud "Autoridade Tributária\n(SAF-T XML)" as TaxAuth
+}
+
+WebUI -down- REST
+MobileUI -down- REST
+REST -down- APIGateway
+
+APIGateway -down- ModUser
+APIGateway -down- ModSports
+APIGateway -down- ModClinical
+APIGateway -down- ModFinance
+APIGateway -down- ModFacilities
+
+ModUser -down- EFC
+ModSports -down- EFC
+ModClinical -down- EFC
+ModFinance -down- EFC
+ModFacilities -down- EFC
+ModNotifications -down- EFC
+ModReports -down- EFC
+
+EFC -down- DB
+
+ModFinance ..> PaymentGW : webhook / API
+ModNotifications ..> EmailService : envia notificações
+ModReports ..> TaxAuth : exporta SAF-T
+
+@enduml

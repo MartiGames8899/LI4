@@ -1,0 +1,29 @@
+@startuml maquina_estados_lesao
+!include _cap_skin.puml
+skinparam dpi 150
+
+[*] --> Reportada : Atleta ou EE\nsubmete queixa
+
+Reportada --> Ativa : Treinador confirma\ne regista lesão
+
+Ativa --> EmRecuperacao : Tratamento iniciado\n(fisioterapeuta regista)
+Ativa --> Resolvida : Lesão leve resolvida\nsem tratamento formal
+
+EmRecuperacao --> Resolvida : Alta clínica emitida\n(previsão de recuperação cumprida)
+EmRecuperacao --> Ativa : Recaída registada\npelo departamento médico
+
+Resolvida --> [*] : Atleta retorna ao\nestado Apto
+
+note right of Ativa
+  Atleta bloqueado em
+  convocatórias enquanto
+  isAtivo() = true.
+end note
+
+note right of Resolvida
+  Sistema atualiza o
+  flag isAtivo() para
+  false na entidade Lesao.
+end note
+
+@enduml

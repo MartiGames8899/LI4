@@ -1,0 +1,17 @@
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Modules.Notifications.Data.deps.json
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Modules.Notifications.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Modules.Notifications.Data.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Modules.Notifications.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Shared.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Modules.Notifications.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\bin\Debug\net7.0\CAP.Shared.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.csproj.AssemblyReference.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.AssemblyInfoInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.AssemblyInfo.cs
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.csproj.CoreCompileInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.csproj.CopyComplete
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\refint\CAP.Modules.Notifications.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\CAP.Modules.Notifications.Data.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Notifications\CAP.Modules.Notifications.Data\obj\Debug\net7.0\ref\CAP.Modules.Notifications.Data.dll

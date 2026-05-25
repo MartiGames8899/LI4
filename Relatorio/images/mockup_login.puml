@@ -1,0 +1,35 @@
+@startsalt
+{+
+  <b>CAP - Sistema de Gestão</b>
+  ==
+  {/ <b>Entrar</b> | Registar }
+  .
+  <b>Email</b>
+  "email@exemplo.com          "
+  .
+  <b>Palavra-passe</b>
+  "********************      "
+  .
+  [        Entrar        ]
+  .
+  "Esqueceu a palavra-passe?"
+  ==
+  {/ Registar | <b>Entrar</b> }
+  .
+  <b>Nome completo</b>
+  "                           "
+  <b>Email</b>
+  "                           "
+  <b>NIF</b>
+  "                           "
+  <b>Tipo de utilizador</b>
+  ^Atleta                    ^
+  <b>Palavra-passe</b>
+  "                           "
+  .
+  [       Registar       ]
+  .
+  "Após o registo, aguarde"
+  "aprovação da Secretaria."
+}
+@endsalt

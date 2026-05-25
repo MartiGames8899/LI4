@@ -1,0 +1,60 @@
+@startuml maquina_estados_convocatoria
+!include _cap_skin.puml
+hide stereotypes
+
+title Máquina de Estados: Ciclo de Vida da Convocatória
+
+[*] --> Rascunho
+
+state Rascunho {
+    note right
+        O Treinador cria a lista
+        de atletas convocados.
+        Pode ser editada livremente.
+    end note
+}
+
+state Validacao {
+    note right
+        Sistema valida:
+        - Quotas pagas
+        - Atestados válidos
+        - Disponibilidade
+    end note
+}
+
+state Publicada {
+    note right
+        Convocatória enviada
+        aos atletas e Encarregados.
+        Confirmações de presença
+        são registadas.
+    end note
+}
+
+state Finalizada {
+    note right
+        Data do evento passou.
+        Arquivada para histórico.
+        Estatísticas processadas.
+    end note
+}
+
+state Cancelada {
+    note right
+        Cancelada por motivos
+        de força maior ou
+        decisão do Treinador.
+    end note
+}
+
+Rascunho --> Validacao : submeter para\npublicação
+Validacao --> Publicada : aprovação (todos aptos)
+Validacao --> Rascunho : rejeição (exige correção)
+Publicada --> Finalizada : data do evento\npassada
+Rascunho --> Cancelada : cancelar
+Publicada --> Cancelada : cancelar\n(força maior)
+Finalizada --> [*]
+Cancelada --> [*]
+
+@enduml

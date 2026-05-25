@@ -1,0 +1,45 @@
+@startsalt
+{+
+  <b>CAP</b> | Área Pessoal - João Silva | [Sair]
+  ==
+  {
+    {+
+      <b>Situação Atual</b>
+      ==
+      {T
+        + <b>Indicador</b>          | <b>Estado</b>
+        + Situação Desportiva  | APTO
+        + Atestado Médico      | Válido até 15/09/2026
+        + Quotas               | Regularizado
+      }
+      .
+      [Submeter Novo Atestado]
+    }
+    |
+    {+
+      <b>Quotas da Época 2025/26</b>
+      ==
+      {T
+        + <b>Mês</b>      | <b>Valor</b> | <b>Estado</b>
+        + Setembro   | 35,00€  | Paga
+        + Outubro    | 35,00€  | Paga
+        + Novembro   | 35,00€  | Pendente
+        + Dezembro   | 35,00€  | Pendente
+      }
+      .
+      [Pagar Selecionadas via MB Way]
+      [Gerar Referência Multibanco]
+    }
+  }
+  ==
+  {+
+    <b>Historial Clínico</b>
+    ==
+    {T
+      + <b>Data</b>      | <b>Tipo</b>          | <b>Descrição</b>
+      + 10/03/2026  | Queixa Física   | Dor no joelho esq. (nível 4)
+      + 02/01/2026  | Atestado        | EMD válido - Dr. Ferreira
+    }
+  }
+}
+@endsalt

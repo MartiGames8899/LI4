@@ -1,0 +1,29 @@
+@startuml maquina_estados_reserva
+!include _cap_skin.puml
+skinparam dpi 150
+
+[*] --> Pendente : Pedido de reserva\nsubmetido
+
+Pendente --> Confirmada : Ausência de conflitos\ndetetada pelo sistema
+Pendente --> Rejeitada : Conflito de horário ou\ninstalação indisponível
+
+Confirmada --> Cancelada : Cancelamento voluntário\n(>24h antes do evento)
+Confirmada --> Cancelada : Manutenção urgente\ndeclarada pela Gerência
+Confirmada --> Concluida : Data e hora do evento\nultrapassadas (cronjob)
+
+Cancelada --> [*]
+Rejeitada --> [*]
+Concluida --> [*]
+
+note right of Confirmada
+  O sistema bloqueia o slot no
+  calendário e envia lembrete
+  automático 24h antes.
+end note
+
+note right of Cancelada
+  O slot é libertado e a equipa
+  afetada é notificada.
+end note
+
+@enduml

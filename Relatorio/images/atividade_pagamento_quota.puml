@@ -1,0 +1,50 @@
+@startuml atividade_pagamento_quota
+!include _cap_skin.puml
+hide stereotypes
+
+title Diagrama de Atividade: Pagamento de Quota (RF-6.1)
+
+|Encarregado / Atleta|
+start
+:Acede à área financeira;
+:Seleciona quotas pendentes;
+:Escolhe método de pagamento;
+
+|Sistema|
+:Gera pedido ao Gateway (Easypay);
+:Reserva montante no sistema;
+
+|Encarregado / Atleta|
+if (Método selecionado?) then (MB Way)
+    :Introduz número de telemóvel;
+    :Confirma notificação MB Way;
+else (Multibanco)
+    :Recebe referência Multibanco;
+    :Efetua pagamento no ATM ou homebanking;
+endif
+
+|Gateway Pagamento|
+:Processa transação;
+if (Pagamento autorizado?) then (não)
+    |Sistema|
+    :Registar tentativa falhada;
+    :Notificar falha ao utilizador;
+    |Encarregado / Atleta|
+    :Pode tentar novamente;
+    stop
+else (sim)
+    :Emite confirmação (webhook);
+endif
+
+|Sistema|
+:Valida assinatura do webhook;
+:Altera estado da quota para PAGA;
+:Gera Fatura/Recibo em PDF;
+:Atualiza situação desportiva do atleta;
+:Notifica Encarregado / Atleta (RF-2.2);
+
+|Encarregado / Atleta|
+:Recebe fatura por email / na plataforma;
+stop
+
+@enduml

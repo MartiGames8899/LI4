@@ -1,0 +1,46 @@
+@startuml casos_uso_geral
+!include _cap_skin.puml
+skinparam dpi 150
+
+actor "Atleta"                   as Athlete
+actor "Encarregado\nde Educação" as Parent
+actor "Treinador"                as Coach
+actor "Secretaria"               as Secretary
+actor "Gerência"                 as Management
+
+rectangle "Sistema CAP" {
+    package "Utilizadores &\nAutenticação" as P_Auth
+    package "Gestão Desportiva"            as P_Sport
+    package "Gestão Clínica"              as P_Clinic
+    package "Gestão Financeira"           as P_Finance
+    package "Instalações"                  as P_Facilities
+    package "Notificações"                 as P_Notif
+}
+
+Athlete    --> P_Auth
+Athlete    --> P_Sport
+Athlete    --> P_Clinic
+Athlete    --> P_Notif
+
+Parent     --> P_Auth
+Parent     --> P_Clinic
+Parent     --> P_Finance
+Parent     --> P_Notif
+
+Coach      --> P_Auth
+Coach      --> P_Sport
+Coach      --> P_Clinic
+Coach      --> P_Facilities
+Coach      --> P_Notif
+
+Secretary  --> P_Auth
+Secretary  --> P_Clinic
+Secretary  --> P_Finance
+Secretary  --> P_Facilities
+
+Management --> P_Auth
+Management --> P_Finance
+Management --> P_Facilities
+Management --> P_Sport
+
+@enduml

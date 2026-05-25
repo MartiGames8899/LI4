@@ -1,0 +1,60 @@
+@startuml sequencia_publicar_convocatoria
+!include _cap_skin.puml
+hide footbox
+
+title Diagrama de Sequência: Publicação de Convocatória
+
+autonumber
+
+actor "Treinador" as Coach
+participant "Interface Web" as Web
+participant "API REST\n(ASP.NET)" as API
+database "PostgreSQL" as DB
+participant "Serviço de\nNotificações" as NotifService
+
+Coach -> Web: 1. Clica botão\n"Publicar Convocatória"
+activate Web
+
+Web -> API: 2. PUT /api/callouts/{id}/publish
+activate API
+
+API -> DB: 3. Carregar Convocatória\ne itens relacionados
+activate DB
+DB --> API: Dados da convocatória\n(status=Rascunho)
+deactivate DB
+
+alt Validações falharam
+    API -> API: 4a. Verificar:\n- Atletas válidos\n- Sem atrasos quotas\n- Atestados válidos\n- Data evento futuro
+    API --> Web: 400 Bad Request\n{erros validação}
+    Web --> Coach: 5a. Mensagem erro\nCorrigir rascunho
+else Todas validações passaram
+    API -> API: 4b. Validações OK
+    
+    API -> DB: 5b. Atualizar Convocatória\nestado = Publicada\ntimestamp publicação
+    activate DB
+    DB --> API: Confirmado
+    deactivate DB
+    
+    API -> NotifService: 6. Publicar evento\n"CalloutPublished"\n(fila assíncrona)
+    activate NotifService
+    
+    loop para cada atleta convocado
+        NotifService -> NotifService: 7. Preparar notificação\n(email, SMS, push)
+        NotifService -> NotifService: 8. Enfileirar para\nEncarregado + Atleta
+    end
+    
+    NotifService --> API: Confirmação:\nN notificações enfileiradas
+    deactivate NotifService
+    
+    API --> Web: 9. 200 OK\n{calloutId, timestamp,\nathletes_count}
+    
+    Web --> Coach: 10. Convocatória publicada!\nAtletas notificados
+    deactivate API
+    deactivate Web
+    
+    note over NotifService
+        Notificações processadas\nemsegundo plano (fire-and-forget).
+    end note
+end
+
+@enduml

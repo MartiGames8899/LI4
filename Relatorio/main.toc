@@ -1,0 +1,80 @@
+\babel@toc {portuguese}{}\relax 
+\contentsline {chapter}{\numberline {1}Introdução}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Enquadramento e Objetivos do Trabalho}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Large Language Models na Engenharia de Software}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Contextualização Tecnológica}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Vantagens da Utilização de LLMs no Desenvolvimento de Software}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Desvantagens e Limitações dos LLMs}{4}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Abordagem Adotada neste Projeto}{5}{subsection.1.2.4}%
+\contentsline {section}{\numberline {1.3}Medidas de Sucesso}{5}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Definição e Caracterização do Sistema}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Contextualização}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Apresentação do Caso de Estudo}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Motivação e Objetivos}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Justificação e Utilidade do Sistema}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Recursos Necessários}{9}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Análise de Viabilidade}{9}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Plano de Execução do Projeto}{10}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Estrutura do Relatório}{10}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Levantamento e Análise de Requisitos}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Estratégia e Métodos}{12}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Métodos de Levantamento Utilizados}{14}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Planeamento do Levantamento}{16}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Análise Documental}{18}{subsection.3.1.3}%
+\contentsline {subsubsection}{\nonumberline Objetivo e Abordagem}{18}{subsubsection*.3}%
+\contentsline {subsubsection}{\nonumberline Documentos Analisados}{18}{subsubsection*.4}%
+\contentsline {paragraph}{\nonumberline Atestado Médico Desportivo}{18}{paragraph*.5}%
+\contentsline {paragraph}{\nonumberline Relatório Oficial de Jogo}{19}{paragraph*.6}%
+\contentsline {paragraph}{\nonumberline Fatura/Recibo de Quota}{20}{paragraph*.7}%
+\contentsline {subsection}{\numberline {3.1.4}Entrevistas Direcionadas}{22}{subsection.3.1.4}%
+\contentsline {subsubsection}{\nonumberline Metodologia das Entrevistas}{22}{subsubsection*.8}%
+\contentsline {subsubsection}{\nonumberline Resultados por Perfil de \textit {Stakeholder}}{22}{subsubsection*.9}%
+\contentsline {subsection}{\numberline {3.1.5}Estratégia de Validação}{24}{subsection.3.1.5}%
+\contentsline {subsection}{\numberline {3.1.6}Questionário Online}{26}{subsection.3.1.6}%
+\contentsline {subsubsection}{\nonumberline Objetivo e Metodologia}{26}{subsubsection*.10}%
+\contentsline {subsubsection}{\nonumberline Estrutura do Questionário}{26}{subsubsection*.11}%
+\contentsline {subsubsection}{\nonumberline Análise dos Resultados}{27}{subsubsection*.12}%
+\contentsline {subsubsection}{\nonumberline Exemplo de Questão}{28}{subsubsection*.13}%
+\contentsline {subsection}{\numberline {3.1.7}Síntese e Validação dos Requisitos Levantados}{29}{subsection.3.1.7}%
+\contentsline {section}{\numberline {3.2}Requisitos Funcionais}{29}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Requisitos Não-Funcionais}{52}{section.3.3}%
+\contentsline {paragraph}{\nonumberline Subsistema de Análise e Desempenho}{63}{paragraph*.14}%
+\contentsline {chapter}{\numberline {4}Especificação e Modelação do Software}{71}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introdução e Contexto das Decisões Arquiteturais}{71}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Decisões Arquiteturais}{72}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Padrão Arquitetural Global}{72}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Sistema de Gestão de Base de Dados}{73}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Tecnologias e Stack de Backend}{74}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Paradigma de Comunicação e API}{75}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Apresentação Geral da Especificação}{76}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Modelação Estrutural}{77}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Modelo de Domínio}{77}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Diagrama de Classes}{79}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Diagrama de Componentes}{80}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Diagrama de Implantação}{82}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Matriz de Permissões RBAC}{83}{subsection.4.4.5}%
+\contentsline {section}{\numberline {4.5}Modelação Comportamental}{84}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Diagramas de Máquina de Estados}{84}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Diagramas de Casos de Uso}{90}{subsection.4.5.2}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Utilizadores}{96}{subsubsection*.15}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Desportiva}{99}{subsubsection*.16}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Clínica}{104}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Financeira}{113}{subsubsection*.18}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Instalações}{118}{subsubsection*.19}%
+\contentsline {subsection}{\numberline {4.5.3}Diagramas de Sequência}{123}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Diagramas de Atividade}{130}{subsection.4.5.4}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Registo de utilizador}{131}{subsubsection*.20}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Processamento de pagamento}{133}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Publicação de convocatória}{134}{subsubsection*.22}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Submissão e Validação de Atestado}{135}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Reserva de Instalação}{137}{subsubsection*.24}%
+\contentsline {section}{\numberline {4.6}Design de Interfaces}{138}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Identidade Visual e Princípios de Design}{138}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Esboços das Interfaces Principais}{139}{subsection.4.6.2}%
+\contentsline {subsubsection}{\nonumberline Ecrã de Login e Registo (RF-01)}{139}{subsubsection*.25}%
+\contentsline {subsubsection}{\nonumberline Dashboard do Treinador (RF-08)}{141}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline Perfil do Atleta e Encarregado (RF-11, RF-17)}{141}{subsubsection*.27}%
+\contentsline {subsubsection}{\nonumberline Dashboard da Secretaria (RF-01, RF-11, RF-14, RF-19)}{142}{subsubsection*.28}%
+\contentsline {section}{\numberline {4.7}Especificação de API (RESTful)}{143}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Validação da Especificação Construída}{147}{section.4.8}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,38 @@
+@startuml atividade_registo_utilizador
+!include _cap_skin.puml
+hide stereotypes
+
+title Diagrama de Atividade: Registo de Utilizador (RF-1.1)
+
+start
+
+:Candidato preenche formulário de registo;
+:Sistema valida formato de email e password;
+:Sistema verifica unicidade de Email e NIF;
+
+if (Dados já existem?) then (sim)
+    :Informar erro e sugerir recuperação;
+    stop
+else (não)
+    :Cifrar password (bcrypt);
+    :Criar conta com estado PENDENTE;
+    :Notificar Secretaria (RF-2.2);
+    :Exibir mensagem de sucesso ao Candidato;
+endif
+
+:Secretaria analisa pedido e documentos;
+
+if (Dados Válidos?) then (não)
+    :Rejeitar pedido e indicar motivo;
+    :Notificar Candidato;
+    stop
+else (sim)
+    :Aprovar Registo;
+    :Atribuir permissões (RBAC);
+    :Notificar Candidato da ativação;
+    :Estado conta = ATIVO;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,64 @@
+@startuml maquina_estados_atestado
+!include _cap_skin.puml
+hide stereotypes
+
+title Máquina de Estados: Ciclo de Vida do Atestado Médico (RF-11)
+
+[*] --> Submetido : atleta/encarregado\nsubmete ficheiro
+
+state Submetido {
+    note right
+        Ficheiro armazenado
+        de forma encriptada.
+        Aguarda análise da Secretaria.
+    end note
+}
+
+state PendenteValidacao {
+    note right
+        Secretaria foi notificada.
+        Documento em análise:
+        verificação de autenticidade
+        e data de validade.
+    end note
+}
+
+state Valido {
+    note right
+        Atestado aprovado.
+        Atleta passa para APTO
+        (se quotas regularizadas).
+        Alertas de caducidade
+        programados: 30, 15 e 7 dias.
+    end note
+}
+
+state Rejeitado {
+    note right
+        Documento inválido ou
+        prazo de validade incorreto.
+        Atleta notificado com motivo.
+        Deve submeter novo EMD.
+    end note
+}
+
+state Expirado {
+    note right
+        Data de validade atingida.
+        Atleta passa a InaptoClínico
+        automaticamente.
+        Novo EMD obrigatório.
+    end note
+}
+
+Submetido --> PendenteValidacao : secretaria\nnotificada
+PendenteValidacao --> Valido : [dados corretos]\naprovar
+PendenteValidacao --> Rejeitado : [dados inválidos]\nrejeitar com motivo
+Rejeitado --> Submetido : novo upload\npelo atleta
+Valido --> Expirado : [data_validade < hoje]\ncronjob diário
+Expirado --> Submetido : novo upload\npelo atleta
+
+Valido --> [*] : arquivado após\nsubstituição
+Rejeitado --> [*] : arquivado após\nsubstituição
+
+@enduml

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atestado Médico Desportivo - CAP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fcfcfc;
+        }
+        .document-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid #1a5f7a;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            background-color: #f0f0f0;
+            border: 2px dashed #a0a0a0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-right: 30px;
+            color: #666;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .title-section {
+            flex-grow: 1;
+        }
+        .title-section h1 {
+            margin: 0;
+            color: #1a5f7a;
+            font-size: 28px;
+        }
+        .title-section p {
+            margin: 5px 0 0 0;
+            color: #555;
+            font-size: 16px;
+        }
+        .section {
+            margin-bottom: 35px;
+        }
+        .section h2 {
+            background-color: #f4f8fa;
+            color: #1a5f7a;
+            padding: 10px 15px;
+            border-left: 5px solid #1a5f7a;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #fafafa;
+            width: 20%;
+            font-weight: 600;
+        }
+        .medical-statement {
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            background-color: #fff;
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 20px;
+        }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            text-align: center;
+            padding-top: 5px;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .doctor-info {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+        }
+        .stamp-placeholder {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #1a5f7a;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #1a5f7a;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0.3;
+            margin: 0 auto 20px auto;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        <div class="header">
+            <div class="logo-placeholder" style="border: none; background-color: transparent;">
+                <img src="https://i.imgur.com/SmzEMHA.png" alt="Logotipo CAP" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            </div>
+            <div class="title-section">
+                <h1>Atestado Médico Desportivo</h1>
+                <p><strong>Clube:</strong> CAP - Clube Atlético Principal</p>
+                <p><strong>Departamento:</strong> Médico e de Saúde Física</p>
+                <p><strong>Referência:</strong> AMD-2026/089</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>1. Identificação do Atleta</h2>
+            <table>
+                <tr>
+                    <th>Nome Completo</th>
+                    <td colspan="3">João Diogo Silva e Costa</td>
+                </tr>
+                <tr>
+                    <th>Data de Nascimento</th>
+                    <td>14 de Maio de 2002</td>
+                    <th>Nº Identificação Civil</th>
+                    <td>12345678</td>
+                </tr>
+                <tr>
+                    <th>Escalão / Modalidade</th>
+                    <td>Seniores - Futebol 11</td>
+                    <th>Nº de Atleta</th>
+                    <td>#01</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>2. Parecer Clínico</h2>
+            <div class="medical-statement">
+                Atesto, sob compromisso de honra, que o atleta acima identificado foi por mim observado nesta data e submetido aos exames médico-desportivos exigidos por lei.
+                <br><br>
+                Declaro que o mesmo não apresenta, no momento da presente avaliação, quaisquer contraindicações clínicas para a prática de desporto federado e de competição na referida modalidade.
+                <br><br>
+                <strong>Estatuto Clínico:</strong> <span class="status-badge">APTO</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. Informações Complementares</h2>
+            <table>
+                <tr>
+                    <th>Data do Exame</th>
+                    <td>23 de Março de 2026</td>
+                    <th>Validade (1 Ano)</th>
+                    <td>23 de Março de 2027</td>
+                </tr>
+                <tr>
+                    <th>Observações Adicionais</th>
+                    <td colspan="3">Recomenda-se reforço muscular na articulação do joelho esquerdo. Sem limitações para o treino regular.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-box" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <p style="font-size: 14px; color: #555; text-align: center; margin-bottom: 40px;">
+                    Local e Data:<br>
+                    <strong>Cidade, 23 de Março de 2026</strong>
+                </p>
+            </div>
+            <div class="signature-box">
+                <div class="stamp-placeholder">
+                    Carimbo Médico / Clínica
+                </div>
+                <div class="signature-line">
+                    Assinatura do Médico Responsável
+                </div>
+                <div class="doctor-info">
+                    <strong>Dr. Fernando Ribeiro</strong><br>
+                    Cédula Profissional da OM nº 98765<br>
+                    Especialidade: Medicina Desportiva
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

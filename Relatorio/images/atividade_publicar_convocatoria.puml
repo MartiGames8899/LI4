@@ -1,0 +1,30 @@
+@startuml atividade_publicar_convocatoria
+!include _cap_skin.puml
+hide stereotypes
+
+title Diagrama de Atividade: Publicação de Convocatória (RF-3.4)
+
+start
+
+:Treinador seleciona rascunho de convocatória;
+:Sistema valida aptidão (Quotas e Atestados);
+
+if (Existem atletas inaptos?) then (sim)
+    :Exibir alertas ao treinador;
+    :Treinador decide: manter ou substituir;
+endif
+
+:Treinador confirma publicação;
+:Estado da convocatória = PUBLICADA;
+:Disparar notificações (RF-2.2);
+
+:Atletas/Encarregados recebem alerta;
+:Atletas/Encarregados respondem (Sim/Não);
+:Sistema atualiza dashboard do treinador;
+
+:Evento ocorre;
+:Estado da convocatória = FINALIZADA;
+
+stop
+
+@enduml

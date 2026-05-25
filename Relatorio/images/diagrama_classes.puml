@@ -1,0 +1,288 @@
+@startuml diagrama_classes
+!include _cap_skin.puml
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 8
+skinparam dpi 150
+hide circle
+
+' ══════════════════════════════════════════
+' PACKAGE UTILIZADORES
+' ══════════════════════════════════════════
+package "Utilizadores" {
+
+    abstract class Utilizador {
+        - id : UUID
+        - nome : String
+        - email : String
+        - passwordHash : String
+        - estado : EstadoUtilizador
+        - dataCriacao : Date
+        + login(email: String, pwd: String) : String
+        + logout() : void
+        + atualizarPerfil(dados: Map) : void
+    }
+
+    class Atleta {
+        - dataNascimento : Date
+        - nif : String
+        - situacao : SituacaoAtleta
+        + isApto() : boolean
+        + getSituacao() : SituacaoAtleta
+    }
+
+    class Treinador {
+        - certificacao : String
+        + criarConvocatoria(eventoId: UUID) : Convocatoria
+    }
+
+    class EncarregadoEducacao {
+        - nif : String
+        + efetuarPagamento(quotaIds: List) : void
+    }
+
+    abstract class Funcionario {
+        - cargo : String
+    }
+
+    class Secretaria {
+        + aprovarRegisto(userId: UUID) : void
+        + validarAtestado(atestadoId: UUID) : void
+        + registarPagamentoManual(atletaId: UUID) : Fatura
+    }
+
+    class Gerencia {
+        + gerarQuotasEpoca(epoca: Epoca) : void
+        + gerarRelatorioSAFT(inicio: Date, fim: Date) : File
+    }
+
+    Atleta          --|> Utilizador
+    Treinador       --|> Utilizador
+    EncarregadoEducacao --|> Utilizador
+    Funcionario     --|> Utilizador
+    Secretaria      --|> Funcionario
+    Gerencia        --|> Funcionario
+
+    EncarregadoEducacao "1" o-- "*" Atleta : responsável por
+}
+
+' ══════════════════════════════════════════
+' PACKAGE DESPORTIVO
+' ══════════════════════════════════════════
+package "Desportivo" {
+
+    class Modalidade {
+        - id : UUID
+        - nome : String
+        - descricao : String
+    }
+
+    class Equipa {
+        - id : UUID
+        - nome : String
+        - escalao : String
+    }
+
+    class Plantel {
+        - id : UUID
+        - temporada : String
+    }
+
+    class AtletaPlantel {
+        - posicao : String
+        - numeroCamisola : int
+        - dataEntrada : Date
+    }
+
+    abstract class Evento {
+        - id : UUID
+        - data : DateTime
+        - local : String
+        - descricao : String
+    }
+
+    class Treino {
+        - tipo : TipoTreino
+        - duracaoMinutos : int
+    }
+
+    class Jogo {
+        - adversario : String
+        - resultado : String
+        - competicao : String
+    }
+
+    class Convocatoria {
+        - id : UUID
+        - estado : EstadoConvocatoria
+        - dataPublicacao : DateTime
+        + publicar() : void
+        + validarAtletas() : boolean
+        + cancelar() : void
+    }
+
+    class ItemConvocatoria {
+        - confirmacao : ConfirmacaoPresenca
+        - justificacao : String
+        - dataResposta : DateTime
+    }
+
+    class ParticipacaoJogo {
+        - minutosJogados : int
+        - golos : int
+        - cartoes : int
+        - notaQualitativa : int
+    }
+
+    class Estatistica {
+        - tipo : String
+        - valor : double
+        - unidade : String
+    }
+
+    Treino --|> Evento
+    Jogo   --|> Evento
+
+    Modalidade "1" o-- "*" Equipa    : possui
+    Equipa     "1" *-- "1" Plantel   : possui
+    Plantel    "1" o-- "*" AtletaPlantel : constituído por
+    Treinador  "*" -- "*" Equipa     : treina
+
+    Convocatoria "1" *-- "*" ItemConvocatoria : constituída por
+    Convocatoria "*" --> "1" Evento  : relativa a
+    Jogo         "1" *-- "*" ParticipacaoJogo : possui
+    ParticipacaoJogo "1" *-- "*" Estatistica  : regista
+}
+
+' ══════════════════════════════════════════
+' PACKAGE CLINICO
+' ══════════════════════════════════════════
+package "Clinico" {
+
+    class AtestadoMedico {
+        - id : UUID
+        - ficheiro : String
+        - dataValidade : Date
+        - estado : EstadoAtestado
+        - dataSubmissao : DateTime
+        + isValido() : boolean
+        + diasAteExpirar() : int
+    }
+
+    class QueixaFisica {
+        - id : UUID
+        - zonaAfetada : String
+        - intensidadeDor : int
+        - impede : boolean
+        - data : DateTime
+    }
+
+    class Lesao {
+        - id : UUID
+        - tipo : String
+        - gravidade : String
+        - dataRegisto : Date
+        - previsaoRecuperacao : Date
+        + isAtivo() : boolean
+    }
+}
+
+' ══════════════════════════════════════════
+' PACKAGE FINANCEIRO
+' ══════════════════════════════════════════
+package "Financeiro" {
+
+    class Epoca {
+        - id : UUID
+        - nome : String
+        - dataInicio : Date
+        - dataFim : Date
+        - ativa : boolean
+    }
+
+    class Quota {
+        - id : UUID
+        - valor : double
+        - dataVencimento : Date
+        - estado : EstadoQuota
+        + isEmAtraso() : boolean
+    }
+
+    abstract class Transacao {
+        - id : UUID
+        - valor : double
+        - data : DateTime
+        - referencia : String
+    }
+
+    class PagamentoQuota {
+        - metodo : MetodoPagamento
+        - transacaoGateway : String
+        - webhookStatus : String
+    }
+
+    class Fatura {
+        - numero : String
+        - nif : String
+        - linhas : String
+        + gerarPDF() : File
+    }
+
+    PagamentoQuota --|> Transacao
+    Fatura         --|> Transacao
+
+    Quota   "*" --> "1" Epoca   : relativa a
+    Quota   "1" --> "0..1" PagamentoQuota : paga por
+    PagamentoQuota "1" --> "1"  Fatura : gera
+}
+
+' ══════════════════════════════════════════
+' PACKAGE INFRAESTRUTURA
+' ══════════════════════════════════════════
+package "Infraestrutura" {
+
+    class Notificacao {
+        - id : UUID
+        - mensagem : String
+        - tipo : TipoNotificacao
+        - canal : CanalNotificacao
+        - dataEnvio : DateTime
+        - lida : boolean
+    }
+
+    class Instalacao {
+        - id : UUID
+        - nome : String
+        - tipo : String
+        - capacidade : int
+        - estado : EstadoInstalacao
+    }
+
+    class Reserva {
+        - id : UUID
+        - inicio : DateTime
+        - fim : DateTime
+        - estado : EstadoReserva
+        + verificarConflito() : boolean
+    }
+
+    Instalacao "1" o-- "*" Reserva : possui
+}
+
+' ══════════════════════════════════════════
+' RELAÇÕES INTER-PACKAGE
+' ══════════════════════════════════════════
+Atleta          "1" *-- "*" AtestadoMedico   : possui
+Atleta          "1" *-- "*" QueixaFisica     : regista
+Atleta          "1" *-- "*" Lesao            : possui
+Atleta          "1" *-- "*" Quota            : deve
+AtletaPlantel   "*" --> "1" Atleta           : refere
+ItemConvocatoria "*" --> "1" Atleta          : convoca
+ParticipacaoJogo "*" --> "1" Atleta          : refere
+Treinador       "1" *-- "*" Convocatoria     : emite
+EncarregadoEducacao "1" --> "*" PagamentoQuota : efetua
+Utilizador      "1" *-- "*" Notificacao      : recebe
+Secretaria      "1" --> "*" AtestadoMedico   : valida
+Reserva         "*" --> "1" Evento           : para
+Reserva         "*" --> "1" Equipa           : por
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml casos_uso_utilizadores
+!include _cap_skin.puml
+left to right direction
+
+actor "Atleta / Candidato" as Athlete
+actor "Encarregado" as Parent
+actor "Utilizador Autenticado" as User
+actor "Secretaria" as Secretary
+
+rectangle "Subsistema: Gestão de Utilizadores e Parental" {
+    usecase "Registar-se" as UC_Register
+    usecase "Iniciar Sessão" as UC_Login
+    usecase "Gerir Perfil" as UC_EditProfile
+    usecase "Associar Educandos" as UC_LinkParental
+    usecase "Aprovar Registo" as UC_ApproveRegistration
+}
+
+Athlete --> UC_Register
+Parent --> UC_Register
+
+User --> UC_Login
+User --> UC_EditProfile
+
+Parent --> UC_LinkParental
+
+Secretary --> UC_ApproveRegistration
+Secretary --> UC_EditProfile
+
+@enduml

@@ -1,0 +1,77 @@
+@startuml sequencia_pagamento_quota
+!include _cap_skin.puml
+hide footbox
+
+title Diagrama de Sequência: Pagamento de Quota (Resiliente)
+
+autonumber
+
+actor "Encarregado\nEducação" as Parent
+participant "Interface Web" as Web
+participant "API REST\n(ASP.NET)" as API
+database "PostgreSQL" as DB
+participant "Gateway\nPagamentos" as PaymentGW
+participant "Serviço\nFaturas" as InvoiceService
+
+Parent -> Web: 1. Seleciona quotas\ne método pagamento
+activate Web
+
+Web -> API: 2. POST /api/payments
+activate API
+
+API -> DB: 3. Carregar quotas\ne validar estado
+activate DB
+alt Quota em estado inválido
+    DB --> API: Erro validação
+    API --> Web: 400 Bad Request
+    Web --> Parent: Erro: Quota inválida
+else Quotas válidas
+    DB --> API: Quotas carregadas
+    deactivate DB
+    
+    API -> API: 4. Calcular montante total
+    
+    API -> PaymentGW: 5. POST /authorize\n(montante, método)
+    activate PaymentGW
+    PaymentGW --> API: Token autorização
+    deactivate PaymentGW
+    
+    API --> Web: 6. 200 OK\nExibir checkout
+    Web --> Parent: 7. Apresentar ecrã\nconfirmação pagamento
+    
+    Parent -> PaymentGW: 8. Confirma pagamento\n(3D Secure se necessário)
+    activate PaymentGW
+    PaymentGW --> Parent: 9. Sucesso/Falha (UI)
+    deactivate PaymentGW
+    
+    == Processo de Reconciliação (Webhook ou Polling) ==
+    
+    PaymentGW -> API: 10. Webhook:\npayment.completed
+    activate API
+    
+    API -> API: 11. Validar assinatura\ne idempotência
+    
+    API -> DB: 12. Atualizar Quota\nestado = Paga
+    activate DB
+    DB --> API: Confirmado
+    deactivate DB
+    
+    API -> InvoiceService: 13. Gerar Fatura PDF
+    activate InvoiceService
+    InvoiceService --> API: PDF gerado
+    deactivate InvoiceService
+    
+    API --> Web: 14. 200 Success\nNotificar utilizador
+    Web --> Parent: 15. Pagamento aceito!\nFatura em anexo
+    
+    deactivate API
+    deactivate Web
+end
+
+note over API, PaymentGW
+    Se o Webhook falhar, a API executa um 
+    Job de Reconciliação (Polling) a cada 
+    5 min para verificar o estado no Gateway.
+end note
+
+@enduml

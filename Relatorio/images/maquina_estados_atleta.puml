@@ -1,0 +1,71 @@
+@startuml maquina_estados_atleta
+!include _cap_skin.puml
+hide stereotypes
+
+title Máquina de Estados: Ciclo de Vida da Situação do Atleta
+
+[*] --> Registado
+
+state Registado {
+    note right
+        Atleta registado na
+        plataforma, a aguardar
+        filiação e documentação.
+    end note
+}
+
+state Apto {
+    note right
+        Atleta em plenas condições:
+        - EMD Válido
+        - Quotas em dia
+        - Sem lesões ativas
+        PODE ser convocado.
+    end note
+}
+
+state InaptoClinico {
+    note right
+        Atestado Médico (EMD)
+        ausente, rejeitado ou
+        caducado.
+        NÃO PODE treinar/jogar.
+    end note
+}
+
+state SuspensoFinanceiro {
+    note right
+        Múltiplas quotas em atraso.
+        Bloqueio automático ativo.
+        NÃO PODE ser convocado.
+    end note
+}
+
+state Lesionado {
+    note right
+        Atleta reportou lesão
+        ou queixa física.
+        NÃO PODE ser convocado.
+    end note
+}
+
+state Inativo {
+    note right
+        Atleta deixou o clube
+        ou época terminou.
+    end note
+}
+
+Registado --> InaptoClinico : submissão pendente
+InaptoClinico --> Apto : EMD validado
+Apto --> InaptoClinico : EMD caduca
+Apto --> SuspensoFinanceiro : quotas expiram
+SuspensoFinanceiro --> Apto : pagamento regularizado
+Apto --> Lesionado : lesão registada
+Lesionado --> Apto : alta médica (fisioterapeuta)
+InaptoClinico --> Inativo : saída
+SuspensoFinanceiro --> Inativo : saída / expulsão
+Apto --> Inativo : final de época
+Inativo --> [*]
+
+@enduml

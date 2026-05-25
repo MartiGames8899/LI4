@@ -1,0 +1,47 @@
+@startuml sequencia_login
+!include _cap_skin.puml
+skinparam dpi 150
+
+actor "Utilizador" as User
+participant "Frontend\n(React SPA)" as FE
+participant "API Gateway\n(ASP.NET Core)" as API
+participant "Auth Module" as Auth
+database "PostgreSQL" as DB
+
+User -> FE : Insere email e password
+FE -> API : POST /api/auth/login\n{email, password}
+
+API -> Auth : ValidarCredenciais(email, password)
+Auth -> DB : SELECT utilizador\nWHERE email = ?
+DB --> Auth : {id, passwordHash, estado, papel, tentativas}
+
+Auth -> Auth : VerificarHash(password, passwordHash)
+
+alt Credenciais inválidas
+  Auth -> DB : IncrementarTentativas(userId)
+  DB --> Auth : tentativas = N
+  alt tentativas >= 5
+    Auth -> DB : BloquearConta(userId, até = now+15min)
+    API --> FE : 423 Locked
+    FE --> User : "Conta bloqueada por 15 minutos"
+  else tentativas < 5
+    API --> FE : 401 Unauthorized
+    FE --> User : "Email ou password incorretos"
+  end
+
+else Conta pendente ou suspensa
+  Auth --> API : Estado inválido
+  API --> FE : 403 Forbidden
+  FE --> User : "Conta pendente de aprovação\nou suspensa"
+
+else Credenciais válidas e conta ativa
+  Auth -> Auth : GerarJWT(userId, papel,\nexpiração = 8h)
+  Auth -> DB : ResetarTentativas(userId)\nRegistarLogAcesso(userId, IP, timestamp)
+  DB --> Auth : OK
+  Auth --> API : {accessToken, expiresIn, role}
+  API --> FE : 200 OK\n{accessToken, expiresIn, role}
+  FE -> FE : Armazenar token\n(cookie httpOnly)
+  FE --> User : Redirecionar para\ndashboard do papel
+end
+
+@enduml

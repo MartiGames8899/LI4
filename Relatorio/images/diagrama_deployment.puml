@@ -1,0 +1,51 @@
+@startuml diagrama_deployment
+!include _cap_skin.puml
+skinparam dpi 150
+skinparam nodesep 30
+skinparam ranksep 40
+
+node "Dispositivos Cliente" as Clients {
+  node "Browser Web\n(React SPA)" as Browser
+  node "App Móvel\n(React Native)" as Mobile
+}
+
+cloud "Internet / HTTPS" as Internet
+
+node "Servidor de Aplicação\n(.NET 8 / Linux)" as AppServer {
+  component "API Gateway\n(ASP.NET Core 8)" as API
+  component "Módulo Utilizadores" as ModUsers
+  component "Módulo Desportivo" as ModSport
+  component "Módulo Clínico" as ModClin
+  component "Módulo Financeiro" as ModFin
+  component "Serviço Notificações\n(BackgroundService)" as ModNotif
+  component "Serviço SAF-T\n(BackgroundService)" as ModSaft
+}
+
+node "Servidor de Base de Dados" as DBServer {
+  database "PostgreSQL 16\n(EF Core)" as DB
+}
+
+cloud "Serviços Externos" {
+  component "Gateway Pagamentos\n(Easypay / Stripe)" as PayGW
+  component "Email / SMS\n(SendGrid / Twilio)" as EmailSMS
+}
+
+Browser -down-> Internet : HTTPS
+Mobile -down-> Internet : HTTPS
+Internet -down-> API : HTTPS / REST / JSON
+
+API -right-> ModUsers
+API -right-> ModSport
+API -right-> ModClin
+API -right-> ModFin
+
+ModNotif <-- ModUsers
+ModNotif <-- ModFin
+ModNotif --> EmailSMS : SMTP / REST API
+
+ModFin -down-> PayGW : REST API
+PayGW -up-> API : Webhook HMAC
+
+AppServer -down-> DB : TCP 5432
+
+@enduml

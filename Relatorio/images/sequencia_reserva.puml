@@ -1,0 +1,40 @@
+@startuml sequencia_reserva
+!include _cap_skin.puml
+hide footbox
+
+title Diagrama de Sequência: Reserva de Instalação (RF-7.1)
+
+autonumber
+
+actor "Treinador" as Coach
+participant "Frontend" as UI
+participant "API REST" as API
+database "PostgreSQL" as DB
+
+Coach -> UI: Solicita Reserva (recurso, horário)
+activate UI
+
+UI -> API: POST /api/v1/reservations
+activate API
+
+API -> DB: Verificar Conflitos (SQL Overlap)
+activate DB
+DB --> API: count (sobreposições)
+deactivate DB
+
+alt count > 0 (Conflito)
+    API --> UI: HTTP 409 Conflict
+    UI --> Coach: Exibe erro e sugestões
+else count == 0 (Livre)
+    API -> DB: INSERT INTO reservations (status='Confirmed')
+    activate DB
+    DB --> API: success
+    deactivate DB
+    API --> UI: HTTP 201 Created
+    UI --> Coach: Confirmação de Reserva
+end
+
+deactivate API
+deactivate UI
+
+@enduml

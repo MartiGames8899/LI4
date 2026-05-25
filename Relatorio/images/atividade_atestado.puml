@@ -1,0 +1,42 @@
+@startuml atividade_atestado
+!include _cap_skin.puml
+
+title Diagrama de Atividade: Submissao e Validacao de EMD (RF-4.1)
+
+|Atleta / Encarregado|
+start
+:Acede a Area Clinica;
+:Upload do Exame Medico (PDF/Imagem);
+:Insere data de validade;
+:Submete o Documento;
+
+|Sistema|
+:Valida integridade do ficheiro;
+if (Valido?) then (nao)
+    :Informar erro;
+    stop
+else (sim)
+    :Encriptar e Armazenar (RNF-01);
+    :Estado Atleta = Pendente de Validacao;
+    :Notificar Secretaria (RF-2.2);
+endif
+
+|Secretaria|
+:Analisa documento e data;
+if (Dados OK?) then (nao)
+    :Rejeitar com motivo;
+    |Sistema|
+    :Notificar Atleta;
+    stop
+else (sim)
+    |Secretaria|
+    :Aprovar Atestado;
+endif
+
+|Sistema|
+:Estado Atleta = Apto;
+:Agendar alerta de caducidade;
+:Notificar Atleta/Encarregado;
+stop
+
+@enduml

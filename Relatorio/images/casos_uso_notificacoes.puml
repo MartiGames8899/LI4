@@ -1,0 +1,23 @@
+@startuml casos_uso_notificacoes
+!include _cap_skin.puml
+left to right direction
+
+actor "Utilizador" as Utilizador
+actor "Sistema (Cronjob)" as Sistema
+
+rectangle "Subsistema: Gestão de Notificações" {
+    usecase "Consultar Caixa de Notificações" as UC1
+    usecase "Configurar Preferências de Alerta" as UC2
+    usecase "Disparar Alerta de Caducidade EMD" as UC3
+    usecase "Disparar Alerta de Quota em Atraso" as UC4
+    usecase "Notificar Alteração de Horário" as UC5
+}
+
+Utilizador --> UC1
+Utilizador --> UC2
+
+Sistema --> UC3
+Sistema --> UC4
+Sistema --> UC5
+
+@enduml

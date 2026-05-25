@@ -1,0 +1,29 @@
+@startuml casos_uso_instalacoes
+!include _cap_skin.puml
+left to right direction
+
+actor "Treinador" as Coach
+actor "Gerência" as Management
+actor "Atleta" as Athlete
+actor "Staff" as Staff
+
+rectangle "Subsistema: Gestão Logística e Instalações" {
+    usecase "Consultar Ocupação de Espaços" as UC1
+    usecase "Solicitar Reserva de Instalação" as UC2
+    usecase "Agendar Manutenção" as UC4
+    usecase "Encomendar Equipamento" as UC5
+}
+
+Coach --> UC1
+Coach --> UC2
+
+Management --> UC1
+Management --> UC4
+
+Athlete --> UC1
+Athlete --> UC5
+
+Staff --> UC2
+Staff --> UC4
+
+@enduml

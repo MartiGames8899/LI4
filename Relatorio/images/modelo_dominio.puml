@@ -1,0 +1,88 @@
+@startuml modelo_dominio
+!include _cap_skin.puml
+
+hide circle
+hide members
+
+top to bottom direction
+
+' ── Utilizadores e papéis ──────────────────────────────────────────
+class Utilizador
+class Atleta
+class Treinador
+class "Encarregado de Educação" as EncarregadoEducacao
+class Secretaria
+class Gerência
+
+Atleta --|> Utilizador : é um
+Treinador --|> Utilizador : é um
+EncarregadoEducacao --|> Utilizador : é um
+Secretaria --|> Utilizador : é um
+Gerência --|> Utilizador : é um
+
+' ── Organização desportiva ─────────────────────────────────────────
+class Modalidade
+class Equipa
+class Plantel
+class "Atleta no Plantel" as AtletaPlantel
+
+Modalidade "1" -- "*" Equipa : possui
+Equipa "1" -- "1" Plantel : possui
+Plantel "1" -- "*" AtletaPlantel : constituído por
+AtletaPlantel "*" -- "1" Atleta : refere
+Treinador "*" -- "*" Equipa : treina
+
+' ── Eventos, jogos e convocatórias ────────────────────────────────
+class Evento
+class Treino
+class Jogo
+class Convocatória
+class "Item na Convocatória" as ItemConvocatoria
+class "Participação em Jogo" as ParticipacaoJogo
+
+Treino --|> Evento : é um
+Jogo --|> Evento : é um
+Treinador "1" -- "*" Convocatória : emite
+Convocatória "1" -- "*" ItemConvocatoria : constituída por
+ItemConvocatoria "*" -- "1" Atleta : convoca
+Convocatória "*" -- "1" Evento : relativa a
+Jogo "1" -- "*" ParticipacaoJogo : possui
+ParticipacaoJogo "*" -- "1" Atleta : refere
+
+' ── Acompanhamento clínico ─────────────────────────────────────────
+class "Atestado Médico" as AtestadoMedico
+class "Queixa Física" as QueixaFisica
+class Lesão
+
+Atleta "1" -- "*" AtestadoMedico : possui
+Atleta "1" -- "*" QueixaFisica : regista
+Atleta "1" -- "*" Lesão : possui
+Secretaria "1" -- "*" AtestadoMedico : valida
+
+' ── Quotas, transações e faturação ────────────────────────────────
+class Época
+class Quota
+class "Pagamento de Quota" as PagamentoQuota
+class Fatura
+
+Atleta "1" -- "*" Quota : deve
+Quota "*" -- "1" Época : relativa a
+Quota "1" -- "0..1" PagamentoQuota : paga por
+PagamentoQuota "1" -- "1" Fatura : gera
+EncarregadoEducacao "1" -- "*" Atleta : responsável por
+EncarregadoEducacao "1" -- "*" PagamentoQuota : efetua
+
+' ── Instalações ────────────────────────────────────────────────────
+class Instalação
+class Reserva
+
+Instalação "1" -- "*" Reserva : possui
+Reserva "*" -- "1" Evento : para
+Reserva "*" -- "1" Equipa : por
+
+' ── Notificações ───────────────────────────────────────────────────
+class Notificação
+
+Utilizador "1" -- "*" Notificação : recebe
+
+@enduml

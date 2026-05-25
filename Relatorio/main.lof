@@ -1,0 +1,40 @@
+\babel@toc {portuguese}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagrama de Gant para planear a execuçao do projeto}}{10}{figure.2.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ata reunião 1}}{17}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Exemplo de questão do questionário enviado aos \textit {stakeholders}}}{28}{figure.3.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Modelo de domínio do sistema CAP.}}{78}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de classes do sistema CAP, organizado por pacote funcional.}}{79}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagrama de componentes da arquitetura do sistema CAP.}}{81}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagrama de implantação do sistema CAP.}}{82}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Diagrama de máquina de estados da situação do atleta.}}{84}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Diagrama de máquina de estados dos estados de uma quota.}}{85}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Diagrama de máquina de estados dos estados de uma convocatória.}}{86}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Diagrama de máquina de estados do ciclo de vida do Atestado Médico Desportivo (RF-11).}}{87}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Diagrama de máquina de estados do ciclo de vida de uma Reserva de Instalação (RF-20).}}{87}{figure.4.9}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Diagrama de máquina de estados do ciclo de vida de uma Lesão (RF-12).}}{89}{figure.4.10}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Diagrama de casos de uso geral (visão sintética dos seis agrupamentos funcionais).}}{90}{figure.4.11}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão de Utilizadores.}}{91}{figure.4.12}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão Desportiva.}}{92}{figure.4.13}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão Clínica.}}{93}{figure.4.14}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão Financeira.}}{94}{figure.4.15}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão de Notificações.}}{95}{figure.4.16}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Diagrama de casos de uso do subsistema de Gestão de Instalações.}}{96}{figure.4.17}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Diagrama de sequência relativo à autenticação e emissão de token JWT.}}{124}{figure.4.18}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Diagrama de sequência relativo ao registo de utilizador.}}{126}{figure.4.19}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Diagrama de sequência relativo ao pagamento eletrónico de quotas.}}{128}{figure.4.20}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Diagrama de sequência relativo à publicação de convocatórias.}}{129}{figure.4.21}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Diagrama de sequência relativo à reserva de instalação.}}{130}{figure.4.22}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Diagrama de atividade relativo ao registo de um utilizador.}}{131}{figure.4.23}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Diagrama de atividade relativo ao processamento de pagamento de quota.}}{133}{figure.4.24}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Diagrama de atividade relativo à publicação de uma convocatória.}}{134}{figure.4.25}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Diagrama de atividade relativo à submissão e validação do Exame Médico Desportivo.}}{135}{figure.4.26}%
+\contentsline {figure}{\numberline {4.27}{\ignorespaces Diagrama de atividade relativo à reserva de uma instalação desportiva do clube.}}{137}{figure.4.27}%
+\contentsline {figure}{\numberline {4.28}{\ignorespaces Esboço do ecrã de login e registo do sistema CAP.}}{140}{figure.4.28}%
+\contentsline {figure}{\numberline {4.29}{\ignorespaces Esboço do \textit {dashboard} principal do treinador.}}{141}{figure.4.29}%
+\contentsline {figure}{\numberline {4.30}{\ignorespaces Esboço do ecrã de perfil do atleta e encarregado de educação.}}{142}{figure.4.30}%
+\contentsline {figure}{\numberline {4.31}{\ignorespaces Esboço do \textit {dashboard} principal da Secretaria.}}{143}{figure.4.31}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,32 @@
+@startuml casos_uso_desportiva
+!include _cap_skin.puml
+left to right direction
+
+actor "Treinador" as Coach
+actor "Encarregado" as Parent
+actor "Atleta" as Athlete
+
+rectangle "Subsistema: Gestão Desportiva e Treinos" {
+    usecase "Consultar Plantel" as UC_ManageSquad
+    usecase "Marcar Treino" as UC_ScheduleTraining
+    usecase "Registar Assiduidade" as UC_TrackAttendance
+    usecase "Criar Convocatória" as UC_CreateCallout
+    usecase "Publicar Convocatória" as UC_PublishCallout
+    usecase "Responder Convocatória" as UC_RespondCallout
+    usecase "Registar Estatísticas de Jogo" as UC_LogGameStats
+}
+
+Coach --> UC_ManageSquad
+Coach --> UC_ScheduleTraining
+Coach --> UC_TrackAttendance
+Coach --> UC_CreateCallout
+Coach --> UC_PublishCallout
+Coach --> UC_LogGameStats
+
+Athlete --> UC_RespondCallout
+Parent --> UC_RespondCallout
+
+Athlete --> UC_ManageSquad
+Coach --> UC_RespondCallout : consulta respostas
+
+@enduml

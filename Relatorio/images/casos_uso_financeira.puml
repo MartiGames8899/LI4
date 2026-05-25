@@ -1,0 +1,26 @@
+@startuml casos_uso_financeira
+!include _cap_skin.puml
+left to right direction
+
+actor "Gerência" as Management
+actor "Encarregado" as Parent
+actor "Secretaria" as Secretary
+
+rectangle "Subsistema: Gestão Financeira e Fiscal" {
+    usecase "Gerar Quotas da Época" as UC_GenerateQuotas
+    usecase "Efetuar Pagamento" as UC_MakePayment
+    usecase "Registar Pagamento Manual" as UC_RegisterPayment
+    usecase "Consultar Situação Financeira" as UC_ViewFinance
+    usecase "Gerar Relatório SAF-T" as UC_ExportSAFT
+}
+
+Management --> UC_GenerateQuotas
+Management --> UC_ExportSAFT
+
+Parent --> UC_MakePayment
+Parent --> UC_ViewFinance
+
+Secretary --> UC_RegisterPayment
+Secretary --> UC_ViewFinance
+
+@enduml

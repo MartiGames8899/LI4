@@ -1,0 +1,100 @@
+ANÁLISE DE COMPLETUDE DO CAPÍTULO 4 — PERSPETIVA DE ENGENHEIRO DE SISTEMAS DE SOFTWARE
+Data: 2026-05-25
+====================================================================================
+
+O QUE EXISTE E ESTÁ CORRETO
+-----------------------------
+- Decisões arquiteturais (4 eixos): Monólito Modular, PostgreSQL, .NET 8, REST — fundamentadas e rastreadas a RNF ✓
+- Modelo de domínio: entidades e relações do domínio completo ✓
+- Diagrama de classes: 5 pacotes, atributos, métodos, visibilidade, herança ✓
+- Diagrama de componentes: decomposição em 7 módulos, integrações externas ✓
+- Máquinas de estado: Atleta, Quota, Convocatória, Atestado (4 entidades) ✓
+- Diagramas UC: 7 diagramas (geral + 6 subsistemas) ✓
+- Diagramas de sequência: Registo, Pagamento, Convocatória, Reserva (4) ✓
+- Diagramas de atividade: Registo, Pagamento, Convocatória, Atestado, Reserva (5) ✓
+- Mockups/wireframes: Login, Dashboard Treinador, Perfil Atleta (3) ✓
+- Especificação de API: 6 endpoints documentados (parcial)
+- Secção de validação: narrativa qualitativa (insuficiente)
+
+
+LACUNAS CRÍTICAS
+-----------------
+
+1. TABELAS DE CASO DE USO — cobertura de apenas 6 dos 23 RF
+
+   Existem 10 tabelas UC, mas apenas cobrem RF-01 (3 UC), RF-08 (2 UC), RF-11 (2 UC), RF-17, RF-19, RF-20.
+   Os seguintes 17 RFs não têm nenhuma tabela UC:
+
+   RF-02 — Gestão de Perfis Parentais (vinculação EE↔Atleta)
+   RF-03 — Sistema de Comunicação Interna (Chat)
+   RF-04 — Motor de Notificações Automáticas (configuração de preferências)
+   RF-05 — Gestão de Modalidades e Épocas (Gerência)
+   RF-06 — Planeamento de Horários e Treinos
+   RF-07 — Gestão de Presenças e Faltas
+   RF-09 — Planos de Treino e Recursos Táticos
+   RF-10 — Registo de Ocorrências e Disciplina
+   RF-12 — Gestão de Lesões e Recuperação
+   RF-13 — Acompanhamento Físico e Evolução de Métricas
+   RF-14 — Gestão Documental e Federativa
+   RF-15 — Painéis de Desempenho (Dashboards)
+   RF-16 — Avaliação Qualitativa e Objetivos
+   RF-18 — Contabilidade Global do Clube
+   RF-21 — Calendário de Eventos
+   RF-22 — Relatórios de Gestão
+   RF-23 — Auditoria e Logs do Sistema
+
+2. ENDPOINT DE AUTENTICAÇÃO EM FALTA
+   POST /api/auth/login não está documentado na especificação de API.
+   É o endpoint mais crítico do sistema — emite JWT, aplica RBAC.
+   A UC "Iniciar Sessão" e o diagrama de sequência de registo referenciam-no mas não existe na secção 4.7.
+
+3. DIAGRAMA DE DEPLOYMENT EM FALTA
+   O sistema integra: servidor .NET 8, PostgreSQL, Easypay/Stripe, SendGrid/Twilio,
+   clientes SPA React e React Native. Não existe nenhum diagrama de implantação UML.
+
+4. MATRIZ DE PERMISSÕES RBAC EM FALTA
+   5 papéis definidos (Atleta, Encarregado, Treinador, Secretaria, Gerência), RBAC especificado
+   em RNF-03. Não existe nenhuma tabela papel×operação. Risco direto de falhas de segurança
+   na implementação.
+
+
+LACUNAS SIGNIFICATIVAS
+-----------------------
+
+5. MÁQUINAS DE ESTADO EM FALTA
+   - Reserva: entidade tem estados (Pendente→Confirmada→Cancelada→Concluída) não formalizados.
+   - Lesão: entidade Lesao tem isAtivo() mas ciclo de vida (Ativa→Em Recuperação→Resolvida) não modelado.
+   Ambas afetam a lógica de isApto() do Atleta e bloqueios de convocatórias.
+
+6. DIAGRAMA DE SEQUÊNCIA DE LOGIN/JWT EM FALTA
+   O fluxo de emissão de token JWT, verificação de estado, bloqueio após 5 tentativas (RNF-01),
+   e refresh tokens não tem diagrama de sequência. É mais complexo do que parece.
+
+7. MOCKUP DA SECRETARIA EM FALTA
+   O LLM na secção 4.6 identificou o dashboard da Secretaria como ecrã crítico.
+   É o papel com maior variedade de operações (aprovações + validação atestados + pagamentos manuais).
+   Existe mockup para Treinador e Atleta, mas não para a Secretaria.
+
+8. ESPECIFICAÇÃO DE API — COVERAGE INSUFICIENTE
+   6 endpoints cobrem apenas os fluxos dos 4 diagramas de sequência.
+   Faltam endpoints para módulos desportivos, clínicos, financeiros e administrativos.
+   Um sistema desta dimensão requer 30+ endpoints.
+
+
+PROBLEMA NA SECÇÃO 4.8 (VALIDAÇÃO)
+-------------------------------------
+A secção 4.8 afirma completude mas não existe mapa de rastreabilidade RF→artefacto.
+Uma validação rigorosa requer tabela: RF × (Modelo Domínio | Classes | UC Diagram | Tabela UC | Sequência | Atividade | API).
+
+
+RESUMO POR PRIORIDADE
+----------------------
+Alta:   Adicionar tabelas UC para os 17 RF sem cobertura
+Alta:   Documentar POST /api/auth/login na especificação de API
+Alta:   Adicionar diagrama de Deployment
+Alta:   Adicionar matriz de permissões RBAC (papel × operação)
+Média:  Máquina de estados para Reserva e Lesão
+Média:  Diagrama de sequência de Login/JWT
+Média:  Mockup da Secretaria
+Baixa:  Expandir especificação de API para os módulos desportivos e financeiros
+Baixa:  Reescrever secção 4.8 com tabela de rastreabilidade RF → artefacto

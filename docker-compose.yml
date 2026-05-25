@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16
+    container_name: cap_postgres
+    environment:
+      POSTGRES_USER: cap_user
+      POSTGRES_PASSWORD: cap_password
+      POSTGRES_DB: cap_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - cap_db_data_v2:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: cap_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cap.pt
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cap_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Database=cap_db;Username=cap_user;Password=cap_password
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./src/CAP.Frontend
+      dockerfile: Dockerfile
+    container_name: cap_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  cap_db_data_v2:
