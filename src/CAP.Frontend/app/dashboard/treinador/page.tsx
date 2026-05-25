@@ -264,7 +264,7 @@ export default function DashboardTreinadorPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <Button variant="outline" className="h-auto py-4 flex-col gap-2" onClick={() => router.push("/dashboard/treinador/convocatorias/nova")}>
+              <Button variant="outline" className="h-auto py-4 flex-col gap-2" onClick={() => router.push("/dashboard/treinador/convocatorias")}>
                 <ClipboardList className="size-5" />
                 <span>Nova Convocatoria</span>
               </Button>
