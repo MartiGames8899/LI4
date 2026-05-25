@@ -1,23 +1,44 @@
-# Build Stage
-FROM node:20-alpine AS build
+# Build stage
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Instalar dependências
-COPY package*.json ./
-RUN npm install
+# Copy package files
+COPY package.json package-lock.json* ./
 
-# Copiar resto do código e compilar
-COPY . .
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY app/ ./app/
+COPY components/ ./components/
+COPY lib/ ./lib/
+COPY hooks/ ./hooks/
+COPY public/ ./public/
+COPY tsconfig.json next.config.mjs postcss.config.mjs eslint.config.mjs components.json ./
+
+# Build the application
 RUN npm run build
 
-# Production Stage com Nginx
-FROM nginx:alpine
+# Production stage
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# Copiar o ficheiro de configuração customizado do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Copiar a build estática do React para a pasta html do Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Copy built assets
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]

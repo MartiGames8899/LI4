@@ -1,47 +1,65 @@
+version: '3.8'
+
 services:
+  # Base de dados PostgreSQL
   db:
-    image: postgres:16
-    container_name: cap_postgres
+    image: postgres:15-alpine
+    container_name: cap-db
     environment:
       POSTGRES_USER: cap_user
-      POSTGRES_PASSWORD: cap_password
-      POSTGRES_DB: cap_db
+      POSTGRES_PASSWORD: cap_password_123
+      POSTGRES_DB: cap_database
     ports:
       - "5432:5432"
     volumes:
-      - cap_db_data_v2:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cap_user -d cap_database"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cap-network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: cap_pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@cap.pt
-      PGADMIN_DEFAULT_PASSWORD: admin_password
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
-
+  # Backend .NET API
   api:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: cap_api
+      dockerfile: src/CAP.API/Dockerfile
+    container_name: cap-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Database=cap_db;Username=cap_user;Password=cap_password
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=cap_database;Username=cap_user;Password=cap_password_123
+      - Jwt__Key=ChaveSecretaMuitoSeguraParaJWTTokensDoCAP2024!
+      - Jwt__Issuer=CAP.API
+      - Jwt__Audience=CAP.Frontend
+    ports:
+      - "5000:5000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - cap-network
 
+  # Frontend Next.js
   frontend:
     build:
-      context: ./src/CAP.Frontend
+      context: src/CAP.Frontend
       dockerfile: Dockerfile
-    container_name: cap_frontend
+    container_name: cap-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
     ports:
-      - "8080:80"
+      - "3000:3000"
     depends_on:
       - api
+    networks:
+      - cap-network
 
 volumes:
-  cap_db_data_v2:
+  postgres_data:
+
+networks:
+  cap-network:
+    driver: bridge
