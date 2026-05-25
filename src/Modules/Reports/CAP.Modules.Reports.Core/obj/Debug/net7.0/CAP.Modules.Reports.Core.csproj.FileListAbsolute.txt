@@ -1,0 +1,15 @@
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\bin\Debug\net7.0\CAP.Modules.Reports.Core.deps.json
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\bin\Debug\net7.0\CAP.Modules.Reports.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\bin\Debug\net7.0\CAP.Modules.Reports.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\bin\Debug\net7.0\CAP.Shared.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\bin\Debug\net7.0\CAP.Shared.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.csproj.AssemblyReference.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.AssemblyInfoInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.AssemblyInfo.cs
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.csproj.CoreCompileInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.csproj.CopyComplete
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\refint\CAP.Modules.Reports.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\CAP.Modules.Reports.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\obj\Debug\net7.0\ref\CAP.Modules.Reports.Core.dll

@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CAP.Shared\CAP.Shared.csproj" />
+    <ProjectReference Include="..\Modules\Users\CAP.Modules.Users.Data\CAP.Modules.Users.Data.csproj" />
+    <ProjectReference Include="..\Modules\Users\CAP.Modules.Users.Api\CAP.Modules.Users.Api.csproj" />
+    <ProjectReference Include="..\Modules\Sports\CAP.Modules.Sports.Core\CAP.Modules.Sports.Core.csproj" />
+    <ProjectReference Include="..\Modules\Sports\CAP.Modules.Sports.Data\CAP.Modules.Sports.Data.csproj" />
+    <ProjectReference Include="..\Modules\Sports\CAP.Modules.Sports.Api\CAP.Modules.Sports.Api.csproj" />
+    <ProjectReference Include="..\Modules\Clinical\CAP.Modules.Clinical.Core\CAP.Modules.Clinical.Core.csproj" />
+    <ProjectReference Include="..\Modules\Clinical\CAP.Modules.Clinical.Data\CAP.Modules.Clinical.Data.csproj" />
+    <ProjectReference Include="..\Modules\Clinical\CAP.Modules.Clinical.Api\CAP.Modules.Clinical.Api.csproj" />
+    <ProjectReference Include="..\Modules\Finance\CAP.Modules.Finance.Core\CAP.Modules.Finance.Core.csproj" />
+    <ProjectReference Include="..\Modules\Finance\CAP.Modules.Finance.Data\CAP.Modules.Finance.Data.csproj" />
+    <ProjectReference Include="..\Modules\Finance\CAP.Modules.Finance.Api\CAP.Modules.Finance.Api.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\CAP.Modules.Notifications.Core\CAP.Modules.Notifications.Core.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\CAP.Modules.Notifications.Data\CAP.Modules.Notifications.Data.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\CAP.Modules.Notifications.Api\CAP.Modules.Notifications.Api.csproj" />
+    <ProjectReference Include="..\Modules\Facilities\CAP.Modules.Facilities.Core\CAP.Modules.Facilities.Core.csproj" />
+    <ProjectReference Include="..\Modules\Facilities\CAP.Modules.Facilities.Data\CAP.Modules.Facilities.Data.csproj" />
+    <ProjectReference Include="..\Modules\Facilities\CAP.Modules.Facilities.Api\CAP.Modules.Facilities.Api.csproj" />
+    <ProjectReference Include="..\Modules\Reports\CAP.Modules.Reports.Core\CAP.Modules.Reports.Core.csproj" />
+    <ProjectReference Include="..\Modules\Reports\CAP.Modules.Reports.Data\CAP.Modules.Reports.Data.csproj" />
+    <ProjectReference Include="..\Modules\Reports\CAP.Modules.Reports.Api\CAP.Modules.Reports.Api.csproj" />
+  </ItemGroup>
+
+</Project>

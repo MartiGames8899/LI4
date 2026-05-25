@@ -1,0 +1,15 @@
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\bin\Debug\net7.0\CAP.Modules.Finance.Core.deps.json
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\bin\Debug\net7.0\CAP.Modules.Finance.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\bin\Debug\net7.0\CAP.Modules.Finance.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\bin\Debug\net7.0\CAP.Shared.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\bin\Debug\net7.0\CAP.Shared.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.csproj.AssemblyReference.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.AssemblyInfoInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.AssemblyInfo.cs
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.csproj.CoreCompileInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.csproj.CopyComplete
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\refint\CAP.Modules.Finance.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\CAP.Modules.Finance.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Finance\CAP.Modules.Finance.Core\obj\Debug\net7.0\ref\CAP.Modules.Finance.Core.dll

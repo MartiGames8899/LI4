@@ -1,0 +1,15 @@
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\bin\Debug\net7.0\CAP.Modules.Clinical.Core.deps.json
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\bin\Debug\net7.0\CAP.Modules.Clinical.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\bin\Debug\net7.0\CAP.Modules.Clinical.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\bin\Debug\net7.0\CAP.Shared.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\bin\Debug\net7.0\CAP.Shared.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.csproj.AssemblyReference.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.AssemblyInfoInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.AssemblyInfo.cs
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.csproj.CoreCompileInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.csproj.CopyComplete
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\refint\CAP.Modules.Clinical.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\CAP.Modules.Clinical.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Clinical\CAP.Modules.Clinical.Core\obj\Debug\net7.0\ref\CAP.Modules.Clinical.Core.dll

@@ -1,0 +1,17 @@
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Modules.Reports.Data.deps.json
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Modules.Reports.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Modules.Reports.Data.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Modules.Reports.Core.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Shared.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Modules.Reports.Core.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\bin\Debug\net7.0\CAP.Shared.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.csproj.AssemblyReference.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.AssemblyInfoInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.AssemblyInfo.cs
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.csproj.CoreCompileInputs.cache
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.csproj.CopyComplete
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\refint\CAP.Modules.Reports.Data.dll
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\CAP.Modules.Reports.Data.pdb
+C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Data\obj\Debug\net7.0\ref\CAP.Modules.Reports.Data.dll

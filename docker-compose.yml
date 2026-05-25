@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # Base de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: cap-db
+    environment:
+      POSTGRES_USER: cap_user
+      POSTGRES_PASSWORD: cap_password_123
+      POSTGRES_DB: cap_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cap_user -d cap_database"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cap-network
+
+  # Backend .NET API
+  api:
+    build:
+      context: .
+      dockerfile: src/CAP.API/Dockerfile
+    container_name: cap-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=cap_database;Username=cap_user;Password=cap_password_123
+      - Jwt__Key=ChaveSecretaMuitoSeguraParaJWTTokensDoCAP2024!
+      - Jwt__Issuer=CAP.API
+      - Jwt__Audience=CAP.Frontend
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cap-network
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: cap-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - cap-network
+
+volumes:
+  postgres_data:
+
+networks:
+  cap-network:
+    driver: bridge
