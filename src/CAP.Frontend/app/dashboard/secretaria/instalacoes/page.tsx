@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -44,23 +44,57 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const mockInstalacoes = [
-  { id: 1, nome: "Campo Principal", tipo: "campo", capacidade: 200, estado: "disponivel" },
-  { id: 2, nome: "Campo Secundario", tipo: "campo", capacidade: 100, estado: "disponivel" },
-  { id: 3, nome: "Pavilhao Gimnodesportivo", tipo: "pavilhao", capacidade: 500, estado: "manutencao" },
-  { id: 4, nome: "Sala de Reunioes", tipo: "sala", capacidade: 20, estado: "disponivel" },
-]
+interface Instalacao {
+  id: string;
+  nome: string;
+  tipo: string;
+  capacidade: number;
+  estado: number; // 0 = Disponivel, 1 = EmManutencao
+}
 
-const mockReservas = [
-  { id: 1, instalacao: "Campo Principal", equipa: "Sub-15", data: "2025-01-27", hora: "18:30-20:00", responsavel: "Carlos Treinador" },
-  { id: 2, instalacao: "Campo Principal", equipa: "Sub-13", data: "2025-01-28", hora: "17:00-18:30", responsavel: "Manuel Treinador" },
-  { id: 3, instalacao: "Campo Secundario", equipa: "Sub-11", data: "2025-01-27", hora: "17:00-18:30", responsavel: "Ana Treinadora" },
-  { id: 4, instalacao: "Sala de Reunioes", equipa: "Direcao", data: "2025-01-29", hora: "20:00-21:00", responsavel: "Jose Presidente" },
-]
+interface Reserva {
+  id: string;
+  espacoId: string;
+  utilizadorId: string;
+  titulo: string;
+  dataInicio: string;
+  dataFim: string;
+  estado: number;
+}
+
+import { fetchApi } from "@/lib/api"
 
 export default function InstalacoesSecretariaPage() {
   const router = useRouter()
   const [novaReservaOpen, setNovaReservaOpen] = useState(false)
+
+  const [instalacoes, setInstalacoes] = useState<Instalacao[]>([])
+  const [reservas, setReservas] = useState<Reserva[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Form states
+  const [novaReserva, setNovaReserva] = useState({
+    espacoId: "",
+    titulo: "",
+    data: "",
+    horaInicio: "",
+    horaFim: "",
+  })
+
+  const loadData = async () => {
+    try {
+      const [spaces, calendar] = await Promise.all([
+        fetchApi<Instalacao[]>('/api/facilities/spaces').catch(() => []),
+        fetchApi<Reserva[]>('/api/facilities/calendar?start=2020-01-01&end=2030-01-01').catch(() => [])
+      ])
+      setInstalacoes(spaces)
+      setReservas(calendar)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -71,11 +105,46 @@ export default function InstalacoesSecretariaPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "secretaria") {
       router.push("/")
+    } else {
+      loadData()
     }
   }, [router])
 
-  const disponiveis = mockInstalacoes.filter((i) => i.estado === "disponivel").length
-  const reservasHoje = mockReservas.filter((r) => r.data === "2025-01-27").length
+  const handleCreateReservation = async () => {
+    try {
+      const start = new Date(`${novaReserva.data}T${novaReserva.horaInicio}`).toISOString()
+      const end = new Date(`${novaReserva.data}T${novaReserva.horaFim}`).toISOString()
+      
+      await fetchApi('/api/facilities/reservations', {
+        method: "POST",
+        body: JSON.stringify({
+          espacoId: novaReserva.espacoId,
+          titulo: novaReserva.titulo,
+          dataInicio: start,
+          dataFim: end,
+          isManutencao: false
+        })
+      })
+      setNovaReservaOpen(false)
+      loadData()
+    } catch (e) {
+      console.error(e)
+      alert("Erro ao criar reserva (possÃ­vel conflito de horÃ¡rio)")
+    }
+  }
+
+  const handleDeleteReserva = async (id: string) => {
+    if (!confirm("Eliminar esta reserva?")) return
+    try {
+      await fetchApi(`/api/facilities/reservations/${id}`, { method: "DELETE" })
+      setReservas(prev => prev.filter(r => r.id !== id))
+    } catch {
+      alert("Erro ao eliminar reserva")
+    }
+  }
+
+  const disponiveis = instalacoes.filter((i) => i.estado === 0).length
+  const reservasHoje = reservas.filter((r) => new Date(r.dataInicio).toDateString() === new Date().toDateString()).length
 
   return (
     <DashboardLayout role="secretaria" userName="Ana Secretaria">
@@ -100,13 +169,12 @@ export default function InstalacoesSecretariaPage() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Instalacao</Label>
-                  <Select>
+                  <Select value={novaReserva.espacoId} onValueChange={(val) => setNovaReserva({ ...novaReserva, espacoId: val ?? "" })}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione a instalacao" />
                     </SelectTrigger>
                     <SelectContent>
-                      {mockInstalacoes
-                        .filter((i) => i.estado === "disponivel")
+                      {instalacoes
                         .map((i) => (
                           <SelectItem key={i.id} value={i.id.toString()}>
                             {i.nome}
@@ -116,29 +184,29 @@ export default function InstalacoesSecretariaPage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Equipa/Grupo</Label>
-                  <Input placeholder="Ex: Sub-15, Direcao, etc." />
+                  <Label>Equipa/Grupo (Titulo)</Label>
+                  <Input placeholder="Ex: Sub-15, Direcao, etc." value={novaReserva.titulo} onChange={e => setNovaReserva({ ...novaReserva, titulo: e.target.value })} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Data</Label>
-                    <Input type="date" />
+                    <Input type="date" value={novaReserva.data} onChange={e => setNovaReserva({ ...novaReserva, data: e.target.value })} />
                   </div>
                   <div className="space-y-2">
-                    <Label>Horario</Label>
-                    <Input placeholder="18:30-20:00" />
+                    <Label>Horas (Inicio - Fim)</Label>
+                    <div className="flex items-center gap-2">
+                      <Input type="time" value={novaReserva.horaInicio} onChange={e => setNovaReserva({ ...novaReserva, horaInicio: e.target.value })} />
+                      <span>-</span>
+                      <Input type="time" value={novaReserva.horaFim} onChange={e => setNovaReserva({ ...novaReserva, horaFim: e.target.value })} />
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Responsavel</Label>
-                  <Input placeholder="Nome do responsavel" />
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setNovaReservaOpen(false)}>
                   Cancelar
                 </Button>
-                <Button onClick={() => setNovaReservaOpen(false)}>
+                <Button onClick={handleCreateReservation} disabled={!novaReserva.espacoId || !novaReserva.data || !novaReserva.horaInicio || !novaReserva.horaFim}>
                   Confirmar Reserva
                 </Button>
               </DialogFooter>
@@ -155,7 +223,7 @@ export default function InstalacoesSecretariaPage() {
               <Building2 className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockInstalacoes.length}</div>
+              <div className="text-2xl font-bold">{instalacoes.length}</div>
             </CardContent>
           </Card>
 
@@ -191,7 +259,7 @@ export default function InstalacoesSecretariaPage() {
               <Clock className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockReservas.length}</div>
+              <div className="text-2xl font-bold">{reservas.length}</div>
             </CardContent>
           </Card>
         </div>
@@ -204,7 +272,7 @@ export default function InstalacoesSecretariaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockInstalacoes.map((instalacao) => (
+                {instalacoes.map((instalacao) => (
                   <div
                     key={instalacao.id}
                     className="flex items-center justify-between p-4 rounded-lg border"
@@ -217,16 +285,16 @@ export default function InstalacoesSecretariaPage() {
                         <p className="font-medium">{instalacao.nome}</p>
                         <p className="text-sm text-muted-foreground flex items-center gap-2">
                           <Users className="size-3" />
-                          Capacidade: {instalacao.capacidade}
+                          Capacidade: {instalacao.capacidade || "N/A"}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <Badge
-                        variant={instalacao.estado === "disponivel" ? "secondary" : "outline"}
-                        className={instalacao.estado === "disponivel" ? "bg-success/10 text-success" : ""}
+                        variant={instalacao.estado === 0 ? "secondary" : "outline"}
+                        className={instalacao.estado === 0 ? "bg-success/10 text-success" : ""}
                       >
-                        {instalacao.estado === "disponivel" ? (
+                        {instalacao.estado === 0 ? (
                           <>
                             <CheckCircle className="size-3 mr-1" />
                             Disponivel
@@ -269,35 +337,35 @@ export default function InstalacoesSecretariaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockReservas.map((reserva) => (
-                  <div
-                    key={reserva.id}
-                    className="flex items-center justify-between p-4 rounded-lg bg-secondary/30"
-                  >
-                    <div>
-                      <p className="font-medium">{reserva.instalacao}</p>
-                      <p className="text-sm text-muted-foreground">{reserva.equipa}</p>
-                      <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="size-3" />
-                          {new Date(reserva.data).toLocaleDateString("pt-PT")}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="size-3" />
-                          {reserva.hora}
-                        </span>
+                {reservas.map((reserva) => {
+                  const espaco = instalacoes.find(i => i.id === reserva.espacoId);
+                  return (
+                    <div
+                      key={reserva.id}
+                      className="flex items-center justify-between p-4 rounded-lg bg-secondary/30"
+                    >
+                      <div>
+                        <p className="font-medium">{espaco?.nome || "EspaÃ§o Desconhecido"}</p>
+                        <p className="text-sm text-muted-foreground">{reserva.titulo}</p>
+                        <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="size-3" />
+                            {new Date(reserva.dataInicio).toLocaleDateString("pt-PT")}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="size-3" />
+                            {new Date(reserva.dataInicio).toLocaleTimeString("pt-PT", {hour: '2-digit', minute:'2-digit'})} - {new Date(reserva.dataFim).toLocaleTimeString("pt-PT", {hour: '2-digit', minute:'2-digit'})}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="icon" className="size-8 text-destructive" onClick={() => handleDeleteReserva(reserva.id)}>
+                          <Trash2 className="size-4" />
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon" className="size-8">
-                        <Edit className="size-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="size-8 text-destructive">
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </CardContent>
           </Card>

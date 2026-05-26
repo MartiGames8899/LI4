@@ -4880,11 +4880,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
       "projectName": "CAP.Modules.Users.Api",
-      "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
+      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4899,11 +4899,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-              "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+            "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
             },
-            "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
-              "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
+            "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
             }
           }
         }

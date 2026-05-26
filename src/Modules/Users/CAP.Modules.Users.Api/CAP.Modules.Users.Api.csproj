@@ -3,6 +3,10 @@
   <ItemGroup>
     <ProjectReference Include="..\CAP.Modules.Users.Core\CAP.Modules.Users.Core.csproj" />
     <ProjectReference Include="..\CAP.Modules.Users.Data\CAP.Modules.Users.Data.csproj" />
+    <ProjectReference Include="..\..\Clinical\CAP.Modules.Clinical.Data\CAP.Modules.Clinical.Data.csproj" />
+    <ProjectReference Include="..\..\Clinical\CAP.Modules.Clinical.Core\CAP.Modules.Clinical.Core.csproj" />
+    <ProjectReference Include="..\..\Sports\CAP.Modules.Sports.Data\CAP.Modules.Sports.Data.csproj" />
+    <ProjectReference Include="..\..\Sports\CAP.Modules.Sports.Core\CAP.Modules.Sports.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

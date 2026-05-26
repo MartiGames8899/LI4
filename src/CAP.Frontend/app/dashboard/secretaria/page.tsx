@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -29,34 +29,23 @@ interface User {
   role: string
 }
 
-const mockStats = {
-  totalSocios: 156,
-  sociosAtivos: 142,
-  novosSociosMes: 8,
-  totalAtletas: 87,
-  quotasEmAtraso: 23,
-  valorEmAtraso: 1250,
-  atestadosExpirados: 12,
-  reservasHoje: 4,
-}
-
-const mockRecentActivity = [
-  { id: 1, tipo: "pagamento", descricao: "Pagamento de quota - Joao Silva", valor: 25, data: "Hoje, 14:30" },
-  { id: 2, tipo: "inscricao", descricao: "Nova inscricao - Maria Santos", data: "Hoje, 11:15" },
-  { id: 3, tipo: "atestado", descricao: "Atestado submetido - Pedro Costa", data: "Ontem, 16:45" },
-  { id: 4, tipo: "reserva", descricao: "Reserva Campo 1 - Sub-15", data: "Ontem, 10:00" },
-]
-
-const initialQuotasAtraso = [
-  { id: 1, nome: "Carlos Almeida", meses: 3, valor: 75, notificado: false },
-  { id: 2, nome: "Ana Ferreira", meses: 2, valor: 50, notificado: false },
-  { id: 3, nome: "Bruno Martins", meses: 2, valor: 50, notificado: false },
-]
+// Mocks removed
 
 export default function DashboardSecretariaPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
-  const [quotasAtraso, setQuotasAtraso] = useState(initialQuotasAtraso)
+  const [quotasAtraso, setQuotasAtraso] = useState<any[]>([])
+  const [recentActivity, setRecentActivity] = useState<any[]>([])
+  
+  const [stats, setStats] = useState({
+    totalSocios: 0,
+    sociosAtivos: 0,
+    novosSociosMes: 0,
+    totalAtletas: 0,
+    quotasEmAtraso: 0,
+    valorEmAtraso: 0,
+    atestadosExpirados: 0
+  })
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -70,6 +59,55 @@ export default function DashboardSecretariaPage() {
       return
     }
     setUser(parsed)
+
+    const loadDashboardData = async () => {
+      try {
+        const { fetchApi } = await import('@/lib/api')
+        const [socios, quotas, atestados, atletas, pagamentos] = await Promise.all([
+          fetchApi<any[]>('/api/users/socios').catch(() => []),
+          fetchApi<any[]>('/api/finance/quotas/atraso').catch(() => []),
+          fetchApi<any[]>('/api/clinical/certificates').catch(() => []),
+          fetchApi<any[]>('/api/users/athletes').catch(() => []),
+          fetchApi<any[]>('/api/finance/payments').catch(() => []) // from Phase 2
+        ])
+        
+        setStats({
+          totalSocios: socios.length,
+          sociosAtivos: socios.filter(s => s.estado === 'Ativo').length,
+          novosSociosMes: socios.filter(s => new Date(s.dataInscricao).getMonth() === new Date().getMonth()).length,
+          totalAtletas: atletas.length,
+          quotasEmAtraso: quotas.length,
+          valorEmAtraso: quotas.reduce((sum, q) => sum + (q.valorTotal || 0), 0),
+          atestadosExpirados: atestados.filter(a => new Date(a.dataExpiracao) < new Date()).length
+        })
+
+        // Map quotasAtraso list
+        const atrasoMapped = quotas.slice(0, 5).map(q => ({
+            id: q.id,
+            nome: q.socio?.nome || "Socio",
+            meses: 1, // simplified
+            valor: q.valorTotal,
+            notificado: false
+        }))
+        setQuotasAtraso(atrasoMapped)
+
+        // Map recentActivity from payments
+        const recentPayments = pagamentos
+            .sort((a,b) => new Date(b.dataPagamento).getTime() - new Date(a.dataPagamento).getTime())
+            .slice(0, 5)
+            .map((p, i) => ({
+                id: i,
+                tipo: "pagamento",
+                descricao: `Pagamento recebido - ReferÃªncia ${p.referencia || ''}`,
+                valor: p.valor,
+                data: new Date(p.dataPagamento).toLocaleString("pt-PT")
+            }))
+        setRecentActivity(recentPayments)
+      } catch (err) {
+        console.error("Erro ao carregar dashboard", err)
+      }
+    }
+    loadDashboardData()
   }, [router])
 
   if (!user) {
@@ -111,10 +149,10 @@ export default function DashboardSecretariaPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockStats.totalSocios}</div>
+              <div className="text-2xl font-bold">{stats.totalSocios}</div>
               <div className="flex items-center text-xs text-success mt-1">
                 <TrendingUp className="size-3 mr-1" />
-                +{mockStats.novosSociosMes} este mes
+                +{stats.novosSociosMes} este mes
               </div>
             </CardContent>
           </Card>
@@ -127,7 +165,7 @@ export default function DashboardSecretariaPage() {
               <Users className="size-4 text-cap-navy" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockStats.totalAtletas}</div>
+              <div className="text-2xl font-bold">{stats.totalAtletas}</div>
               <p className="text-xs text-muted-foreground">Em todas as equipas</p>
             </CardContent>
           </Card>
@@ -140,10 +178,10 @@ export default function DashboardSecretariaPage() {
               <CreditCard className="size-4 text-cap-red" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-red">{mockStats.quotasEmAtraso}</div>
+              <div className="text-2xl font-bold text-cap-red">{stats.quotasEmAtraso}</div>
               <div className="flex items-center text-xs text-cap-red mt-1">
                 <Euro className="size-3 mr-1" />
-                {mockStats.valorEmAtraso}EUR em divida
+                {stats.valorEmAtraso}EUR em divida
               </div>
             </CardContent>
           </Card>
@@ -156,16 +194,16 @@ export default function DashboardSecretariaPage() {
               <Heart className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-gold">{mockStats.atestadosExpirados}</div>
+              <div className="text-2xl font-bold text-cap-gold">{stats.atestadosExpirados}</div>
               <p className="text-xs text-muted-foreground">Necessitam renovacao</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Alerts */}
-        {(mockStats.quotasEmAtraso > 10 || mockStats.atestadosExpirados > 5) && (
+        {(stats.quotasEmAtraso > 10 || stats.atestadosExpirados > 5) && (
           <div className="grid gap-3 md:grid-cols-2">
-            {mockStats.quotasEmAtraso > 10 && (
+            {stats.quotasEmAtraso > 10 && (
               <Card className="border-cap-red/50 bg-cap-red/5">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
@@ -173,7 +211,7 @@ export default function DashboardSecretariaPage() {
                     <div className="flex-1">
                       <p className="font-medium text-cap-red">Quotas em Atraso Elevadas</p>
                       <p className="text-sm text-muted-foreground mt-1">
-                        {mockStats.quotasEmAtraso} socios com quotas em atraso. Considere enviar lembretes.
+                        {stats.quotasEmAtraso} socios com quotas em atraso. Considere enviar lembretes.
                       </p>
                     </div>
                   </div>
@@ -181,7 +219,7 @@ export default function DashboardSecretariaPage() {
               </Card>
             )}
 
-            {mockStats.atestadosExpirados > 5 && (
+            {stats.atestadosExpirados > 5 && (
               <Card className="border-cap-gold/50 bg-cap-gold/5">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
@@ -189,7 +227,7 @@ export default function DashboardSecretariaPage() {
                     <div className="flex-1">
                       <p className="font-medium text-cap-gold">Atestados a Renovar</p>
                       <p className="text-sm text-muted-foreground mt-1">
-                        {mockStats.atestadosExpirados} atletas com atestados expirados ou a expirar.
+                        {stats.atestadosExpirados} atletas com atestados expirados ou a expirar.
                       </p>
                     </div>
                   </div>
@@ -212,7 +250,7 @@ export default function DashboardSecretariaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockRecentActivity.map((activity) => (
+                {recentActivity.length > 0 ? recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-center gap-4">
                     <div className={`size-10 rounded-full flex items-center justify-center ${
                       activity.tipo === "pagamento" ? "bg-success/10" :
@@ -235,7 +273,9 @@ export default function DashboardSecretariaPage() {
                       </Badge>
                     )}
                   </div>
-                ))}
+                )) : (
+                    <p className="text-sm text-muted-foreground">Sem atividade recente.</p>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -256,7 +296,7 @@ export default function DashboardSecretariaPage() {
                     <div className="flex items-center gap-3">
                       <Avatar className="size-10">
                         <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                          {socio.nome.split(" ").map((n) => n[0]).join("")}
+                          {socio.nome.split(" ").map((n: string) => n[0]).join("")}
                         </AvatarFallback>
                       </Avatar>
                       <div>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/Kyu9I3eRa7fs9YDvtkqO8quqQ4gQz+5+mOdxSDNvSaSKz7BBjLLOZhVcQOd2iubIgb0wthly6etqQp3zSm06w==",
+  "dgSpecHash": "dtFI/BnpaTShtF+tkA8XCQabdh+mKdNlyJxKz2+wt8r96RTM3Q37H/xDsCvgkNSEMjtnHCySIDB70AMCy7uyLw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
+  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

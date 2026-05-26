@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CAP.Modules.Reports.Core
-build_property.ProjectDir = C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\Modules\Reports\CAP.Modules.Reports.Core\
+build_property.ProjectDir = C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Core\

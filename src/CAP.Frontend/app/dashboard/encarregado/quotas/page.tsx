@@ -1,6 +1,6 @@
-"use client"
+﻿"use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   CreditCard,
@@ -25,52 +25,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-const mockQuotas = [
-  {
-    id: 1,
-    atleta: "Joao Silva",
-    equipa: "Sub-13",
-    mes: "Janeiro",
-    ano: 2025,
-    valor: 35.0,
-    estado: "pago",
-    dataPagamento: "2025-01-05",
-  },
-  {
-    id: 2,
-    atleta: "Joao Silva",
-    equipa: "Sub-13",
-    mes: "Fevereiro",
-    ano: 2025,
-    valor: 35.0,
-    estado: "pendente",
-    dataPagamento: null,
-  },
-  {
-    id: 3,
-    atleta: "Maria Silva",
-    equipa: "Sub-11",
-    mes: "Janeiro",
-    ano: 2025,
-    valor: 30.0,
-    estado: "pago",
-    dataPagamento: "2025-01-08",
-  },
-  {
-    id: 4,
-    atleta: "Maria Silva",
-    equipa: "Sub-11",
-    mes: "Fevereiro",
-    ano: 2025,
-    valor: 30.0,
-    estado: "pendente",
-    dataPagamento: null,
-  },
-]
+import { fetchApi } from "@/lib/api"
 
 export default function QuotasEncarregadoPage() {
   const router = useRouter()
+  const [quotas, setQuotas] = useState<any[]>([])
+  const [dependentes, setDependentes] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -81,11 +42,51 @@ export default function QuotasEncarregadoPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "encarregado") {
       router.push("/")
+      return
     }
+    fetchData()
   }, [router])
 
-  const pendentes = mockQuotas.filter((q) => q.estado === "pendente")
-  const pagos = mockQuotas.filter((q) => q.estado === "pago")
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const data: any = await fetchApi("api/users/parental/dashboard")
+      const deps = data.dependentes || []
+      setDependentes(deps)
+      
+      let allQuotas: any[] = []
+
+      for (const d of deps) {
+        const d_quotas: any[] = await fetchApi<any[]>(`api/finance/quotas/athlete/${d.id}`).catch(() => [])
+        
+        const mapped = d_quotas.map(q => {
+            const dt = new Date(q.dataVencimento)
+            const isLate = q.estado !== 2 && dt < new Date()
+            
+            return {
+                id: q.id,
+                atleta: d.nome,
+                equipa: "Sem equipa",
+                mes: dt.toLocaleString('pt-PT', { month: 'long' }),
+                ano: dt.getFullYear(),
+                valor: q.valorTotal,
+                estado: q.estado === 2 ? "pago" : (isLate ? "atrasado" : "pendente"),
+                dataPagamento: q.estado === 2 ? new Date().toISOString() : null, // mock dataPagamento
+            }
+        })
+        allQuotas = [...allQuotas, ...mapped]
+      }
+
+      setQuotas(allQuotas)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const pendentes = quotas.filter((q) => q.estado === "pendente" || q.estado === "atrasado")
+  const pagos = quotas.filter((q) => q.estado === "pago")
   const totalPendente = pendentes.reduce((sum, q) => sum + q.valor, 0)
   const totalPago = pagos.reduce((sum, q) => sum + q.valor, 0)
 
@@ -117,17 +118,21 @@ export default function QuotasEncarregadoPage() {
     }
   }
 
+  if (loading) {
+      return <div className="flex h-screen items-center justify-center">A carregar...</div>
+  }
+
   return (
-    <DashboardLayout role="encarregado" userName="Manuel Encarregado">
+    <DashboardLayout role="encarregado" userName="O Meu Perfil">
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Quotas Mensais</h1>
-            <p className="text-muted-foreground">Historico de quotas dos seus educandos</p>
+            <p className="text-muted-foreground">HistÃ³rico de quotas dos seus educandos</p>
           </div>
           <Button variant="outline">
             <Download className="size-4 mr-2" />
-            Exportar Historico
+            Exportar HistÃ³rico
           </Button>
         </div>
 
@@ -161,13 +166,13 @@ export default function QuotasEncarregadoPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Valor Mensal
+                Atletas Inscritos
               </CardTitle>
               <Euro className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">65.00 EUR</div>
-              <p className="text-xs text-muted-foreground">2 atletas</p>
+              <div className="text-2xl font-bold">{dependentes.length}</div>
+              <p className="text-xs text-muted-foreground">Educandos</p>
             </CardContent>
           </Card>
         </div>
@@ -180,7 +185,7 @@ export default function QuotasEncarregadoPage() {
                 Quotas Pendentes
               </CardTitle>
               <CardDescription>
-                Regularize as quotas pendentes para evitar a suspensao das atividades
+                Regularize as quotas pendentes para evitar a suspensÃ£o das atividades
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -193,12 +198,12 @@ export default function QuotasEncarregadoPage() {
                     <div className="flex items-center gap-4">
                       <Avatar className="size-10">
                         <AvatarFallback className="bg-primary text-primary-foreground">
-                          {quota.atleta.split(" ").map((n) => n[0]).join("")}
+                          {quota.atleta.split(" ").map((n: string) => n[0]).join("")}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-medium">{quota.atleta}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground capitalize">
                           {quota.mes} {quota.ano} - {quota.equipa}
                         </p>
                       </div>
@@ -218,7 +223,7 @@ export default function QuotasEncarregadoPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Historico de Quotas</CardTitle>
+            <CardTitle>HistÃ³rico de Quotas</CardTitle>
             <CardDescription>Todas as quotas pagas e pendentes</CardDescription>
           </CardHeader>
           <CardContent>
@@ -226,7 +231,7 @@ export default function QuotasEncarregadoPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Atleta</TableHead>
-                  <TableHead>Periodo</TableHead>
+                  <TableHead>PerÃ­odo</TableHead>
                   <TableHead>Valor</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Data Pagamento</TableHead>
@@ -234,13 +239,18 @@ export default function QuotasEncarregadoPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockQuotas.map((quota) => (
+                {quotas.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">Sem histÃ³rico de quotas.</TableCell>
+                    </TableRow>
+                )}
+                {quotas.map((quota) => (
                   <TableRow key={quota.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="size-8">
                           <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                            {quota.atleta.split(" ").map((n) => n[0]).join("")}
+                            {quota.atleta.split(" ").map((n: string) => n[0]).join("")}
                           </AvatarFallback>
                         </Avatar>
                         <div>
@@ -250,7 +260,7 @@ export default function QuotasEncarregadoPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 capitalize">
                         <Calendar className="size-4 text-muted-foreground" />
                         {quota.mes} {quota.ano}
                       </div>

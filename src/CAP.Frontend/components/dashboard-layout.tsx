@@ -139,7 +139,7 @@ const navigationByRole: Record<string, NavGroup[]> = {
       label: "Extras",
       items: [
         { title: "Loja", href: "/dashboard/atleta/loja", icon: ShoppingBag },
-        { title: "Notificacoes", href: "/dashboard/atleta/notificacoes", icon: Bell },
+        { title: "Notificacoes", href: "/dashboard/notificacoes", icon: Bell },
       ],
     },
   ],
@@ -203,7 +203,7 @@ export function DashboardLayout({ children, role, userName = "Utilizador" }: Das
               alt="CAP"
               width={48}
               height={48}
-              className="object-contain"
+              className="object-contain rounded-full"
             />
             <div className="flex flex-col">
               <span className="font-bold text-primary text-lg leading-tight">CAP</span>
@@ -255,7 +255,7 @@ export function DashboardLayout({ children, role, userName = "Utilizador" }: Das
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/dashboard/definicoes")}>
                 <Settings className="size-4 mr-2" />
                 Definicoes
               </DropdownMenuItem>
@@ -274,7 +274,13 @@ export function DashboardLayout({ children, role, userName = "Utilizador" }: Das
           <SidebarTrigger className="-ml-2" />
           <Separator orientation="vertical" className="h-6" />
           <div className="flex-1" />
-          <Bell className="size-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors" />
+          <div className="relative" onClick={() => router.push("/dashboard/notificacoes")}>
+            <Bell className="size-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors" />
+            <span className="absolute -top-1 -right-1 flex size-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+              <span className="relative inline-flex rounded-full size-3 bg-destructive border-2 border-background"></span>
+            </span>
+          </div>
         </header>
         <main className="flex-1 p-6 overflow-auto">
           {children}

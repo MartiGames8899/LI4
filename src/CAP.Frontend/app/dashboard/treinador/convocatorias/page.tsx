@@ -51,9 +51,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { fetchApi } from "@/lib/api"
 
 interface Convocatoria {
-  id: number
+  id: string
   titulo: string
   tipo: "treino" | "jogo" | "evento"
   data: string
@@ -68,61 +69,19 @@ interface Convocatoria {
     pendentes: number
   }
   atletas: {
-    id: number
+    id: string
     nome: string
     resposta: "confirmado" | "recusado" | "pendente"
     motivo?: string
   }[]
 }
 
-const mockConvocatorias: Convocatoria[] = [
-  {
-    id: 1,
-    titulo: "Jogo vs FC Exemplo",
-    tipo: "jogo",
-    data: "2025-01-25",
-    hora: "15:00",
-    local: "Campo Visitante",
-    adversario: "FC Exemplo",
-    descricao: "Jogo da 15a jornada do campeonato distrital.",
-    status: "enviada",
-    respostas: { confirmados: 18, recusados: 2, pendentes: 4 },
-    atletas: [
-      { id: 1, nome: "Joao Silva", resposta: "confirmado" },
-      { id: 2, nome: "Pedro Santos", resposta: "confirmado" },
-      { id: 3, nome: "Miguel Costa", resposta: "recusado", motivo: "Lesao" },
-      { id: 4, nome: "Tiago Ferreira", resposta: "pendente" },
-      { id: 5, nome: "Andre Oliveira", resposta: "confirmado" },
-    ],
-  },
-  {
-    id: 2,
-    titulo: "Treino Especial",
-    tipo: "treino",
-    data: "2025-01-26",
-    hora: "10:00",
-    local: "Campo Principal",
-    descricao: "Treino de preparacao para o jogo.",
-    status: "enviada",
-    respostas: { confirmados: 12, recusados: 5, pendentes: 7 },
-    atletas: [
-      { id: 1, nome: "Joao Silva", resposta: "confirmado" },
-      { id: 2, nome: "Pedro Santos", resposta: "pendente" },
-      { id: 3, nome: "Miguel Costa", resposta: "recusado", motivo: "Lesao" },
-    ],
-  },
-  {
-    id: 3,
-    titulo: "Treino Semanal",
-    tipo: "treino",
-    data: "2025-01-27",
-    hora: "18:30",
-    local: "Campo Principal",
-    status: "rascunho",
-    respostas: { confirmados: 0, recusados: 0, pendentes: 24 },
-    atletas: [],
-  },
-]
+interface Equipa {
+  id: string
+  nome: string
+}
+
+const emptyCreate = { titulo: "", tipo: "treino", data: "", hora: "", local: "", equipaId: "" }
 
 export default function ConvocatoriasPage() {
   const router = useRouter()
@@ -131,19 +90,115 @@ export default function ConvocatoriasPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingConvocatoria, setEditingConvocatoria] = useState<Convocatoria | null>(null)
-  const [convocatorias, setConvocatorias] = useState<Convocatoria[]>(mockConvocatorias)
+  const [convocatorias, setConvocatorias] = useState<Convocatoria[]>([])
+  const [equipas, setEquipas] = useState<Equipa[]>([])
+  const [createForm, setCreateForm] = useState(emptyCreate)
+  const [editForm, setEditForm] = useState({ titulo: "", data: "", hora: "", local: "" })
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
-    if (!storedUser) {
-      router.push("/")
-      return
-    }
+    if (!storedUser) { router.push("/"); return }
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "treinador") {
       router.push("/")
+    } else {
+      fetchConvocatorias()
+      fetchEquipas()
     }
   }, [router])
+
+  const fetchConvocatorias = async () => {
+    try {
+      const data = await fetchApi<any[]>("/api/sports/convocations")
+      setConvocatorias(data)
+    } catch (error) {
+      console.error("Erro ao buscar convocatórias", error)
+    }
+  }
+
+  const fetchEquipas = async () => {
+    try {
+      const data = await fetchApi<Equipa[]>("/api/sports/teams")
+      setEquipas(data)
+    } catch {
+      setEquipas([])
+    }
+  }
+
+  const handleCriarEnviar = async () => {
+    if (!createForm.titulo || !createForm.data || !createForm.hora || !createForm.local) return
+    setIsSaving(true)
+    try {
+      const dataEvento = new Date(`${createForm.data}T${createForm.hora}`).toISOString()
+      const equipaId = createForm.equipaId || (equipas[0]?.id ?? "00000000-0000-0000-0000-000000000000")
+      const created = await fetchApi<any>("/api/sports/convocations", {
+        method: "POST",
+        body: JSON.stringify({
+          titulo: createForm.titulo,
+          dataEvento,
+          local: createForm.local,
+          equipaId,
+          atletasIds: [],
+        }),
+      })
+      // auto-publish
+      await fetchApi(`/api/sports/convocations/${created.id}/publish`, { method: "PATCH" }).catch(() => null)
+      setIsCreateDialogOpen(false)
+      setCreateForm(emptyCreate)
+      fetchConvocatorias()
+    } catch (e) {
+      console.error(e)
+      alert("Erro ao criar convocatória")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleEditConvocatoria = (conv: Convocatoria) => {
+    setEditingConvocatoria(conv)
+    setEditForm({ titulo: conv.titulo, data: conv.data, hora: conv.hora, local: conv.local })
+    setIsEditDialogOpen(true)
+  }
+
+  const handleSaveEdit = async () => {
+    if (!editingConvocatoria) return
+    setIsSaving(true)
+    try {
+      const dataEvento = new Date(`${editForm.data}T${editForm.hora}`).toISOString()
+      await fetchApi(`/api/sports/convocations/${editingConvocatoria.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ titulo: editForm.titulo, dataEvento, local: editForm.local }),
+      })
+      setIsEditDialogOpen(false)
+      fetchConvocatorias()
+    } catch (e) {
+      console.error(e)
+      alert("Erro ao editar convocatória")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDeleteConvocatoria = async (id: string) => {
+    if (!confirm("Eliminar esta convocatória?")) return
+    try {
+      await fetchApi(`/api/sports/convocations/${id}`, { method: "DELETE" })
+      setConvocatorias(prev => prev.filter(c => c.id !== id))
+    } catch (e) {
+      console.error(e)
+      alert("Erro ao eliminar convocatória")
+    }
+  }
+
+  const handlePublicar = async (conv: Convocatoria) => {
+    try {
+      await fetchApi(`/api/sports/convocations/${conv.id}/publish`, { method: "PATCH" })
+      fetchConvocatorias()
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   const filteredConvocatorias = convocatorias.filter((c) => {
     if (activeTab === "todas") return true
@@ -155,44 +210,23 @@ export default function ConvocatoriasPage() {
 
   const getTipoBadge = (tipo: Convocatoria["tipo"]) => {
     switch (tipo) {
-      case "jogo":
-        return <Badge className="bg-cap-red/10 text-cap-red border-cap-red/20">Jogo</Badge>
-      case "treino":
-        return <Badge className="bg-cap-navy/10 text-cap-navy border-cap-navy/20">Treino</Badge>
-      case "evento":
-        return <Badge className="bg-cap-gold/10 text-cap-gold border-cap-gold/20">Evento</Badge>
+      case "jogo": return <Badge className="bg-cap-red/10 text-cap-red border-cap-red/20">Jogo</Badge>
+      case "treino": return <Badge className="bg-cap-navy/10 text-cap-navy border-cap-navy/20">Treino</Badge>
+      case "evento": return <Badge className="bg-cap-gold/10 text-cap-gold border-cap-gold/20">Evento</Badge>
     }
   }
 
   const getStatusBadge = (status: Convocatoria["status"]) => {
     switch (status) {
-      case "rascunho":
-        return <Badge variant="outline">Rascunho</Badge>
-      case "enviada":
-        return <Badge className="bg-success/10 text-success border-success/20">Enviada</Badge>
-      case "fechada":
-        return <Badge variant="secondary">Fechada</Badge>
+      case "rascunho": return <Badge variant="outline">Rascunho</Badge>
+      case "enviada": return <Badge className="bg-success/10 text-success border-success/20">Enviada</Badge>
+      case "fechada": return <Badge variant="secondary">Fechada</Badge>
     }
-  }
-
-  const handleEditConvocatoria = (conv: Convocatoria) => {
-    setEditingConvocatoria(conv)
-    setIsEditDialogOpen(true)
-  }
-
-  const handleDeleteConvocatoria = (id: number) => {
-    setConvocatorias(prev => prev.filter(c => c.id !== id))
-  }
-
-  const handleReenviarNotificacao = () => {
-    // Simula reenvio de notificacao
-    setSelectedConvocatoria(null)
   }
 
   return (
     <DashboardLayout role="treinador" userName="Carlos Treinador">
       <div className="space-y-6">
-        {/* Page Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Convocatorias</h1>
@@ -208,73 +242,56 @@ export default function ConvocatoriasPage() {
             <DialogContent className="max-w-lg">
               <DialogHeader>
                 <DialogTitle>Nova Convocatoria</DialogTitle>
-                <DialogDescription>
-                  Crie uma nova convocatoria para treino, jogo ou evento.
-                </DialogDescription>
+                <DialogDescription>Crie uma nova convocatoria para treino, jogo ou evento.</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
                   <Label htmlFor="titulo">Titulo</Label>
-                  <Input id="titulo" placeholder="Ex: Jogo vs FC Exemplo" />
+                  <Input id="titulo" placeholder="Ex: Jogo vs FC Exemplo" value={createForm.titulo} onChange={e => setCreateForm(f => ({ ...f, titulo: e.target.value }))} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="tipo">Tipo</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione" />
-                      </SelectTrigger>
+                    <Label>Equipa</Label>
+                    <Select value={createForm.equipaId} onValueChange={v => setCreateForm(f => ({ ...f, equipaId: v ?? "" }))}>
+                      <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="treino">Treino</SelectItem>
-                        <SelectItem value="jogo">Jogo</SelectItem>
-                        <SelectItem value="evento">Evento</SelectItem>
+                        {equipas.map(e => <SelectItem key={e.id} value={e.id}>{e.nome}</SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="adversario">Adversario (opcional)</Label>
-                    <Input id="adversario" placeholder="Ex: FC Exemplo" />
+                    <Label htmlFor="local">Local</Label>
+                    <Input id="local" placeholder="Ex: Campo Principal" value={createForm.local} onChange={e => setCreateForm(f => ({ ...f, local: e.target.value }))} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="data">Data</Label>
-                    <Input id="data" type="date" />
+                    <Input id="data" type="date" value={createForm.data} onChange={e => setCreateForm(f => ({ ...f, data: e.target.value }))} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="hora">Hora</Label>
-                    <Input id="hora" type="time" />
+                    <Input id="hora" type="time" value={createForm.hora} onChange={e => setCreateForm(f => ({ ...f, hora: e.target.value }))} />
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="local">Local</Label>
-                  <Input id="local" placeholder="Ex: Campo Principal" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="descricao">Descricao (opcional)</Label>
-                  <Textarea id="descricao" placeholder="Informacoes adicionais..." />
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button onClick={() => setIsCreateDialogOpen(false)}>
+                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>Cancelar</Button>
+                <Button onClick={handleCriarEnviar} disabled={isSaving || !createForm.titulo || !createForm.data || !createForm.hora || !createForm.local}>
                   <Send className="size-4 mr-2" />
-                  Criar e Enviar
+                  {isSaving ? "A criar..." : "Criar e Enviar"}
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
 
-        {/* Stats */}
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-2">
                 <Clock className="size-5 text-muted-foreground" />
-                <span className="text-2xl font-bold">{mockConvocatorias.filter((c) => c.status === "enviada").length}</span>
+                <span className="text-2xl font-bold">{convocatorias.filter((c) => c.status === "enviada").length}</span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">Ativas</p>
             </CardContent>
@@ -283,9 +300,7 @@ export default function ConvocatoriasPage() {
             <CardContent className="pt-6">
               <div className="flex items-center gap-2">
                 <CheckCircle className="size-5 text-success" />
-                <span className="text-2xl font-bold text-success">
-                  {mockConvocatorias.reduce((acc, c) => acc + c.respostas.confirmados, 0)}
-                </span>
+                <span className="text-2xl font-bold text-success">{convocatorias.reduce((acc, c) => acc + (c.respostas?.confirmados ?? 0), 0)}</span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">Confirmados</p>
             </CardContent>
@@ -294,9 +309,7 @@ export default function ConvocatoriasPage() {
             <CardContent className="pt-6">
               <div className="flex items-center gap-2">
                 <XCircle className="size-5 text-destructive" />
-                <span className="text-2xl font-bold text-destructive">
-                  {mockConvocatorias.reduce((acc, c) => acc + c.respostas.recusados, 0)}
-                </span>
+                <span className="text-2xl font-bold text-destructive">{convocatorias.reduce((acc, c) => acc + (c.respostas?.recusados ?? 0), 0)}</span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">Recusados</p>
             </CardContent>
@@ -305,16 +318,13 @@ export default function ConvocatoriasPage() {
             <CardContent className="pt-6">
               <div className="flex items-center gap-2">
                 <HelpCircle className="size-5 text-cap-gold" />
-                <span className="text-2xl font-bold text-cap-gold">
-                  {mockConvocatorias.reduce((acc, c) => acc + c.respostas.pendentes, 0)}
-                </span>
+                <span className="text-2xl font-bold text-cap-gold">{convocatorias.reduce((acc, c) => acc + (c.respostas?.pendentes ?? 0), 0)}</span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">Pendentes</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value ?? "")}>
           <TabsList>
             <TabsTrigger value="todas">Todas</TabsTrigger>
@@ -329,7 +339,6 @@ export default function ConvocatoriasPage() {
                 <Card key={convocatoria.id} className="overflow-hidden">
                   <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row">
-                      {/* Main Info */}
                       <div className="flex-1 p-6">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2">
@@ -351,6 +360,12 @@ export default function ConvocatoriasPage() {
                                 <Edit className="size-4 mr-2" />
                                 Editar
                               </DropdownMenuItem>
+                              {convocatoria.status === "rascunho" && (
+                                <DropdownMenuItem onClick={() => handlePublicar(convocatoria)}>
+                                  <Send className="size-4 mr-2" />
+                                  Publicar
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuSeparator />
                               <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteConvocatoria(convocatoria.id)}>
                                 <Trash2 className="size-4 mr-2" />
@@ -365,7 +380,7 @@ export default function ConvocatoriasPage() {
                         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="size-4" />
-                            {new Date(convocatoria.data).toLocaleDateString("pt-PT")} - {convocatoria.hora}
+                            {convocatoria.data ? new Date(convocatoria.data).toLocaleDateString("pt-PT") : ""} - {convocatoria.hora}
                           </span>
                           <span className="flex items-center gap-1">
                             <MapPin className="size-4" />
@@ -373,27 +388,22 @@ export default function ConvocatoriasPage() {
                           </span>
                           <span className="flex items-center gap-1">
                             <Users className="size-4" />
-                            {convocatoria.respostas.confirmados + convocatoria.respostas.recusados + convocatoria.respostas.pendentes} convocados
+                            {(convocatoria.respostas?.confirmados ?? 0) + (convocatoria.respostas?.recusados ?? 0) + (convocatoria.respostas?.pendentes ?? 0)} convocados
                           </span>
                         </div>
-
-                        {convocatoria.descricao && (
-                          <p className="text-sm text-muted-foreground mt-3">{convocatoria.descricao}</p>
-                        )}
                       </div>
 
-                      {/* Response Stats */}
                       <div className="flex md:flex-col justify-between md:justify-center items-center gap-4 p-6 bg-secondary/30 md:w-48">
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-success">{convocatoria.respostas.confirmados}</div>
+                          <div className="text-2xl font-bold text-success">{convocatoria.respostas?.confirmados ?? 0}</div>
                           <div className="text-xs text-muted-foreground">Confirmados</div>
                         </div>
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-destructive">{convocatoria.respostas.recusados}</div>
+                          <div className="text-2xl font-bold text-destructive">{convocatoria.respostas?.recusados ?? 0}</div>
                           <div className="text-xs text-muted-foreground">Recusados</div>
                         </div>
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-cap-gold">{convocatoria.respostas.pendentes}</div>
+                          <div className="text-2xl font-bold text-cap-gold">{convocatoria.respostas?.pendentes ?? 0}</div>
                           <div className="text-xs text-muted-foreground">Pendentes</div>
                         </div>
                       </div>
@@ -401,6 +411,9 @@ export default function ConvocatoriasPage() {
                   </CardContent>
                 </Card>
               ))}
+              {filteredConvocatorias.length === 0 && (
+                <p className="text-center text-muted-foreground py-8">Nenhuma convocatória encontrada.</p>
+              )}
             </div>
           </TabsContent>
         </Tabs>
@@ -417,70 +430,87 @@ export default function ConvocatoriasPage() {
                   </div>
                   <DialogTitle>{selectedConvocatoria.titulo}</DialogTitle>
                   <DialogDescription>
-                    {new Date(selectedConvocatoria.data).toLocaleDateString("pt-PT")} as {selectedConvocatoria.hora} - {selectedConvocatoria.local}
+                    {selectedConvocatoria.data ? new Date(selectedConvocatoria.data).toLocaleDateString("pt-PT") : ""} as {selectedConvocatoria.hora} - {selectedConvocatoria.local}
                   </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4">
-                  {selectedConvocatoria.descricao && (
-                    <p className="text-sm text-muted-foreground">{selectedConvocatoria.descricao}</p>
-                  )}
-
                   <div>
                     <h4 className="font-medium mb-3">Respostas dos Atletas</h4>
                     <ScrollArea className="h-64">
                       <div className="space-y-2">
-                        {selectedConvocatoria.atletas.map((atleta) => (
+                        {(selectedConvocatoria.atletas ?? []).map((atleta) => (
                           <div key={atleta.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
                             <div className="flex items-center gap-3">
                               <Avatar className="size-8">
                                 <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                                  {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                                  {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
                                 <p className="text-sm font-medium">{atleta.nome}</p>
-                                {atleta.motivo && (
-                                  <p className="text-xs text-muted-foreground">{atleta.motivo}</p>
-                                )}
+                                {atleta.motivo && <p className="text-xs text-muted-foreground">{atleta.motivo}</p>}
                               </div>
                             </div>
                             {atleta.resposta === "confirmado" && (
-                              <Badge className="bg-success/10 text-success border-success/20">
-                                <CheckCircle className="size-3 mr-1" />
-                                Confirmado
-                              </Badge>
+                              <Badge className="bg-success/10 text-success border-success/20"><CheckCircle className="size-3 mr-1" />Confirmado</Badge>
                             )}
                             {atleta.resposta === "recusado" && (
-                              <Badge variant="destructive">
-                                <XCircle className="size-3 mr-1" />
-                                Recusado
-                              </Badge>
+                              <Badge variant="destructive"><XCircle className="size-3 mr-1" />Recusado</Badge>
                             )}
                             {atleta.resposta === "pendente" && (
-                              <Badge variant="outline">
-                                <Clock className="size-3 mr-1" />
-                                Pendente
-                              </Badge>
+                              <Badge variant="outline"><Clock className="size-3 mr-1" />Pendente</Badge>
                             )}
                           </div>
                         ))}
+                        {(selectedConvocatoria.atletas ?? []).length === 0 && (
+                          <p className="text-center text-muted-foreground text-sm py-4">Nenhum atleta convocado.</p>
+                        )}
                       </div>
                     </ScrollArea>
                   </div>
                 </div>
 
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setSelectedConvocatoria(null)}>
-                    Fechar
-                  </Button>
-                  <Button onClick={handleReenviarNotificacao}>
-                    <Send className="size-4 mr-2" />
-                    Reenviar Notificacao
-                  </Button>
+                  <Button variant="outline" onClick={() => setSelectedConvocatoria(null)}>Fechar</Button>
                 </DialogFooter>
               </>
             )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Edit Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Editar Convocatoria</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Titulo</Label>
+                <Input value={editForm.titulo} onChange={e => setEditForm(f => ({ ...f, titulo: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Local</Label>
+                <Input value={editForm.local} onChange={e => setEditForm(f => ({ ...f, local: e.target.value }))} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Data</Label>
+                  <Input type="date" value={editForm.data} onChange={e => setEditForm(f => ({ ...f, data: e.target.value }))} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Hora</Label>
+                  <Input type="time" value={editForm.hora} onChange={e => setEditForm(f => ({ ...f, hora: e.target.value }))} />
+                </div>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancelar</Button>
+              <Button onClick={handleSaveEdit} disabled={isSaving}>
+                {isSaving ? "A guardar..." : "Guardar"}
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>

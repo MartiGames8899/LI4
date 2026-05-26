@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "m89t9091fWMsB+QAmS6GSNOGUVATnqd0twMjD9VnTYME/AtXnDNqi725QxqEzFjQEP9s/WUljBfgcJgFXJVlvw==",
+  "dgSpecHash": "5s3AZRnDuzWsh9k1oR4DbafNCaUZO8JMwGU52bwVgSqkY1dNqyJyORCSAGqAHChNRpl0x9vbZ9UqSz/cajpEww==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\CAP.API.csproj",
+  "projectFilePath": "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",

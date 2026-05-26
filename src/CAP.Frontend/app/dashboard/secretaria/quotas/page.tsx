@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { fetchApi } from "@/lib/api"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,92 +15,20 @@ import { Label } from "@/components/ui/label"
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field"
 import { Search, Plus, Euro, Calendar, CheckCircle, AlertCircle, Clock, Send, Download, Filter } from "lucide-react"
 
-const quotas = [
-  {
-    id: 1,
-    socio: "Manuel Antonio Silva",
-    numeroSocio: "CAP-0001",
-    tipo: "fundador",
-    mes: "Janeiro",
-    ano: 2024,
-    valor: 15.00,
-    estado: "pago",
-    dataPagamento: "2024-01-05",
-    metodoPagamento: "Transferencia"
-  },
-  {
-    id: 2,
-    socio: "Maria Fernanda Costa",
-    numeroSocio: "CAP-0042",
-    tipo: "regular",
-    mes: "Janeiro",
-    ano: 2024,
-    valor: 20.00,
-    estado: "pago",
-    dataPagamento: "2024-01-10",
-    metodoPagamento: "MB Way"
-  },
-  {
-    id: 3,
-    socio: "Jose Carlos Oliveira",
-    numeroSocio: "CAP-0089",
-    tipo: "regular",
-    mes: "Janeiro",
-    ano: 2024,
-    valor: 20.00,
-    estado: "pendente",
-    dataPagamento: null,
-    metodoPagamento: null
-  },
-  {
-    id: 4,
-    socio: "Ana Beatriz Santos",
-    numeroSocio: "CAP-0102",
-    tipo: "jovem",
-    mes: "Janeiro",
-    ano: 2024,
-    valor: 10.00,
-    estado: "pago",
-    dataPagamento: "2024-01-08",
-    metodoPagamento: "Numerario"
-  },
-  {
-    id: 5,
-    socio: "Pedro Miguel Ferreira",
-    numeroSocio: "CAP-0115",
-    tipo: "regular",
-    mes: "Janeiro",
-    ano: 2024,
-    valor: 20.00,
-    estado: "atrasado",
-    dataPagamento: null,
-    metodoPagamento: null
-  },
-  {
-    id: 6,
-    socio: "Jose Carlos Oliveira",
-    numeroSocio: "CAP-0089",
-    tipo: "regular",
-    mes: "Dezembro",
-    ano: 2023,
-    valor: 20.00,
-    estado: "atrasado",
-    dataPagamento: null,
-    metodoPagamento: null
-  },
-  {
-    id: 7,
-    socio: "Pedro Miguel Ferreira",
-    numeroSocio: "CAP-0115",
-    tipo: "regular",
-    mes: "Dezembro",
-    ano: 2023,
-    valor: 20.00,
-    estado: "atrasado",
-    dataPagamento: null,
-    metodoPagamento: null
-  }
-]
+interface Quota {
+  id: string;
+  socio?: string;
+  numeroSocio?: string;
+  atletaId: string;
+  mes: string;
+  ano: number;
+  valor: number;
+  valorTotal?: number;
+  estado: string;
+  dataVencimento?: string;
+  dataPagamento?: string;
+  metodoPagamento?: string;
+}
 
 const valoresQuota = {
   fundador: 15.00,
@@ -114,13 +43,97 @@ export default function QuotasSecretariaPage() {
   const [filtroMes, setFiltroMes] = useState("todos")
   const [registarPagamentoOpen, setRegistarPagamentoOpen] = useState(false)
   const [emitirQuotasOpen, setEmitirQuotasOpen] = useState(false)
-  const [quotaSelecionada, setQuotaSelecionada] = useState<typeof quotas[0] | null>(null)
+  const [quotaSelecionada, setQuotaSelecionada] = useState<Quota | null>(null)
+  
+  const [quotas, setQuotas] = useState<Quota[]>([])
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [metodoPagamento, setMetodoPagamento] = useState("")
+  const [dataPagamento, setDataPagamento] = useState("")
+  const [isSavingPayment, setIsSavingPayment] = useState(false)
+
+  const carregarQuotas = async () => {
+    try {
+      const data = await fetchApi<any[]>('/api/finance/quotas')
+      const formatadas = data.map(q => ({
+        id: q.id,
+        atletaId: q.atletaId,
+        socio: "Socio (Desconhecido)",
+        numeroSocio: "N/A",
+        mes: new Date(q.dataVencimento).toLocaleString('pt-PT', { month: 'long' }),
+        ano: new Date(q.dataVencimento).getFullYear(),
+        valor: q.valorTotal,
+        estado: q.estado === 0 ? "pendente" : q.estado === 2 ? "pago" : "atrasado",
+        dataVencimento: q.dataVencimento,
+      }))
+      setQuotas(formatadas)
+    } catch (err) {
+      console.error("Erro ao carregar quotas", err)
+    }
+  }
+
+  useEffect(() => {
+    carregarQuotas()
+  }, [])
+
+  const handleEmitirQuotas = async () => {
+    setIsGenerating(true)
+    try {
+      const atletas = await fetchApi<any[]>('/api/users/athletes')
+      const definicoes = await fetchApi<any[]>('/api/finance/quotas/types').catch(() => [])
+      const definicao = definicoes[0]
+      if (!definicao) { alert("Nenhum tipo de quota configurado. Crie primeiro um tipo de quota."); return }
+      const dataVenc = new Date(); dataVenc.setDate(8)
+      await Promise.all(atletas.map(a =>
+        fetchApi('/api/finance/quotas/assign', {
+          method: 'POST',
+          body: JSON.stringify({ atletaId: a.id, quotaDefinicaoId: definicao.id, dataVencimento: dataVenc.toISOString() })
+        }).catch(() => null)
+      ))
+      setEmitirQuotasOpen(false)
+      carregarQuotas()
+    } catch (err) {
+      console.error("Erro ao emitir quotas", err)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const handleRegistarPagamento = async (quota: Quota) => {
+    if (!metodoPagamento) { alert("Selecione o método de pagamento"); return }
+    setIsSavingPayment(true)
+    try {
+      await fetchApi('/api/finance/payments', {
+        method: 'POST',
+        body: JSON.stringify({ atletaId: quota.atletaId, valor: quota.valor, quotasIds: [quota.id], metodo: metodoPagamento, referencia: null })
+      })
+      setRegistarPagamentoOpen(false)
+      setQuotaSelecionada(null)
+      setMetodoPagamento("")
+      setDataPagamento("")
+      carregarQuotas()
+    } catch (err) {
+      console.error("Erro ao registar pagamento", err)
+      alert("Erro ao registar pagamento")
+    } finally {
+      setIsSavingPayment(false)
+    }
+  }
+
+  const handleExportCSV = () => {
+    const headers = ["Socio", "Numero Socio", "Mes", "Ano", "Valor (EUR)", "Estado"]
+    const rows = quotasFiltradas.map(q => [q.socio, q.numeroSocio, q.mes, q.ano, q.valor.toFixed(2), q.estado])
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c ?? ""}"`).join(",")).join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a"); a.href = url; a.download = "quotas.csv"; a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const quotasFiltradas = quotas.filter(quota => {
-    const matchSearch = quota.socio.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       quota.numeroSocio.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchSearch = quota.socio?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       quota.numeroSocio?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchEstado = filtroEstado === "todos" || quota.estado === filtroEstado
-    const matchMes = filtroMes === "todos" || quota.mes.toLowerCase() === filtroMes.toLowerCase()
+    const matchMes = filtroMes === "todos" || quota.mes?.toLowerCase() === filtroMes.toLowerCase()
     return matchSearch && matchEstado && matchMes
   })
 
@@ -139,7 +152,7 @@ export default function QuotasSecretariaPage() {
             <p className="text-muted-foreground">Controle de pagamentos mensais dos socios</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportCSV}>
               <Download className="mr-2 size-4" />
               Exportar
             </Button>
@@ -216,8 +229,8 @@ export default function QuotasSecretariaPage() {
                   <Button variant="outline" onClick={() => setEmitirQuotasOpen(false)}>
                     Cancelar
                   </Button>
-                  <Button onClick={() => setEmitirQuotasOpen(false)}>
-                    Emitir Quotas
+                  <Button onClick={handleEmitirQuotas} disabled={isGenerating}>
+                    {isGenerating ? "A Emitir..." : "Emitir Quotas"}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -370,58 +383,9 @@ export default function QuotasSecretariaPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       {quota.estado !== "pago" && (
-                        <Dialog>
-                          <DialogTrigger>
-                            <Button variant="outline" size="sm">
-                              Registar Pagamento
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Registar Pagamento</DialogTitle>
-                              <DialogDescription>
-                                Confirmar pagamento de quota de {quota.socio}
-                              </DialogDescription>
-                            </DialogHeader>
-                            <FieldGroup>
-                              <div className="rounded-lg border p-4">
-                                <div className="flex justify-between">
-                                  <span>Valor:</span>
-                                  <span className="font-bold">{quota.valor.toFixed(2)} EUR</span>
-                                </div>
-                                <div className="flex justify-between text-sm text-muted-foreground">
-                                  <span>Periodo:</span>
-                                  <span>{quota.mes} {quota.ano}</span>
-                                </div>
-                              </div>
-                              <Field>
-                                <FieldLabel htmlFor="metodo">Metodo de Pagamento</FieldLabel>
-                                <Select>
-                                  <SelectTrigger id="metodo">
-                                    <SelectValue placeholder="Selecionar metodo" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="numerario">Numerario</SelectItem>
-                                    <SelectItem value="transferencia">Transferencia Bancaria</SelectItem>
-                                    <SelectItem value="mbway">MB Way</SelectItem>
-                                    <SelectItem value="multibanco">Multibanco</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </Field>
-                              <Field>
-                                <FieldLabel htmlFor="dataPag">Data de Pagamento</FieldLabel>
-                                <Input id="dataPag" type="date" />
-                              </Field>
-                              <Field>
-                                <FieldLabel htmlFor="observacoes">Observacoes</FieldLabel>
-                                <Input id="observacoes" placeholder="Notas adicionais (opcional)" />
-                              </Field>
-                            </FieldGroup>
-                            <DialogFooter>
-                              <Button>Confirmar Pagamento</Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+                        <Button variant="outline" size="sm" onClick={() => { setQuotaSelecionada(quota); setRegistarPagamentoOpen(true) }}>
+                          Registar Pagamento
+                        </Button>
                       )}
                     </TableCell>
                   </TableRow>
@@ -431,6 +395,56 @@ export default function QuotasSecretariaPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog externo para registar pagamento */}
+      <Dialog open={registarPagamentoOpen} onOpenChange={setRegistarPagamentoOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Registar Pagamento</DialogTitle>
+            <DialogDescription>
+              Confirmar pagamento de quota {quotaSelecionada ? `de ${quotaSelecionada.mes} ${quotaSelecionada.ano}` : ""}
+            </DialogDescription>
+          </DialogHeader>
+          {quotaSelecionada && (
+            <FieldGroup>
+              <div className="rounded-lg border p-4">
+                <div className="flex justify-between">
+                  <span>Valor:</span>
+                  <span className="font-bold">{quotaSelecionada.valor.toFixed(2)} EUR</span>
+                </div>
+                <div className="flex justify-between text-sm text-muted-foreground">
+                  <span>Periodo:</span>
+                  <span>{quotaSelecionada.mes} {quotaSelecionada.ano}</span>
+                </div>
+              </div>
+              <Field>
+                <FieldLabel>Metodo de Pagamento</FieldLabel>
+                <Select value={metodoPagamento} onValueChange={(v) => setMetodoPagamento(v ?? "")}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecionar metodo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Numerario">Numerario</SelectItem>
+                    <SelectItem value="Transferencia">Transferencia Bancaria</SelectItem>
+                    <SelectItem value="MBWay">MB Way</SelectItem>
+                    <SelectItem value="Multibanco">Multibanco</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field>
+                <FieldLabel>Data de Pagamento</FieldLabel>
+                <Input type="date" value={dataPagamento} onChange={e => setDataPagamento(e.target.value)} />
+              </Field>
+            </FieldGroup>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRegistarPagamentoOpen(false)}>Cancelar</Button>
+            <Button onClick={() => quotaSelecionada && handleRegistarPagamento(quotaSelecionada)} disabled={isSavingPayment}>
+              {isSavingPayment ? "A Guardar..." : "Confirmar Pagamento"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   )
 }

@@ -614,11 +614,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
       "projectName": "CAP.Shared",
-      "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+      "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\obj\\",
+      "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"

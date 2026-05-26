@@ -30,7 +30,7 @@ public class NotificationsController : ControllerBase
         var userNotifications = notifications
             .Where(n => n.UtilizadorId == userId)
             .OrderByDescending(n => n.DataCriacao)
-            .Select(n => new NotificationResponse(n.Id, n.Titulo, n.Mensagem, n.DataCriacao, n.Lida));
+            .Select(n => new NotificationResponse(n.Id, n.Titulo, n.Mensagem, n.DataCriacao, n.Lida, n.Tipo.ToString()));
 
         return Ok(userNotifications);
     }
@@ -74,4 +74,26 @@ public class NotificationsController : ControllerBase
         await _preferenciaRepository.SaveChangesAsync();
         return Ok("Preferência atualizada");
     }
+
+    [HttpPost("send")]
+    public async Task<IActionResult> SendNotification([FromBody] SendNotificationRequest request)
+    {
+        foreach (var targetId in request.TargetUserIds)
+        {
+            var notif = new Notificacao
+            {
+                UtilizadorId = targetId,
+                Titulo = request.Titulo,
+                Mensagem = request.Mensagem,
+                Tipo = TipoNotificacao.Sistema,
+                Lida = false,
+                DataCriacao = DateTime.UtcNow
+            };
+            await _notificacaoRepository.AddAsync(notif);
+        }
+        await _notificacaoRepository.SaveChangesAsync();
+        return Ok(new { message = "Notificações enviadas com sucesso." });
+    }
 }
+
+public record SendNotificationRequest(Guid[] TargetUserIds, string Titulo, string Mensagem);

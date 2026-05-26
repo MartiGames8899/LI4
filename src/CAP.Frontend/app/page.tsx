@@ -24,25 +24,23 @@ export default function LoginPage() {
     setError("")
 
     try {
-      const demoUsers: Record<string, { password: string; role: string }> = {
-        "treinador@cap.pt": { password: "123456", role: "treinador" },
-        "secretaria@cap.pt": { password: "123456", role: "secretaria" },
-        "encarregado@cap.pt": { password: "123456", role: "encarregado" },
-        "atleta@cap.pt": { password: "123456", role: "atleta" },
-        "gerencia@cap.pt": { password: "123456", role: "gerencia" },
-      }
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/users/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      const user = demoUsers[email.toLowerCase()]
-      if (user && user.password === password) {
-        localStorage.setItem("cap_user", JSON.stringify({ email, role: user.role }))
-        router.push(`/dashboard/${user.role}`)
+      if (response.ok) {
+        const data = await response.json()
+        localStorage.setItem("cap_token", data.token)
+        localStorage.setItem("cap_user", JSON.stringify({ email, role: data.role.toLowerCase(), nome: data.nome }))
+        router.push(`/dashboard/${data.role.toLowerCase()}`)
       } else {
-        setError("Email ou password incorretos")
+        const err = await response.json().catch(() => ({ message: "Email ou password incorretos" }))
+        setError(err.message || "Email ou password incorretos")
       }
-    } catch {
-      setError("Erro ao fazer login. Tente novamente.")
+    } catch (err: any) {
+      setError(err.message || "Erro ao fazer login. Tente novamente.")
     } finally {
       setIsLoading(false)
     }
@@ -58,7 +56,7 @@ export default function LoginPage() {
               alt="CAP - Clube Amigos de Polvoreira"
               width={140}
               height={140}
-              className="object-contain"
+              className="object-contain rounded-full"
               priority
             />
           </div>
@@ -128,13 +126,14 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-border">
-            <p className="text-xs text-muted-foreground text-center mb-3">Contas de demonstracao:</p>
+            <p className="text-xs text-muted-foreground text-center mb-3">Contas de demonstracao — password: <span className="font-mono font-semibold text-foreground">123456</span></p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {[
-                { email: "treinador@cap.pt", label: "Treinador" },
-                { email: "secretaria@cap.pt", label: "Secretaria" },
-                { email: "encarregado@cap.pt", label: "Encarregado" },
-                { email: "atleta@cap.pt", label: "Atleta" },
+                { email: "treinador@cap.pt",   label: "Treinador",   nome: "Carlos Mendes"    },
+                { email: "secretaria@cap.pt",  label: "Secretaria",  nome: "Ana Ferreira"     },
+                { email: "encarregado@cap.pt", label: "Encarregado", nome: "João Santos"      },
+                { email: "atleta@cap.pt",      label: "Atleta",      nome: "Tomás Santos"     },
+                { email: "gerencia@cap.pt",    label: "Gerência",    nome: "Miguel Rodrigues" },
               ].map((demo) => (
                 <button
                   key={demo.email}
@@ -146,7 +145,8 @@ export default function LoginPage() {
                   className="p-2 text-left rounded-md bg-secondary/50 hover:bg-secondary transition-colors"
                 >
                   <span className="font-medium text-foreground">{demo.label}</span>
-                  <span className="block text-muted-foreground truncate">{demo.email}</span>
+                  <span className="block text-muted-foreground">{demo.nome}</span>
+                  <span className="block text-muted-foreground/70 truncate">{demo.email}</span>
                 </button>
               ))}
             </div>

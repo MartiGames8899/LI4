@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -23,34 +23,21 @@ interface User {
   role: string
 }
 
-// Mock data - replace with API calls
-const mockStats = {
-  totalAtletas: 24,
-  presencaMedia: 87,
-  proximoTreino: "Hoje, 18:30",
-  convocatoriasPendentes: 3,
-}
-
-const mockProximosEventos = [
-  { id: 1, tipo: "Treino", data: "Hoje, 18:30", local: "Campo Principal" },
-  { id: 2, tipo: "Jogo", data: "Sabado, 15:00", local: "Campo Visitante", adversario: "FC Exemplo" },
-  { id: 3, tipo: "Treino", data: "Segunda, 18:30", local: "Campo Principal" },
-]
-
-const mockAtletasDestaque = [
-  { id: 1, nome: "Joao Silva", presenca: 95, posicao: "Avancado" },
-  { id: 2, nome: "Pedro Santos", presenca: 92, posicao: "Medio" },
-  { id: 3, nome: "Miguel Costa", presenca: 90, posicao: "Defesa" },
-]
-
-const mockConvocatoriasPendentes = [
-  { id: 1, evento: "Jogo vs FC Exemplo", data: "Sabado, 15:00", respostas: "18/24" },
-  { id: 2, evento: "Treino Especial", data: "Domingo, 10:00", respostas: "12/24" },
-]
+// Stats will be loaded from API
 
 export default function DashboardTreinadorPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+
+  const [stats, setStats] = useState({
+    totalAtletas: 0,
+    presencaMedia: 0,
+    proximoTreino: "-",
+    convocatoriasPendentes: 0,
+  })
+  const [proximosEventos, setProximosEventos] = useState<any[]>([])
+  const [atletasDestaque, setAtletasDestaque] = useState<any[]>([])
+  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState<any[]>([])
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -64,7 +51,56 @@ export default function DashboardTreinadorPage() {
       return
     }
     setUser(parsed)
+    loadDashboardData()
   }, [router])
+
+  const loadDashboardData = async () => {
+    try {
+      const { fetchApi } = await import("@/lib/api")
+      const [athletesRes, convocationsRes] = await Promise.all([
+        fetchApi<any>("/api/users/athletes").catch(() => []),
+        fetchApi<any>("/api/sports/convocations").catch(() => [])
+      ])
+
+      const athletes = Array.isArray(athletesRes) ? athletesRes : []
+      const convocations = Array.isArray(convocationsRes) ? convocationsRes : []
+
+      const presencaMedia = athletes.length > 0 
+        ? Math.round(athletes.reduce((acc: number, a: any) => acc + (a.presencaMedia || 0), 0) / athletes.length) 
+        : 0
+
+      setStats({
+        totalAtletas: athletes.length,
+        presencaMedia,
+        proximoTreino: convocations.length > 0 ? convocations[0].data : "-",
+        convocatoriasPendentes: convocations.filter(c => c.status === "enviada").length
+      })
+
+      setProximosEventos(convocations.slice(0, 3).map((c, idx) => ({
+        id: c.id || idx,
+        tipo: c.tipo || "Treino",
+        data: `${c.data} ${c.hora}`,
+        local: c.local
+      })))
+
+      setAtletasDestaque(athletes.sort((a, b) => (b.presencaMedia || 0) - (a.presencaMedia || 0)).slice(0, 3).map((a, idx) => ({
+        id: a.id || idx,
+        nome: a.nome,
+        presenca: a.presencaMedia || 0,
+        posicao: a.posicao
+      })))
+
+      setConvocatoriasPendentes(convocations.filter(c => c.status === "enviada").slice(0, 2).map((c, idx) => ({
+        id: c.id || idx,
+        evento: c.titulo,
+        data: `${c.data} ${c.hora}`,
+        respostas: `${c.respostas?.confirmados || 0}/${(c.respostas?.confirmados || 0) + (c.respostas?.pendentes || 0) + (c.respostas?.recusados || 0)}`
+      })))
+
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   if (!user) {
     return null
@@ -89,7 +125,7 @@ export default function DashboardTreinadorPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockStats.totalAtletas}</div>
+              <div className="text-2xl font-bold">{stats.totalAtletas}</div>
               <p className="text-xs text-muted-foreground">Atletas ativos no plantel</p>
             </CardContent>
           </Card>
@@ -102,7 +138,7 @@ export default function DashboardTreinadorPage() {
               <TrendingUp className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-gold">{mockStats.presencaMedia}%</div>
+              <div className="text-2xl font-bold text-cap-gold">{stats.presencaMedia}%</div>
               <p className="text-xs text-muted-foreground">Nos ultimos 30 dias</p>
             </CardContent>
           </Card>
@@ -115,7 +151,7 @@ export default function DashboardTreinadorPage() {
               <Clock className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockStats.proximoTreino}</div>
+              <div className="text-2xl font-bold">{stats.proximoTreino}</div>
               <p className="text-xs text-muted-foreground">Campo Principal</p>
             </CardContent>
           </Card>
@@ -128,7 +164,7 @@ export default function DashboardTreinadorPage() {
               <ClipboardList className="size-4 text-cap-red" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-red">{mockStats.convocatoriasPendentes}</div>
+              <div className="text-2xl font-bold text-cap-red">{stats.convocatoriasPendentes}</div>
               <p className="text-xs text-muted-foreground">Pendentes de resposta</p>
             </CardContent>
           </Card>
@@ -147,7 +183,7 @@ export default function DashboardTreinadorPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockProximosEventos.map((evento) => (
+                {proximosEventos.map((evento) => (
                   <div
                     key={evento.id}
                     className="flex items-center justify-between p-3 rounded-lg bg-secondary/50"
@@ -187,7 +223,7 @@ export default function DashboardTreinadorPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockConvocatoriasPendentes.map((conv) => (
+                {convocatoriasPendentes.map((conv) => (
                   <div
                     key={conv.id}
                     className="flex items-center justify-between p-3 rounded-lg border border-border"
@@ -223,7 +259,7 @@ export default function DashboardTreinadorPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-3">
-              {mockAtletasDestaque.map((atleta, index) => (
+              {atletasDestaque.map((atleta, index) => (
                 <div
                   key={atleta.id}
                   className="flex items-center gap-4 p-4 rounded-lg bg-secondary/30"
@@ -231,7 +267,7 @@ export default function DashboardTreinadorPage() {
                   <div className="relative">
                     <Avatar className="size-12">
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                        {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
                     {index === 0 && (

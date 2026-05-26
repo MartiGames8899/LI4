@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/056qgiG5l79qKtGiuf5SlOB1qezXOiAvZJ6mAj5HLgQCR5T0OdAsE0jHg4eKD6tmuDiqsMp9ADVx2ooUf00Vg==",
+  "dgSpecHash": "j5OM1T+Hvrbbsa5Rr0+EOBGBuvIJT9KXd39/VVb1BrKBPObqDzAoMgoaKFxDan6PjzL19dW4wJndXdZwsThrkA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
+  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

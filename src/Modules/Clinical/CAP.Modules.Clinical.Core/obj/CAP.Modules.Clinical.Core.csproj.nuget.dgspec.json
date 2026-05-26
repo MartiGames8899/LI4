@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {}
+    "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
         "projectName": "CAP.Modules.Clinical.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -85,8 +85,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }

@@ -1,6 +1,7 @@
-"use client"
+﻿"use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,91 +13,123 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field"
 import { Calendar, MapPin, Clock, Users, CheckCircle, XCircle, AlertCircle, MessageSquare, Car, Bus } from "lucide-react"
-
-const convocatorias = [
-  {
-    id: 1,
-    tipo: "Jogo",
-    adversario: "FC Vizela B",
-    data: "2024-01-20",
-    hora: "15:00",
-    local: "Campo Municipal de Polvoreira",
-    concentracao: "14:00",
-    equipamento: "Principal",
-    atleta: "Joao Pedro Silva",
-    escalao: "Sub-15",
-    estado: "pendente",
-    transporte: "proprio",
-    observacoes: null
-  },
-  {
-    id: 2,
-    tipo: "Treino",
-    adversario: null,
-    data: "2024-01-18",
-    hora: "18:30",
-    local: "Campo Municipal de Polvoreira",
-    concentracao: "18:15",
-    equipamento: "Treino",
-    atleta: "Joao Pedro Silva",
-    escalao: "Sub-15",
-    estado: "confirmado",
-    transporte: "proprio",
-    observacoes: null
-  },
-  {
-    id: 3,
-    tipo: "Jogo",
-    adversario: "SC Braga C",
-    data: "2024-01-27",
-    hora: "10:00",
-    local: "Complexo Desportivo de Braga",
-    concentracao: "08:30",
-    equipamento: "Alternativo",
-    atleta: "Joao Pedro Silva",
-    escalao: "Sub-15",
-    estado: "confirmado",
-    transporte: "clube",
-    observacoes: "Saida do campo as 08:30"
-  },
-  {
-    id: 4,
-    tipo: "Torneio",
-    adversario: "Torneio de Inverno",
-    data: "2024-02-03",
-    hora: "09:00",
-    local: "Pavilhao de Guimaraes",
-    concentracao: "08:00",
-    equipamento: "Principal",
-    atleta: "Maria Silva",
-    escalao: "Sub-12",
-    estado: "pendente",
-    transporte: null,
-    observacoes: "Torneio durante todo o dia"
-  }
-]
+import { fetchApi } from "@/lib/api"
 
 export default function ConvocatoriasEncarregadoPage() {
+  const router = useRouter()
   const [respostaOpen, setRespostaOpen] = useState(false)
-  const [convocatoriaSelecionada, setConvocatoriaSelecionada] = useState<typeof convocatorias[0] | null>(null)
+  const [convocatoriaSelecionada, setConvocatoriaSelecionada] = useState<any | null>(null)
   const [resposta, setResposta] = useState<"confirmar" | "recusar" | null>(null)
+  const [motivo, setMotivo] = useState("")
+  const [observacoes, setObservacoes] = useState("")
+  const [convocatorias, setConvocatorias] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("cap_user")
+    if (!storedUser) {
+      router.push("/")
+      return
+    }
+    const parsed = JSON.parse(storedUser)
+    if (parsed.role !== "encarregado") {
+      router.push("/")
+      return
+    }
+    fetchData()
+  }, [router])
+
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const data: any = await fetchApi("api/users/parental/dashboard")
+      const dependentes = data.dependentes || []
+      
+      let allConvs: any[] = []
+
+      for (const d of dependentes) {
+        const d_convs: any[] = await fetchApi<any[]>(`api/sports/convocations/athlete/${d.id}`).catch(() => [])
+        
+        const mapped = d_convs.map(c => {
+           const convite = c.convites.find((cv: any) => cv.atletaId === d.id)
+           let estadoStr = "pendente"
+           if (convite) {
+               if (convite.presenca === 1) estadoStr = "confirmado"
+               else if (convite.presenca === 2) estadoStr = "recusado"
+           }
+           
+           const dt = new Date(c.dataEvento)
+           return {
+               id: c.id,
+               atletaId: d.id,
+               tipo: c.titulo?.includes("Jogo") ? "Jogo" : "Treino",
+               adversario: c.titulo,
+               data: dt.toISOString().split("T")[0],
+               hora: dt.toTimeString().substring(0, 5),
+               local: c.local || "Campo do CAP",
+               concentracao: new Date(dt.getTime() - 45*60000).toTimeString().substring(0, 5), // 45 min before
+               equipamento: "Principal",
+               atleta: d.nome,
+               escalao: "Sub-15", // mock
+               estado: estadoStr,
+               transporte: "proprio",
+               observacoes: convite?.observacoes
+           }
+        })
+        allConvs = [...allConvs, ...mapped]
+      }
+
+      setConvocatorias(allConvs)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const pendentes = convocatorias.filter(c => c.estado === "pendente")
   const confirmadas = convocatorias.filter(c => c.estado === "confirmado")
   const recusadas = convocatorias.filter(c => c.estado === "recusado")
 
-  const abrirResposta = (conv: typeof convocatorias[0]) => {
+  const abrirResposta = (conv: any) => {
     setConvocatoriaSelecionada(conv)
+    setResposta(null)
+    setMotivo("")
+    setObservacoes("")
     setRespostaOpen(true)
   }
 
+  const enviarResposta = async () => {
+      if (!convocatoriaSelecionada || !resposta) return;
+      try {
+          const presencaEnum = resposta === "confirmar" ? 1 : 2;
+          const obsFinal = resposta === "recusar" ? motivo : observacoes;
+          await fetchApi(`api/sports/convocations/${convocatoriaSelecionada.id}/presence`, {
+              method: "POST",
+              body: JSON.stringify({
+                  atletaId: convocatoriaSelecionada.atletaId,
+                  presenca: presencaEnum,
+                  observacoes: obsFinal
+              })
+          })
+          setRespostaOpen(false)
+          fetchData()
+      } catch (e) {
+          console.error(e)
+      }
+  }
+
+  if (loading) {
+      return <div className="flex h-screen items-center justify-center">A carregar...</div>
+  }
+
   return (
-    <DashboardLayout role="encarregado" userName="Carlos Silva">
+    <DashboardLayout role="encarregado" userName="O Meu Perfil">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Convocatorias</h1>
-          <p className="text-muted-foreground">Responda as convocatorias dos seus educandos</p>
+          <h1 className="text-2xl font-bold text-foreground">ConvocatÃ³rias</h1>
+          <p className="text-muted-foreground">Responda Ã s convocatÃ³rias dos seus educandos</p>
         </div>
 
         {/* Stats */}
@@ -151,12 +184,12 @@ export default function ConvocatoriasEncarregadoPage() {
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <CheckCircle className="mb-4 size-12 text-green-600" />
                     <h3 className="text-lg font-medium">Tudo em dia!</h3>
-                    <p className="text-muted-foreground">Nao tem convocatorias pendentes de resposta</p>
+                    <p className="text-muted-foreground">NÃ£o tem convocatÃ³rias pendentes de resposta</p>
                   </CardContent>
                 </Card>
               ) : (
                 pendentes.map((conv) => (
-                  <ConvocatoriaCard key={conv.id} convocatoria={conv} onResponder={() => abrirResposta(conv)} />
+                  <ConvocatoriaCard key={`${conv.id}-${conv.atletaId}`} convocatoria={conv} onResponder={() => abrirResposta(conv)} />
                 ))
               )}
             </div>
@@ -165,7 +198,7 @@ export default function ConvocatoriasEncarregadoPage() {
           <TabsContent value="confirmadas" className="mt-6">
             <div className="grid gap-4 md:grid-cols-2">
               {confirmadas.map((conv) => (
-                <ConvocatoriaCard key={conv.id} convocatoria={conv} readonly />
+                <ConvocatoriaCard key={`${conv.id}-${conv.atletaId}`} convocatoria={conv} readonly />
               ))}
             </div>
           </TabsContent>
@@ -174,7 +207,7 @@ export default function ConvocatoriasEncarregadoPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {convocatorias.map((conv) => (
                 <ConvocatoriaCard 
-                  key={conv.id} 
+                  key={`${conv.id}-${conv.atletaId}`} 
                   convocatoria={conv} 
                   readonly={conv.estado !== "pendente"}
                   onResponder={conv.estado === "pendente" ? () => abrirResposta(conv) : undefined}
@@ -188,7 +221,7 @@ export default function ConvocatoriasEncarregadoPage() {
         <Dialog open={respostaOpen} onOpenChange={setRespostaOpen}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Responder a Convocatoria</DialogTitle>
+              <DialogTitle>Responder a ConvocatÃ³ria</DialogTitle>
               <DialogDescription>
                 {convocatoriaSelecionada?.tipo} - {convocatoriaSelecionada?.adversario || "Treino"}
               </DialogDescription>
@@ -199,7 +232,7 @@ export default function ConvocatoriasEncarregadoPage() {
                   <div className="mb-2 flex items-center gap-2">
                     <Avatar className="size-8">
                       <AvatarFallback>
-                        {convocatoriaSelecionada.atleta.split(" ").map(n => n[0]).join("")}
+                        {convocatoriaSelecionada.atleta.split(" ").map((n: string) => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -252,7 +285,7 @@ export default function ConvocatoriasEncarregadoPage() {
                       <div className="flex gap-2">
                         <Button variant="outline" className="flex-1">
                           <Car className="mr-2 size-4" />
-                          Proprio
+                          PrÃ³prio
                         </Button>
                         <Button variant="outline" className="flex-1">
                           <Bus className="mr-2 size-4" />
@@ -264,20 +297,24 @@ export default function ConvocatoriasEncarregadoPage() {
 
                   {resposta === "recusar" && (
                     <Field>
-                      <FieldLabel htmlFor="motivo">Motivo (obrigatorio)</FieldLabel>
+                      <FieldLabel htmlFor="motivo">Motivo (obrigatÃ³rio)</FieldLabel>
                       <Textarea
                         id="motivo"
-                        placeholder="Indique o motivo da ausencia..."
+                        value={motivo}
+                        onChange={(e) => setMotivo(e.target.value)}
+                        placeholder="Indique o motivo da ausÃªncia..."
                         className="min-h-[80px]"
                       />
                     </Field>
                   )}
 
                   <Field>
-                    <FieldLabel htmlFor="obs">Observacoes (opcional)</FieldLabel>
+                    <FieldLabel htmlFor="obs">ObservaÃ§Ãµes (opcional)</FieldLabel>
                     <Textarea
                       id="obs"
-                      placeholder="Alguma informacao adicional..."
+                      value={observacoes}
+                      onChange={(e) => setObservacoes(e.target.value)}
+                      placeholder="Alguma informaÃ§Ã£o adicional..."
                       className="min-h-[60px]"
                     />
                   </Field>
@@ -288,7 +325,7 @@ export default function ConvocatoriasEncarregadoPage() {
               <Button variant="outline" onClick={() => setRespostaOpen(false)}>
                 Cancelar
               </Button>
-              <Button disabled={!resposta} onClick={() => setRespostaOpen(false)}>
+              <Button disabled={!resposta || (resposta === 'recusar' && !motivo)} onClick={enviarResposta}>
                 Enviar Resposta
               </Button>
             </DialogFooter>
@@ -304,7 +341,7 @@ function ConvocatoriaCard({
   readonly = false,
   onResponder 
 }: { 
-  convocatoria: typeof convocatorias[0]
+  convocatoria: any
   readonly?: boolean
   onResponder?: () => void
 }) {
@@ -341,7 +378,7 @@ function ConvocatoriaCard({
         <CardDescription className="flex items-center gap-2">
           <Avatar className="size-5">
             <AvatarFallback className="text-[10px]">
-              {convocatoria.atleta.split(" ").map(n => n[0]).join("")}
+              {convocatoria.atleta.split(" ").map((n: string) => n[0]).join("")}
             </AvatarFallback>
           </Avatar>
           {convocatoria.atleta} ({convocatoria.escalao})
@@ -355,7 +392,7 @@ function ConvocatoriaCard({
           </div>
           <div className="flex items-center gap-2">
             <Clock className="size-4 text-muted-foreground" />
-            <span>Concentracao: {convocatoria.concentracao} | Inicio: {convocatoria.hora}</span>
+            <span>ConcentraÃ§Ã£o: {convocatoria.concentracao} | InÃ­cio: {convocatoria.hora}</span>
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="size-4 text-muted-foreground" />
@@ -364,7 +401,7 @@ function ConvocatoriaCard({
           {convocatoria.transporte && (
             <div className="flex items-center gap-2">
               {convocatoria.transporte === "clube" ? <Bus className="size-4 text-muted-foreground" /> : <Car className="size-4 text-muted-foreground" />}
-              <span>Transporte: {convocatoria.transporte === "clube" ? "Clube" : "Proprio"}</span>
+              <span>Transporte: {convocatoria.transporte === "clube" ? "Clube" : "PrÃ³prio"}</span>
             </div>
           )}
           {convocatoria.observacoes && (

@@ -22,40 +22,49 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
+import { fetchApi } from "@/lib/api"
+
 interface User {
   email: string
   role: string
+  nome?: string
 }
 
-const mockAtletaInfo = {
-  nome: "Joao Silva",
-  numero: 10,
-  equipa: "Sub-15",
-  posicao: "Avancado",
-  presencaMedia: 92,
-  jogosEpoca: 12,
-  golosEpoca: 8,
+interface Convocatoria {
+  id: string
+  titulo: string
+  tipo: string
+  data: string
+  hora: string
+  local: string
+  estado: string
 }
 
-const mockProximosEventos = [
-  { id: 1, tipo: "Jogo", data: "Sabado, 15:00", local: "Campo Visitante", adversario: "FC Exemplo", convocado: true },
-  { id: 2, tipo: "Treino", data: "Segunda, 18:30", local: "Campo Principal", convocado: true },
-  { id: 3, tipo: "Treino", data: "Quarta, 18:30", local: "Campo Principal", convocado: true },
-]
+interface Notificacao {
+  id: string
+  titulo: string
+  mensagem: string
+  dataCriacao: string
+  lida: boolean
+}
 
-const initialConvocatoriasPendentes = [
-  { id: 1, evento: "Jogo vs FC Exemplo", data: "Sabado, 15:00", tipo: "jogo" },
-]
-
-const mockNotificacoes = [
-  { id: 1, titulo: "Nova convocatoria", mensagem: "Foste convocado para o jogo de Sabado", tempo: "2h", lida: false },
-  { id: 2, titulo: "Treino cancelado", mensagem: "O treino de quinta foi cancelado", tempo: "1d", lida: true },
-]
+const mockAtletaInfoFallback = {
+  nome: "Atleta",
+  numero: 0,
+  equipa: "Sem equipa",
+  posicao: "N/A",
+  presencaMedia: 0,
+  jogosEpoca: 0,
+  golosEpoca: 0,
+}
 
 export default function DashboardAtletaPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
-  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState(initialConvocatoriasPendentes)
+  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState<Convocatoria[]>([])
+  const [eventos, setEventos] = useState<Convocatoria[]>([])
+  const [notificacoes, setNotificacoes] = useState<Notificacao[]>([])
+  const [atletaInfo, setAtletaInfo] = useState(mockAtletaInfoFallback)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -69,22 +78,61 @@ export default function DashboardAtletaPage() {
       return
     }
     setUser(parsed)
+
+    const loadData = async () => {
+      try {
+        const convs = await fetchApi<Convocatoria[]>("api/sports/convocations/my")
+        setEventos(convs)
+        setConvocatoriasPendentes(convs.filter(c => c.estado === "pendente"))
+      } catch (e) { console.error(e) }
+
+      try {
+        const notifs = await fetchApi<Notificacao[]>("api/notifications/inbox")
+        setNotificacoes(notifs.filter(n => !n.lida).slice(0, 5))
+      } catch (e) { console.error(e) }
+
+      try {
+        const profile = await fetchApi<any>("api/users/profile")
+        if (profile) {
+            setAtletaInfo({
+                ...atletaInfo,
+                nome: profile.nome || user?.nome || mockAtletaInfoFallback.nome,
+                numero: profile.numero || 0,
+                equipa: profile.equipa || "Sem equipa",
+                posicao: profile.posicao || "N/A"
+            })
+        }
+      } catch (e) { console.error(e) }
+    }
+    loadData()
   }, [router])
 
   if (!user) {
     return null
   }
 
-  const handleConfirmarConvocatoria = (id: number) => {
-    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  const handleConfirmarConvocatoria = async (id: string) => {
+    try {
+      await fetchApi(`api/sports/convocations/${id}/my-presence`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado: "confirmado" })
+      })
+      setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+    } catch(e) {}
   }
 
-  const handleRecusarConvocatoria = (id: number) => {
-    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  const handleRecusarConvocatoria = async (id: string) => {
+    try {
+      await fetchApi(`api/sports/convocations/${id}/my-presence`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado: "recusado" })
+      })
+      setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+    } catch(e) {}
   }
 
   return (
-    <DashboardLayout role="atleta" userName={mockAtletaInfo.nome}>
+    <DashboardLayout role="atleta" userName={user?.nome || atletaInfo.nome}>
       <div className="space-y-6">
         {/* Welcome Card */}
         <Card className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
@@ -93,27 +141,27 @@ export default function DashboardAtletaPage() {
               <div className="flex items-center gap-4">
                 <Avatar className="size-16 border-2 border-primary-foreground/20">
                   <AvatarFallback className="text-xl bg-primary-foreground/10 text-primary-foreground">
-                    {mockAtletaInfo.nome.split(" ").map((n) => n[0]).join("")}
+                    {atletaInfo.nome.split(" ").map((n: string) => n[0]).join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h1 className="text-2xl font-bold">Ola, {mockAtletaInfo.nome.split(" ")[0]}!</h1>
+                  <h1 className="text-2xl font-bold">Ola, {(user?.nome || atletaInfo.nome).split(" ")[0]}!</h1>
                   <p className="text-primary-foreground/80">
-                    #{mockAtletaInfo.numero} - {mockAtletaInfo.posicao} | {mockAtletaInfo.equipa}
+                    #{atletaInfo.numero} - {atletaInfo.posicao} | {atletaInfo.equipa}
                   </p>
                 </div>
               </div>
               <div className="flex gap-6 text-center">
                 <div>
-                  <p className="text-3xl font-bold">{mockAtletaInfo.presencaMedia}%</p>
+                  <p className="text-3xl font-bold">{atletaInfo.presencaMedia}%</p>
                   <p className="text-xs text-primary-foreground/70">Presenca</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">{mockAtletaInfo.jogosEpoca}</p>
+                  <p className="text-3xl font-bold">{atletaInfo.jogosEpoca}</p>
                   <p className="text-xs text-primary-foreground/70">Jogos</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">{mockAtletaInfo.golosEpoca}</p>
+                  <p className="text-3xl font-bold">{atletaInfo.golosEpoca}</p>
                   <p className="text-xs text-primary-foreground/70">Golos</p>
                 </div>
               </div>
@@ -131,7 +179,7 @@ export default function DashboardAtletaPage() {
                   <div>
                     <p className="font-medium text-cap-gold">Convocatoria Pendente</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {convocatoriasPendentes[0].evento} - {convocatoriasPendentes[0].data}
+                      {convocatoriasPendentes[0].titulo} - {convocatoriasPendentes[0].data}
                     </p>
                   </div>
                 </div>
@@ -160,8 +208,8 @@ export default function DashboardAtletaPage() {
               <Calendar className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-bold">{mockProximosEventos[0]?.tipo}</div>
-              <p className="text-xs text-muted-foreground">{mockProximosEventos[0]?.data}</p>
+              <div className="text-lg font-bold">{eventos.length > 0 ? eventos[0].titulo : "Nenhum evento"}</div>
+              <p className="text-xs text-muted-foreground">{eventos.length > 0 ? eventos[0].data : ""}</p>
             </CardContent>
           </Card>
 
@@ -173,7 +221,7 @@ export default function DashboardAtletaPage() {
               <TrendingUp className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-gold">{mockAtletaInfo.presencaMedia}%</div>
+              <div className="text-2xl font-bold text-cap-gold">{atletaInfo.presencaMedia}%</div>
               <p className="text-xs text-muted-foreground">Muito bom!</p>
             </CardContent>
           </Card>
@@ -186,8 +234,8 @@ export default function DashboardAtletaPage() {
               <Trophy className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockAtletaInfo.golosEpoca}</div>
-              <p className="text-xs text-muted-foreground">Em {mockAtletaInfo.jogosEpoca} jogos</p>
+              <div className="text-2xl font-bold">{atletaInfo.golosEpoca}</div>
+              <p className="text-xs text-muted-foreground">Em {atletaInfo.jogosEpoca} jogos</p>
             </CardContent>
           </Card>
 
@@ -200,7 +248,7 @@ export default function DashboardAtletaPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-cap-red">
-                {mockNotificacoes.filter((n) => !n.lida).length}
+                {notificacoes.length}
               </div>
               <p className="text-xs text-muted-foreground">Por ler</p>
             </CardContent>
@@ -220,7 +268,7 @@ export default function DashboardAtletaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockProximosEventos.map((evento) => (
+                {eventos.slice(0, 3).map((evento) => (
                   <div
                     key={evento.id}
                     className="flex items-center justify-between p-4 rounded-lg bg-secondary/30"
@@ -232,7 +280,6 @@ export default function DashboardAtletaPage() {
                       <div>
                         <p className="font-medium">
                           {evento.tipo}
-                          {evento.adversario && ` vs ${evento.adversario}`}
                         </p>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                           <Clock className="size-3" />
@@ -242,7 +289,7 @@ export default function DashboardAtletaPage() {
                         </div>
                       </div>
                     </div>
-                    {evento.convocado && (
+                    {evento.estado === "confirmado" && (
                       <Badge className="bg-success/10 text-success border-success/20">
                         <CheckCircle className="size-3 mr-1" />
                         Convocado
@@ -268,7 +315,7 @@ export default function DashboardAtletaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockNotificacoes.map((notif) => (
+                {notificacoes.map((notif) => (
                   <div
                     key={notif.id}
                     className={`p-4 rounded-lg ${
@@ -285,12 +332,12 @@ export default function DashboardAtletaPage() {
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">{notif.mensagem}</p>
                       </div>
-                      <span className="text-xs text-muted-foreground">{notif.tempo}</span>
+                      <span className="text-xs text-muted-foreground">{new Date(notif.dataCriacao).toLocaleDateString()}</span>
                     </div>
                   </div>
                 ))}
               </div>
-              <Button variant="outline" className="w-full mt-4" onClick={() => router.push("/dashboard/atleta/notificacoes")}>
+              <Button variant="outline" className="w-full mt-4" onClick={() => router.push("/dashboard/notificacoes")}>
                 Ver Todas
               </Button>
             </CardContent>
@@ -316,7 +363,7 @@ export default function DashboardAtletaPage() {
                 <ShoppingBag className="size-5" />
                 <span>Loja CAP</span>
               </Button>
-              <Button variant="outline" className="h-auto py-4 flex-col gap-2" onClick={() => router.push("/dashboard/atleta/notificacoes")}>
+              <Button variant="outline" className="h-auto py-4 flex-col gap-2" onClick={() => router.push("/dashboard/notificacoes")}>
                 <Bell className="size-5" />
                 <span>Notificacoes</span>
               </Button>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\CAP.API.csproj": {}
+    "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\CAP.API.csproj": {
+    "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\CAP.API.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj",
         "projectName": "CAP.API",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\CAP.API.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.API\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,68 +26,68 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
               }
             }
           }
@@ -152,14 +152,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -211,14 +211,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj",
         "projectName": "CAP.Modules.Clinical.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\CAP.Modules.Clinical.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -233,11 +233,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj"
               }
             }
           }
@@ -277,14 +277,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
         "projectName": "CAP.Modules.Clinical.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -299,8 +299,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -334,14 +334,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
         "projectName": "CAP.Modules.Clinical.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -356,8 +356,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
               }
             }
           }
@@ -401,14 +401,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
         "projectName": "CAP.Modules.Facilities.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -423,11 +423,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj"
               }
             }
           }
@@ -467,14 +467,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
         "projectName": "CAP.Modules.Facilities.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -489,8 +489,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -524,14 +524,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
         "projectName": "CAP.Modules.Facilities.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -546,8 +546,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
               }
             }
           }
@@ -591,14 +591,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
         "projectName": "CAP.Modules.Finance.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -613,11 +613,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
               }
             }
           }
@@ -657,14 +657,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
         "projectName": "CAP.Modules.Finance.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -679,8 +679,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -714,14 +714,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
         "projectName": "CAP.Modules.Finance.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -736,8 +736,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
               }
             }
           }
@@ -781,14 +781,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
         "projectName": "CAP.Modules.Notifications.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -803,11 +803,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
               }
             }
           }
@@ -847,14 +847,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj",
         "projectName": "CAP.Modules.Notifications.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -869,8 +869,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -904,14 +904,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj",
         "projectName": "CAP.Modules.Notifications.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -926,8 +926,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Core\\CAP.Modules.Notifications.Core.csproj"
               }
             }
           }
@@ -971,14 +971,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
         "projectName": "CAP.Modules.Reports.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -993,11 +993,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj"
               }
             }
           }
@@ -1045,14 +1045,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
         "projectName": "CAP.Modules.Reports.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1067,8 +1067,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -1112,14 +1112,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
         "projectName": "CAP.Modules.Reports.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1134,8 +1134,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
               }
             }
           }
@@ -1179,14 +1179,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
         "projectName": "CAP.Modules.Sports.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1201,14 +1201,14 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
               }
             }
           }
@@ -1248,14 +1248,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
         "projectName": "CAP.Modules.Sports.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1270,8 +1270,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -1305,14 +1305,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
         "projectName": "CAP.Modules.Sports.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1327,8 +1327,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
               }
             }
           }
@@ -1372,14 +1372,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
         "projectName": "CAP.Modules.Users.Api",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1394,11 +1394,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
               },
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
               }
             }
           }
@@ -1438,14 +1438,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "projectName": "CAP.Modules.Users.Core",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1460,8 +1460,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -1509,14 +1509,14 @@
         }
       }
     },
-    "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "projectName": "CAP.Modules.Users.Data",
-        "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
+        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1531,8 +1531,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-                "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
               }
             }
           }

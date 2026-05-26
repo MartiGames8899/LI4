@@ -4845,11 +4845,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
       "projectName": "CAP.Modules.Sports.Api",
-      "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
+      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4864,14 +4864,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-              "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+            "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
             },
-            "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
-              "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+            "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
             },
-            "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
-              "projectPath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
+            "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
             }
           }
         }

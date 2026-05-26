@@ -48,18 +48,59 @@ public class FacilitiesController : ControllerBase
     public async Task<IActionResult> CreateReservation([FromBody] CreateReservationRequest request)
     {
         var userId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
-        
+
         var reserva = await _facilityService.CreateReservationAsync(
-            request.EspacoId, 
-            userId, 
-            request.Titulo, 
-            request.DataInicio, 
-            request.DataFim, 
+            request.EspacoId,
+            userId,
+            request.Titulo,
+            request.DataInicio,
+            request.DataFim,
             request.IsManutencao);
 
         if (reserva == null)
             return Conflict("Existe um conflito de horário para este espaço");
 
         return Ok(reserva);
+    }
+
+    [HttpGet("reservations")]
+    public async Task<IActionResult> GetReservations()
+    {
+        var reservas = await _reservaRepository.GetAllAsync();
+        return Ok(reservas);
+    }
+
+    [HttpDelete("reservations/{id}")]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> DeleteReservation(Guid id)
+    {
+        var reserva = await _reservaRepository.GetByIdAsync(id);
+        if (reserva == null) return NotFound();
+
+        await _reservaRepository.DeleteAsync(reserva);
+        await _reservaRepository.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpPut("spaces/{id}")]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> UpdateSpace(Guid id, [FromBody] UpdateSpaceRequest request)
+    {
+        var espaco = await _espacoRepository.GetByIdAsync(id);
+        if (espaco == null) return NotFound();
+
+        if (Enum.TryParse<TipoEspaco>(request.Tipo, true, out var tipoEnum))
+            espaco.Tipo = tipoEnum;
+
+        espaco.Nome = request.Nome;
+        espaco.Capacidade = request.Capacidade;
+        espaco.Observacoes = request.Observacoes;
+        espaco.Ativo = request.Ativo;
+
+        await _espacoRepository.UpdateAsync(espaco);
+        await _espacoRepository.SaveChangesAsync();
+
+        return Ok(espaco);
     }
 }

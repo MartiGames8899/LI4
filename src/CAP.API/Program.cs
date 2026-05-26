@@ -36,6 +36,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5000") // Adicionado localhost:3000 (React/Next)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Configure Database - Users Module
 builder.Services.AddDbContext<UsersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -140,17 +150,18 @@ using (var scope = app.Services.CreateScope())
     var sportsDb = services.GetRequiredService<SportsDbContext>();
     var clinicalDb = services.GetRequiredService<ClinicalDbContext>();
     var financeDb = services.GetRequiredService<FinanceDbContext>();
-    
+    var facilitiesDb = services.GetRequiredService<FacilitiesDbContext>();
+
     usersDb.Database.Migrate();
     sportsDb.Database.Migrate();
     clinicalDb.Database.Migrate();
     financeDb.Database.Migrate();
     services.GetRequiredService<NotificationsDbContext>().Database.Migrate();
-    services.GetRequiredService<FacilitiesDbContext>().Database.Migrate();
+    facilitiesDb.Database.Migrate();
     services.GetRequiredService<ReportsDbContext>().Database.Migrate();
-    
+
     // Correr Seeder
-    await CAP.API.Data.DataSeeder.SeedAsync(usersDb, sportsDb, clinicalDb, financeDb);
+    await CAP.API.Data.DataSeeder.SeedAsync(usersDb, sportsDb, clinicalDb, financeDb, facilitiesDb);
 }
 
 // Configure the HTTP request pipeline.
@@ -162,6 +173,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("AllowAll");
 
 app.MapControllers();
 

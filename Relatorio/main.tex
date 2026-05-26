@@ -3,9 +3,11 @@
     %% Cover page text cannot overlay cover sketching/style
     %% https://ctan.org/pkg/geometry?lang=en
 \usepackage{geometry}
+\usepackage{amssymb}
 \usepackage{xltabular}
 \usepackage{listings}
 \usepackage{array}
+\usepackage{multirow}
 \usepackage{pdfpages}
 \usepackage{adjustbox}
 \usepackage{pdflscape}
@@ -60,6 +62,12 @@
 \newcommand{\reflexao}[1]{%
     %
     #1\par\medskip
+}
+
+% Mini-referência para apontar ao capítulo de Documentação de IA
+% Uso: \verIA{sec:ia_requisitos} ou \verIA{sec:ia_arquitetura} etc.
+\newcommand{\verIA}[1]{%
+    \par\smallskip\noindent\textit{\footnotesize\textcolor{blue!50!black}{$\hookrightarrow$ \textit{Prompt e resultado documentados no Cap.~\ref{chap:documentacao_ia}, Secção~\ref{#1}.}}}\par\medskip
 }
     %% List of acronyms
     %% https://ctan.org/pkg/nomencl?lang=en
@@ -130,11 +138,11 @@
 
 \begin{flushleft}
 \begin{abstract}
-Este projeto foca-se na criação de um sistema de gestão para o Clube Amigos de Polvoreira (CAP), um clube desportivo multidisciplinar de Guimarães. O objetivo é digitalizar os processos do clube, que até agora eram feitos quase totalmente em papel, facilitando a vida a quem gere o clube, aos treinadores e aos atletas.
+Este projeto foca-se na criação de um sistema de gestão para o Clube Amigos de Polvoreira (CAP), um clube desportivo multidisciplinar de Guimarães. O objetivo é digitalizar os processos do clube, que até agora eram feitos sobretudo em papel ou através de ferramentas dispersas, facilitando a vida a quem gere o clube, aos treinadores e aos atletas.
 
 Neste relatório, descrevemos todo o percurso que fizemos: desde perceber o que o clube precisava até ao desenho da arquitetura e desenvolvimento do software. Um ponto importante do nosso trabalho foi o uso de Inteligência Artificial Generativa para nos ajudar a escrever e a criar diagramas. Documentámos estas interações nas secções de "Documentação de IA", mas garantimos sempre que o resultado final foi revisto e adaptado por nós para o contexto real do clube.
 
-O trabalho começou com a recolha de requisitos através de entrevistas e questionários. Depois, desenhámos a estrutura do sistema usando o padrão de monólito modular, com tecnologias modernas como .NET 8 e PostgreSQL. O resultado é uma plataforma que permite gerir equipas, marcar jogos e treinos, controlar atestados médicos e tratar da parte financeira (quotas) de forma simples e segura. No final, validámos se o sistema cumpria o que foi pedido inicialmente, garantindo uma solução útil para o dia a dia do CAP.
+O trabalho começou com a recolha de requisitos através de entrevistas e questionários. Depois, desenhámos a estrutura do sistema usando o padrão de monólito modular, com tecnologias modernas como .NET 7 e PostgreSQL. O resultado é uma plataforma que permite gerir equipas, marcar jogos e treinos, controlar atestados médicos e tratar da parte financeira (quotas) de forma simples e segura. No final, validámos se o sistema cumpria o que foi pedido inicialmente, garantindo uma solução útil para o dia a dia do CAP.
 
     \paragraph*{Área de Aplicação:} Engenharia de Software Assistida por IA.
     \paragraph*{Palavras-Chave:} Engenharia de Software, LLMs, Gestão Desportiva, Requisitos, Arquitetura, Clube Desportivo.
@@ -163,6 +171,59 @@ O trabalho começou com a recolha de requisitos através de entrevistas e questi
 
 \listoffigures
 
+\pagebreak
+
+\listoftables
+
+\pagebreak
+
+%==========================================================================
+% LISTA DE ACRÓNIMOS
+%==========================================================================
+\chapter*{Lista de Acrónimos}
+\addcontentsline{toc}{chapter}{Lista de Acrónimos}
+
+\begin{tabular}{ll}
+\textbf{API}    & Application Programming Interface \\
+\textbf{AT}     & Autoridade Tributária e Aduaneira \\
+\textbf{CAP}    & Clube Amigos de Polvoreira \\
+\textbf{CRUD}   & Create, Read, Update, Delete \\
+\textbf{DDD}    & Domain-Driven Design \\
+\textbf{EE}     & Encarregado de Educação \\
+\textbf{EF}     & Entity Framework \\
+\textbf{EMD}    & Exame Médico Desportivo \\
+\textbf{HMAC}   & Hash-based Message Authentication Code \\
+\textbf{HTTP}   & Hypertext Transfer Protocol \\
+\textbf{HTTPS}  & Hypertext Transfer Protocol Secure \\
+\textbf{IAG}    & Inteligência Artificial Generativa \\
+\textbf{IMC}    & Índice de Massa Corporal \\
+\textbf{JSON}   & JavaScript Object Notation \\
+\textbf{JWT}    & JSON Web Token \\
+\textbf{LI4}    & Laboratórios de Informática IV \\
+\textbf{LLM}    & Large Language Model \\
+\textbf{NIF}    & Número de Identificação Fiscal \\
+\textbf{ORM}    & Object-Relational Mapping \\
+\textbf{PDF}    & Portable Document Format \\
+\textbf{RBAC}   & Role-Based Access Control \\
+\textbf{REST}   & Representational State Transfer \\
+\textbf{RF}     & Requisito Funcional \\
+\textbf{RGPD}   & Regulamento Geral sobre a Proteção de Dados \\
+\textbf{RNF}    & Requisito Não Funcional \\
+\textbf{RTO}    & Recovery Time Objective \\
+\textbf{SAF-T}  & Standard Audit File for Tax \\
+\textbf{SGBD}   & Sistema de Gestão de Base de Dados \\
+\textbf{SMS}    & Short Message Service \\
+\textbf{SPA}    & Single Page Application \\
+\textbf{SRS}    & Software Requirements Specification \\
+\textbf{TPH}    & Table-Per-Hierarchy \\
+\textbf{UC}     & Use Case (Caso de Uso) \\
+\textbf{UML}    & Unified Modeling Language \\
+\textbf{WCAG}   & Web Content Accessibility Guidelines \\
+\textbf{XML}    & Extensible Markup Language \\
+\end{tabular}
+
+\pagebreak
+
 %==========================================================================
 % END INDEXES PAGES
 %==========================================================================
@@ -181,6 +242,19 @@ O trabalho começou com a recolha de requisitos através de entrevistas e questi
 \include{chapters/03_analise_requisitos}
 
 \include{chapters/04_especificacao_modelacao}
+
+\include{chapters/05_implementacao}
+
+\include{chapters/06_documentacao_ia}
+
+\include{chapters/06_conclusao}
+
+%==========================================================================
+% BIBLIOGRAFIA
+%==========================================================================
+
+\bibliographystyle{plain}
+\bibliography{references}
 
 %==========================================================================
 % FIM DO RELATÓRIO

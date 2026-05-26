@@ -26,7 +26,7 @@ public class PagamentosController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Secretaria,Gerencia")]
+    [Authorize(Roles = "Secretaria,Gerencia,Encarregado")]
     public async Task<IActionResult> Register([FromBody] RegisterPaymentRequest request)
     {
         if (!Enum.TryParse<MetodoPagamento>(request.Metodo, true, out var metodo))
@@ -76,5 +76,45 @@ public class PagamentosController : ControllerBase
         await _receiptRepository.SaveChangesAsync();
 
         return Ok(new { Pagamento = pagamento, Recibo = recibo });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> GetAll()
+    {
+        var pagamentos = await _paymentRepository.GetAllAsync();
+        return Ok(pagamentos);
+    }
+
+    [HttpGet("athlete/{atletaId}")]
+    public async Task<IActionResult> GetByAthlete(Guid atletaId)
+    {
+        var pagamentos = await _paymentRepository.GetAllAsync();
+        return Ok(pagamentos.Where(p => p.AtletaId == atletaId));
+    }
+
+    [HttpPost("generate")]
+    [Authorize(Roles = "Secretaria,Gerencia,Encarregado")]
+    public IActionResult GenerateReference([FromBody] GenerateReferenceRequest request)
+    {
+        var rng = new Random();
+        if (request.Metodo == "MBWay")
+        {
+            return Ok(new { 
+                Telefone = "91" + rng.Next(1000000, 9999999).ToString(), 
+                Valor = request.Valor,
+                Validade = DateTime.UtcNow.AddMinutes(5)
+            });
+        }
+        else if (request.Metodo == "Multibanco")
+        {
+            return Ok(new {
+                Entidade = "12345",
+                Referencia = rng.Next(100000000, 999999999).ToString("D9"),
+                Valor = request.Valor
+            });
+        }
+        
+        return BadRequest("Método não suportado para geração de referência.");
     }
 }

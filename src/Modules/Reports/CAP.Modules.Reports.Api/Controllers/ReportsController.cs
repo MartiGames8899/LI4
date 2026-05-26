@@ -9,7 +9,7 @@ namespace CAP.Modules.Reports.Api.Controllers;
 
 [ApiController]
 [Route("api/reports")]
-[Authorize(Roles = "Gerencia")]
+[Authorize(Roles = "Gerencia,Secretaria")]
 public class ReportsController : ControllerBase
 {
     private readonly IRepository<ResumoFinanceiro> _financeRepository;

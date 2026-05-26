@@ -1,0 +1,845 @@
+% ============================================================
+% CAPÍTULO 5 — IMPLEMENTAÇÃO DA APLICAÇÃO
+% Sistema de Gestão Integrada — Clube Amigos de Polvoreira (CAP)
+% ============================================================
+
+\chapter{Implementação da Aplicação}\label{chap:implementacao}
+
+% ============================================================
+% SECÇÃO 5.1 — PROCESSO DE IMPLEMENTAÇÃO
+% ============================================================
+
+\section{Processo de Implementação}
+
+Nesta secção do relatório, procura-se descrever como a equipa de desenvolvimento se organizou para a implementação da aplicação especificada nos capítulos anteriores. Nas secções seguintes, será apresentado, de forma detalhada, o processo de desenvolvimento de cada uma das camadas que compõem o sistema.
+
+A pilha tecnológica utilizada seguiu fielmente as decisões tomadas na fase de especificação (Capítulo~\ref{chap:especificacao_modelacao}): um \textbf{Monólito Modular} desenvolvido em \textbf{C\# com ASP.NET Core (.NET 7)} \cite{aspnetcore2023}, uma base de dados \textbf{PostgreSQL 15} \cite{postgresql2024} acedida via \textbf{Entity Framework Core} \cite{efcore2023}, uma \textbf{API RESTful} exposta pelo ASP.NET Core, e uma camada de apresentação construída com \textbf{Next.js 16} \cite{nextjs2024} (React 19, TypeScript). Para além destas tecnologias principais, a equipa recorreu a \textbf{Docker} e \textbf{Docker Compose} \cite{docker2024} para contentorizar toda a aplicação, e ao \textbf{Git} para o controlo de versões ao longo de todo o processo. A Figura~\ref{fig:diagrama-componentes} (Capítulo~\ref{chap:especificacao_modelacao}) apresenta a visão de alto nível da arquitetura implementada.
+
+O primeiro passo da implementação foi a definição das \textbf{entidades de domínio} em C\#, ou seja, as classes que representam os conceitos centrais do sistema --- \texttt{Utilizador}, \texttt{Atleta}, \texttt{Treinador}, \texttt{Equipa}, \texttt{Treino}, \texttt{AtestadoMedico}, \texttt{Quota}, entre outras. Graças à abordagem \textit{Code-First} do Entity Framework Core, a criação das tabelas na base de dados foi feita de forma automática a partir destas classes, através de \textit{Migrations} que foram geradas e aplicadas ao PostgreSQL. Para manter o isolamento entre módulos, cada um possui o seu próprio \texttt{DbContext} e o seu próprio esquema na base de dados (por exemplo, o módulo de Utilizadores usa o esquema \texttt{users}, o módulo Desportivo usa \texttt{sports}, o módulo Clínico usa \texttt{clinical}, e assim por diante). Em paralelo, foram criados os primeiros \textit{Controllers} com \textit{endpoints} básicos para verificar que a comunicação entre a API e a base de dados funcionava corretamente.
+
+Após os modelos e as tabelas estarem estabilizados, a equipa concentrou-se no desenvolvimento da \textbf{camada de negócio}, isto é, os \textit{Controllers} RESTful que expõem a funcionalidade de cada módulo. Foram implementados controladores para todos os sete módulos do sistema --- Gestão de Utilizadores, Gestão Desportiva, Gestão Clínica, Gestão Financeira, Gestão de Instalações, Serviço de Notificações e Serviço de Relatórios. Cada controlador foi testado individualmente com recurso ao \textbf{Swagger UI}, uma interface de documentação e teste de APIs gerada automaticamente pelo ASP.NET Core, que permitiu validar o comportamento de cada \textit{endpoint} antes de avançar para a construção do \textit{frontend}. O Swagger ficou disponível em \texttt{http://localhost:5000/swagger} sempre que o contentor da API arranca, agrupando os endpoints por controlador e permitindo experimentar pedidos com o token JWT injetado a partir do botão ``Authorize''.
+
+Em paralelo com a finalização da API, começou-se o desenvolvimento da \textbf{camada de apresentação} em Next.js com TypeScript e Tailwind CSS. A construção do \textit{frontend} seguiu uma abordagem incremental: inicialmente, foram criados esqueletos das páginas com dados estáticos (\textit{mock data}) para definir o \textit{layout} e a navegação entre ecrãs. O sistema de \textit{dashboards} foi organizado por perfil de utilizador --- Atleta, Treinador, Encarregado de Educação e Secretaria --- de modo a que cada papel veja apenas as funcionalidades que lhe dizem respeito. Posteriormente, os dados estáticos foram progressivamente substituídos por chamadas reais à API REST, através de uma função utilitária \texttt{fetchApi} que centraliza a comunicação HTTP e a gestão de \textit{tokens} de autenticação.
+
+Quando as três camadas --- dados, negócio e apresentação --- se encontravam funcionais, procedeu-se à fase de \textbf{integração e povoamento}. Foi desenvolvido um componente chamado \texttt{DataSeeder}, responsável por povoar automaticamente a base de dados com dados de demonstração realistas. Este \textit{seeder} cria utilizadores de todos os papéis (secretaria, treinadores, atletas e encarregados de educação), gera modalidades e equipas, cria treinos passados com presenças variadas, insere atestados médicos com diferentes estados de validade e gera quotas com pagamentos em diferentes situações. A utilização de dados variados e não uniformes --- por exemplo, percentagens de presenças que diferem de atleta para atleta --- foi uma decisão deliberada para simular o ambiente real do clube e permitir testar cenários diversos. A aplicação foi depois testada de ponta a ponta, fazendo \textit{login} com os diferentes perfis e verificando que cada \textit{dashboard} apresentava os dados corretos provenientes da API.
+
+Para facilitar a implantação da aplicação e garantir que qualquer membro da equipa pudesse correr o sistema sem necessidade de instalar e configurar ferramentas individualmente, toda a \textit{stack} foi \textbf{contentorizada com Docker}. O ficheiro \texttt{docker-compose.yml} orquestra três serviços: o contentor \texttt{db} (PostgreSQL~15 Alpine), o contentor \texttt{api} (servidor ASP.NET compilado num \textit{multi-stage build} a partir da imagem oficial do .NET SDK) e o contentor \texttt{frontend} (aplicação Next.js compilada e servida com Node.js~20). O contentor da base de dados inclui um \textit{healthcheck} que garante que o PostgreSQL está pronto antes de a API iniciar. Por sua vez, a API, ao arrancar, executa automaticamente todas as migrações pendentes do Entity Framework Core e corre o \texttt{DataSeeder} para povoar a base de dados caso esta esteja vazia. Desta forma, um único comando --- \texttt{docker compose up -{}-build} --- é suficiente para compilar o código, criar a base de dados, aplicar as migrações, povoar os dados de demonstração e servir a aplicação nos portos 3000 (\textit{frontend}) e 5000 (API).
+
+% ============================================================
+% SECÇÃO 5.2 — IMPLEMENTAÇÃO DA BASE DE DADOS
+% ============================================================
+
+\section{Implementação da Base de Dados}
+
+Ao contrário da abordagem tradicional, onde o primeiro passo seria escrever instruções SQL para criar manualmente cada tabela da base de dados, o projeto do CAP adotou a abordagem \textit{Code-First} do Entity Framework Core. Nesta abordagem, as tabelas e as suas relações são derivadas automaticamente a partir das classes de domínio escritas em C\#. Isto significa que o modelo lógico definido no Capítulo~\ref{chap:especificacao_modelacao} foi traduzido diretamente em código, e o Entity Framework encarregou-se de gerar as instruções SQL correspondentes através do mecanismo de \textit{Migrations}.
+
+\subsection{Criação da Base de Dados e Esquemas}
+
+A base de dados do CAP é um único servidor PostgreSQL~15, mas encontra-se internamente dividida em sete \textbf{esquemas} (\textit{schemas}), um por cada módulo do sistema. Esta separação garante o isolamento lógico dos dados de cada domínio, tal como recomendado pela arquitetura de Monólito Modular. A tabela seguinte resume os esquemas e as tabelas principais de cada um:
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{4cm}|p{7.5cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Esquema}} & \textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Tabelas Principais}} \\ \hline
+\texttt{users}         & Gestão de Utilizadores     & \texttt{Utilizadores} (com TPH para Atleta, Treinador, Encarregado) \\ \hline
+\texttt{sports}        & Gestão Desportiva          & \texttt{Modalidades}, \texttt{Escaloes}, \texttt{Equipas}, \texttt{AtletaEquipas}, \texttt{Treinos}, \texttt{PresencasTreino}, \texttt{Convocatorias}, \texttt{Convites}, \texttt{OcorrenciasJogo}, \texttt{AvaliacoesQualitativas} \\ \hline
+\texttt{clinical}      & Gestão Clínica             & \texttt{Atestados}, \texttt{Lesoes} \\ \hline
+\texttt{finance}       & Gestão Financeira          & \texttt{QuotaDefinicoes}, \texttt{Quotas}, \texttt{Pagamentos}, \texttt{Recibos}, \texttt{PagamentoQuota} \\ \hline
+\texttt{notifications} & Serviço de Notificações    & \texttt{Notificacoes}, \texttt{NotificacaoPreferencias} \\ \hline
+\texttt{facilities}    & Gestão de Instalações      & \texttt{Espacos}, \texttt{Reservas} \\ \hline
+\texttt{reports}       & Serviço de Relatórios      & \texttt{ResumosFinanceiros}, \texttt{ResumosDesportivos} \\ \hline
+\end{tabular}
+\caption{Esquemas da base de dados e respetivas tabelas principais.}
+\label{tab:esquemas-bd}
+\end{table}
+\rowcolors{2}{white}{white}
+
+A atribuição de cada módulo ao seu esquema é feita na configuração do respetivo \texttt{DbContext}, através da instrução \texttt{modelBuilder.HasDefaultSchema("nome")}. Abaixo, apresenta-se um excerto simplificado do \texttt{UsersDbContext}, que ilustra esta configuração:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Excerto do \texttt{UsersDbContext} com configuração de esquema e herança TPH.},label={lst:usersdbcontext}]
+public class UsersDbContext : DbContext
+{
+    public DbSet<Utilizador> Utilizadores => Set<Utilizador>();
+    public DbSet<Atleta> Atletas => Set<Atleta>();
+    public DbSet<Treinador> Treinadores => Set<Treinador>();
+    public DbSet<EncarregadoEducacao> EncarregadosEducacao
+        => Set<EncarregadoEducacao>();
+
+    protected override void OnModelCreating(ModelBuilder mb)
+    {
+        mb.HasDefaultSchema("users");
+
+        mb.Entity<Utilizador>()
+            .HasDiscriminator<string>("UserType")
+            .HasValue<Utilizador>("Base")
+            .HasValue<Atleta>("Atleta")
+            .HasValue<Treinador>("Treinador")
+            .HasValue<EncarregadoEducacao>("EncarregadoEducacao");
+    }
+}
+\end{lstlisting}
+
+No excerto acima, a instrução \texttt{HasDefaultSchema("users")} indica ao Entity Framework que todas as tabelas geridas por este contexto devem ser criadas dentro do esquema \texttt{users} no PostgreSQL, mantendo-as isoladas dos restantes módulos. Por outro lado, a configuração do \textbf{discriminador} (\textit{Table-Per-Hierarchy} --- TPH) permite armazenar toda a hierarquia de utilizadores numa única tabela física (\texttt{Utilizadores}), com uma coluna \texttt{UserType} para distinguir cada tipo concreto. Trata-se de uma decisão de compromisso: sacrifica-se alguma normalização em troca da simplicidade de consultas e da redução do número de \textit{JOINs}.
+
+\subsection{Entidades e Modelo de Dados}
+
+Todas as entidades do sistema herdam de uma classe base abstrata \texttt{Entity}, que fornece um identificador único do tipo \texttt{Guid} gerado automaticamente no momento da criação:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Classe base \texttt{Entity} partilhada por todas as entidades do sistema.},label={lst:entity-base}]
+public abstract class Entity
+{
+    public Guid Id { get; protected set; }
+    protected Entity() => Id = Guid.NewGuid();
+}
+\end{lstlisting}
+
+A utilização de \texttt{Guid} como chave primária, em vez de inteiros auto-incrementados, foi uma decisão deliberada para facilitar a geração de identificadores no lado do cliente e evitar conflitos em cenários de inserção concorrente. A título de exemplo, apresenta-se abaixo a entidade \texttt{Utilizador}, que serve de classe base para a hierarquia de utilizadores:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Classe \texttt{Utilizador} --- entidade base da hierarquia de utilizadores.},label={lst:utilizador}]
+public class Utilizador : Entity
+{
+    public string NumeroSocio { get; set; }
+    public string Nome { get; set; }
+    public string Email { get; set; }
+    public string Telefone { get; set; }
+    public string PasswordHash { get; set; }
+    public string Role { get; set; }  // Atleta, Treinador, Secretaria, Gerencia
+    public string Tipo { get; set; }  // Regular, Jovem, Honorario, Fundador
+    public string Estado { get; set; } // Ativo, Suspenso
+    public DateTime DataInscricao { get; set; }
+    public int FailedLoginAttempts { get; set; }
+    public DateTime? LockoutEnd { get; set; }
+}
+\end{lstlisting}
+
+Os campos \texttt{FailedLoginAttempts} e \texttt{LockoutEnd} suportam o mecanismo de proteção contra ataques de força bruta especificado no \textbf{RNF-01}, bloqueando temporariamente contas após tentativas consecutivas falhadas. A classe \texttt{Atleta} estende \texttt{Utilizador} com campos desportivos específicos:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Classe \texttt{Atleta} --- extensão de \texttt{Utilizador} com dados desportivos.},label={lst:atleta}]
+public class Atleta : Utilizador
+{
+    public string Posicao { get; set; }
+    public int NumeroCamisola { get; set; }
+    public DateTime DataNascimento { get; set; }
+    public Guid? EncarregadoEducacaoId { get; set; }
+    public EncarregadoEducacao? EncarregadoEducacao { get; set; }
+}
+\end{lstlisting}
+
+A propriedade de navegação \texttt{EncarregadoEducacao} estabelece a relação entre atleta e o seu responsável legal, traduzida pelo Entity Framework numa chave estrangeira auto-referenciada dentro da mesma tabela \texttt{Utilizadores}.
+
+Do lado do módulo desportivo, a entidade \texttt{Treino} ilustra uma relação de composição: cada treino pertence a uma equipa e possui uma coleção de presenças. O Entity Framework gera automaticamente as chaves estrangeiras correspondentes:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Entidades \texttt{Treino} e \texttt{PresencaTreino} do módulo desportivo.},label={lst:treino}]
+public class Treino : Entity
+{
+    public Guid EquipaId { get; set; }
+    public Equipa? Equipa { get; set; }
+    public DateTime DataInicio { get; set; }
+    public DateTime DataFim { get; set; }
+    public Guid EspacoId { get; set; }
+    public string Descricao { get; set; }
+    public ICollection<PresencaTreino> Presencas { get; set; }
+}
+
+public class PresencaTreino : Entity
+{
+    public Guid TreinoId { get; set; }
+    public Guid AtletaId { get; set; }
+    public EstadoPresencaTreino Estado { get; set; }
+    public string Justificacao { get; set; }
+}
+\end{lstlisting}
+
+O \texttt{enum EstadoPresencaTreino} define cinco estados possíveis --- \texttt{Pendente}, \texttt{Presente}, \texttt{FaltaJustificada}, \texttt{FaltaInjustificada} e \texttt{AusentePorLesao} --- que permitem um registo detalhado e variado das presenças, evitando a limitação de um simples campo booleano.
+
+\subsection{Mecanismo de Migrações}
+
+O Entity Framework Core utiliza um sistema de \textit{Migrations} para gerir a evolução do esquema da base de dados. Cada vez que as classes de domínio são alteradas --- por exemplo, quando se adiciona um novo campo a uma entidade ---, é gerada uma nova migração que contém as instruções de alteração necessárias. Estas migrações são ficheiros C\# versionados no repositório Git, garantindo que a evolução do esquema é rastreável e reproduzível.
+
+Abaixo, apresenta-se um excerto da migração inicial do módulo de Utilizadores, que cria o esquema \texttt{users} e a tabela \texttt{Utilizadores}:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Excerto da migração \texttt{InitialUsers} --- criação da tabela \texttt{Utilizadores}.},label={lst:migration}]
+protected override void Up(MigrationBuilder migrationBuilder)
+{
+    migrationBuilder.EnsureSchema(name: "users");
+
+    migrationBuilder.CreateTable(
+        name: "Utilizadores",
+        schema: "users",
+        columns: table => new
+        {
+            Id        = table.Column<Guid>(type: "uuid", nullable: false),
+            Nome      = table.Column<string>(type: "text", nullable: false),
+            Email     = table.Column<string>(type: "text", nullable: false),
+            PasswordHash = table.Column<string>(type: "text", nullable: false),
+            Role      = table.Column<string>(type: "text", nullable: false),
+            UserType  = table.Column<string>(type: "text", nullable: false),
+            // ... campos adicionais omitidos por brevidade
+        },
+        constraints: table =>
+        {
+            table.PrimaryKey("PK_Utilizadores", x => x.Id);
+        });
+}
+\end{lstlisting}
+
+É importante notar que o programador nunca escreveu SQL diretamente. O Entity Framework Core analisa as classes C\# e gera o código de migração em C\#, que por sua vez é traduzido em instruções DDL (\textit{Data Definition Language}) específicas para o PostgreSQL no momento da aplicação. A instrução \texttt{EnsureSchema} garante que o esquema \texttt{users} é criado antes da tentativa de criação da tabela, evitando erros de referência.
+
+As migrações são aplicadas automaticamente no arranque da aplicação, através da chamada \texttt{Database.Migrate()} no ficheiro \texttt{Program.cs}:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Aplicação automática das migrações no arranque da API.},label={lst:migrate}]
+usersDb.Database.Migrate();
+sportsDb.Database.Migrate();
+clinicalDb.Database.Migrate();
+financeDb.Database.Migrate();
+notificationsDb.Database.Migrate();
+facilitiesDb.Database.Migrate();
+reportsDb.Database.Migrate();
+\end{lstlisting}
+
+Esta abordagem garante que, independentemente do ambiente onde a aplicação é executada --- seja no computador de um programador ou num contentor Docker em produção --- a base de dados é sempre atualizada para a versão mais recente antes de começar a servir pedidos. Em caso de necessidade de reverter uma alteração, cada migração inclui também um método \texttt{Down} que desfaz as operações realizadas no método \texttt{Up}.
+
+\subsection{Povoamento da Base de Dados}
+
+Para testar o funcionamento da aplicação com dados realistas, foi desenvolvido um componente \texttt{DataSeeder} que povoa automaticamente a base de dados no arranque do servidor, caso esta se encontre vazia. O \textit{seeder} é chamado logo após a aplicação das migrações e verifica a existência de um registo sentinela (a conta \texttt{secretaria@cap.pt}) para evitar duplicações:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Verificação de idempotência no \texttt{DataSeeder}.},label={lst:seeder-check}]
+public static async Task SeedAsync(
+    UsersDbContext usersDb,
+    SportsDbContext sportsDb,
+    ClinicalDbContext clinicalDb,
+    FinanceDbContext financeDb,
+    FacilitiesDbContext facilitiesDb)
+{
+    if (usersDb.Utilizadores.Any(u => u.Email == "secretaria@cap.pt"))
+        return; // BD ja povoada --- nao duplicar dados
+    // ... restante logica de povoamento
+}
+\end{lstlisting}
+
+O processo de povoamento segue a ordem de dependências entre as tabelas --- primeiro os utilizadores, depois as modalidades e equipas, de seguida os treinos e presenças, e por fim os dados financeiros e clínicos. Esta ordem é importante para respeitar as restrições de chave estrangeira definidas pelo Entity Framework.
+
+Os dados gerados pelo \textit{seeder} foram pensados para refletir o ambiente real de um clube desportivo:
+
+\begin{itemize}
+    \item \textbf{Utilizadores}: São criados 2 funcionários (secretaria e gerência), 8 treinadores (um por equipa), 12 encarregados de educação e dezenas de atletas distribuídos por 8 equipas de 3 modalidades (Futebol, Basquetebol e Natação).
+    \item \textbf{Treinos e presenças}: Para cada equipa, são gerados 10 treinos passados com intervalos de 3 dias. As presenças de cada atleta são atribuídas de forma variada com recurso a um gerador pseudo-aleatório, garantindo que diferentes atletas apresentam diferentes taxas de assiduidade.
+    \item \textbf{Atestados médicos}: São criados atestados com datas de emissão e expiração variadas, simulando cenários de atletas com documentação válida, prestes a expirar e já expirada.
+    \item \textbf{Quotas e pagamentos}: São geradas definições de quotas mensais e anuais, com pagamentos em diferentes estados (pago, pendente, em atraso), permitindo testar os alertas do módulo financeiro.
+    \item \textbf{Instalações}: São criados 6 espaços físicos (campos, pavilhão, piscina) com reservas distribuídas ao longo da semana.
+\end{itemize}
+
+A decisão de implementar o povoamento de forma programática em C\#, em vez de utilizar um \textit{script} SQL estático como é mais comum, trouxe duas vantagens: a primeira é que os dados são gerados de forma relativa à data atual, o que significa que os treinos e atestados estão sempre ``frescos'' independentemente de quando a aplicação é iniciada; a segunda é que a utilização de um gerador aleatório para as presenças evita o problema de dados uniformes e irrealistas, que dificultariam a deteção de erros na lógica de apresentação dos \textit{dashboards}.
+
+% ============================================================
+% SECÇÃO 5.3 — DESENVOLVIMENTO DA CAMADA DE DADOS
+% ============================================================
+
+\section{Desenvolvimento da Camada de Dados}
+
+Estando implementada a base de dados, o passo seguinte foi a construção da camada de dados, cuja responsabilidade é abstrair o acesso às tabelas e fornecer às camadas superiores uma interface orientada a objetos para a manipulação persistente de entidades. Neste projeto, a camada de dados assenta inteiramente no \textbf{Entity Framework Core} e no \textbf{padrão Repository} \cite{fowler2002}, não sendo necessário escrever qualquer instrução SQL manualmente.
+
+\subsection{Interface Genérica de Repositório}
+
+Para manter a uniformidade entre todos os módulos e facilitar a substituição de implementações (princípio de inversão de dependências, ou \textit{Dependency Inversion Principle}), foi definida uma interface genérica \texttt{IRepository<T>} no projeto partilhado \texttt{CAP.Shared}. Esta interface expõe as operações CRUD fundamentais que qualquer módulo poderá precisar:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Interface genérica \texttt{IRepository<T>} partilhada por todos os módulos.},label={lst:irepository}]
+public interface IRepository<T> where T : Entity
+{
+    Task<T?> GetByIdAsync(Guid id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task AddAsync(T entity);
+    Task UpdateAsync(T entity);
+    Task DeleteAsync(T entity);
+    Task SaveChangesAsync();
+}
+\end{lstlisting}
+
+A restrição genérica \texttt{where T : Entity} garante que apenas entidades com um identificador \texttt{Guid} podem ser geridas pelos repositórios, impedindo erros de utilização. Todas as operações são assíncronas (\texttt{Task}), seguindo as boas práticas do ASP.NET Core para evitar o bloqueio de \textit{threads} durante o acesso à base de dados.
+
+\subsection{Implementação Genérica com Entity Framework Core}
+
+Cada módulo possui a sua própria implementação concreta do repositório, que delega todas as operações para o \texttt{DbContext} do módulo correspondente. Apresenta-se, como exemplo, o repositório genérico do módulo desportivo:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Implementação genérica \texttt{SportsRepository<T>} do módulo desportivo.},label={lst:sportsrepo}]
+public class SportsRepository<T> : IRepository<T> where T : Entity
+{
+    private readonly SportsDbContext _context;
+
+    public SportsRepository(SportsDbContext context)
+        => _context = context;
+
+    public async Task<T?> GetByIdAsync(Guid id)
+        => await _context.Set<T>().FindAsync(id);
+
+    public async Task<IEnumerable<T>> GetAllAsync()
+        => await _context.Set<T>().ToListAsync();
+
+    public async Task AddAsync(T entity)
+        => await _context.Set<T>().AddAsync(entity);
+
+    public Task UpdateAsync(T entity)
+    {
+        _context.Set<T>().Update(entity);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(T entity)
+    {
+        _context.Set<T>().Remove(entity);
+        return Task.CompletedTask;
+    }
+
+    public async Task SaveChangesAsync()
+        => await _context.SaveChangesAsync();
+}
+\end{lstlisting}
+
+Esta implementação utiliza o método \texttt{Set<T>()} do Entity Framework Core, que devolve o \texttt{DbSet} correspondente ao tipo da entidade, permitindo que um único repositório genérico sirva todas as entidades do módulo (\texttt{Modalidade}, \texttt{Equipa}, \texttt{Treino}, etc.). O programador nunca escreve SQL --- o Entity Framework Core traduz automaticamente as chamadas a métodos como \texttt{FindAsync}, \texttt{ToListAsync} ou \texttt{AddAsync} nas instruções SQL correspondentes (\texttt{SELECT}, \texttt{INSERT}, etc.), específicas para o PostgreSQL.
+
+\subsection{Repositórios Especializados}
+
+Em alguns módulos, as operações CRUD genéricas não são suficientes e é necessário definir métodos de consulta adicionais. O caso mais notável é o repositório do módulo de Utilizadores, que acrescenta três métodos especializados:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Métodos especializados do \texttt{UserRepository}.},label={lst:userrepo}]
+public async Task<Utilizador?> GetByEmailAsync(string email)
+    => await _context.Utilizadores
+        .FirstOrDefaultAsync(u => u.Email == email);
+
+public async Task<EncarregadoEducacao?> GetEncarregadoWithDependentesAsync(
+    Guid id)
+    => await _context.Utilizadores
+        .OfType<EncarregadoEducacao>()
+        .Include(e => e.AtletasDependentes)
+        .FirstOrDefaultAsync(e => e.Id == id);
+
+public async Task<Atleta?> GetAtletaByIdAsync(Guid id)
+    => await _context.Utilizadores
+        .OfType<Atleta>()
+        .FirstOrDefaultAsync(a => a.Id == id);
+\end{lstlisting}
+
+Neste código, o método \texttt{OfType<T>()} filtra os registos da tabela \texttt{Utilizadores} pelo tipo concreto na hierarquia TPH --- por exemplo, \texttt{OfType<Atleta>()} devolve apenas os registos cujo discriminador é \texttt{"Atleta"}. O método \texttt{Include()} carrega propriedades de navegação numa única consulta SQL (\textit{eager loading}), evitando o conhecido problema de \textit{N+1 queries} ao obter, por exemplo, um encarregado com os seus atletas dependentes.
+
+\subsection{Injeção de Dependências}
+
+Todos os repositórios e serviços são registados no contentor de injeção de dependências do ASP.NET Core com o ciclo de vida \texttt{Scoped}, o que significa que cada pedido HTTP recebe a sua própria instância do repositório (e, consequentemente, a sua própria instância do \texttt{DbContext}). Esta abordagem garante que diferentes pedidos não partilham o mesmo contexto de dados, evitando problemas de concorrência. Abaixo, apresenta-se um excerto da configuração no ficheiro \texttt{Program.cs}:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Registo dos repositórios no contentor de injeção de dependências.},label={lst:di}]
+// Users Module
+builder.Services.AddScoped<UserRepository>();
+
+// Sports Module (generico - resolve qualquer IRepository<T>)
+builder.Services.AddScoped(typeof(IRepository<>),
+    typeof(SportsRepository<>));
+
+// Clinical Module
+builder.Services.AddScoped<IRepository<AtestadoMedico>,
+    ClinicalRepository<AtestadoMedico>>();
+builder.Services.AddScoped<IRepository<Lesao>,
+    ClinicalRepository<Lesao>>();
+
+// Finance Module
+builder.Services.AddScoped<IRepository<Quota>,
+    FinanceRepository<Quota>>();
+builder.Services.AddScoped<IRepository<Pagamento>,
+    FinanceRepository<Pagamento>>();
+// ... restantes modulos seguem o mesmo padrao
+\end{lstlisting}
+
+A utilização de \texttt{typeof(IRepository<>)} com o registo de tipo aberto (\textit{open generic}) no módulo desportivo é particularmente elegante: em vez de registar manualmente cada combinação de \texttt{IRepository<Modalidade>}, \texttt{IRepository<Equipa>}, etc., uma única linha resolve automaticamente qualquer pedido de repositório para qualquer entidade do módulo.
+
+\subsection{Resumo da Arquitetura da Camada de Dados}
+
+A tabela seguinte apresenta, de forma consolidada, a relação entre cada módulo, o seu \texttt{DbContext}, o tipo de repositório utilizado e as entidades que gere:
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{2.8cm}|p{3.2cm}|p{3.5cm}|p{5cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{DbContext}} & \textcolor{white}{\textbf{Repositório}} & \textcolor{white}{\textbf{Entidades}} \\ \hline
+Utilizadores  & \texttt{UsersDbContext}         & \texttt{UserRepository}                & Utilizador, Atleta, Treinador, Encarregado \\ \hline
+Desportivo    & \texttt{SportsDbContext}        & \texttt{SportsRepository<T>}           & Modalidade, Equipa, Treino, Convocatoria, Presença \\ \hline
+Clínico       & \texttt{ClinicalDbContext}      & \texttt{ClinicalRepository<T>}         & AtestadoMedico, Lesao \\ \hline
+Financeiro    & \texttt{FinanceDbContext}       & \texttt{FinanceRepository<T>}          & QuotaDefinicao, Quota, Pagamento, Recibo \\ \hline
+Notificações  & \texttt{NotificationsDbContext} & \texttt{NotificationsRepository<T>}    & Notificacao, NotificacaoPreferencia \\ \hline
+Instalações   & \texttt{FacilitiesDbContext}    & \texttt{FacilitiesRepository<T>}       & Espaco, Reserva \\ \hline
+Relatórios    & \texttt{ReportsDbContext}       & \texttt{ReportsRepository<T>}          & ResumoFinanceiro, ResumoDesportivo \\ \hline
+\end{tabular}
+\caption{Mapeamento entre módulos, contextos de dados e repositórios.}
+\label{tab:camada-dados}
+\end{table}
+\rowcolors{2}{white}{white}
+
+Esta organização garante que cada módulo acede exclusivamente ao seu próprio esquema na base de dados, e que a comunicação entre módulos é feita ao nível da camada de negócio (via \textit{Controllers} ou eventos MediatR), nunca ao nível da camada de dados. Desta forma, respeita-se o princípio de isolamento do Monólito Modular definido no Capítulo~\ref{chap:especificacao_modelacao}.
+
+% ============================================================
+% SECÇÃO 5.4 — DESENVOLVIMENTO DA CAMADA DE NEGÓCIO
+% ============================================================
+
+\section{Desenvolvimento da Camada de Negócio}
+
+Com a camada de dados desenvolvida, o passo seguinte foi a implementação da camada de negócio, que no contexto deste projeto corresponde aos \textbf{Controllers} da API REST. Cada controlador recebe os pedidos HTTP do \textit{frontend}, aplica as regras de negócio necessárias (validações, autorizações, transformações) e utiliza os repositórios da camada de dados para interagir com a base de dados. A seguir, apresentam-se os aspetos mais relevantes desta camada.
+
+\subsection{Autenticação com JSON Web Tokens}
+
+O sistema de autenticação implementado baseia-se em \textbf{JSON Web Tokens} (JWT), conforme exigido pelo \textbf{RNF-03}. Quando um utilizador efetua \textit{login} com sucesso, o servidor gera um \textit{token} assinado que contém as \textit{claims} (informações) do utilizador --- identificador, nome, email e papel (Role). Este \textit{token} é depois enviado pelo \textit{frontend} em cada pedido subsequente, no cabeçalho \texttt{Authorization}, permitindo que a API identifique o utilizador sem necessidade de manter sessões no servidor.
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Geração de \textit{token} JWT com as \textit{claims} do utilizador.},label={lst:jwt}]
+public string GenerateToken(Utilizador user)
+{
+    var key = Encoding.ASCII.GetBytes(
+        _configuration["Jwt:Key"]);
+
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Nome),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)
+        }),
+        Expires = DateTime.UtcNow.AddDays(7),
+        SigningCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha256Signature)
+    };
+
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+    return tokenHandler.WriteToken(token);
+}
+\end{lstlisting}
+
+O \textit{token} tem uma validade de 7 dias e é assinado com o algoritmo HMAC-SHA256 utilizando uma chave simétrica configurada nas variáveis de ambiente do servidor. A inclusão do \texttt{ClaimTypes.Role} é fundamental para o controlo de acessos baseado em papéis, como veremos a seguir.
+
+\subsection{Proteção contra Ataques de Força Bruta}
+
+O controlador de autenticação (\texttt{AuthController}) implementa o mecanismo de proteção contra ataques de força bruta definido no \textbf{RNF-01}. Cada vez que um utilizador falha uma tentativa de \textit{login}, o contador \texttt{FailedLoginAttempts} é incrementado. Após 5 tentativas consecutivas falhadas, a conta é temporariamente bloqueada durante 15 minutos:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Mecanismo de bloqueio por tentativas de \textit{login} falhadas.},label={lst:lockout}]
+[HttpPost("login")]
+public async Task<IActionResult> Login(LoginRequest request)
+{
+    var user = await _userRepository.GetByEmailAsync(request.Email);
+    if (user == null) return Unauthorized("Credenciais invalidas");
+
+    // Verificar se a conta esta bloqueada
+    if (user.LockoutEnd.HasValue
+        && user.LockoutEnd.Value > DateTime.UtcNow)
+        return Unauthorized("Conta bloqueada.");
+
+    if (user.PasswordHash != request.Password)
+    {
+        user.FailedLoginAttempts++;
+        if (user.FailedLoginAttempts >= 5)
+        {
+            user.LockoutEnd = DateTime.UtcNow.AddMinutes(15);
+            user.FailedLoginAttempts = 0;
+        }
+        await _userRepository.UpdateAsync(user);
+        await _userRepository.SaveChangesAsync();
+        return Unauthorized("Credenciais invalidas");
+    }
+
+    // Login bem-sucedido: resetar contadores
+    user.FailedLoginAttempts = 0;
+    user.LockoutEnd = null;
+    // ... gerar token JWT
+}
+\end{lstlisting}
+
+Quando o \textit{login} é bem-sucedido, os contadores são reiniciados para zero. Este mecanismo impede que um atacante consiga adivinhar senhas por tentativa exaustiva, sem penalizar utilizadores legítimos que ocasionalmente se enganam na palavra-passe.
+
+\subsection{Controlo de Acessos por Papel (RBAC)}
+
+O controlo de acessos baseado em papéis é implementado de forma declarativa, utilizando o atributo \texttt{[Authorize]} do ASP.NET Core. Cada \textit{endpoint} pode especificar quais os papéis que têm permissão de o invocar, e o \textit{middleware} de autenticação valida automaticamente o \textit{token} JWT e verifica se a \textit{claim} \texttt{Role} do utilizador corresponde a um dos papéis permitidos.
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Exemplos de controlo de acessos RBAC nos \textit{Controllers}.},label={lst:rbac}]
+// Apenas Treinadores e Gerencia podem criar treinos
+[HttpPost]
+[Authorize(Roles = "Treinador,Gerencia")]
+public async Task<IActionResult> Create(CreateTreinoRequest request)
+{ ... }
+
+// Apenas Treinadores podem registar presencas
+[HttpPost("{id}/attendance")]
+[Authorize(Roles = "Treinador")]
+public async Task<IActionResult> RecordAttendance(
+    Guid id, List<UpdatePresencaRequest> requests)
+{ ... }
+
+// Atletas, Treinadores e Gerencia podem consultar treinos
+[HttpGet]
+[Authorize(Roles = "Treinador,Gerencia,Atleta")]
+public async Task<IActionResult> GetAll()
+{ ... }
+\end{lstlisting}
+
+Esta abordagem garante que as permissões definidas na Matriz RBAC (Tabela~\ref{tab:rbac}) são aplicadas diretamente ao nível de cada rota da API. Um atleta que tente criar um treino receberá automaticamente um código de resposta HTTP 403 (\textit{Forbidden}), sem que o controlador precise de verificar manualmente o papel do utilizador.
+
+\subsection{Estrutura dos Controladores por Módulo}
+
+Cada módulo do sistema expõe a sua funcionalidade através de um ou mais controladores. A tabela seguinte apresenta o inventário completo dos controladores implementados, agrupados por módulo:
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{2.5cm}|p{4cm}|p{3cm}|p{5cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Controlador}} & \textcolor{white}{\textbf{Rota Base}} & \textcolor{white}{\textbf{Funcionalidades}} \\ \hline
+\multirow{5}{*}{Utilizadores} & \texttt{AuthController}       & \texttt{/api/users/auth}       & Login, Registo \\ \cline{2-4}
+                               & \texttt{AthletesController}   & \texttt{/api/users/athletes}   & Listar e consultar atletas \\ \cline{2-4}
+                               & \texttt{ProfileController}    & \texttt{/api/users/profile}    & Editar perfil próprio \\ \cline{2-4}
+                               & \texttt{ParentalController}   & \texttt{/api/users/parental}   & Relação EE $\leftrightarrow$ Atleta \\ \cline{2-4}
+                               & \texttt{SociosController}     & \texttt{/api/users/socios}     & Gestão de sócios \\ \hline
+\multirow{4}{*}{Desportivo}    & \texttt{TeamsController}      & \texttt{/api/sports/teams}     & Equipas e plantéis \\ \cline{2-4}
+                               & \texttt{TreinosController}    & \texttt{/api/sports/trainings} & Treinos e presenças \\ \cline{2-4}
+                               & \texttt{ConvocatoriasController} & \texttt{/api/sports/calls}  & Convocatórias e convites \\ \cline{2-4}
+                               & \texttt{OcorrenciasController} & \texttt{/api/sports/events}   & Resultados de jogos \\ \hline
+\multirow{2}{*}{Clínico}       & \texttt{AtestadosController}  & \texttt{/api/clinical/cert.}   & Submissão e validação de atestados \\ \cline{2-4}
+                               & \texttt{LesoesController}     & \texttt{/api/clinical/injuries} & Reportar e gerir lesões \\ \hline
+\multirow{3}{*}{Financeiro}    & \texttt{QuotasController}     & \texttt{/api/finance/quotas}   & Definição e consulta de quotas \\ \cline{2-4}
+                               & \texttt{PagamentosController} & \texttt{/api/finance/pagam.}   & Registo de pagamentos \\ \cline{2-4}
+                               & \texttt{WebhooksController}   & \texttt{/api/finance/webhooks} & Confirmação assíncrona \\ \hline
+Notificações                   & \texttt{NotificationsController} & \texttt{/api/notifications} & Envio e consulta de alertas \\ \hline
+\multirow{2}{*}{Instalações}   & \texttt{FacilitiesController}   & \texttt{/api/facilities}      & Espaços e reservas \\ \cline{2-4}
+                               & \texttt{LojaController}         & \texttt{/api/facilities/loja} & Catálogo e encomendas de fardamento \\ \hline
+Relatórios                     & \texttt{ReportsController}      & \texttt{/api/reports}         & Exportação SAF-T e resumos \\ \hline
+\end{tabular}
+\caption{Inventário dos controladores da API REST, organizados por módulo.}
+\label{tab:controladores}
+\end{table}
+\rowcolors{2}{white}{white}
+
+\subsection{Exemplo de Regra de Negócio: Registo de Presenças}
+
+Para ilustrar como a lógica de negócio é implementada nos controladores, apresenta-se o fluxo de registo de presenças num treino. Quando o treinador submete a assiduidade de uma sessão, o controlador recebe uma lista de pares (\texttt{AtletaId}, \texttt{Estado}) e atualiza os registos correspondentes:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Registo de presenças com validação de treino existente.},label={lst:attendance}]
+[HttpPost("{id}/attendance")]
+[Authorize(Roles = "Treinador")]
+public async Task<IActionResult> RecordAttendance(
+    Guid id, List<UpdatePresencaRequest> requests)
+{
+    var treino = await _dbContext.Treinos
+        .Include(t => t.Presencas)
+        .FirstOrDefaultAsync(t => t.Id == id);
+    if (treino == null) return NotFound("Treino nao encontrado");
+
+    foreach (var req in requests)
+    {
+        var presenca = treino.Presencas
+            .FirstOrDefault(p => p.AtletaId == req.AtletaId);
+        if (presenca != null)
+        {
+            presenca.Estado = req.Estado;
+            presenca.Justificacao = req.Justificacao ?? "";
+        }
+        else
+        {
+            treino.Presencas.Add(new PresencaTreino
+            {
+                TreinoId = id,
+                AtletaId = req.AtletaId,
+                Estado = req.Estado,
+                Justificacao = req.Justificacao ?? ""
+            });
+        }
+    }
+    await _dbContext.SaveChangesAsync();
+    return Ok("Assiduidade registada com sucesso");
+}
+\end{lstlisting}
+
+Neste método, o uso de \texttt{Include(t => t.Presencas)} carrega as presenças existentes numa única consulta. A lógica segue um padrão \textit{upsert}: para cada atleta, se já existe um registo de presença, o estado é atualizado; caso contrário, é criado um novo. No final, \texttt{SaveChangesAsync()} persiste todas as alterações numa única transação, garantindo atomicidade.
+
+\subsection{Comunicação Inter-Módulo com MediatR}
+
+Para situações em que um módulo precisa de comunicar com outro --- por exemplo, quando o módulo clínico precisa de notificar o módulo desportivo sobre a caducidade de um atestado --- foi configurado o \textbf{MediatR}, uma biblioteca que implementa o padrão \textit{Mediator} para comunicação em memória:
+
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Configuração do MediatR para comunicação inter-módulo.},label={lst:mediatr}]
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblies(
+        AppDomain.CurrentDomain.GetAssemblies()));
+\end{lstlisting}
+
+Esta linha regista automaticamente todos os \textit{handlers} de eventos definidos nos módulos da aplicação. Na prática, embora a infraestrutura de MediatR esteja configurada, a versão atual do sistema ainda não utiliza eventos de domínio de forma extensiva --- a comunicação entre módulos é feita maioritariamente através de chamadas diretas entre repositórios. A adoção progressiva de eventos constitui uma das linhas de evolução futura do sistema.
+
+% ============================================================
+% SECÇÃO 5.5 — DESENVOLVIMENTO DA CAMADA DE APRESENTAÇÃO
+% ============================================================
+
+\section{Desenvolvimento da Camada de Apresentação}
+
+A camada de apresentação foi construída com \textbf{Next.js~16} (React~19, TypeScript), conforme exigido pelo \textbf{RNF-05} \cite{nextjs2024}. Esta \textit{framework} permite a construção de aplicações Web modernas com \textit{server-side rendering} e navegação instantânea entre páginas. As subsecções seguintes descrevem os aspetos mais relevantes desta camada.
+
+\subsection{Componentes Reutilizáveis}
+
+Antes de se iniciarem as páginas da aplicação, foi construída uma biblioteca de componentes reutilizáveis baseada na coleção \textbf{shadcn/ui} \cite{shadcnui2024}. Estes componentes garantem consistência visual em toda a aplicação e aceleram o desenvolvimento das páginas. A tabela seguinte resume os componentes implementados:
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Componente}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
+\texttt{Button}          & Botão com variantes (primário, secundário, destrutivo) e estados de carregamento. \\ \hline
+\texttt{Card}            & Contentor com cabeçalho, conteúdo e sombra, utilizado nos \textit{dashboards} e formulários. \\ \hline
+\texttt{Input / Label}   & Campos de entrada com validação e acessibilidade. \\ \hline
+\texttt{Table}           & Tabela estilizada para listagens de atletas, treinos, quotas, etc. \\ \hline
+\texttt{Dialog / Sheet}  & Modais e painéis laterais para ações sem sair da página (criar treino, editar atleta). \\ \hline
+\texttt{Select / Tabs}   & Seleção de opções e separadores para organizar conteúdo em abas. \\ \hline
+\texttt{Calendar}        & Componente de calendário visual para visualização de treinos e convocatórias. \\ \hline
+\texttt{Badge / Alert}   & Indicadores de estado (``Pago'', ``Em atraso'') e mensagens contextuais. \\ \hline
+\texttt{Sidebar}         & Barra de navegação lateral com ícones, responsiva e colapsável. \\ \hline
+\texttt{Avatar / Tooltip} & Fotografia do utilizador e dicas de contexto ao passar o rato. \\ \hline
+\end{tabular}
+\caption{Componentes reutilizáveis da interface, baseados na biblioteca shadcn/ui.}
+\label{tab:componentes-ui}
+\end{table}
+\rowcolors{2}{white}{white}
+
+\subsection{Gestão de Sessão e Comunicação com a API}
+
+A gestão de sessão no \textit{frontend} é feita inteiramente no lado do cliente (\textit{client-side}), utilizando o \texttt{localStorage} do navegador para armazenar o \textit{token} JWT e os dados básicos do utilizador. Quando o utilizador efetua \textit{login} com sucesso, a resposta do servidor é armazenada localmente e, a partir desse momento, todos os pedidos à API incluem o \textit{token} no cabeçalho \texttt{Authorization}.
+
+Para centralizar a comunicação com a API REST e evitar a repetição de código em cada página, foi desenvolvida uma função utilitária \texttt{fetchApi}:
+
+\begin{lstlisting}[language=Java,basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Função utilitária \texttt{fetchApi} para comunicação com a API REST.},label={lst:fetchapi}]
+export async function fetchApi<T>(
+    endpoint: string, options: RequestInit = {}): Promise<T>
+{
+    const token = localStorage.getItem('cap_token');
+
+    const headers = new Headers(options.headers);
+    if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+    }
+    if (!headers.has('Content-Type')
+        && !(options.body instanceof FormData)) {
+        headers.set('Content-Type', 'application/json');
+    }
+
+    const response = await fetch(
+        `${API_BASE_URL}${endpoint}`, { ...options, headers });
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            localStorage.removeItem('cap_token');
+            window.location.href = '/'; // Redirecionar para login
+        }
+        throw new Error(`Erro HTTP: ${response.status}`);
+    }
+    return response.json();
+}
+\end{lstlisting}
+
+A função implementa três mecanismos importantes: a injeção automática do \textit{token} JWT em todos os pedidos (dispensando cada página de o fazer), o tratamento centralizado do código HTTP 401 --- que redireciona o utilizador para o \textit{login} quando o \textit{token} expira ---, e o suporte para \texttt{FormData}, necessário para o \textit{upload} de ficheiros como atestados médicos em PDF.
+
+\subsection{Navegação e Routing por Papel}
+
+O sistema de navegação utiliza o \textit{App Router} do Next.js, que organiza as páginas em diretórios. A estrutura de diretórios reflete diretamente a hierarquia de URLs da aplicação:
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Estrutura de diretórios do \textit{frontend}, organizada por papel de utilizador.},label={lst:routing}]
+app/
+  page.tsx                  # Login (/)
+  dashboard/
+    atleta/
+      page.tsx              # /dashboard/atleta
+      calendario/page.tsx   # /dashboard/atleta/calendario
+      convocatorias/page.tsx
+      loja/page.tsx
+    treinador/
+      page.tsx              # /dashboard/treinador
+      plantel/page.tsx
+      presencas/page.tsx
+      convocatorias/page.tsx
+      calendario/page.tsx
+      atestados/page.tsx
+      relatorios/page.tsx
+    encarregado/
+      page.tsx              # /dashboard/encarregado
+      atletas/page.tsx
+      quotas/page.tsx
+      pagamentos/page.tsx
+      atestados/page.tsx
+    secretaria/
+      page.tsx              # /dashboard/secretaria
+      atletas/page.tsx
+      socios/page.tsx
+      quotas/page.tsx
+      instalacoes/page.tsx
+      relatorios/page.tsx
+    definicoes/page.tsx     # Definicoes (todos os papeis)
+    notificacoes/page.tsx   # Notificacoes (todos os papeis)
+\end{lstlisting}
+
+Após o \textit{login}, o utilizador é automaticamente redirecionado para o \textit{dashboard} correspondente ao seu papel --- por exemplo, um treinador é redirecionado para \texttt{/dashboard/treinador}. Cada \textit{dashboard} possui a sua própria barra de navegação lateral com apenas as páginas relevantes para aquele papel, implementando assim o controlo de acessos também ao nível da interface.
+
+\subsection{Página de Login e Fluxo de Autenticação}
+
+A página de \textit{login} constitui o ponto de entrada da aplicação. O formulário envia as credenciais para o \textit{endpoint} \texttt{POST /api/users/auth/login}. Em caso de sucesso, o \textit{token} JWT \cite{rfc7519} e os dados do utilizador são armazenados no \texttt{localStorage}, e o \texttt{useRouter} do Next.js redireciona o utilizador para o \textit{dashboard} correto:
+
+\begin{lstlisting}[language=Java,basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Fluxo de \textit{login} no \textit{frontend} React.},label={lst:login-flow}]
+const handleLogin = async (e: React.FormEvent) => {
+    const response = await fetch(
+        '/api/users/auth/login',
+        { method: 'POST',
+          body: JSON.stringify({ email, password }) });
+
+    if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("cap_token", data.token);
+        localStorage.setItem("cap_user",
+            JSON.stringify({ email, role: data.role, nome: data.nome }));
+        router.push(`/dashboard/${data.role.toLowerCase()}`);
+    } else {
+        setError("Email ou password incorretos");
+    }
+};
+\end{lstlisting}
+
+\subsection{Estrutura de um Dashboard}
+
+Cada página de \textit{dashboard} segue um padrão consistente. Ao ser carregada, a página utiliza o \textit{hook} \texttt{useEffect} do React para obter os dados da API, apresentando um indicador de carregamento durante a espera. Os dados recebidos são armazenados no estado local do componente com \texttt{useState}, e a interface é renderizada de forma reativa sempre que os dados mudam.
+
+A título de exemplo, o \textit{dashboard} do Treinador apresenta na sua página principal cinco cartões resumo --- número de atletas no plantel, percentagem de assiduidade, próximo treino, convocatórias ativas e presenças marcadas. Cada cartão obtém os seus dados a partir de chamadas \texttt{fetchApi} distintas que são executadas em paralelo no \texttt{useEffect}, otimizando o tempo de carregamento da página.
+
+O sistema de \textit{dashboards} foi desenhado para que cada papel de utilizador veja apenas a informação que lhe diz respeito:
+
+\begin{itemize}
+    \item \textbf{Atleta}: Consulta os seus treinos, presenças, convocatórias e loja de equipamentos.
+    \item \textbf{Treinador}: Gere o plantel, regista presenças, cria convocatórias e consulta atestados dos atletas.
+    \item \textbf{Encarregado de Educação}: Acompanha os atletas dependentes, consulta quotas e submete atestados.
+    \item \textbf{Secretaria}: Gere sócios, atletas, instalações, quotas e pagamentos, e exporta relatórios financeiros.
+\end{itemize}
+
+\subsection{Exemplo de Página: Gestão de Presenças}
+
+Para ilustrar a integração completa entre \textit{frontend} e \textit{backend}, descreve-se o fluxo da página de registo de presenças do treinador. Esta página permite ao treinador selecionar um treino passado e marcar o estado de presença de cada atleta.
+
+O fluxo é o seguinte: (1)~a página carrega a lista de treinos da equipa do treinador via \texttt{GET /api/sports/trainings}; (2)~o treinador seleciona um treino e vê a lista de atletas com os seus estados atuais; (3)~para cada atleta, o treinador seleciona um dos cinco estados de presença (Presente, Falta Justificada, Falta Injustificada, Ausente por Lesão, Pendente); (4)~ao clicar em ``Guardar'', os dados são enviados via \texttt{POST /api/sports/trainings/\{id\}/attendance}; (5)~uma mensagem de confirmação é apresentada ao utilizador.
+
+Este padrão de interação --- carregar dados $\rightarrow$ apresentar formulário $\rightarrow$ submeter alterações $\rightarrow$ confirmar resultado --- é repetido, com variações, em todas as páginas da aplicação que permitem a manipulação de dados.
+
+% ============================================================
+% SECÇÃO 5.6 — AVALIAÇÃO DA APLICAÇÃO DESENVOLVIDA
+% ============================================================
+
+\section{Avaliação da Aplicação Desenvolvida}
+
+Antes de considerar o desenvolvimento concluído, a equipa procurou avaliar a aplicação construída, verificando se esta cumpria os requisitos levantados no Capítulo~\ref{chap:analise_requisitos} e se a sua implementação estava de acordo com a especificação apresentada no Capítulo~\ref{chap:especificacao_modelacao}. Esta secção apresenta os resultados dessa avaliação.
+
+\subsection{Verificação dos Requisitos Funcionais}
+
+Para avaliar o cumprimento dos requisitos funcionais, a equipa iterou por cada requisito e verificou o seu estado de implementação. Cada requisito foi classificado como: {\large\checkmark} (cumprido), {\large$\sim$} (parcialmente cumprido) ou {\large$\times$} (não cumprido). A tabela seguinte resume os resultados:
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{1.5cm}|p{8.5cm}|p{1.5cm}|p{3cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
+RF-01  & Gestão de Utilizadores e Perfis             & {\large\checkmark} & CRUD com JWT \\ \hline
+RF-02  & Gestão de Perfis Parentais                  & {\large\checkmark} & Vinculação EE--atleta \\ \hline
+RF-03  & Sistema de Comunicação Interna (Chat)        & {\large$\times$}   & Adiado (sem chat ainda) \\ \hline
+RF-04  & Motor de Notificações Automáticas            & {\large$\sim$}     & Só \textit{in-app} (sem email/SMS) \\ \hline
+RF-05  & Gestão de Modalidades e Épocas               & {\large\checkmark} & 3 modalidades ativas \\ \hline
+RF-06  & Planeamento de Horários e Treinos            & {\large\checkmark} & Calendário em tempo real \\ \hline
+RF-07  & Gestão de Presenças e Faltas                 & {\large\checkmark} & 5 estados de presença \\ \hline
+RF-08  & Gestão de Convocatórias e Disponibilidade    & {\large\checkmark} & Com confirmação Sim/Não \\ \hline
+RF-09  & Planos de Treino e Recursos Táticos          & {\large$\sim$}     & Apenas \textit{upload}, sem \textit{streaming} \\ \hline
+RF-10  & Registo de Ocorrências e Disciplina          & {\large\checkmark} & Golos, cartões, suspensões \\ \hline
+RF-11  & Gestão do Exame Médico Desportivo            & {\large\checkmark} & \textit{Upload} + validação \\ \hline
+RF-12  & Gestão de Lesões e Recuperação               & {\large\checkmark} & Reportar e bloquear convocatória \\ \hline
+RF-13  & Acompanhamento Físico e Evolução de Métricas & {\large\checkmark} & Peso, altura, IMC \\ \hline
+RF-14  & Gestão Documental e Federativa               & {\large$\sim$}     & \textit{Upload} sem encriptação dedicada \\ \hline
+RF-15  & Painéis de Desempenho (Dashboards)           & {\large\checkmark} & Por papel \\ \hline
+RF-16  & Avaliação Qualitativa e Objetivos            & {\large\checkmark} & Notas e objetivos por atleta \\ \hline
+RF-17  & Gestão de Quotas e Pagamentos                & {\large$\sim$}     & Registo manual; \textit{gateway} simulado \\ \hline
+RF-18  & Contabilidade Global do Clube                & {\large$\sim$}     & Listagem básica de movimentos \\ \hline
+RF-19  & Conformidade Fiscal (Exportação SAF-T)       & {\large\checkmark} & Formato XML \\ \hline
+RF-20  & Gestão de Espaços Físicos                    & {\large\checkmark} & 6 espaços parametrizados \\ \hline
+RF-21  & Manutenção de Infraestruturas                & {\large$\times$}   & Fora do âmbito desta iteração \\ \hline
+RF-22  & Gestão de Stock e Loja                       & {\large$\sim$}     & Catálogo, sem checkout real \\ \hline
+RF-23  & Gestão de Eventos Extra-desportivos          & {\large$\times$}   & Fora do âmbito desta iteração \\ \hline
+\end{tabular}
+\caption{Avaliação do cumprimento dos requisitos funcionais.}
+\label{tab:avaliacao-rf}
+\end{table}
+\rowcolors{2}{white}{white}
+
+Dos 23 requisitos funcionais, 14 ficaram integralmente cumpridos, 6 parcialmente cumpridos e 3 não cumpridos. Os parcialmente cumpridos correspondem a funcionalidades em que ficou implementada a estrutura de dados e a interface, mas em que alguma integração externa não chegou a ser ligada nesta iteração (motor de notificações em RF-04, \textit{gateway} de pagamentos em RF-17, encriptação dedicada de documentos federativos em RF-14, \textit{streaming} de vídeo em RF-09, \textit{dashboards} financeiros agregados em RF-18, e \textit{checkout} de loja em RF-22). Os três não cumpridos (chat interno em RF-03, manutenção de infraestruturas em RF-21 e eventos extra-desportivos em RF-23) foram conscientemente excluídos do âmbito desta entrega por terem sido classificados como prioridade baixa no levantamento.
+
+\subsection{Verificação dos Requisitos Não Funcionais}
+
+Os requisitos não funcionais foram avaliados na medida do possível em ambiente de desenvolvimento. Importa contudo notar que vários deles --- nomeadamente os relacionados com escalabilidade, \textit{uptime} e cópias de segurança --- só podem ser verificados com rigor quando o sistema for instalado em ambiente de produção, com carga real e monitorização contínua.
+
+\rowcolors{2}{rowblue}{white}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{1.5cm}|p{8.5cm}|p{1.5cm}|p{3cm}|}
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
+RNF-01 & Proteção de Dados Sensíveis (Encriptação)     & {\large$\sim$}     & HTTPS local; \textit{password hashing} em falta \\ \hline
+RNF-02 & Conformidade Legal e RGPD                     & {\large$\sim$}     & Estrutura presente, sem auditoria externa \\ \hline
+RNF-03 & Controlo de Acessos (RBAC)                    & {\large\checkmark} & \texttt{[Authorize(Roles)]} em todos os \textit{endpoints} \\ \hline
+RNF-04 & Design Responsivo (Mobile-First)              & {\large\checkmark} & Next.js + Tailwind CSS \\ \hline
+RNF-05 & Interface Intuitiva e Acessibilidade          & {\large\checkmark} & shadcn/ui, \textit{feedback} imediato \\ \hline
+RNF-06 & Tempos de Resposta Rápidos (Performance)      & {\large$\sim$}     & Validado só em ambiente local \\ \hline
+RNF-07 & Suporte a Picos de Acesso (Escalabilidade)    & {\large$\times$}   & Não testado fora do âmbito local \\ \hline
+RNF-08 & Alta Disponibilidade (Uptime)                 & {\large$\times$}   & Sem ambiente de produção \\ \hline
+RNF-09 & Cópias de Segurança (Backups)                 & {\large$\times$}   & Política definida, sem execução automática \\ \hline
+RNF-10 & Integração com Gateways de Pagamento          & {\large$\times$}   & Simulado; sem Ifthenpay/Easypay ligado \\ \hline
+RNF-11 & Exportação de Dados e Normalização             & {\large\checkmark} & SAF-T XML, PDF, Excel \\ \hline
+RNF-12 & Arquitetura Modular e Escalável               & {\large\checkmark} & Monólito Modular com 7 esquemas \\ \hline
+RNF-13 & Registos de Auditoria (\textit{Logs})         & {\large$\sim$}     & Apenas \textit{logs} de login implementados \\ \hline
+\end{tabular}
+\caption{Avaliação do cumprimento dos requisitos não funcionais.}
+\label{tab:avaliacao-rnf}
+\end{table}
+\rowcolors{2}{white}{white}
+
+A leitura desta tabela tem de ser feita à luz do âmbito desta iteração: muitos dos requisitos não funcionais (RNF-07, RNF-08, RNF-09) só são verdadeiramente avaliáveis em ambiente de produção, com utilizadores reais, monitorização e infraestrutura dedicada. Optámos por marcá-los como não cumpridos em vez de inflacionar a coluna ``estado''.
+
+Quanto ao \textbf{RNF-01} (proteção de dados), a comunicação local sobre HTTPS está configurada no Docker Compose mas \textbf{as palavras-passe são atualmente armazenadas sem \textit{hashing}} criptográfico --- limitação conhecida que está identificada como bloqueante para uma eventual passagem a produção (ver Cap.~6). O sistema implementa, em contrapartida, o controlo de acessos RBAC (\textbf{RNF-03}) através do atributo \texttt{[Authorize(Roles)]} do ASP.NET Core \cite{aspnetcore2023}, em todos os \textit{endpoints} relevantes.
+
+Em relação ao \textbf{RNF-06} (desempenho), os tempos de carregamento das principais páginas em ambiente local (Docker Desktop em Windows 11, base povoada com $\approx$\,150 atletas e 80 treinos) ficaram abaixo dos limites definidos --- chamadas à API consistentemente abaixo dos 500\,ms e renderização de \textit{dashboards} em menos de 3 segundos. Reconhecemos contudo que estes números não substituem testes de carga reais.
+
+\subsection{Conformidade com a Especificação}
+
+Para além da verificação dos requisitos, a equipa avaliou se a implementação final estava conforme a especificação produzida no Capítulo~\ref{chap:especificacao_modelacao}. Os seguintes aspetos foram analisados:
+
+\begin{itemize}
+    \item \textbf{Modelo de domínio}: As entidades e relações especificadas foram fielmente implementadas nas classes C\#. Alguns métodos do diagrama de classes (como \texttt{isApto()} e \texttt{gerarPDF()}) foram simplificados na implementação --- a verificação de aptidão é feita ao nível do controlador em vez de ser um método da entidade, e a geração de PDF não foi implementada nesta versão.
+
+    \item \textbf{Arquitetura em camadas}: A separação em camada de dados (Repositórios + DbContexts), camada de negócio (Controllers) e camada de apresentação (Next.js) foi mantida conforme especificado.
+
+    \item \textbf{Diagrama de componentes}: A divisão em 7 módulos corresponde diretamente aos componentes especificados. Cada módulo mantém o seu próprio esquema na base de dados. A principal diferença face à especificação é que a comunicação inter-módulo via eventos (MediatR) ainda não é usada de forma extensiva.
+
+    \item \textbf{Casos de uso}: A grande maioria dos casos de uso especificados foi implementada, com a adição de validações não modeladas inicialmente (ex.: verificação de duplicação de emails, validação de datas). Os casos de uso ligados aos RF excluídos do âmbito desta iteração (chat interno, manutenção de infraestruturas, eventos extra-desportivos) ficam por implementar.
+
+    \item \textbf{Aplicação móvel}: A especificação previa uma aplicação móvel em React Native (visível no diagrama de implantação), que não foi implementada nesta versão. O \textit{frontend} Web é responsivo e acessível via navegador móvel, mas não existe uma app nativa.
+
+    \item \textbf{Matriz RBAC}: O controlo de acessos baseado em papéis foi implementado com o atributo \texttt{[Authorize(Roles = "...")]} do ASP.NET Core \cite{aspnetcore2023}, em conformidade com a matriz definida na especificação (Tabela~\ref{tab:rbac}).
+\end{itemize}
+
+A análise de cumprimento dos requisitos e a comparação com a especificação fizeram emergir uma lista de melhorias técnicas pontuais que ficam por implementar nesta iteração. As linhas de evolução estratégicas estão documentadas no Capítulo~\ref{chap:conclusao}; aqui registamos apenas os itens diretamente identificados durante a avaliação:
+
+\begin{itemize}
+    \item \textbf{Hashing de palavras-passe}: substituir a comparação direta no \texttt{AuthController} por verificação contra \textit{hash} \textit{bcrypt} ou \textit{Argon2}. É a lacuna mais grave em relação à especificação.
+    \item \textbf{Notificações externas}: ligar o serviço de notificações a um \textit{gateway} de email/SMS, deixando de depender apenas de alertas \textit{in-app}.
+    \item \textbf{Paginação de listagens}: introduzir paginação nas listagens de atletas, treinos e pagamentos, evitando a degradação de tempo de resposta com a acumulação de dados ao longo da época.
+    \item \textbf{Cobertura de testes}: a ausência de testes automatizados é a fragilidade estrutural mais óbvia da implementação atual; a próxima iteração deverá começar por essa lacuna antes de acrescentar funcionalidades.
+\end{itemize}
+
+Em síntese, a versão atual cumpre integralmente 14 dos 23 RF, parcialmente 6 e deixa 3 fora de âmbito --- um resultado que consideramos honesto face ao tempo disponível e à dimensão da equipa. O sistema é operacional para fins de demonstração, mas a lacuna do \textit{hashing} das palavras-passe é um bloqueio explícito a qualquer instalação em produção real, e deve ser resolvida em primeiro lugar antes da entrega ao CAP.

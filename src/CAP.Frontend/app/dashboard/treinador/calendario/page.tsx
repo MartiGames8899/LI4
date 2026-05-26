@@ -1,7 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { fetchApi } from "@/lib/api"
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
@@ -18,7 +19,7 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 
 interface Evento {
-  id: number
+  id: string
   titulo: string
   tipo: "treino" | "jogo" | "evento"
   data: string
@@ -27,19 +28,12 @@ interface Evento {
   adversario?: string
 }
 
-const mockEventos: Evento[] = [
-  { id: 1, titulo: "Treino", tipo: "treino", data: "2025-01-27", hora: "18:30", local: "Campo Principal" },
-  { id: 2, titulo: "Jogo vs FC Exemplo", tipo: "jogo", data: "2025-01-25", hora: "15:00", local: "Campo Visitante", adversario: "FC Exemplo" },
-  { id: 3, titulo: "Treino", tipo: "treino", data: "2025-01-29", hora: "18:30", local: "Campo Principal" },
-  { id: 4, titulo: "Treino", tipo: "treino", data: "2025-01-31", hora: "18:30", local: "Campo Principal" },
-  { id: 5, titulo: "Jogo vs SC Braga B", tipo: "jogo", data: "2025-02-01", hora: "10:00", local: "Campo Casa", adversario: "SC Braga B" },
-  { id: 6, titulo: "Torneio de Inverno", tipo: "evento", data: "2025-02-08", hora: "09:00", local: "Pavilhao Municipal" },
-]
-
 export default function CalendarioTreinadorPage() {
   const router = useRouter()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [eventos, setEventos] = useState<Evento[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -50,10 +44,48 @@ export default function CalendarioTreinadorPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "treinador") {
       router.push("/")
+    } else {
+      loadData()
     }
   }, [router])
 
-  const eventosDoMes = mockEventos.filter((evento) => {
+  const loadData = async () => {
+    try {
+      const [treinosRes, convsRes] = await Promise.all([
+        fetchApi<any>("/api/sports/trainings"),
+        fetchApi<any>("/api/sports/convocations")
+      ])
+
+      const treinos = treinosRes.data || []
+      const convs = convsRes.data || []
+
+      const treinosEventos: Evento[] = treinos.map((t: any) => ({
+        id: t.id,
+        titulo: "Treino",
+        tipo: "treino",
+        data: t.dataInicio.split("T")[0],
+        hora: t.dataInicio.split("T")[1].substring(0, 5),
+        local: "EspaÃ§o " + t.espacoId
+      }))
+
+      const convsEventos: Evento[] = convs.map((c: any) => ({
+        id: c.id,
+        titulo: c.titulo,
+        tipo: "jogo", // simplification
+        data: c.data.split("T")[0],
+        hora: c.hora,
+        local: c.local
+      }))
+
+      setEventos([...treinosEventos, ...convsEventos])
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const eventosDoMes = eventos.filter((evento) => {
     const eventoDate = new Date(evento.data)
     return (
       eventoDate.getMonth() === currentMonth.getMonth() &&
@@ -62,7 +94,7 @@ export default function CalendarioTreinadorPage() {
   })
 
   const eventosSelecionados = selectedDate
-    ? mockEventos.filter(
+    ? eventos.filter(
         (evento) => evento.data === selectedDate.toISOString().split("T")[0]
       )
     : []
@@ -78,7 +110,7 @@ export default function CalendarioTreinadorPage() {
     }
   }
 
-  const diasComEventos = mockEventos.map((e) => new Date(e.data))
+  const diasComEventos = eventos.map((e) => new Date(e.data))
 
   return (
     <DashboardLayout role="treinador" userName="Carlos Treinador">
@@ -173,7 +205,7 @@ export default function CalendarioTreinadorPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockEventos
+                  {eventos
                     .filter((e) => new Date(e.data) >= new Date())
                     .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
                     .slice(0, 5)

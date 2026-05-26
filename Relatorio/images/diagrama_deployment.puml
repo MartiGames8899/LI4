@@ -11,8 +11,8 @@ node "Dispositivos Cliente" as Clients {
 
 cloud "Internet / HTTPS" as Internet
 
-node "Servidor de Aplicação\n(.NET 8 / Linux)" as AppServer {
-  component "API Gateway\n(ASP.NET Core 8)" as API
+node "Servidor de Aplicação\n(.NET 7 / Linux)" as AppServer {
+  component "API Gateway\n(ASP.NET Core 7)" as API
   component "Módulo Utilizadores" as ModUsers
   component "Módulo Desportivo" as ModSport
   component "Módulo Clínico" as ModClin
@@ -22,11 +22,11 @@ node "Servidor de Aplicação\n(.NET 8 / Linux)" as AppServer {
 }
 
 node "Servidor de Base de Dados" as DBServer {
-  database "PostgreSQL 16\n(EF Core)" as DB
+  database "PostgreSQL 15\n(EF Core)" as DB
 }
 
 cloud "Serviços Externos" {
-  component "Gateway Pagamentos\n(Easypay / Stripe)" as PayGW
+  component "Gateway Pagamentos\n(Ifthenpay / Easypay)" as PayGW
   component "Email / SMS\n(SendGrid / Twilio)" as EmailSMS
 }
 

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -44,20 +44,28 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const mockAtletas = [
-  { id: 1, nome: "Joao Silva", email: "joao@email.com", telefone: "912345678", equipa: "Sub-15", posicao: "Avancado", numero: 10, atestadoValido: true, estado: "ativo" },
-  { id: 2, nome: "Pedro Santos", email: "pedro@email.com", telefone: "913456789", equipa: "Sub-15", posicao: "Medio", numero: 7, atestadoValido: true, estado: "ativo" },
-  { id: 3, nome: "Miguel Costa", email: "miguel@email.com", telefone: "914567890", equipa: "Sub-13", posicao: "Defesa", numero: 4, atestadoValido: false, estado: "ativo" },
-  { id: 4, nome: "Tiago Ferreira", email: "tiago@email.com", telefone: "915678901", equipa: "Sub-15", posicao: "Guarda-Redes", numero: 1, atestadoValido: true, estado: "ativo" },
-  { id: 5, nome: "Maria Silva", email: "maria@email.com", telefone: "916789012", equipa: "Sub-11", posicao: "Medio", numero: 8, atestadoValido: false, estado: "ativo" },
-  { id: 6, nome: "Ana Costa", email: "ana@email.com", telefone: "917890123", equipa: "Sub-13", posicao: "Avancado", numero: 9, atestadoValido: true, estado: "inativo" },
-]
+import { fetchApi } from "@/lib/api"
+
+interface Atleta {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  equipa: string;
+  numero: number;
+  posicao: string;
+  atestadoValido: boolean;
+  estado: string; // "ativo", "inativo"
+}
 
 export default function AtletasSecretariaPage() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [filtroEquipa, setFiltroEquipa] = useState("todas")
   const [filtroEstado, setFiltroEstado] = useState("todos")
+
+  const [atletas, setAtletas] = useState<Atleta[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -68,19 +76,47 @@ export default function AtletasSecretariaPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "secretaria") {
       router.push("/")
+    } else {
+      fetchData()
     }
   }, [router])
 
-  const atletasFiltrados = mockAtletas.filter((atleta) => {
-    const matchSearch = atleta.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      atleta.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const data = await fetchApi<Atleta[]>('api/users/athletes').catch(() => [])
+      setAtletas(data.map(d => ({
+        ...d,
+        equipa: d.equipa || "Sem Equipa",
+        estado: d.estado || "ativo"
+      })))
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleExportCSV = () => {
+    const headers = ["Nome", "Email", "Telefone", "Equipa", "Posicao", "Numero", "Estado", "Atestado Valido"]
+    const rows = atletasFiltrados.map(a => [a.nome, a.email, a.telefone, a.equipa, a.posicao, a.numero, a.estado, a.atestadoValido ? "Sim" : "Nao"])
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c ?? ""}"`).join(",")).join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a"); a.href = url; a.download = "atletas.csv"; a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const atletasFiltrados = atletas.filter((atleta) => {
+    const matchSearch = atleta.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      atleta.email?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchEquipa = filtroEquipa === "todas" || atleta.equipa === filtroEquipa
     const matchEstado = filtroEstado === "todos" || atleta.estado === filtroEstado
     return matchSearch && matchEquipa && matchEstado
   })
 
-  const totalAtivos = mockAtletas.filter((a) => a.estado === "ativo").length
-  const semAtestado = mockAtletas.filter((a) => !a.atestadoValido).length
+  const totalAtivos = atletas.filter((a) => a.estado === "ativo").length
+  const semAtestado = atletas.filter((a) => !a.atestadoValido).length
 
   return (
     <DashboardLayout role="secretaria" userName="Ana Secretaria">
@@ -90,10 +126,16 @@ export default function AtletasSecretariaPage() {
             <h1 className="text-2xl font-bold text-foreground">Gestao de Atletas</h1>
             <p className="text-muted-foreground">Registe e consulte informacoes dos atletas</p>
           </div>
-          <Button>
-            <Plus className="size-4 mr-2" />
-            Novo Atleta
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleExportCSV}>
+              <FileText className="size-4 mr-2" />
+              Exportar
+            </Button>
+            <Button>
+              <Plus className="size-4 mr-2" />
+              Novo Atleta
+            </Button>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-4">
@@ -105,7 +147,7 @@ export default function AtletasSecretariaPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockAtletas.length}</div>
+              <div className="text-2xl font-bold">{atletas.length}</div>
             </CardContent>
           </Card>
 
@@ -142,7 +184,7 @@ export default function AtletasSecretariaPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {new Set(mockAtletas.map((a) => a.equipa)).size}
+                {new Set(atletas.map((a) => a.equipa)).size}
               </div>
             </CardContent>
           </Card>
@@ -170,9 +212,9 @@ export default function AtletasSecretariaPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="todas">Todas</SelectItem>
-                  <SelectItem value="Sub-11">Sub-11</SelectItem>
-                  <SelectItem value="Sub-13">Sub-13</SelectItem>
-                  <SelectItem value="Sub-15">Sub-15</SelectItem>
+                  {Array.from(new Set(atletas.map(a => a.equipa))).map(e => (
+                    <SelectItem key={e} value={e}>{e}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <Select value={filtroEstado} onValueChange={(v) => setFiltroEstado(v ?? "")}>
@@ -206,7 +248,7 @@ export default function AtletasSecretariaPage() {
                         <div className="flex items-center gap-3">
                           <Avatar className="size-8">
                             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                              {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                              {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                             </AvatarFallback>
                           </Avatar>
                           <div>

@@ -10,3 +10,15 @@ C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\CAP.Shared\obj
 C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\CAP.Shared\obj\Debug\net7.0\refint\CAP.Shared.dll
 C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.pdb
 C:\Users\tiago\Downloads\v0-tiagosilvamartins95-3358-89349d1d\src\CAP.Shared\obj\Debug\net7.0\ref\CAP.Shared.dll
+c:\Trabalho\LI4\src\CAP.Shared\bin\Debug\net7.0\CAP.Shared.deps.json
+c:\Trabalho\LI4\src\CAP.Shared\bin\Debug\net7.0\CAP.Shared.dll
+c:\Trabalho\LI4\src\CAP.Shared\bin\Debug\net7.0\CAP.Shared.pdb
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.csproj.AssemblyReference.cache
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.GeneratedMSBuildEditorConfig.editorconfig
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.AssemblyInfoInputs.cache
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.AssemblyInfo.cs
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.csproj.CoreCompileInputs.cache
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.dll
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\refint\CAP.Shared.dll
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\CAP.Shared.pdb
+c:\Trabalho\LI4\src\CAP.Shared\obj\Debug\net7.0\ref\CAP.Shared.dll

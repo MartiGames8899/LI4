@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -20,49 +20,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { fetchApi } from "@/lib/api"
 
 interface User {
   email: string
   role: string
 }
 
-const mockAtletas = [
-  {
-    id: 1,
-    nome: "Joao Silva",
-    idade: 12,
-    equipa: "Sub-13",
-    atestadoValido: true,
-    atestadoExpira: "2025-06-15",
-    quotasEmDia: true,
-    proximaConvocatoria: { tipo: "Jogo", data: "Sabado, 15:00" },
-  },
-  {
-    id: 2,
-    nome: "Maria Silva",
-    idade: 10,
-    equipa: "Sub-11",
-    atestadoValido: false,
-    quotasEmDia: false,
-    proximaConvocatoria: { tipo: "Treino", data: "Segunda, 18:30" },
-  },
-]
-
-const initialConvocatoriasPendentes = [
-  { id: 1, atleta: "Joao Silva", evento: "Jogo vs FC Exemplo", data: "Sabado, 15:00", tipo: "jogo" },
-  { id: 2, atleta: "Maria Silva", evento: "Treino Especial", data: "Domingo, 10:00", tipo: "treino" },
-]
-
-const mockPagamentosPendentes = [
-  { id: 1, descricao: "Quota Mensal - Janeiro", valor: 25, vencimento: "2025-01-31", atleta: "Joao Silva" },
-  { id: 2, descricao: "Quota Mensal - Janeiro", valor: 25, vencimento: "2025-01-31", atleta: "Maria Silva" },
-  { id: 3, descricao: "Equipamento Oficial", valor: 45, vencimento: "2025-02-15", atleta: "Joao Silva" },
-]
-
 export default function DashboardEncarregadoPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
-  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState(initialConvocatoriasPendentes)
+  
+  const [atletas, setAtletas] = useState<any[]>([])
+  const [convocatoriasPendentes, setConvocatoriasPendentes] = useState<any[]>([])
+  const [pagamentosPendentes, setPagamentosPendentes] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -76,25 +48,106 @@ export default function DashboardEncarregadoPage() {
       return
     }
     setUser(parsed)
+    fetchDashboardData()
   }, [router])
 
-  if (!user) {
-    return null
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true)
+      const data: any = await fetchApi("api/users/parental/dashboard")
+      const dependentes = data.dependentes || []
+      
+      let allAtletas = []
+      let allConvs: any[] = []
+      let allPags: any[] = []
+
+      for (const d of dependentes) {
+        const atestados: any[] = await fetchApi<any[]>(`api/clinical/certificates/athlete/${d.id}`).catch(() => [])
+        const quotas: any[] = await fetchApi<any[]>(`api/finance/quotas/athlete/${d.id}`).catch(() => [])
+        const convocatorias: any[] = await fetchApi<any[]>(`api/sports/convocations/athlete/${d.id}`).catch(() => [])
+        
+        const latestAtestado = atestados.length > 0 ? atestados.sort((a, b) => new Date(b.dataExpiracao).getTime() - new Date(a.dataExpiracao).getTime())[0] : null
+        const isValid = latestAtestado ? new Date(latestAtestado.dataExpiracao) > new Date() : false
+        
+        const inDebtQuotas = quotas.filter(q => q.estado !== 2 && new Date(q.dataVencimento) < new Date()) // 2 is Paga
+        const pendentesAtleta = quotas.filter(q => q.estado !== 2).map(q => ({
+            id: q.id,
+            descricao: `Quota Pendente`,
+            valor: q.valorTotal - q.valorPago,
+            vencimento: q.dataVencimento,
+            atleta: d.nome
+        }))
+        allPags = [...allPags, ...pendentesAtleta]
+
+        const proximaConvocatoria = convocatorias.find(c => new Date(c.dataEvento) > new Date())
+
+        allAtletas.push({
+            ...d,
+            idade: 12, // mock since not in model
+            equipa: "Sem equipa",
+            atestadoValido: isValid,
+            atestadoExpira: latestAtestado?.dataExpiracao,
+            quotasEmDia: inDebtQuotas.length === 0,
+            proximaConvocatoria: proximaConvocatoria ? { tipo: "Evento", data: new Date(proximaConvocatoria.dataEvento).toLocaleString("pt-PT") } : null
+        })
+
+        const pendingConvs = convocatorias.filter(c => {
+           const convite = c.convites.find((cv: any) => cv.atletaId === d.id)
+           return convite && convite.presenca === 0 // Pendente
+        }).map(c => ({
+            id: c.id,
+            atletaId: d.id,
+            atleta: d.nome,
+            evento: c.titulo,
+            data: new Date(c.dataEvento).toLocaleString("pt-PT"),
+            tipo: "evento"
+        }))
+        allConvs = [...allConvs, ...pendingConvs]
+      }
+
+      setAtletas(allAtletas)
+      setPagamentosPendentes(allPags)
+      setConvocatoriasPendentes(allConvs)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const totalPendente = mockPagamentosPendentes.reduce((acc, p) => acc + p.valor, 0)
-  const atletasSemAtestado = mockAtletas.filter((a) => !a.atestadoValido).length
-
-  const handleConfirmarConvocatoria = (id: number) => {
-    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  if (!user || loading) {
+    return <div className="flex h-screen items-center justify-center">A carregar...</div>
   }
 
-  const handleRecusarConvocatoria = (id: number) => {
-    setConvocatoriasPendentes(prev => prev.filter(c => c.id !== id))
+  const totalPendente = pagamentosPendentes.reduce((acc, p) => acc + p.valor, 0)
+  const atletasSemAtestado = atletas.filter((a) => !a.atestadoValido).length
+
+  const handleConfirmarConvocatoria = async (id: string, atletaId: string) => {
+    try {
+       await fetchApi(`api/sports/convocations/${id}/presence`, {
+           method: "POST",
+           body: JSON.stringify({ atletaId, presenca: 1, observacoes: "" }) // 1 is Confirmado
+       })
+       fetchDashboardData()
+    } catch (error) {
+        console.error(error)
+    }
+  }
+
+  const handleRecusarConvocatoria = async (id: string, atletaId: string) => {
+    try {
+        await fetchApi(`api/sports/convocations/${id}/presence`, {
+            method: "POST",
+            body: JSON.stringify({ atletaId, presenca: 2, observacoes: "Recusado pelo encarregado" }) // 2 is Recusado
+        })
+        fetchDashboardData()
+     } catch (error) {
+         console.error(error)
+     }
   }
 
   return (
-    <DashboardLayout role="encarregado" userName="Manuel Encarregado">
+    <DashboardLayout role="encarregado" userName={user.email}>
       <div className="space-y-6">
         {/* Page Header */}
         <div>
@@ -103,7 +156,7 @@ export default function DashboardEncarregadoPage() {
         </div>
 
         {/* Alerts */}
-        {(atletasSemAtestado > 0 || mockPagamentosPendentes.length > 0) && (
+        {(atletasSemAtestado > 0 || pagamentosPendentes.length > 0) && (
           <div className="space-y-3">
             {atletasSemAtestado > 0 && (
               <Card className="border-destructive/50 bg-destructive/5">
@@ -124,7 +177,7 @@ export default function DashboardEncarregadoPage() {
               </Card>
             )}
 
-            {mockPagamentosPendentes.length > 0 && (
+            {pagamentosPendentes.length > 0 && (
               <Card className="border-cap-gold/50 bg-cap-gold/5">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
@@ -132,7 +185,7 @@ export default function DashboardEncarregadoPage() {
                     <div className="flex-1">
                       <p className="font-medium text-cap-gold">Pagamentos Pendentes</p>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Tem {mockPagamentosPendentes.length} pagamento(s) pendente(s) no valor total de {totalPendente}EUR.
+                        Tem {pagamentosPendentes.length} pagamento(s) pendente(s) no valor total de {totalPendente} EUR.
                       </p>
                     </div>
                     <Button variant="outline" size="sm" onClick={() => router.push("/dashboard/encarregado/pagamentos")}>
@@ -155,7 +208,7 @@ export default function DashboardEncarregadoPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockAtletas.length}</div>
+              <div className="text-2xl font-bold">{atletas.length}</div>
               <p className="text-xs text-muted-foreground">Educandos registados</p>
             </CardContent>
           </Card>
@@ -181,7 +234,7 @@ export default function DashboardEncarregadoPage() {
               <CreditCard className="size-4 text-cap-red" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-red">{totalPendente}EUR</div>
+              <div className="text-2xl font-bold text-cap-red">{totalPendente.toFixed(2)} EUR</div>
               <p className="text-xs text-muted-foreground">Valor em divida</p>
             </CardContent>
           </Card>
@@ -195,7 +248,7 @@ export default function DashboardEncarregadoPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {mockAtletas.filter((a) => a.atestadoValido).length}/{mockAtletas.length}
+                {atletas.filter((a) => a.atestadoValido).length}/{atletas.length}
               </div>
               <p className="text-xs text-muted-foreground">Validos</p>
             </CardContent>
@@ -215,7 +268,7 @@ export default function DashboardEncarregadoPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockAtletas.map((atleta) => (
+                {atletas.map((atleta) => (
                   <div
                     key={atleta.id}
                     className="flex items-center justify-between p-4 rounded-lg bg-secondary/30"
@@ -223,7 +276,7 @@ export default function DashboardEncarregadoPage() {
                     <div className="flex items-center gap-4">
                       <Avatar className="size-12">
                         <AvatarFallback className="bg-primary text-primary-foreground">
-                          {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                          {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                         </AvatarFallback>
                       </Avatar>
                       <div>
@@ -303,11 +356,11 @@ export default function DashboardEncarregadoPage() {
                     <p className="font-medium text-sm mb-1">{conv.evento}</p>
                     <p className="text-xs text-muted-foreground mb-3">Atleta: {conv.atleta}</p>
                     <div className="flex gap-2">
-                      <Button size="sm" className="flex-1 bg-success hover:bg-success/90" onClick={() => handleConfirmarConvocatoria(conv.id)}>
+                      <Button size="sm" className="flex-1 bg-success hover:bg-success/90" onClick={() => handleConfirmarConvocatoria(conv.id, conv.atletaId)}>
                         <CheckCircle className="size-4 mr-1" />
                         Confirmar
                       </Button>
-                      <Button size="sm" variant="outline" className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => handleRecusarConvocatoria(conv.id)}>
+                      <Button size="sm" variant="outline" className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => handleRecusarConvocatoria(conv.id, conv.atletaId)}>
                         <XCircle className="size-4 mr-1" />
                         Recusar
                       </Button>
@@ -334,7 +387,7 @@ export default function DashboardEncarregadoPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {mockPagamentosPendentes.map((pag) => (
+              {pagamentosPendentes.map((pag) => (
                 <div
                   key={pag.id}
                   className="flex items-center justify-between p-4 rounded-lg bg-secondary/30"
@@ -349,23 +402,31 @@ export default function DashboardEncarregadoPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-lg">{pag.valor}EUR</p>
+                    <p className="font-bold text-lg">{pag.valor.toFixed(2)} EUR</p>
                     <p className="text-xs text-muted-foreground">
                       Vence: {new Date(pag.vencimento).toLocaleDateString("pt-PT")}
                     </p>
                   </div>
                 </div>
               ))}
+              {pagamentosPendentes.length === 0 && (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <CheckCircle className="size-8 mx-auto mb-2 text-success" />
+                    <p>Sem pagamentos pendentes!</p>
+                  </div>
+              )}
             </div>
-            <div className="flex items-center justify-between mt-6 pt-4 border-t">
-              <div>
-                <p className="text-sm text-muted-foreground">Total em Divida</p>
-                <p className="text-2xl font-bold">{totalPendente}EUR</p>
-              </div>
-              <Button onClick={() => router.push("/dashboard/encarregado/pagamentos")}>
-                Pagar Tudo
-              </Button>
-            </div>
+            {pagamentosPendentes.length > 0 && (
+                <div className="flex items-center justify-between mt-6 pt-4 border-t">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total em Divida</p>
+                    <p className="text-2xl font-bold">{totalPendente.toFixed(2)} EUR</p>
+                  </div>
+                  <Button onClick={() => router.push("/dashboard/encarregado/pagamentos")}>
+                    Pagar Tudo
+                  </Button>
+                </div>
+            )}
           </CardContent>
         </Card>
       </div>

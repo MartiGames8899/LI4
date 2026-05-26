@@ -1,0 +1,94 @@
+\babel@toc {portuguese}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Recursos de software utilizados no projeto.}}{7}{table.2.1}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Decomposição da estimativa de custo do projeto.}}{8}{table.2.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Métodos de levantamento de requisitos e suas contribuições}}{11}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{Especificação do Requisito Funcional: RF-01}}{26}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{Especificação do Requisito Funcional: RF-02}}{27}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{Especificação do Requisito Funcional: RF-03}}{28}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{Especificação do Requisito Funcional: RF-04}}{29}{table.3.5}%
+\contentsline {table}{\numberline {3.6}{Especificação do Requisito Funcional: RF-05}}{30}{table.3.6}%
+\contentsline {table}{\numberline {3.7}{Especificação do Requisito Funcional: RF-06}}{32}{table.3.7}%
+\contentsline {table}{\numberline {3.8}{Especificação do Requisito Funcional: RF-07}}{33}{table.3.8}%
+\contentsline {table}{\numberline {3.9}{Especificação do Requisito Funcional: RF-08}}{34}{table.3.9}%
+\contentsline {table}{\numberline {3.10}{Especificação do Requisito Funcional: RF-09}}{35}{table.3.10}%
+\contentsline {table}{\numberline {3.11}{Especificação do Requisito Funcional: RF-10}}{35}{table.3.11}%
+\contentsline {table}{\numberline {3.12}{Especificação do Requisito Funcional: RF-11}}{36}{table.3.12}%
+\contentsline {table}{\numberline {3.13}{Especificação do Requisito Funcional: RF-12}}{37}{table.3.13}%
+\contentsline {table}{\numberline {3.14}{Especificação do Requisito Funcional: RF-13}}{38}{table.3.14}%
+\contentsline {table}{\numberline {3.15}{Especificação do Requisito Funcional: RF-14}}{39}{table.3.15}%
+\contentsline {table}{\numberline {3.16}{Especificação do Requisito Funcional: RF-15}}{40}{table.3.16}%
+\contentsline {table}{\numberline {3.17}{Especificação do Requisito Funcional: RF-16}}{41}{table.3.17}%
+\contentsline {table}{\numberline {3.18}{Especificação do Requisito Funcional: RF-17}}{42}{table.3.18}%
+\contentsline {table}{\numberline {3.19}{Especificação do Requisito Funcional: RF-18}}{43}{table.3.19}%
+\contentsline {table}{\numberline {3.20}{Especificação do Requisito Funcional: RF-19}}{44}{table.3.20}%
+\contentsline {table}{\numberline {3.21}{Especificação do Requisito Funcional: RF-20}}{44}{table.3.21}%
+\contentsline {table}{\numberline {3.22}{Especificação do Requisito Funcional: RF-21}}{45}{table.3.22}%
+\contentsline {table}{\numberline {3.23}{Especificação do Requisito Funcional: RF-22}}{46}{table.3.23}%
+\contentsline {table}{\numberline {3.24}{Especificação do Requisito Funcional: RF-23}}{47}{table.3.24}%
+\contentsline {table}{\numberline {3.25}{Especificação do Requisito Não Funcional: RNF-01}}{48}{table.3.25}%
+\contentsline {table}{\numberline {3.26}{Especificação do Requisito Não Funcional: RNF-02}}{49}{table.3.26}%
+\contentsline {table}{\numberline {3.27}{Especificação do Requisito Não Funcional: RNF-03}}{49}{table.3.27}%
+\contentsline {table}{\numberline {3.28}{Especificação do Requisito Não Funcional: RNF-04}}{50}{table.3.28}%
+\contentsline {table}{\numberline {3.29}{Especificação do Requisito Não Funcional: RNF-05}}{51}{table.3.29}%
+\contentsline {table}{\numberline {3.30}{Especificação do Requisito Não Funcional: RNF-06}}{51}{table.3.30}%
+\contentsline {table}{\numberline {3.31}{Especificação do Requisito Não Funcional: RNF-07}}{52}{table.3.31}%
+\contentsline {table}{\numberline {3.32}{Especificação do Requisito Não Funcional: RNF-08}}{53}{table.3.32}%
+\contentsline {table}{\numberline {3.33}{Especificação do Requisito Não Funcional: RNF-09}}{53}{table.3.33}%
+\contentsline {table}{\numberline {3.34}{Especificação do Requisito Não Funcional: RNF-10}}{54}{table.3.34}%
+\contentsline {table}{\numberline {3.35}{Especificação do Requisito Não Funcional: RNF-11}}{55}{table.3.35}%
+\contentsline {table}{\numberline {3.36}{Especificação do Requisito Não Funcional: RNF-12}}{56}{table.3.36}%
+\contentsline {table}{\numberline {3.37}{Especificação do Requisito Não Funcional: RNF-13}}{56}{table.3.37}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Comparação de padrões arquiteturais.}}{58}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Comparação de sistemas de gestão de base de dados.}}{59}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Comparação de tecnologias de \textit {backend}.}}{60}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Comparação de paradigmas de API.}}{61}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Matriz de permissões RBAC: papéis versus operações principais do sistema (\text {$\mathsurround \z@ \mathchar "458$}= permitido, --- = negado).}}{68}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Caso de uso ``Registar-se''.}}{82}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Caso de uso ``Iniciar Sessão''.}}{83}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Caso de uso ``Aprovar Registo''.}}{84}{table.4.8}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Caso de uso ``Vincular Encarregado a Atleta''.}}{85}{table.4.9}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Caso de uso ``Enviar Mensagem Interna''.}}{86}{table.4.10}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Caso de uso ``Configurar Preferências de Notificação''.}}{87}{table.4.11}%
+\contentsline {table}{\numberline {4.12}{\ignorespaces Caso de uso ``Criar Convocatória''.}}{88}{table.4.12}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces Caso de uso ``Publicar Convocatória''.}}{89}{table.4.13}%
+\contentsline {table}{\numberline {4.14}{\ignorespaces Caso de uso ``Gerir Modalidades e Épocas''.}}{90}{table.4.14}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces Caso de uso ``Agendar Sessão de Treino''.}}{91}{table.4.15}%
+\contentsline {table}{\numberline {4.16}{\ignorespaces Caso de uso ``Registar Presenças em Treino''.}}{92}{table.4.16}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Caso de uso ``Partilhar Plano de Treino''.}}{93}{table.4.17}%
+\contentsline {table}{\numberline {4.18}{\ignorespaces Caso de uso ``Registar Ocorrência de Jogo''.}}{94}{table.4.18}%
+\contentsline {table}{\numberline {4.19}{\ignorespaces Caso de uso ``Consultar Dashboard de Desempenho''.}}{95}{table.4.19}%
+\contentsline {table}{\numberline {4.20}{\ignorespaces Caso de uso ``Registar Avaliação de Atleta''.}}{96}{table.4.20}%
+\contentsline {table}{\numberline {4.21}{\ignorespaces Caso de uso ``Submeter Atestado Médico''.}}{97}{table.4.21}%
+\contentsline {table}{\numberline {4.22}{\ignorespaces Caso de uso ``Validar Atestado Médico''.}}{98}{table.4.22}%
+\contentsline {table}{\numberline {4.23}{\ignorespaces Caso de uso ``Reportar Lesão''.}}{99}{table.4.23}%
+\contentsline {table}{\numberline {4.24}{\ignorespaces Caso de uso ``Registar Dados Biométricos''.}}{100}{table.4.24}%
+\contentsline {table}{\numberline {4.25}{\ignorespaces Caso de uso ``Submeter Documentação Federativa''.}}{101}{table.4.25}%
+\contentsline {table}{\numberline {4.26}{\ignorespaces Caso de uso ``Efetuar Pagamento''.}}{102}{table.4.26}%
+\contentsline {table}{\numberline {4.27}{\ignorespaces Caso de uso ``Gerar Relatório SAF-T''.}}{103}{table.4.27}%
+\contentsline {table}{\numberline {4.28}{\ignorespaces Caso de uso ``Consultar Contabilidade Global''.}}{104}{table.4.28}%
+\contentsline {table}{\numberline {4.29}{\ignorespaces Caso de uso ``Consultar Calendário de Eventos''.}}{105}{table.4.29}%
+\contentsline {table}{\numberline {4.30}{\ignorespaces Caso de uso ``Gerar Relatório de Gestão''.}}{106}{table.4.30}%
+\contentsline {table}{\numberline {4.31}{\ignorespaces Caso de uso ``Consultar Logs de Auditoria''.}}{107}{table.4.31}%
+\contentsline {table}{\numberline {4.32}{\ignorespaces Caso de uso ``Solicitar Reserva de Instalação''.}}{108}{table.4.32}%
+\contentsline {table}{\numberline {4.33}{\ignorespaces Especificação da API: autenticação e emissão de JWT.}}{127}{table.4.33}%
+\contentsline {table}{\numberline {4.34}{\ignorespaces Especificação da API: registo de utilizador.}}{127}{table.4.34}%
+\contentsline {table}{\numberline {4.35}{\ignorespaces Especificação da API: consulta de situação do atleta.}}{128}{table.4.35}%
+\contentsline {table}{\numberline {4.36}{\ignorespaces Especificação da API: publicação de convocatória.}}{128}{table.4.36}%
+\contentsline {table}{\numberline {4.37}{\ignorespaces Especificação da API: \textit {webhook} de pagamento.}}{129}{table.4.37}%
+\contentsline {table}{\numberline {4.38}{\ignorespaces Especificação da API: submissão de exame médico.}}{129}{table.4.38}%
+\contentsline {table}{\numberline {4.39}{\ignorespaces Especificação da API: criação de reserva de instalação.}}{130}{table.4.39}%
+\contentsline {table}{\numberline {4.40}{\ignorespaces Tabela de rastreabilidade: RF versus artefactos de especificação (\text {$\mathsurround \z@ \mathchar "458$}= coberto, --- = não aplicável ou fora do âmbito do capítulo).}}{131}{table.4.40}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Esquemas da base de dados e respetivas tabelas principais.}}{135}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Mapeamento entre módulos, contextos de dados e repositórios.}}{144}{table.5.2}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Inventário dos controladores da API REST, organizados por módulo.}}{148}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Componentes reutilizáveis da interface, baseados na biblioteca shadcn/ui.}}{150}{table.5.4}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Avaliação do cumprimento dos requisitos funcionais.}}{155}{table.5.5}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Avaliação do cumprimento dos requisitos não funcionais.}}{157}{table.5.6}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

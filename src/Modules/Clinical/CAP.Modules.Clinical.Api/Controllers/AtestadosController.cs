@@ -24,7 +24,7 @@ public class AtestadosController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Secretaria,Gerencia")]
+    [Authorize(Roles = "Secretaria,Gerencia,Encarregado")]
     public async Task<IActionResult> Register([FromBody] RegisterCertificateRequest request)
     {
         var atestado = new AtestadoMedico
@@ -47,6 +47,14 @@ public class AtestadosController : ControllerBase
         return Ok(atestado);
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> GetAll()
+    {
+        var atestados = await _atestadoRepository.GetAllAsync();
+        return Ok(atestados);
+    }
+
     [HttpGet("athlete/{atletaId}")]
     public async Task<IActionResult> GetByAthlete(Guid atletaId)
     {
@@ -55,7 +63,7 @@ public class AtestadosController : ControllerBase
     }
 
     [HttpPost("{id}/upload")]
-    [Authorize(Roles = "Secretaria,Gerencia")]
+    [Authorize(Roles = "Secretaria,Gerencia,Encarregado")]
     public async Task<IActionResult> UploadFicheiro(Guid id, IFormFile file)
     {
         if (file == null || file.Length == 0)

@@ -3,6 +3,7 @@ using CAP.Modules.Sports.Core.DTOs;
 using CAP.Shared.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CAP.Modules.Sports.Api.Controllers;
 
@@ -12,10 +13,12 @@ namespace CAP.Modules.Sports.Api.Controllers;
 public class TreinosController : ControllerBase
 {
     private readonly IRepository<Treino> _treinoRepository;
+    private readonly CAP.Modules.Sports.Data.Context.SportsDbContext _dbContext;
 
-    public TreinosController(IRepository<Treino> treinoRepository)
+    public TreinosController(IRepository<Treino> treinoRepository, CAP.Modules.Sports.Data.Context.SportsDbContext dbContext)
     {
         _treinoRepository = treinoRepository;
+        _dbContext = dbContext;
     }
 
     [HttpPost]
@@ -46,7 +49,7 @@ public class TreinosController : ControllerBase
     [Authorize(Roles = "Treinador")]
     public async Task<IActionResult> RecordAttendance(Guid id, [FromBody] List<UpdatePresencaRequest> requests)
     {
-        var treino = await _treinoRepository.GetByIdAsync(id);
+        var treino = await _dbContext.Treinos.Include(t => t.Presencas).FirstOrDefaultAsync(t => t.Id == id);
         if (treino == null) return NotFound("Treino não encontrado");
 
         foreach (var req in requests)
@@ -57,10 +60,39 @@ public class TreinosController : ControllerBase
                 presenca.Estado = req.Estado;
                 presenca.Justificacao = req.Justificacao ?? string.Empty;
             }
+            else
+            {
+                treino.Presencas.Add(new PresencaTreino { TreinoId = id, AtletaId = req.AtletaId, Estado = req.Estado, Justificacao = req.Justificacao ?? string.Empty });
+            }
         }
 
-        await _treinoRepository.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
 
         return Ok("Assiduidade registada com sucesso");
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Treinador,Gerencia,Atleta")]
+    public async Task<IActionResult> GetAll()
+    {
+        var treinos = await _dbContext.Treinos.Include(t => t.Presencas).ToListAsync();
+        return Ok(treinos);
+    }
+
+    [HttpGet("{id}")]
+    [Authorize(Roles = "Treinador,Gerencia,Atleta")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var treino = await _dbContext.Treinos.Include(t => t.Presencas).FirstOrDefaultAsync(t => t.Id == id);
+        if (treino == null) return NotFound();
+        return Ok(treino);
+    }
+
+    [HttpGet("athlete/{atletaId}")]
+    public async Task<IActionResult> GetByAthlete(Guid atletaId)
+    {
+        var treinos = await _dbContext.Treinos.Include(t => t.Presencas).ToListAsync();
+        var athleteTreinos = treinos.Where(t => t.Presencas.Any(p => p.AtletaId == atletaId)).ToList();
+        return Ok(athleteTreinos);
     }
 }

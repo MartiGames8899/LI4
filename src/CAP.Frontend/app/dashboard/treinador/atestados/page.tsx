@@ -1,7 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { fetchApi } from "@/lib/api"
 import {
   FileText,
   AlertTriangle,
@@ -44,9 +45,9 @@ import {
 } from "@/components/ui/dialog"
 
 interface Atestado {
-  id: number
+  id: string
   atleta: {
-    id: number
+    id: string
     nome: string
     numero: number
   }
@@ -57,23 +58,14 @@ interface Atestado {
   ficheiro?: string
 }
 
-const mockAtestados: Atestado[] = [
-  { id: 1, atleta: { id: 1, nome: "Joao Silva", numero: 10 }, tipo: "desportivo", dataEmissao: "2024-06-15", dataValidade: "2025-06-15", status: "valido" },
-  { id: 2, atleta: { id: 2, nome: "Pedro Santos", numero: 7 }, tipo: "medico", dataEmissao: "2024-03-20", dataValidade: "2025-03-20", status: "a_expirar" },
-  { id: 3, atleta: { id: 3, nome: "Miguel Costa", numero: 4 }, tipo: "desportivo", dataEmissao: "2023-12-01", dataValidade: "2024-12-01", status: "expirado" },
-  { id: 4, atleta: { id: 4, nome: "Tiago Ferreira", numero: 1 }, tipo: "medico", dataEmissao: "2024-08-10", dataValidade: "2025-08-10", status: "valido" },
-  { id: 5, atleta: { id: 5, nome: "Andre Oliveira", numero: 9 }, tipo: "desportivo", dataEmissao: "2024-04-05", dataValidade: "2025-04-05", status: "a_expirar" },
-  { id: 6, atleta: { id: 6, nome: "Bruno Martins", numero: 6 }, tipo: "medico", dataEmissao: "2024-07-22", dataValidade: "2025-07-22", status: "valido" },
-  { id: 7, atleta: { id: 7, nome: "Carlos Almeida", numero: 3 }, tipo: "desportivo", dataEmissao: "2023-10-15", dataValidade: "2024-10-15", status: "expirado" },
-  { id: 8, atleta: { id: 8, nome: "Daniel Sousa", numero: 8 }, tipo: "medico", dataEmissao: "2024-05-30", dataValidade: "2025-05-30", status: "valido" },
-]
-
 export default function AtestadosPage() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("todos")
   const [tipoFilter, setTipoFilter] = useState<string>("todos")
   const [selectedAtestado, setSelectedAtestado] = useState<Atestado | null>(null)
+  const [atestados, setAtestados] = useState<Atestado[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -84,10 +76,65 @@ export default function AtestadosPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "treinador") {
       router.push("/")
+    } else {
+      loadData()
     }
   }, [router])
 
-  const filteredAtestados = mockAtestados.filter((atestado) => {
+  const loadData = async () => {
+    try {
+      const [certRes, athletesRes] = await Promise.all([
+        fetchApi<any>("/api/clinical/certificates"),
+        fetchApi<any>("/api/users/athletes")
+      ])
+
+      const certificates = certRes.data || []
+      const athletes = athletesRes.data || []
+
+      const athletesMap = athletes.reduce((acc: any, a: any) => {
+        acc[a.id] = a
+        return acc
+      }, {})
+
+      const now = new Date()
+      const in30Days = new Date()
+      in30Days.setDate(now.getDate() + 30)
+
+      const mapped: Atestado[] = certificates.map((c: any) => {
+        const dataValidade = new Date(c.dataExpiracao)
+        let status: "valido" | "expirado" | "a_expirar" = "valido"
+        if (dataValidade < now) {
+          status = "expirado"
+        } else if (dataValidade <= in30Days) {
+          status = "a_expirar"
+        }
+
+        const athleteInfo = athletesMap[c.atletaId] || { nome: "Desconhecido", numero: 0 }
+
+        return {
+          id: c.id,
+          atleta: {
+            id: c.atletaId,
+            nome: athleteInfo.nome,
+            numero: athleteInfo.numero
+          },
+          tipo: "medico",
+          dataEmissao: c.dataEmissao.split("T")[0],
+          dataValidade: c.dataExpiracao.split("T")[0],
+          status,
+          ficheiro: c.caminhoFicheiro
+        }
+      })
+
+      setAtestados(mapped)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const filteredAtestados = atestados.filter((atestado) => {
     const matchesSearch = atestado.atleta.nome.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "todos" || atestado.status === statusFilter
     const matchesTipo = tipoFilter === "todos" || atestado.tipo === tipoFilter
@@ -121,10 +168,10 @@ export default function AtestadosPage() {
   }
 
   const stats = {
-    total: mockAtestados.length,
-    validos: mockAtestados.filter((a) => a.status === "valido").length,
-    aExpirar: mockAtestados.filter((a) => a.status === "a_expirar").length,
-    expirados: mockAtestados.filter((a) => a.status === "expirado").length,
+    total: atestados.length,
+    validos: atestados.filter((a) => a.status === "valido").length,
+    aExpirar: atestados.filter((a) => a.status === "a_expirar").length,
+    expirados: atestados.filter((a) => a.status === "expirado").length,
   }
 
   return (
@@ -255,7 +302,7 @@ export default function AtestadosPage() {
                         <div className="flex items-center gap-3">
                           <Avatar className="size-8">
                             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                              {atestado.atleta.nome.split(" ").map((n) => n[0]).join("")}
+                              {atestado.atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                             </AvatarFallback>
                           </Avatar>
                           <div>
@@ -318,7 +365,7 @@ export default function AtestadosPage() {
                   <div className="flex items-center gap-4">
                     <Avatar className="size-16">
                       <AvatarFallback className="text-lg bg-primary text-primary-foreground">
-                        {selectedAtestado.atleta.nome.split(" ").map((n) => n[0]).join("")}
+                        {selectedAtestado.atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>

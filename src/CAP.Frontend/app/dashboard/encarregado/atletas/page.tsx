@@ -1,6 +1,6 @@
-"use client"
+﻿"use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   Users,
@@ -17,35 +17,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-
-const mockAtletas = [
-  {
-    id: 1,
-    nome: "Joao Silva",
-    idade: 12,
-    equipa: "Sub-13",
-    posicao: "Avancado",
-    numero: 10,
-    atestadoValido: true,
-    atestadoExpira: "2025-06-15",
-    quotasEmDia: true,
-    presencaMedia: 92,
-  },
-  {
-    id: 2,
-    nome: "Maria Silva",
-    idade: 10,
-    equipa: "Sub-11",
-    posicao: "Medio",
-    numero: 7,
-    atestadoValido: false,
-    quotasEmDia: false,
-    presencaMedia: 85,
-  },
-]
+import { fetchApi } from "@/lib/api"
 
 export default function AtletasEncarregadoPage() {
   const router = useRouter()
+  const [atletas, setAtletas] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -56,11 +33,68 @@ export default function AtletasEncarregadoPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "encarregado") {
       router.push("/")
+      return
     }
+    fetchAtletas()
   }, [router])
 
+  const fetchAtletas = async () => {
+    try {
+      setLoading(true)
+      const data: any = await fetchApi("api/users/parental/dashboard")
+      const dependentes = data.dependentes || []
+      
+      let allAtletas = []
+
+      for (const d of dependentes) {
+        const atestados: any[] = await fetchApi<any[]>(`api/clinical/certificates/athlete/${d.id}`).catch(() => [])
+        const quotas: any[] = await fetchApi<any[]>(`api/finance/quotas/athlete/${d.id}`).catch(() => [])
+        const treinos: any[] = await fetchApi<any[]>(`api/sports/trainings/athlete/${d.id}`).catch(() => [])
+        
+        const latestAtestado = atestados.length > 0 ? atestados.sort((a, b) => new Date(b.dataExpiracao).getTime() - new Date(a.dataExpiracao).getTime())[0] : null
+        const isValid = latestAtestado ? new Date(latestAtestado.dataExpiracao) > new Date() : false
+        
+        const inDebtQuotas = quotas.filter(q => q.estado !== 2 && new Date(q.dataVencimento) < new Date()) // 2 is Paga
+
+        // Calc Presenca Media
+        let presencasCount = 0;
+        let totalTreinos = treinos.length;
+        if (totalTreinos > 0) {
+           treinos.forEach(t => {
+               const p = t.presencas.find((pr: any) => pr.atletaId === d.id);
+               if (p && p.estado === 1) presencasCount++; // 1 is Presente
+           });
+        }
+        const presencaMedia = totalTreinos > 0 ? Math.round((presencasCount / totalTreinos) * 100) : 0;
+
+        allAtletas.push({
+            id: d.id,
+            nome: d.nome,
+            idade: 12, // mock since missing in model
+            equipa: "Sem equipa", // mock
+            posicao: d.posicao,
+            numero: d.numeroCamisola,
+            atestadoValido: isValid,
+            atestadoExpira: latestAtestado?.dataExpiracao,
+            quotasEmDia: inDebtQuotas.length === 0,
+            presencaMedia
+        })
+      }
+
+      setAtletas(allAtletas)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center">A carregar...</div>
+  }
+
   return (
-    <DashboardLayout role="encarregado" userName="Manuel Encarregado">
+    <DashboardLayout role="encarregado" userName="O Meu Perfil">
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Meus Atletas</h1>
@@ -76,7 +110,7 @@ export default function AtletasEncarregadoPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockAtletas.length}</div>
+              <div className="text-2xl font-bold">{atletas.length}</div>
               <p className="text-xs text-muted-foreground">Educandos registados</p>
             </CardContent>
           </Card>
@@ -90,7 +124,7 @@ export default function AtletasEncarregadoPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-success">
-                {mockAtletas.filter((a) => a.atestadoValido).length}/{mockAtletas.length}
+                {atletas.filter((a) => a.atestadoValido).length}/{atletas.length}
               </div>
             </CardContent>
           </Card>
@@ -104,21 +138,24 @@ export default function AtletasEncarregadoPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {mockAtletas.filter((a) => a.quotasEmDia).length}/{mockAtletas.length}
+                {atletas.filter((a) => a.quotasEmDia).length}/{atletas.length}
               </div>
             </CardContent>
           </Card>
         </div>
 
         <div className="space-y-4">
-          {mockAtletas.map((atleta) => (
+          {atletas.length === 0 && (
+              <p className="text-center text-muted-foreground py-8">NÃ£o hÃ¡ atletas associados.</p>
+          )}
+          {atletas.map((atleta) => (
             <Card key={atleta.id}>
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <Avatar className="size-16">
                       <AvatarFallback className="text-lg bg-primary text-primary-foreground">
-                        {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                        {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>

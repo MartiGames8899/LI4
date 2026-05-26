@@ -18,8 +18,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+import { fetchApi } from "@/lib/api"
+
 interface Convocatoria {
-  id: number
+  id: string
   titulo: string
   tipo: "treino" | "jogo" | "evento"
   data: string
@@ -29,16 +31,11 @@ interface Convocatoria {
   estado: "pendente" | "confirmado" | "recusado"
 }
 
-const mockConvocatorias: Convocatoria[] = [
-  { id: 1, titulo: "Jogo vs FC Exemplo", tipo: "jogo", data: "2025-01-25", hora: "15:00", local: "Campo Visitante", adversario: "FC Exemplo", estado: "pendente" },
-  { id: 2, titulo: "Treino", tipo: "treino", data: "2025-01-27", hora: "18:30", local: "Campo Principal", estado: "confirmado" },
-  { id: 3, titulo: "Treino Especial", tipo: "treino", data: "2025-01-26", hora: "10:00", local: "Campo Principal", estado: "confirmado" },
-  { id: 4, titulo: "Jogo vs SC Braga B", tipo: "jogo", data: "2025-02-01", hora: "10:00", local: "Campo Casa", adversario: "SC Braga B", estado: "pendente" },
-]
-
 export default function ConvocatoriasAtletaPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState("pendentes")
+  const [convocatorias, setConvocatorias] = useState<Convocatoria[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -50,10 +47,35 @@ export default function ConvocatoriasAtletaPage() {
     if (parsed.role !== "atleta") {
       router.push("/")
     }
+    const loadConvocatorias = async () => {
+      try {
+        const data = await fetchApi<Convocatoria[]>("api/sports/convocations/my")
+        setConvocatorias(data)
+      } catch (error) {
+        console.error("Erro ao carregar convocatórias:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadConvocatorias()
   }, [router])
 
-  const pendentes = mockConvocatorias.filter((c) => c.estado === "pendente")
-  const confirmadas = mockConvocatorias.filter((c) => c.estado === "confirmado")
+  const handleRespond = async (id: string, estado: "confirmado" | "recusado") => {
+    try {
+      await fetchApi(`api/sports/convocations/${id}/my-presence`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado })
+      })
+      
+      setConvocatorias(prev => prev.map(c => c.id === id ? { ...c, estado } : c))
+    } catch (error) {
+      console.error("Erro ao responder à convocatória:", error)
+    }
+  }
+
+  const pendentes = convocatorias.filter((c) => c.estado === "pendente")
+  const confirmadas = convocatorias.filter((c) => c.estado === "confirmado")
 
   const getTipoBadge = (tipo: Convocatoria["tipo"]) => {
     switch (tipo) {
@@ -62,8 +84,19 @@ export default function ConvocatoriasAtletaPage() {
       case "treino":
         return <Badge className="bg-cap-navy/10 text-cap-navy border-cap-navy/20">Treino</Badge>
       case "evento":
+      default:
         return <Badge className="bg-cap-gold/10 text-cap-gold border-cap-gold/20">Evento</Badge>
     }
+  }
+
+  if (isLoading) {
+    return (
+      <DashboardLayout role="atleta" userName="Atleta">
+        <div className="flex items-center justify-center h-[50vh]">
+          Carregando...
+        </div>
+      </DashboardLayout>
+    )
   }
 
   return (
@@ -108,7 +141,7 @@ export default function ConvocatoriasAtletaPage() {
               <ClipboardList className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockConvocatorias.length}</div>
+              <div className="text-2xl font-bold">{convocatorias.length}</div>
             </CardContent>
           </Card>
         </div>
@@ -149,11 +182,18 @@ export default function ConvocatoriasAtletaPage() {
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1 bg-success hover:bg-success/90">
+                      <Button 
+                        className="flex-1 bg-success hover:bg-success/90"
+                        onClick={() => handleRespond(conv.id, "confirmado")}
+                      >
                         <CheckCircle className="size-4 mr-2" />
                         Confirmar
                       </Button>
-                      <Button variant="outline" className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 text-destructive border-destructive/30 hover:bg-destructive/10"
+                        onClick={() => handleRespond(conv.id, "recusado")}
+                      >
                         <XCircle className="size-4 mr-2" />
                         Recusar
                       </Button>
@@ -183,7 +223,7 @@ export default function ConvocatoriasAtletaPage() {
                     ? pendentes
                     : activeTab === "confirmadas"
                     ? confirmadas
-                    : mockConvocatorias
+                    : convocatorias
                   ).map((conv) => (
                     <div
                       key={conv.id}

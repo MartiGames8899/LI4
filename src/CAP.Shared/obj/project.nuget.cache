@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pFEv6XBaBjou5e/DcG9e8oPATwIxW063ySqtXhtBZFlIX24c3T+f1BC9ZHGSzw8mXXqZQjh8VXZle15qUpyOSQ==",
+  "dgSpecHash": "sKDKrA9c6QjRw0pYRqbseUAFTz03M2Rt1C7fIChsdpGWg81fnvLlBaISUbSd2ROl7rUnA57qmMg6DVQvDW9ItA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tiago\\Downloads\\v0-tiagosilvamartins95-3358-89349d1d\\src\\CAP.Shared\\CAP.Shared.csproj",
+  "projectFilePath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

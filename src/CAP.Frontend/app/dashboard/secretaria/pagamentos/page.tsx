@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -35,20 +35,27 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const mockPagamentos = [
-  { id: 1, socio: "Manuel Silva", tipo: "Quota Mensal", descricao: "Janeiro 2025", valor: 20.0, estado: "pago", dataPagamento: "2025-01-05", metodo: "Transferencia" },
-  { id: 2, socio: "Maria Costa", tipo: "Inscricao", descricao: "Atleta Joao Silva", valor: 50.0, estado: "pago", dataPagamento: "2025-01-10", metodo: "MB Way" },
-  { id: 3, socio: "Jose Oliveira", tipo: "Quota Mensal", descricao: "Janeiro 2025", valor: 20.0, estado: "pendente", dataPagamento: null, metodo: null },
-  { id: 4, socio: "Ana Santos", tipo: "Equipamento", descricao: "Kit Oficial 2024/25", valor: 85.0, estado: "pago", dataPagamento: "2025-01-08", metodo: "Numerario" },
-  { id: 5, socio: "Pedro Ferreira", tipo: "Quota Mensal", descricao: "Dezembro 2024", valor: 20.0, estado: "atrasado", dataPagamento: null, metodo: null },
-  { id: 6, socio: "Pedro Ferreira", tipo: "Quota Mensal", descricao: "Janeiro 2025", valor: 20.0, estado: "pendente", dataPagamento: null, metodo: null },
-]
+import { fetchApi } from "@/lib/api"
+
+interface Pagamento {
+  id: string;
+  socio: string;
+  tipo: string;
+  descricao: string;
+  valor: number;
+  estado: string;
+  dataPagamento: string | null;
+  metodo: string | null;
+}
 
 export default function PagamentosSecretariaPage() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [filtroEstado, setFiltroEstado] = useState("todos")
   const [filtroTipo, setFiltroTipo] = useState("todos")
+
+  const [pagamentos, setPagamentos] = useState<Pagamento[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -59,20 +66,45 @@ export default function PagamentosSecretariaPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "secretaria") {
       router.push("/")
+    } else {
+      fetchData()
     }
   }, [router])
 
-  const pagamentosFiltrados = mockPagamentos.filter((pag) => {
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const data = await fetchApi<any[]>('/api/finance/payments').catch(() => [])
+      
+      const mapped: Pagamento[] = data.map(p => ({
+        id: p.id,
+        socio: p.atleta?.nome || "Sem Nome", // Assuming athlete obj exists or needs fetching
+        tipo: "Pagamento API",
+        descricao: p.referencia || "Geral",
+        valor: p.valor,
+        estado: "pago", // Em pagamentos globais assumimos pagos se estao no endpoint base, senÃ£o "pendente" se existirem quotas nao pagas
+        dataPagamento: p.dataPagamento || new Date().toISOString(),
+        metodo: p.metodo === 1 ? "MBWay" : p.metodo === 2 ? "Multibanco" : "Transferencia"
+      }))
+      setPagamentos(mapped)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const pagamentosFiltrados = pagamentos.filter((pag) => {
     const matchSearch = pag.socio.toLowerCase().includes(searchTerm.toLowerCase())
     const matchEstado = filtroEstado === "todos" || pag.estado === filtroEstado
     const matchTipo = filtroTipo === "todos" || pag.tipo === filtroTipo
     return matchSearch && matchEstado && matchTipo
   })
 
-  const totalRecebido = mockPagamentos.filter((p) => p.estado === "pago").reduce((sum, p) => sum + p.valor, 0)
-  const totalPendente = mockPagamentos.filter((p) => p.estado === "pendente" || p.estado === "atrasado").reduce((sum, p) => sum + p.valor, 0)
-  const pagos = mockPagamentos.filter((p) => p.estado === "pago").length
-  const atrasados = mockPagamentos.filter((p) => p.estado === "atrasado").length
+  const totalRecebido = pagamentos.filter((p) => p.estado === "pago").reduce((sum, p) => sum + p.valor, 0)
+  const totalPendente = pagamentos.filter((p) => p.estado === "pendente" || p.estado === "atrasado").reduce((sum, p) => sum + p.valor, 0)
+  const pagos = pagamentos.filter((p) => p.estado === "pago").length
+  const atrasados = pagamentos.filter((p) => p.estado === "atrasado").length
 
   const getEstadoBadge = (estado: string) => {
     switch (estado) {
@@ -229,7 +261,7 @@ export default function PagamentosSecretariaPage() {
                         <div className="flex items-center gap-3">
                           <Avatar className="size-8">
                             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                              {pag.socio.split(" ").map((n) => n[0]).join("")}
+                              {pag.socio.split(" ").map((n: string) => n[0]).join("")}
                             </AvatarFallback>
                           </Avatar>
                           <span className="font-medium">{pag.socio}</span>

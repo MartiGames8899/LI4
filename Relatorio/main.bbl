@@ -1,0 +1,87 @@
+\begin{thebibliography}{10}
+
+\bibitem{saft2024}
+{Autoridade Tributária e Aduaneira}.
+\newblock Portaria n.º 302/2016 --- ficheiro saf-t (pt).
+\newblock
+  \url{https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/SAFT_PT/},
+  2016.
+\newblock Legislação portuguesa sobre faturação eletrónica.
+
+\bibitem{docker2024}
+{Docker Inc.}
+\newblock Docker compose documentation.
+\newblock \url{https://docs.docker.com/compose/}, 2024.
+\newblock Acedido em maio de 2026.
+
+\bibitem{evans2003}
+Eric Evans.
+\newblock {\em Domain-Driven Design: Tackling Complexity in the Heart of
+  Software}.
+\newblock Addison-Wesley, 2003.
+
+\bibitem{fowler2002}
+Martin Fowler.
+\newblock {\em Patterns of Enterprise Application Architecture}.
+\newblock Addison-Wesley, 2002.
+
+\bibitem{rfc7519}
+M.~Jones, J.~Bradley, and N.~Sakimura.
+\newblock {JSON Web Token (JWT)} --- {RFC} 7519.
+\newblock \url{https://datatracker.ietf.org/doc/html/rfc7519}, 2015.
+\newblock Internet Engineering Task Force.
+
+\bibitem{aspnetcore2023}
+{Microsoft}.
+\newblock Asp.net core documentation --- authentication and authorization.
+\newblock \url{https://learn.microsoft.com/en-us/aspnet/core/security/}, 2023.
+\newblock Acedido em maio de 2026.
+
+\bibitem{efcore2023}
+{Microsoft}.
+\newblock Entity framework core documentation.
+\newblock \url{https://learn.microsoft.com/en-us/ef/core/}, 2023.
+\newblock Acedido em maio de 2026.
+
+\bibitem{omg2017}
+{Object Management Group}.
+\newblock Unified modeling language specification, version 2.5.1.
+\newblock \url{https://www.omg.org/spec/UML/2.5.1}, 2017.
+\newblock Acedido em maio de 2026.
+
+\bibitem{royce1970}
+Winston~W. Royce.
+\newblock Managing the development of large software systems.
+\newblock {\em Proceedings of IEEE WESCON}, 26:1--9, 1970.
+
+\bibitem{shadcnui2024}
+shadcn.
+\newblock shadcn/ui --- beautifully designed components.
+\newblock \url{https://ui.shadcn.com/}, 2024.
+\newblock Acedido em maio de 2026.
+
+\bibitem{sommerville2015}
+Ian Sommerville.
+\newblock {\em Software Engineering}.
+\newblock Pearson, 10th edition, 2015.
+
+\bibitem{postgresql2024}
+{The PostgreSQL Global Development Group}.
+\newblock Postgresql 15 documentation.
+\newblock \url{https://www.postgresql.org/docs/15/}, 2024.
+\newblock Acedido em maio de 2026.
+
+\bibitem{vaswani2017}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+  Aidan~N. Gomez, Łukasz Kaiser, and Illia Polosukhin.
+\newblock Attention is all you need.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~30, 2017.
+
+\bibitem{nextjs2024}
+{Vercel}.
+\newblock Next.js documentation.
+\newblock \url{https://nextjs.org/docs}, 2024.
+\newblock Acedido em maio de 2026.
+
+\end{thebibliography}

@@ -60,6 +60,14 @@ public class QuotasController : ControllerBase
         return Ok(quota);
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> GetAll()
+    {
+        var quotas = await _quotaRepository.GetAllAsync();
+        return Ok(quotas);
+    }
+
     [HttpGet("atraso")]
     [Authorize(Roles = "Secretaria,Gerencia")]
     public async Task<IActionResult> GetUnpaid()
@@ -67,5 +75,12 @@ public class QuotasController : ControllerBase
         var quotas = await _quotaRepository.GetAllAsync();
         var unpaid = quotas.Where(q => q.Estado != EstadoQuota.Paga && q.DataVencimento < DateTime.UtcNow);
         return Ok(unpaid);
+    }
+
+    [HttpGet("athlete/{atletaId}")]
+    public async Task<IActionResult> GetByAthlete(Guid atletaId)
+    {
+        var quotas = await _quotaRepository.GetAllAsync();
+        return Ok(quotas.Where(q => q.AtletaId == atletaId));
     }
 }

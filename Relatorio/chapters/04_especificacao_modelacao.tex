@@ -13,9 +13,7 @@
 
 Após a conclusão da fase de levantamento e análise de requisitos, a equipa de desenvolvimento iniciou o processo de definição da arquitetura global do sistema. Esta fase, designada no enunciado como \textit{Arquitetura e Design do Software utilizando LLM}, tem como objetivo especificar a estrutura, o comportamento e as interfaces do sistema do CAP, de forma suficientemente detalhada para suportar as etapas subsequentes de implementação e teste.
 
-Para apoiar a tomada de decisões arquiteturais, a equipa recorreu a modelos de linguagem de grande dimensão (LLM) como assistentes de projeto e de revisão. Antes de qualquer reunião decisória, foi submetido um \textit{prompt} de síntese que permitiu obter uma visão estruturada das principais opções disponíveis para cada dimensão da arquitetura, cruzando-as com as restrições específicas do CAP: conformidade RGPD para dados clínicos, geração de ficheiros SAF-T para a Autoridade Tributária, integração com \textit{gateways} de pagamento externos e uma equipa de desenvolvimento reduzida.
-
-\caixaprompt{Gemini (sessão dirigida pela equipa em IDE)}{Antes da reunião decisória, sintetiza em formato de relatório técnico as opções de arquitetura global, motor de dados, tecnologia de \textit{backend} e tipo de API para o CAP, destacando dois prós e dois contras por opção relevantes ao RGPD clínico, ao SAF-T e à equipa reduzida.}{O modelo identificou quatro eixos de decisão: (i) \textbf{Padrão arquitetural} — entre monólito em camadas, microsserviços e monólito modular, recomendando este último quando o domínio mistura quotas e episódios clínicos com exigências de consistência transacional; (ii) \textbf{Base de dados} — destacou PostgreSQL com JSONB como equilíbrio entre rigor ACID nos pagamentos e flexibilidade documental para registos clínicos; (iii) \textbf{Backend} — sugeriu .NET 8 pela maturidade dos \textit{BackgroundServices} para os \textit{cronjobs} de vigilância de atestados, sem a verbosidade do Java; (iv) \textbf{API} — alertou para o custo de segurança do GraphQL em dados médicos e recomendou REST como caminho pragmático e integrável com pagamentos externos.}
+Para apoiar a tomada de decisões arquiteturais, a equipa recorreu a modelos de linguagem como assistentes de síntese das opções disponíveis para cada dimensão da arquitetura, cruzando-as sistematicamente com as restrições específicas do CAP: conformidade RGPD para dados clínicos, geração de ficheiros SAF-T para a Autoridade Tributária, integração com \textit{gateways} de pagamento externos e uma equipa de desenvolvimento reduzida. As interações concretas (prompts e respostas) encontram-se documentadas no Capítulo~\ref{chap:documentacao_ia}, Secção~\ref{sec:ia_arquitetura}.
 
 As secções seguintes apresentam, para cada eixo de decisão, as opções analisadas, a perspetiva do LLM sobre cada uma, e a decisão final fundamentada da equipa.
 
@@ -32,9 +30,9 @@ O padrão arquitetural define a forma como os diferentes componentes do sistema 
 
 A \textbf{Arquitetura Monolítica em Camadas} organiza o código em camadas (apresentação, negócio e acesso a dados) e tem como vantagem a simplicidade de implementação e uma curva de aprendizagem reduzida. No entanto, à medida que o sistema cresce, tende a gerar um elevado acoplamento entre os módulos. Por exemplo, uma alteração no algoritmo de convocatórias poderia afetar as validações do módulo financeiro. Além disso, a falta de fronteiras claras dificulta a segregação de dados exigida pelo RGPD (\textbf{RNF-01}).
 
-A \textbf{Arquitetura de Microsserviços} divide a aplicação em serviços independentes que comunicam via rede, permitindo escalabilidade independente e isolamento total dos dados. Contudo, esta abordagem introduz uma complexidade infraestrutural elevada e a gestão de transações distribuídas seria um desafio crítico para garantir a consistência entre o pagamento de quotas e a geração do ficheiro SAF-T (\textbf{RNF-05}).
+A \textbf{Arquitetura de Microsserviços} divide a aplicação em serviços independentes que comunicam via rede, permitindo escalabilidade independente e isolamento total dos dados. Contudo, esta abordagem introduz uma complexidade infraestrutural elevada e a gestão de transações distribuídas seria um desafio crítico para garantir a consistência entre o pagamento de quotas e a geração do ficheiro SAF-T \cite{saft2024} (\textbf{RNF-11}).
 
-O \textbf{Monólito Modular} mantém a simplicidade de um único artefacto de implantação, mas impõe fronteiras lógicas claras entre os módulos, inspiradas nos princípios do \textit{Domain-Driven Design}. Os módulos comunicam através de um barramento de eventos em memória, evitando dependências diretas. Por exemplo, quando o atestado médico de um atleta caduca, o módulo clínico emite um evento que o módulo desportivo consome para bloquear a disponibilidade desse atleta para convocatórias.
+O \textbf{Monólito Modular} mantém a simplicidade de um único artefacto de implantação, mas impõe fronteiras lógicas claras entre os módulos, inspiradas nos princípios do \textit{Domain-Driven Design} \cite{evans2003}. Os módulos comunicam através de um barramento de eventos em memória, evitando dependências diretas. Por exemplo, quando o atestado médico de um atleta caduca, o módulo clínico emite um evento que o módulo desportivo consome para bloquear a disponibilidade desse atleta para convocatórias.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[h]
@@ -51,7 +49,7 @@ Monólito Modular & Implantação unificada com baixo acoplamento interno; consi
 \end{table}
 \rowcolors{2}{white}{white}
 
-\caixaprompt{Gemini}{Revê a escolha do Monólito Modular para o CAP. Existe algum risco arquitetural relevante que a equipa deva antecipar, dado que o sistema lida com dados clínicos, financeiros e desportivos em simultâneo?}{O modelo confirmou que o Monólito Modular é a opção mais adequada para o perfil do CAP, mas alertou para dois riscos: (i) o risco de \textit{accidental coupling} — sem um mecanismo de verificação automática das fronteiras entre módulos, os programadores tendem a introduzir dependências diretas ao longo do tempo; recomendou a adopção de testes de arquitetura com ferramentas como \textit{ArchUnit} para impor as regras em CI/CD; (ii) o risco de um barramento de eventos em memória não persistido — em caso de falha do processo, eventos não processados são perdidos; sugeriu a adopção de \textit{outbox pattern} para garantir a entrega garantida das notificações de caducidade e de pagamentos.}
+Numa segunda iteração, foi pedida ao modelo uma revisão crítica desta escolha. Foram identificados dois riscos: \textit{accidental coupling} entre módulos (mitigável com testes de arquitetura em CI/CD) e a fragilidade de um barramento de eventos em memória não persistido (mitigável com adoção futura do padrão \textit{outbox}). A equipa registou estes riscos no \textit{backlog} técnico.
 
 \textbf{Decisão da equipa:} Adoptou-se o \textbf{Monólito Modular}. Esta escolha permite separar as áreas sensíveis (clínica e financeira) sem a complexidade infraestrutural dos microsserviços, que seria desproporcionada para o tamanho atual do clube. A comunicação inter-módulo é feita exclusivamente através de eventos de domínio, garantindo o acoplamento débil necessário para a manutenção a longo prazo.
 
@@ -59,11 +57,11 @@ Monólito Modular & Implantação unificada com baixo acoplamento interno; consi
 
 A base de dados terá de suportar a gestão de contas de encarregados de educação, a emissão de faturas, o registo de avaliações físicas dos atletas e o armazenamento de queixas clínicas.
 
-O \textbf{MongoDB}, uma base de dados NoSQL orientada a documentos, oferece grande flexibilidade de esquema, útil para armazenar métricas de desempenho desportivo. No entanto, tem limitações no suporte a transações complexas e não garante as propriedades ACID de forma nativa. Para o módulo financeiro do CAP, onde a relação entre atleta, quota e recibo deve ser rigorosa para a exportação do SAF-T (\textbf{RNF-05}), esta limitação é problemática.
+O \textbf{MongoDB}, uma base de dados NoSQL orientada a documentos, oferece grande flexibilidade de esquema, útil para armazenar métricas de desempenho desportivo. No entanto, tem limitações no suporte a transações complexas e não garante as propriedades ACID de forma nativa. Para o módulo financeiro do CAP, onde a relação entre atleta, quota e recibo deve ser rigorosa para a exportação do SAF-T (\textbf{RNF-11}), esta limitação é problemática.
 
 O \textbf{Microsoft SQL Server} é um motor relacional robusto com excelente desempenho transacional. Apesar das suas qualidades técnicas, os custos de licenciamento a longo prazo tornam esta opção menos viável para um clube desportivo de média dimensão.
 
-O \textbf{PostgreSQL} oferece conformidade ACID rigorosa, essencial para o módulo financeiro (\textbf{RNF-01} e \textbf{RNF-04}), e suporte nativo para colunas do tipo JSONB. Esta funcionalidade permite combinar a integridade transacional do modelo relacional com a flexibilidade de armazenar metadados clínicos não estruturados num formato pesquisável.
+O \textbf{PostgreSQL} oferece conformidade ACID rigorosa, essencial para o módulo financeiro (\textbf{RNF-01} e \textbf{RNF-13}), e suporte nativo para colunas do tipo JSONB. Esta funcionalidade permite combinar a integridade transacional do modelo relacional com a flexibilidade de armazenar metadados clínicos não estruturados num formato pesquisável.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[h]
@@ -86,11 +84,11 @@ PostgreSQL & Conformidade ACID estrita a custo zero; suporte JSONB combinando mo
 
 A equipa avaliou três ecossistemas para o desenvolvimento do servidor aplicacional, tendo em conta as necessidades de automação de tarefas críticas como a vigilância de atestados e o envio de alertas de pagamentos em atraso.
 
-O \textbf{Node.js com NestJS} destaca-se pelo modelo orientado a eventos e \textit{non-blocking I/O}, sendo ideal para gerir um elevado volume de ligações concorrentes. No entanto, a sua natureza \textit{single-threaded} pode tornar-se um gargalo em operações intensivas de CPU, como a geração do ficheiro XML do SAF-T, comprometendo a responsividade do sistema (\textbf{RNF-03}).
+O \textbf{Node.js com NestJS} destaca-se pelo modelo orientado a eventos e \textit{non-blocking I/O}, sendo ideal para gerir um elevado volume de ligações concorrentes. No entanto, a sua natureza \textit{single-threaded} pode tornar-se um gargalo em operações intensivas de CPU, como a geração do ficheiro XML do SAF-T, comprometendo a responsividade do sistema (\textbf{RNF-06}).
 
 O \textbf{Java com Spring Boot} é o padrão da indústria para aplicações corporativas, oferecendo grande robustez e ferramentas de segurança maduras. Contudo, o ambiente de execução JVM tem um consumo elevado de recursos e a verbosidade da linguagem pode abrandar o ritmo de desenvolvimento num projeto com prazos académicos curtos.
 
-O \textbf{Microsoft .NET 8 com C\#} oferece desempenho elevado e integração com a base de dados via Entity Framework Core. Um fator decisivo é o suporte nativo para \textit{BackgroundServices}, que facilita a implementação dos \textit{cronjobs} necessários para monitorizar atestados médicos e pagamentos em atraso (\textbf{RNF-04}), sem necessidade de ferramentas externas.
+O \textbf{Microsoft .NET 7 com C\#} oferece desempenho elevado e integração com a base de dados via Entity Framework Core. Um fator decisivo é o suporte nativo para \textit{BackgroundServices}, que facilita a implementação dos \textit{cronjobs} necessários para monitorizar atestados médicos e pagamentos em atraso (\textbf{RNF-08}), sem necessidade de ferramentas externas.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[h]
@@ -100,14 +98,14 @@ O \textbf{Microsoft .NET 8 com C\#} oferece desempenho elevado e integração co
 \rowcolor{headerblue}\textcolor{white}{\textbf{Opção Backend}} & \textcolor{white}{\textbf{Vantagens}} & \textcolor{white}{\textbf{Desvantagens}} \\ \hline
 Node.js (NestJS) & Elevado desempenho I/O; ideal para \textit{webhooks} e notificações \textit{WebSocket}. & Bloqueio da \textit{thread} principal durante geração intensiva do SAF-T XML. \\ \hline
 Java (Spring Boot) & Padrão corporativo para aplicações transacionais; ecossistema maduro de segurança (RBAC). & Consumo de memória elevado; verbosidade e morosidade no ciclo de desenvolvimento. \\ \hline
-C\# (.NET 8) & Desempenho computacional elevado; suporte nativo para \textit{cronjobs} e \textit{workers} assíncronos. & Exige proficiência nas abstrações de injeção de dependência do Entity Framework Core. \\ \hline
+C\# (.NET 7) & Desempenho computacional elevado; suporte nativo para \textit{cronjobs} e \textit{workers} assíncronos. & Exige proficiência nas abstrações de injeção de dependência do Entity Framework Core. \\ \hline
 \end{tabular}
 \caption{Comparação de tecnologias de \textit{backend}.}
 \label{tab:comparacao_backend}
 \end{table}
 \rowcolors{2}{white}{white}
 
-\textbf{Decisão da equipa:} Optou-se pelo \textbf{C\# com .NET 8}. Esta escolha permite criar facilmente os mecanismos de vigilância automática (validade dos atestados, deteção de pagamentos em atraso) e garante a velocidade necessária para extrair e organizar os dados fiscais sem erros.
+\textbf{Decisão da equipa:} Optou-se pelo \textbf{C\# com .NET 7}. Esta escolha permite criar facilmente os mecanismos de vigilância automática (validade dos atestados, deteção de pagamentos em atraso) e garante a velocidade necessária para extrair e organizar os dados fiscais sem erros.
 
 \subsection{Paradigma de Comunicação e API}
 
@@ -117,7 +115,7 @@ O \textbf{GraphQL} dá autonomia ao cliente para definir a estrutura exata dos d
 
 O \textbf{gRPC}, baseado em \textit{Protocol Buffers} e HTTP/2, é a tecnologia de menor latência e maior eficiência binária. Contudo, apresenta dificuldades de integração direta com navegadores web tradicionais e é pouco flexível para consumir \textit{webhooks} externos em texto limpo (como os pagamentos Multibanco).
 
-A \textbf{Arquitetura RESTful} com JSON garante compatibilidade imediata com qualquer cliente e facilidade na receção de \textit{webhooks} financeiros. Além disso, o paradigma REST permite aplicar o Controlo de Acessos Baseado em Papéis (RBAC) de forma simples ao nível das rotas, protegendo eficazmente os dados sensíveis dos atletas conforme exigido pelo RGPD (\textbf{RNF-01}).
+A \textbf{Arquitetura RESTful} com JSON garante compatibilidade imediata com qualquer cliente e facilidade na receção de \textit{webhooks} financeiros. Além disso, o paradigma REST permite aplicar o Controlo de Acessos Baseado em Papéis (RBAC) de forma simples ao nível das rotas, protegendo eficazmente os dados sensíveis dos atletas conforme exigido pelo RGPD (\textbf{RNF-02} e \textbf{RNF-03}).
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[h]
@@ -142,7 +140,7 @@ RESTful API & Aceitação universal; RBAC simples por rota; integração nativa 
 
 \section{Apresentação Geral da Especificação}
 
-Para simplificar a implementação do \textit{software}, construíram-se modelos que procuram descrever a sua estrutura e comportamento, e que serão apresentados neste capítulo. Obteve-se uma especificação concisa e explicativa do sistema, que pode ser consultada durante o processo de implementação. Para a construção dos diagramas, utilizou-se a linguagem \textit{Unified Modeling Language} (UML), escolhida pela sua ubiquidade e abundância de exemplos e documentação.
+Para simplificar a implementação do \textit{software}, construíram-se modelos que procuram descrever a sua estrutura e comportamento, e que serão apresentados neste capítulo. Obteve-se uma especificação concisa e explicativa do sistema, que pode ser consultada durante o processo de implementação. Para a construção dos diagramas, utilizou-se a linguagem \textit{Unified Modeling Language} (UML) \cite{omg2017}, escolhida pela sua ubiquidade e abundância de exemplos e documentação.
 
 A modelação divide-se em duas vertentes complementares. Na \textbf{modelação estrutural}, construíram-se os artefactos que identificam as entidades do domínio e as relações entre elas, bem como a decomposição do sistema nos seus principais componentes e interfaces. Na \textbf{modelação comportamental}, desenvolveram-se os diagramas que descrevem a forma como o sistema responde a eventos externos e internos, nomeadamente os estados possíveis das suas entidades mais relevantes, as operações suportadas por cada ator e os fluxos de execução das funcionalidades mais críticas.
 
@@ -167,9 +165,7 @@ No diagrama, destaca-se a utilização de classes de associação --- nomeadamen
 
 \subsection{Diagrama de Classes}
 
-O \textbf{diagrama de classes} aprofunda o modelo de domínio, acrescentando a especificação técnica necessária para suportar a implementação: visibilidade dos atributos e métodos, tipos de dados, assinaturas de operações e distinção entre relações de herança, composição e associação. As classes estão agrupadas em cinco pacotes funcionais, alinhados com os subsistemas definidos no diagrama de componentes.
-
-\caixaprompt{Gemini}{Revê o diagrama de classes proposto para o subsistema \textit{Utilizadores} do CAP. Verifica se a hierarquia de herança entre \texttt{Utilizador}, \texttt{Atleta}, \texttt{Treinador}, \texttt{EncarregadoEducacao}, \texttt{Funcionario}, \texttt{Secretaria} e \texttt{Gerencia} é correta do ponto de vista de orientação a objetos e se há atributos ou métodos relevantes em falta.}{O modelo confirmou que a hierarquia está correta e sugere: (i) tornar \texttt{Utilizador} e \texttt{Funcionario} classes abstratas, uma vez que nunca existirão instâncias diretas destas classes; (ii) mover o campo \texttt{nif} para \texttt{Utilizador} em vez de o duplicar em \texttt{Atleta} e \texttt{EncarregadoEducacao}, dado que qualquer utilizador poderá precisar de NIF para questões fiscais; (iii) acrescentar um método \texttt{isApto()} em \texttt{Atleta} que agrega a verificação de atestado válido, quotas regularizadas e ausência de lesão ativa --- este método será frequentemente chamado durante a publicação de convocatórias.}
+O \textbf{diagrama de classes} aprofunda o modelo de domínio, acrescentando a especificação técnica necessária para suportar a implementação: visibilidade dos atributos e métodos, tipos de dados, assinaturas de operações e distinção entre relações de herança, composição e associação. As classes estão agrupadas em cinco pacotes funcionais, alinhados com os subsistemas definidos no diagrama de componentes. A revisão do diagrama por parte do modelo levou a três refinamentos adotados pela equipa: tornar \texttt{Utilizador} e \texttt{Funcionario} classes abstratas, mover o \texttt{nif} para a classe base e acrescentar o método \texttt{isApto()} em \texttt{Atleta}, agregando a verificação de atestado válido, quotas regularizadas e ausência de lesão ativa.
 
 \begin{figure}[H]
     \centering
@@ -203,9 +199,9 @@ O \textbf{diagrama de componentes} tem como objetivo decompor o sistema a desenv
     \label{fig:diagrama-componentes}
 \end{figure}
 
-\caixaprompt{Gemini}{Analisa o diagrama de componentes do CAP. O API Gateway está a centralizar todas as comunicações entre a camada de apresentação e os módulos de negócio. Existe algum risco de este componente se tornar um ponto único de falha ou um gargalo de desempenho?}{O modelo confirmou que o padrão de API Gateway é adequado para um Monólito Modular, mas alertou para dois aspetos: (i) o gateway deve ser responsável apenas pelo roteamento, autenticação e autorização (RBAC) --- qualquer lógica de negócio introduzida neste componente transforma-o num ``\textit{fat gateway}'', que é um antipadrão; (ii) para mitigar o risco de gargalo, recomendou a adoção de \textit{rate limiting} e \textit{circuit breakers} nas chamadas a serviços externos (gateway de pagamentos e serviço de email/SMS), prevenindo que falhas externas se propaguem para o sistema central.}
+Na revisão deste diagrama identificou-se o risco de transformar o API Gateway num \textit{fat gateway} (com lógica de negócio embutida) e a necessidade de aplicar \textit{rate limiting} nas chamadas a serviços externos. A primeira preocupação foi acomodada limitando explicitamente o Gateway a roteamento, autenticação e autorização (RBAC); a segunda foi anotada para implementação futura.
 
-Do diagrama lê-se que a aplicação está dividida em quatro camadas principais. A \textbf{Camada de Apresentação} inclui a aplicação web (SPA React) e a aplicação móvel (React Native), que comunicam com o sistema através de HTTP/REST/JSON. A \textbf{Camada de API} é constituída pelo API Gateway (ASP.NET Core 8), responsável pelo roteamento, autenticação JWT e controlo de acessos RBAC. A \textbf{Camada de Negócio}, implementada como Monólito Modular, subdivide-se em sete módulos: Gestão de Utilizadores, Gestão Desportiva, Gestão Clínica, Gestão Financeira, Gestão de Instalações, Serviço de Notificações e Serviço de Relatórios (SAF-T). A \textbf{Camada de Dados} é constituída pelo PostgreSQL, acedido via Entity Framework Core.
+Do diagrama lê-se que a aplicação está dividida em quatro camadas principais. A \textbf{Camada de Apresentação} inclui a aplicação web (SPA Next.js/React) e está preparada para acomodar uma aplicação móvel em React Native --- esta última faz parte do desenho mas, como se documenta no Capítulo~\ref{chap:implementacao}, não foi implementada nesta iteração; a sua adição posterior não exigirá alterações ao \textit{backend}. A \textbf{Camada de API} é constituída pelo API Gateway (ASP.NET Core 7), responsável pelo roteamento, autenticação JWT e controlo de acessos RBAC. A \textbf{Camada de Negócio}, implementada como Monólito Modular, subdivide-se em sete módulos: Gestão de Utilizadores, Gestão Desportiva, Gestão Clínica, Gestão Financeira, Gestão de Instalações, Serviço de Notificações e Serviço de Relatórios (SAF-T). A \textbf{Camada de Dados} é constituída pelo PostgreSQL, acedido via Entity Framework Core.
 
 A justificação para a divisão em módulos independentes prende-se com a possibilidade de os desenvolver de forma paralela e de os modificar sem necessidade de alterar o código dos restantes módulos, desde que as interfaces definidas entre eles sejam respeitadas.
 
@@ -220,7 +216,7 @@ O \textbf{diagrama de implantação} representa a distribuição física dos art
     \label{fig:diagrama-deployment}
 \end{figure}
 
-Do diagrama identificam-se quatro camadas de nós. Na \textbf{Camada Cliente}, os utilizadores acedem ao sistema através de um browser web (SPA React) ou da aplicação móvel (React Native), comunicando via HTTPS. Na \textbf{Camada de Servidor de Aplicação}, o API Gateway (ASP.NET Core 8) centraliza o roteamento e a autenticação JWT, delegando o processamento nos módulos do Monólito Modular. Os \textit{BackgroundServices} do .NET 8 gerem os \textit{cronjobs} de notificações e de geração de SAF-T de forma assíncrona. Na \textbf{Camada de Dados}, o PostgreSQL é acedido exclusivamente pelo servidor aplicacional via Entity Framework Core na porta TCP 5432. Na camada de \textbf{Serviços Externos}, o Gateway de Pagamentos (Easypay/Stripe) comunica com o servidor de duas formas: o módulo financeiro invoca a API REST para criar pedidos, e o gateway devolve confirmações assíncronas via \textit{webhook} HMAC para o API Gateway. O serviço de email/SMS (SendGrid/Twilio) é invocado unidirecionalmente pelo Serviço de Notificações.
+Do diagrama identificam-se quatro camadas de nós. Na \textbf{Camada Cliente}, os utilizadores acedem ao sistema através de um \textit{browser} web (SPA Next.js/React); o nó da aplicação móvel (React Native) representado no diagrama corresponde a uma extensão planeada da arquitetura, que partilharia a mesma API REST mas que não chegou a ser implementada nesta iteração. Na \textbf{Camada de Servidor de Aplicação}, o API Gateway (ASP.NET Core 7) centraliza o roteamento e a autenticação JWT, delegando o processamento nos módulos do Monólito Modular. Os \textit{BackgroundServices} do .NET 7 gerem os \textit{cronjobs} de notificações e de geração de SAF-T de forma assíncrona. Na \textbf{Camada de Dados}, o PostgreSQL é acedido exclusivamente pelo servidor aplicacional via Entity Framework Core na porta TCP 5432. Na camada de \textbf{Serviços Externos}, o Gateway de Pagamentos (Ifthenpay ou Easypay) comunica com o servidor de duas formas: o módulo financeiro invoca a API REST para criar pedidos, e o gateway devolve confirmações assíncronas via \textit{webhook} HMAC para o API Gateway. O serviço de email/SMS (SendGrid/Twilio) é invocado unidirecionalmente pelo Serviço de Notificações.
 
 \subsection{Matriz de Permissões RBAC}
 
@@ -282,7 +278,7 @@ O aspeto central do modelo de negócio do CAP orbita em torno da \textbf{situaç
     \label{fig:maquina_estados_atleta}
 \end{figure}
 
-Este diagrama serve como espinha dorsal da integração entre os módulos do sistema. Um atleta recém-registado transita para o estado \textit{Inapto Clínico} até que um Exame Médico Desportivo (EMD) seja validado pela Secretaria. Quando a documentação é aprovada e as quotas se encontram regularizadas, o atleta transita para o estado \textit{Apto}, sendo o único estado em que pode ser convocado para eventos desportivos (\textbf{RF-08}). Qualquer alteração nos módulos paralelos (lesão reportada, atestado caducado, ou quotas em suspensão) altera automaticamente o estado do atleta e bloqueia a sua disponibilidade.
+Este diagrama é o ponto de articulação entre os módulos do sistema. Um atleta recém-registado transita para o estado \textit{Inapto Clínico} até que um Exame Médico Desportivo (EMD) seja validado pela Secretaria. Quando a documentação é aprovada e as quotas se encontram regularizadas, o atleta transita para o estado \textit{Apto}, sendo o único estado em que pode ser convocado para eventos desportivos (\textbf{RF-08}). Qualquer alteração nos módulos paralelos (lesão reportada, atestado caducado, ou quotas em suspensão) altera automaticamente o estado do atleta e bloqueia a sua disponibilidade.
 
 O segundo diagrama descreve os estados possíveis de uma \textbf{quota}:
 
@@ -484,7 +480,7 @@ O caso de uso \textit{Aprovar Registo} (Tabela~\ref{tab:uc_aprovar_registo}) é 
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Aprovar Registo \\ \hline
-\textbf{Requisitos associados} & RF-01, RNF-03, RNF-06 \\ \hline
+\textbf{Requisitos associados} & RF-01, RNF-03, RNF-13 \\ \hline
 \textbf{Ator} & Funcionário da Secretaria \\ \hline
 \textbf{Descrição} & O funcionário valida a legitimidade de um novo pedido de registo e ativa a conta. \\ \hline
 \textbf{Pré-condição} & O funcionário está autenticado e existem pedidos no estado \textit{Pendente}. \\ \hline
@@ -518,7 +514,7 @@ O caso de uso \textit{Vincular Encarregado a Atleta} (Tabela~\ref{tab:uc_vincula
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Vincular Encarregado a Atleta \\ \hline
-\textbf{Requisitos associados} & RF-02, RNF-06 \\ \hline
+\textbf{Requisitos associados} & RF-02, RNF-13 \\ \hline
 \textbf{Ator} & Encarregado de Educação / Secretaria \\ \hline
 \textbf{Descrição} & O encarregado solicita a associação formal ao perfil de um atleta menor. \\ \hline
 \textbf{Pré-condição} & Ambos os perfis (EE e Atleta) existem na base de dados com estado \textit{Ativo}. \\ \hline
@@ -547,7 +543,7 @@ O caso de uso \textit{Enviar Mensagem Interna} (Tabela~\ref{tab:uc_chat}) implem
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Enviar Mensagem Interna \\ \hline
-\textbf{Requisitos associados} & RF-03, RNF-01, RNF-06 \\ \hline
+\textbf{Requisitos associados} & RF-03, RNF-01, RNF-13 \\ \hline
 \textbf{Ator} & Qualquer utilizador autenticado \\ \hline
 \textbf{Descrição} & O utilizador envia uma mensagem a um contacto ou grupo permitido pela hierarquia do sistema. \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado e o destinatário pertence à lista de contactos autorizados. \\ \hline
@@ -556,7 +552,7 @@ O caso de uso \textit{Enviar Mensagem Interna} (Tabela~\ref{tab:uc_chat}) implem
 1. O utilizador seleciona um contacto da lista (filtrada por equipa e papel). \newline
 2. O utilizador redige a mensagem e, opcionalmente, anexa um ficheiro (PDF/imagem, máx. 5 MB). \newline
 3. O sistema valida o tipo e tamanho do anexo. \newline
-4. O sistema armazena a mensagem com registo de auditoria (\textbf{RNF-06}). \newline
+4. O sistema armazena a mensagem com registo de auditoria (\textbf{RNF-13}). \newline
 5. O sistema dispara uma notificação \textit{push} para o destinatário. \\ \hline
 \textbf{Fluxo de exceção 1} &
 [destinatário fora do âmbito permitido] (passo 1) \newline
@@ -576,7 +572,7 @@ O caso de uso \textit{Configurar Preferências de Notificação} (Tabela~\ref{ta
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Configurar Preferências de Notificação \\ \hline
-\textbf{Requisitos associados} & RF-04, RNF-07 \\ \hline
+\textbf{Requisitos associados} & RF-04, RNF-05 \\ \hline
 \textbf{Ator} & Qualquer utilizador autenticado \\ \hline
 \textbf{Descrição} & O utilizador define quais os eventos que deseja receber e por que canal (email, SMS ou notificação \textit{in-app}). \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado e tem email e/ou telefone registado no perfil. \\ \hline
@@ -1012,7 +1008,7 @@ O caso de uso \textit{Submeter Documentação Federativa} (Tabela~\ref{tab:uc_do
 \end{table}
 \rowcolors{2}{white}{white}
 
-O caso de uso \textit{Efetuar Pagamento} (Tabela~\ref{tab:uc_efetuar_pagamento}) materializa o \textbf{RF-17} (Pagamento de Quotas), que especifica a liquidação digital de mensalidades com emissão automática de fatura/recibo conforme exigências legais. O requisito não funcional \textbf{RNF-05} determina que o sistema deve suportar exportação SAF-T, o que impõe que cada transação gere um documento fiscal rastreável. A confirmação do pagamento é recebida de forma assíncrona via \textit{webhook} do \textit{gateway} externo, seguindo o padrão de fiabilidade descrito no diagrama de sequência correspondente.
+O caso de uso \textit{Efetuar Pagamento} (Tabela~\ref{tab:uc_efetuar_pagamento}) materializa o \textbf{RF-17} (Gestão de Quotas e Pagamentos), que especifica a liquidação digital de mensalidades com emissão automática de fatura/recibo conforme exigências legais. Os requisitos não funcionais \textbf{RNF-10} e \textbf{RNF-11} determinam respetivamente a integração com \textit{gateways} externos e o suporte à exportação SAF-T, o que impõe que cada transação gere um documento fiscal rastreável. A confirmação do pagamento é recebida de forma assíncrona via \textit{webhook} do \textit{gateway} externo, seguindo o padrão de fiabilidade descrito no diagrama de sequência correspondente.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[H]
@@ -1021,14 +1017,14 @@ O caso de uso \textit{Efetuar Pagamento} (Tabela~\ref{tab:uc_efetuar_pagamento})
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Efetuar Pagamento \\ \hline
-\textbf{Requisitos associados} & RF-17, RNF-05 \\ \hline
+\textbf{Requisitos associados} & RF-17, RNF-10, RNF-11 \\ \hline
 \textbf{Ator} & Encarregado de Educação / Atleta \\ \hline
 \textbf{Descrição} & O utilizador liquida uma ou mais quotas através de métodos digitais integrados. \\ \hline
 \textbf{Pré-condição} & Existem quotas no estado \textit{Pendente} ou \textit{Em Atraso}. \\ \hline
 \textbf{Pós-condição} & A quota transita para o estado \textit{Paga} e a fatura é emitida automaticamente. \\ \hline
 \textbf{Fluxo normal} &
 1. O utilizador seleciona as mensalidades a liquidar. \newline
-2. O sistema gera um pedido de pagamento ao \textit{gateway} externo (Easypay/Stripe). \newline
+2. O sistema gera um pedido de pagamento ao \textit{gateway} externo (Ifthenpay ou Easypay). \newline
 3. O utilizador escolhe o método (MB Way, Referência MB ou Cartão). \newline
 4. O sistema recebe a confirmação de sucesso via \textit{webhook}. \newline
 5. O sistema altera o estado da quota e gera o documento PDF da fatura/recibo. \\ \hline
@@ -1042,7 +1038,7 @@ O caso de uso \textit{Efetuar Pagamento} (Tabela~\ref{tab:uc_efetuar_pagamento})
 \end{table}
 \rowcolors{2}{white}{white}
 
-O caso de uso \textit{Gerar Relatório SAF-T} (Tabela~\ref{tab:uc_gerar_saft}) cumpre a obrigação legal imposta pelo \textbf{RF-19} (Conformidade Fiscal), que exige que o clube exporte periodicamente as suas receitas em formato XML normalizado para a Autoridade Tributária e Aduaneira (AT). O requisito não funcional \textbf{RNF-05} reforça que o ficheiro gerado deve estar em conformidade com o esquema SAF-T(PT) e incluir todos os documentos de venda assinados digitalmente. A pós-condição garante que o ficheiro produzido é íntegro e auditável, cumprindo assim as obrigações contabilísticas do clube.
+O caso de uso \textit{Gerar Relatório SAF-T} (Tabela~\ref{tab:uc_gerar_saft}) cumpre a obrigação legal imposta pelo \textbf{RF-19} (Conformidade Fiscal), que exige que o clube exporte periodicamente as suas receitas em formato XML normalizado para a Autoridade Tributária e Aduaneira (AT). O requisito não funcional \textbf{RNF-11} reforça que o ficheiro gerado deve estar em conformidade com o esquema SAF-T(PT) \cite{saft2024} e incluir todos os documentos de venda assinados digitalmente. A pós-condição garante que o ficheiro produzido é íntegro e auditável, cumprindo assim as obrigações contabilísticas do clube.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[H]
@@ -1051,7 +1047,7 @@ O caso de uso \textit{Gerar Relatório SAF-T} (Tabela~\ref{tab:uc_gerar_saft}) c
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Gerar Relatório SAF-T \\ \hline
-\textbf{Requisitos associados} & RF-19, RNF-05 \\ \hline
+\textbf{Requisitos associados} & RF-19, RNF-11 \\ \hline
 \textbf{Ator} & Gerência \\ \hline
 \textbf{Descrição} & O sistema extrai as transações do período e gera o ficheiro XML legal. \\ \hline
 \textbf{Pré-condição} & Existem faturas emitidas no período selecionado. \\ \hline
@@ -1084,7 +1080,7 @@ O caso de uso \textit{Consultar Contabilidade Global} (Tabela~\ref{tab:uc_contab
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Consultar Contabilidade Global \\ \hline
-\textbf{Requisitos associados} & RF-18, RNF-05 \\ \hline
+\textbf{Requisitos associados} & RF-18, RNF-11 \\ \hline
 \textbf{Ator} & Gerência / Tesouraria \\ \hline
 \textbf{Descrição} & A Gerência acede ao painel financeiro centralizado com receitas, despesas e balanço por categoria. \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado com papel de Gerência ou Tesouraria; existem movimentos financeiros registados. \\ \hline
@@ -1104,7 +1100,7 @@ O sistema retorna HTTP 403 Forbidden sem expor os dados. \\ \hline
 \end{table}
 \rowcolors{2}{white}{white}
 
-O caso de uso \textit{Consultar Calendário de Eventos} (Tabela~\ref{tab:uc_calendario}) implementa o \textbf{RF-21} (Calendário de Eventos), que exige uma visão consolidada de todos os eventos da época (treinos, jogos, reservas). Cada papel visualiza apenas os eventos que lhe dizem respeito, garantindo o isolamento de informação definido na matriz RBAC.
+O caso de uso \textit{Consultar Calendário de Eventos} (Tabela~\ref{tab:uc_calendario}) é transversal e materializa numa única vista os agendamentos previstos em \textbf{RF-06} (treinos), \textbf{RF-08} (convocatórias) e \textbf{RF-20} (reservas de instalações). Cada papel visualiza apenas os eventos que lhe dizem respeito, garantindo o isolamento de informação definido na matriz RBAC.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[H]
@@ -1113,7 +1109,7 @@ O caso de uso \textit{Consultar Calendário de Eventos} (Tabela~\ref{tab:uc_cale
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Consultar Calendário de Eventos \\ \hline
-\textbf{Requisitos associados} & RF-21, RF-06, RF-08 \\ \hline
+\textbf{Requisitos associados} & RF-06, RF-08, RF-20 \\ \hline
 \textbf{Ator} & Qualquer utilizador autenticado \\ \hline
 \textbf{Descrição} & O utilizador consulta o calendário de eventos da época, filtrado de acordo com o seu papel e equipas associadas. \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado. \\ \hline
@@ -1132,7 +1128,7 @@ O caso de uso \textit{Consultar Calendário de Eventos} (Tabela~\ref{tab:uc_cale
 \end{table}
 \rowcolors{2}{white}{white}
 
-O caso de uso \textit{Gerar Relatório de Gestão} (Tabela~\ref{tab:uc_relatorio_gestao}) implementa o \textbf{RF-22} (Relatórios de Gestão), que permite à Gerência produzir relatórios de síntese para apresentação a órgãos sociais ou entidades financiadoras, agregando dados de diferentes módulos do sistema.
+O caso de uso \textit{Gerar Relatório de Gestão} (Tabela~\ref{tab:uc_relatorio_gestao}) agrega dados de \textbf{RF-15} (Painéis de Desempenho) e \textbf{RF-18} (Contabilidade Global) num documento de síntese exportável, permitindo à Gerência apresentar a evolução do clube a órgãos sociais ou entidades financiadoras.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[H]
@@ -1141,7 +1137,7 @@ O caso de uso \textit{Gerar Relatório de Gestão} (Tabela~\ref{tab:uc_relatorio
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Gerar Relatório de Gestão \\ \hline
-\textbf{Requisitos associados} & RF-22 \\ \hline
+\textbf{Requisitos associados} & RF-15, RF-18 \\ \hline
 \textbf{Ator} & Gerência \\ \hline
 \textbf{Descrição} & A Gerência gera um relatório de síntese configurável que agrega dados desportivos, financeiros e clínicos para um período definido. \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado com papel de Gerência; existem dados suficientes no período selecionado. \\ \hline
@@ -1160,7 +1156,7 @@ O caso de uso \textit{Gerar Relatório de Gestão} (Tabela~\ref{tab:uc_relatorio
 \end{table}
 \rowcolors{2}{white}{white}
 
-O caso de uso \textit{Consultar Logs de Auditoria} (Tabela~\ref{tab:uc_auditoria}) implementa o \textbf{RF-23} (Auditoria e Logs do Sistema), que exige o registo imutável de todas as operações sensíveis do sistema para fins de rastreabilidade, cumprimento do RGPD e resposta a incidentes de segurança. O acesso é exclusivo da Gerência.
+O caso de uso \textit{Consultar Logs de Auditoria} (Tabela~\ref{tab:uc_auditoria}) materializa o \textbf{RNF-13} (Registos de Auditoria), que exige o registo imutável de todas as operações sensíveis do sistema para fins de rastreabilidade, cumprimento do RGPD e resposta a incidentes de segurança. O acesso é exclusivo da Gerência.
 
 \rowcolors{2}{rowblue}{white}
 \begin{table}[H]
@@ -1169,7 +1165,7 @@ O caso de uso \textit{Consultar Logs de Auditoria} (Tabela~\ref{tab:uc_auditoria
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Campo}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
 \textbf{Caso de uso} & Consultar Logs de Auditoria \\ \hline
-\textbf{Requisitos associados} & RF-23, RNF-06 \\ \hline
+\textbf{Requisitos associados} & RNF-13 \\ \hline
 \textbf{Ator} & Gerência \\ \hline
 \textbf{Descrição} & A Gerência consulta o registo de auditoria de operações sensíveis realizadas no sistema (autenticações, aprovações, alterações de dados clínicos, pagamentos). \\ \hline
 \textbf{Pré-condição} & O utilizador está autenticado com papel de Gerência. \\ \hline
@@ -1229,16 +1225,16 @@ Para complementar os diagramas de casos de uso, elaboraram-se \textbf{diagramas 
     \label{fig:seq_login}
 \end{figure}
 
-A Figura~\ref{fig:seq_login} detalha o fluxo de autenticação crítico que precede qualquer operação protegida do sistema (\textbf{RF-01}, \textbf{RNF-01}, \textbf{RNF-03}). O utilizador submete as credenciais para o endpoint \texttt{POST /api/auth/login}. O Auth Module valida o \textit{hash bcrypt} da \textit{password} e verifica o estado da conta. Em caso de falha, o sistema incrementa um contador de tentativas por conta: ao atingir cinco tentativas falhadas, a conta é bloqueada por 15 minutos (\textbf{RNF-01}). Para contas válidas, é emitido um token JWT com expiração de 8 horas, contendo o papel do utilizador para aplicação do RBAC em cada pedido subsequente. O \textit{log} de acesso é registado para fins de auditoria (\textbf{RNF-06}).
+A Figura~\ref{fig:seq_login} detalha o fluxo de autenticação crítico que precede qualquer operação protegida do sistema (\textbf{RF-01}, \textbf{RNF-01}, \textbf{RNF-03}). O utilizador submete as credenciais para o endpoint \texttt{POST /api/auth/login}. O módulo de autenticação valida a \textit{password} contra o valor armazenado (a especificação prevê o uso de \textit{hash bcrypt}, embora a implementação atual ainda não o aplique --- ver Cap.~\ref{chap:implementacao}) e verifica o estado da conta. Em caso de falha, o sistema incrementa um contador de tentativas por conta: ao atingir cinco tentativas falhadas, a conta é bloqueada por 15 minutos (\textbf{RNF-01}). Para contas válidas, é emitido um token JWT com expiração de 7 dias, contendo o papel do utilizador para aplicação do RBAC em cada pedido subsequente. O \textit{log} de acesso é registado para fins de auditoria (\textbf{RNF-13}).
 
-\begin{landscape}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth,keepaspectratio,height=0.85\textheight]{sequencia_registo_utilizador.png}
     \caption{Diagrama de sequência relativo ao registo de utilizador.}
     \label{fig:seq_registo_utilizador}
 \end{figure}
-\end{landscape}
+
 
 A Figura~\ref{fig:seq_registo_utilizador} materializa o caso de uso \textit{Registar-se} com detalhe completo das interações assíncronas. O utilizador submete o formulário (email, \textit{password}, tipo) para a API REST. O sistema valida o formato do email e a força da \textit{password}. Se o email for duplicado, retorna HTTP 409 Conflict. Caso contrário, insere o utilizador com estado \texttt{PENDING} e \textit{password} em \textit{hash bcrypt} e publica um evento \textit{RegistrationPending} na fila de notificações, retornando HTTP 201 Created. A Secretaria recebe uma notificação com os dados do novo utilizador para aprovação manual.
 
@@ -1282,7 +1278,7 @@ Foram também construídos \textbf{diagramas de atividade} para as operações c
     \label{fig:atividade_registo}
 \end{figure}
 
-Este diagrama descreve a resposta do sistema ao pedido de registo de um novo utilizador, cumprindo o \textbf{RF-01}. O utilizador preenche os seus dados e o sistema valida o email e verifica se já está registado. Se estiver tudo correto, o sistema guarda a \textit{password} de forma segura (\textit{bcrypt}, conforme \textbf{RNF-01}), cria o registo como \textit{Pendente} e regista a operação no \textit{log} de auditoria (\textbf{RNF-06}). A Secretaria recebe um aviso para verificar e aprovar a conta, após o que o utilizador recebe uma confirmação por email.
+Este diagrama descreve a resposta do sistema ao pedido de registo de um novo utilizador, cumprindo o \textbf{RF-01}. O utilizador preenche os seus dados e o sistema valida o email e verifica se já está registado. Se estiver tudo correto, o sistema guarda a \textit{password} de forma segura (\textit{bcrypt}, conforme \textbf{RNF-01}), cria o registo como \textit{Pendente} e regista a operação no \textit{log} de auditoria (\textbf{RNF-13}). A Secretaria recebe um aviso para verificar e aprovar a conta, após o que o utilizador recebe uma confirmação por email.
 
 \subsubsection{Diagrama de atividade: Processamento de pagamento}
 
@@ -1293,7 +1289,7 @@ Este diagrama descreve a resposta do sistema ao pedido de registo de um novo uti
     \label{fig:atividade_pagamento}
 \end{figure}
 
-Este diagrama descreve o fluxo de pagamento de quotas (\textbf{RF-17}). O encarregado seleciona o que quer pagar e o sistema verifica os dados. Se estiver tudo correto, o sistema liga-se ao \textit{Gateway} de Pagamentos externo de forma segura (\textbf{RNF-05}). Se o pagamento for aceite, o sistema marca a quota como \textit{Paga}, gera a fatura em PDF e envia-a por email. O atleta fica disponível para convocação.
+Este diagrama descreve o fluxo de pagamento de quotas (\textbf{RF-17}). O encarregado seleciona o que quer pagar e o sistema verifica os dados. Se estiver tudo correto, o sistema liga-se ao \textit{Gateway} de Pagamentos externo de forma segura (\textbf{RNF-10}). Se o pagamento for aceite, o sistema marca a quota como \textit{Paga}, gera a fatura em PDF e envia-a por email. O atleta fica disponível para convocação.
 
 \subsubsection{Diagrama de atividade: Publicação de convocatória}
 
@@ -1338,9 +1334,7 @@ A interface de utilizador (UI) do sistema CAP foi desenhada para ser intuitiva, 
 
 \subsection{Identidade Visual e Princípios de Design}
 
-O design do sistema segue uma linha moderna e minimalista, utilizando uma paleta de cores baseada nos tons de azul e branco do clube. A tecnologia de \textit{frontend} escolhida baseia-se numa \textit{Single Page Application} (SPA) com \textbf{React}, permitindo uma navegação fluida sem recarregamentos de página constantes.
-
-\caixaprompt{Gemini}{Com base nos requisitos do sistema CAP, que princípios de UX e que estrutura de navegação recomendas para uma aplicação utilizada por perfis tão diferentes como um atleta de 12 anos, um treinador em campo e um funcionário de secretaria? Há ecrãs críticos que merecem tratamento especial?}{O modelo identificou três prioridades: (i) \textbf{Dashboards por papel} --- cada perfil deve ter uma página inicial completamente diferente, mostrando apenas a informação relevante para o seu papel; o treinador vê convocatórias e alertas de plantel, o encarregado vê as quotas e o estado clínico dos filhos, e a secretaria vê a fila de aprovações pendentes; (ii) \textbf{Semáforo visual} --- para entidades com estado crítico (atestado, quota, aptidão), usar cores verde/amarelo/vermelho de forma consistente em toda a aplicação, para que qualquer utilizador perceba o estado de um atleta com um relance; (iii) \textbf{Ecrãs críticos a tratar com especial atenção}: o ecrã de login/registo (ponto de entrada com fluxo de aprovação não trivial), o ecrã de publicação de convocatória (com validações em tempo real de aptidão dos atletas) e o ecrã de pagamento (com feedback imediato do estado da transação).}
+O design do sistema segue uma linha moderna e minimalista, utilizando uma paleta de cores baseada nos tons de azul e branco do clube. A tecnologia de \textit{frontend} escolhida baseia-se numa \textit{Single Page Application} (SPA) com \textbf{React}, permitindo uma navegação fluida sem recarregamentos de página constantes. A consulta a um LLM sobre princípios de UX para perfis diferenciados (atletas jovens, treinadores em campo, funcionários de secretaria) reforçou três prioridades: \textit{dashboards} dedicados a cada papel, semáforo visual consistente para estados críticos (atestado/quota/aptidão) e atenção especial aos três ecrãs de maior fricção --- registo, publicação de convocatória e pagamento.
 
 Os princípios fundamentais aplicados foram:
 \begin{itemize}
@@ -1413,9 +1407,7 @@ Este ecrã consome dados dos módulos de Utilizadores, Clínico e Financeiro, ut
 
 \section{Especificação de API (RESTful)}
 
-Esta secção detalha os \textit{endpoints} RESTful nucleares que suportam os processos críticos do sistema. Os \textit{endpoints} documentados estão diretamente alinhados com a modelação comportamental e servem como o contrato de integração para a Camada de Apresentação e serviços externos.
-
-\caixaprompt{Gemini}{Revê os seis \textit{endpoints} RESTful definidos para o CAP. Verifica se os métodos HTTP, os códigos de resposta e os modelos de controlo de acesso estão corretos e alinhados com as boas práticas REST. Existe algum \textit{endpoint} crítico em falta face aos requisitos do sistema?}{O modelo confirmou que os \textit{endpoints} definidos são semanticamente corretos e os códigos HTTP adequados. Sugeriu: (i) o \textit{endpoint} \texttt{GET /api/athletes/\{id\}/status} é fundamental para o \textit{dashboard} do treinador e para a publicação de convocatórias; sem ele, a camada de apresentação teria de agregar dados de múltiplos módulos; (ii) todos os \textit{endpoints} que acedam a dados clínicos ou financeiros devem exigir o cabeçalho \texttt{Authorization: Bearer \{jwt\}} e retornar HTTP 401 se ausente, e HTTP 403 se o papel do utilizador não tiver permissão, nunca HTTP 404 (para não expor a existência do recurso a utilizadores não autorizados).}
+Esta secção detalha os \textit{endpoints} RESTful nucleares que suportam os processos críticos do sistema. Os \textit{endpoints} documentados estão diretamente alinhados com a modelação comportamental e servem como o contrato de integração para a Camada de Apresentação e serviços externos. Duas decisões de \textit{design} resultaram diretamente da revisão da especificação inicial: a introdução do \textit{endpoint} \texttt{GET /api/athletes/\{id\}/status} (que evita ao \textit{frontend} ter de agregar dados de múltiplos módulos para mostrar a aptidão de um atleta) e o tratamento uniforme dos casos de acesso negado, retornando HTTP 403 (em vez de 404) para não expor a existência de recursos a utilizadores sem permissão.
 
 
 \rowcolors{2}{rowblue}{white}
@@ -1429,7 +1421,7 @@ Esta secção detalha os \textit{endpoints} RESTful nucleares que suportam os pr
 \textbf{Controlo de Acesso} & Público (não requer autenticação prévia) \\ \hline
 \textbf{Payload (Pedido)} & JSON contendo \texttt{email} e \texttt{password}. \\ \hline
 \textbf{Respostas} &
-\textbf{200 OK}: \texttt{\{accessToken, expiresIn, role\}} --- token JWT válido por 8 horas. \newline
+\textbf{200 OK}: \texttt{\{accessToken, expiresIn, role\}} --- token JWT válido por 7 dias. \newline
 \textbf{401 Unauthorized}: Credenciais inválidas (email ou \textit{password} incorretos). \newline
 \textbf{403 Forbidden}: Conta existe mas está em estado \textit{Pendente} ou \textit{Suspensa}. \newline
 \textbf{423 Locked}: Conta bloqueada temporariamente após 5 tentativas falhadas (\textbf{RNF-01}). \\ \hline
@@ -1575,10 +1567,10 @@ Os artefactos produzidos ao longo deste capítulo foram revistos à luz dos requ
 \begin{tabular}{|l|p{3.2cm}|c|c|c|c|c|c|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{RF}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Dom.}} & \textcolor{white}{\textbf{Clas.}} & \textcolor{white}{\textbf{UC}} & \textcolor{white}{\textbf{Seq.}} & \textcolor{white}{\textbf{Atv.}} & \textcolor{white}{\textbf{API}} \\ \hline
-RF-01 & Gestão de Utilizadores & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+RF-01 & Utilizadores e Perfis & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
 RF-02 & Perfis Parentais & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
 RF-03 & Chat Interno & --- & --- & \checkmark & --- & --- & --- \\ \hline
-RF-04 & Notificações & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & --- \\ \hline
+RF-04 & Notificações Automáticas & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & --- \\ \hline
 RF-05 & Modalidades e Épocas & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
 RF-06 & Horários e Treinos & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
 RF-07 & Presenças e Faltas & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
@@ -1594,23 +1586,23 @@ RF-16 & Avaliação Qualitativa & --- & --- & \checkmark & --- & --- & --- \\ \h
 RF-17 & Quotas e Pagamentos & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
 RF-18 & Contabilidade Global & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
 RF-19 & Conformidade SAF-T & \checkmark & \checkmark & \checkmark & --- & --- & --- \\ \hline
-RF-20 & Reserva Instalações & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
-RF-21 & Calendário de Eventos & \checkmark & --- & \checkmark & --- & --- & --- \\ \hline
-RF-22 & Relatórios de Gestão & --- & --- & \checkmark & --- & --- & --- \\ \hline
-RF-23 & Auditoria e Logs & --- & --- & \checkmark & --- & --- & --- \\ \hline
+RF-20 & Espaços Físicos (Reservas) & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+RF-21 & Manutenção de Infraestruturas & --- & --- & --- & --- & --- & --- \\ \hline
+RF-22 & Stock e Loja & \checkmark & --- & --- & --- & --- & --- \\ \hline
+RF-23 & Eventos Extra-desportivos & --- & --- & --- & --- & --- & --- \\ \hline
 \end{tabular}
 \caption{Tabela de rastreabilidade: RF versus artefactos de especificação (\checkmark = coberto, --- = não aplicável ou fora do âmbito do capítulo).}
 \label{tab:rastreabilidade}
 \end{table}
 \rowcolors{2}{white}{white}
 
-Do lado estrutural, o \textbf{modelo de domínio} representa todas as entidades e relações relevantes, o \textbf{diagrama de classes} aprofunda-o com detalhe de implementação, e o \textbf{diagrama de componentes} confirma o alinhamento entre a decomposição em módulos e a opção de Monólito Modular. O novo \textbf{diagrama de implantação} documenta a distribuição física dos artefactos e as integrações com serviços externos (Easypay, SendGrid). A \textbf{matriz RBAC} mapeia explicitamente os 5 papéis às operações principais, servindo de contrato de implementação para a camada de autorização.
+Do lado estrutural, o \textbf{modelo de domínio} representa todas as entidades e relações relevantes, o \textbf{diagrama de classes} aprofunda-o com detalhe de implementação, e o \textbf{diagrama de componentes} confirma o alinhamento entre a decomposição em módulos e a opção de Monólito Modular. O \textbf{diagrama de implantação} documenta a distribuição física dos artefactos e as integrações com serviços externos (gateway de pagamentos, serviço de email/SMS). A \textbf{matriz RBAC} mapeia explicitamente os 5 papéis às operações principais, servindo de contrato de implementação para a camada de autorização.
 
-Do lado comportamental, as \textbf{seis máquinas de estado} (Atleta, Quota, Convocatória, Atestado, Reserva, Lesão) cobrem todas as entidades com ciclos de vida críticos. Os \textbf{cinco diagramas de sequência} (autenticação JWT, registo, pagamento, convocatória, reserva) detalham os fluxos assíncronos e de resiliência. Os \textbf{cinco diagramas de atividade} complementam-nos com a lógica de controlo de fluxo dos algoritmos de negócio. As \textbf{trinta e sete tabelas de caso de uso} cobrem os vinte e três RF, garantindo a rastreabilidade completa dos fluxos normais e de exceção.
+Do lado comportamental, as \textbf{seis máquinas de estado} (Atleta, Quota, Convocatória, Atestado, Reserva, Lesão) cobrem todas as entidades com ciclos de vida críticos. Os \textbf{cinco diagramas de sequência} (autenticação JWT, registo, pagamento, convocatória, reserva) detalham os fluxos assíncronos e de resiliência. Os \textbf{cinco diagramas de atividade} complementam-nos com a lógica de controlo de fluxo dos algoritmos de negócio. As \textbf{vinte e sete tabelas de caso de uso} cobrem os processos centrais associados aos vinte e três RF; os RF restantes (essencialmente operações CRUD diretas, como a gestão de stock ou de eventos extra-desportivos) ficam cobertos pela combinação do modelo de domínio, do diagrama de classes e dos diagramas de casos de uso por subsistema.
 
 Os \textbf{esboços de interface} materializam os três perfis de utilizador com maior complexidade operacional (Treinador, Atleta/Encarregado, Secretaria), validando a adequação da estrutura de navegação ao modelo RBAC. A \textbf{especificação de API} documenta os sete \textit{endpoints} nucleares, incluindo o \textit{endpoint} de autenticação JWT, e serve como contrato de integração para a camada de apresentação.
 
-Conclui-se que o conjunto de artefactos produzidos constitui uma base de especificação consistente e rastreável, cobrindo todos os vinte e três requisitos funcionais e os treze requisitos não funcionais elicitados no capítulo anterior, em conformidade com as boas práticas de Engenharia de Software (Sommerville, 2015).
+Conclui-se que o conjunto de artefactos produzidos constitui uma base de especificação consistente e rastreável, cobrindo todos os vinte e três requisitos funcionais e os treze requisitos não funcionais elicitados no capítulo anterior, em conformidade com as boas práticas de Engenharia de Software \cite{sommerville2015}.
 
 %==========================================================================
 % FIM DO CAPÍTULO 4

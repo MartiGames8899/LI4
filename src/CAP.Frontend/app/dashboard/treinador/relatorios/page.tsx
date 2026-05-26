@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   BarChart3,
@@ -24,14 +24,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const mockRelatorios = [
-  { id: 1, titulo: "Relatorio Mensal - Janeiro 2025", tipo: "mensal", data: "2025-01-31", estado: "disponivel" },
-  { id: 2, titulo: "Relatorio de Presencas - Semana 4", tipo: "presencas", data: "2025-01-26", estado: "disponivel" },
-  { id: 3, titulo: "Estatisticas da Equipa - Janeiro", tipo: "estatisticas", data: "2025-01-31", estado: "pendente" },
-  { id: 4, titulo: "Relatorio Mensal - Dezembro 2024", tipo: "mensal", data: "2024-12-31", estado: "disponivel" },
-]
+import { fetchApi, API_BASE_URL } from "@/lib/api"
 
-const mockEstatisticas = {
+const mockEstatisticasFallback = {
   presencaMedia: 87,
   totalTreinos: 12,
   totalJogos: 4,
@@ -45,6 +40,12 @@ const mockEstatisticas = {
 export default function RelatoriosTreinadorPage() {
   const router = useRouter()
 
+  const [stats, setStats] = useState(mockEstatisticasFallback)
+  const [relatorios, setRelatorios] = useState([
+    { id: 1, titulo: "Relatorio Desportivo Mensal (PDF)", tipo: "mensal", data: new Date().toISOString(), estado: "disponivel", path: "/api/reports/export/pdf?type=desportivo" },
+    { id: 2, titulo: "EstatÃ­sticas da Equipa (Excel)", tipo: "estatisticas", data: new Date().toISOString(), estado: "disponivel", path: "/api/reports/export/excel" }
+  ])
+
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
     if (!storedUser) {
@@ -54,8 +55,47 @@ export default function RelatoriosTreinadorPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "treinador") {
       router.push("/")
+    } else {
+      fetchData()
     }
   }, [router])
+
+  const fetchData = async () => {
+    try {
+      const sportData = await fetchApi<any[]>('/api/reports/sports').catch(() => [])
+      if (sportData && sportData.length > 0) {
+        const latest = sportData[0]
+        setStats({
+          ...stats,
+          totalTreinos: latest.totalTreinos || stats.totalTreinos,
+          totalJogos: latest.totalJogos || stats.totalJogos,
+          vitorias: latest.vitorias || stats.vitorias,
+          empates: latest.empates || stats.empates,
+          derrotas: latest.derrotas || stats.derrotas,
+          golosMarcados: latest.golosMarcados || stats.golosMarcados,
+          golosSofridos: latest.golosSofridos || stats.golosSofridos
+        })
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handleExport = (path: string) => {
+    const token = localStorage.getItem("cap_token");
+    fetch(`${API_BASE_URL}${path}`, { headers: { "Authorization": `Bearer ${token}` } })
+      .then(res => res.blob())
+      .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = path.includes('excel') ? 'export_treinador.xlsx' : 'export_treinador.pdf';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+      })
+      .catch(err => console.error("Erro ao exportar", err));
+  }
 
   return (
     <DashboardLayout role="treinador" userName="Carlos Treinador">
@@ -76,7 +116,7 @@ export default function RelatoriosTreinadorPage() {
                 <SelectItem value="novembro">Novembro 2024</SelectItem>
               </SelectContent>
             </Select>
-            <Button>
+            <Button onClick={() => handleExport('/api/reports/export/pdf?type=desportivo')}>
               <Download className="size-4 mr-2" />
               Exportar
             </Button>
@@ -92,7 +132,7 @@ export default function RelatoriosTreinadorPage() {
               <TrendingUp className="size-4 text-cap-gold" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-cap-gold">{mockEstatisticas.presencaMedia}%</div>
+              <div className="text-2xl font-bold text-cap-gold">{stats.presencaMedia}%</div>
               <p className="text-xs text-muted-foreground">Este mes</p>
             </CardContent>
           </Card>
@@ -105,7 +145,7 @@ export default function RelatoriosTreinadorPage() {
               <Calendar className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockEstatisticas.totalTreinos}</div>
+              <div className="text-2xl font-bold">{stats.totalTreinos}</div>
               <p className="text-xs text-muted-foreground">Este mes</p>
             </CardContent>
           </Card>
@@ -118,8 +158,8 @@ export default function RelatoriosTreinadorPage() {
               <Users className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockEstatisticas.totalJogos}</div>
-              <p className="text-xs text-success">{mockEstatisticas.vitorias}V {mockEstatisticas.empates}E {mockEstatisticas.derrotas}D</p>
+              <div className="text-2xl font-bold">{stats.totalJogos}</div>
+              <p className="text-xs text-success">{stats.vitorias}V {stats.empates}E {stats.derrotas}D</p>
             </CardContent>
           </Card>
 
@@ -131,7 +171,7 @@ export default function RelatoriosTreinadorPage() {
               <BarChart3 className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockEstatisticas.golosMarcados} - {mockEstatisticas.golosSofridos}</div>
+              <div className="text-2xl font-bold">{stats.golosMarcados} - {stats.golosSofridos}</div>
               <p className="text-xs text-muted-foreground">Marcados - Sofridos</p>
             </CardContent>
           </Card>
@@ -147,7 +187,7 @@ export default function RelatoriosTreinadorPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {mockRelatorios.map((relatorio) => (
+              {relatorios.map((relatorio) => (
                 <div
                   key={relatorio.id}
                   className="flex items-center justify-between p-4 rounded-lg border"
@@ -178,9 +218,10 @@ export default function RelatoriosTreinadorPage() {
                       variant="outline"
                       size="sm"
                       disabled={relatorio.estado !== "disponivel"}
+                      onClick={() => handleExport(relatorio.path)}
                     >
                       <Download className="size-4 mr-1" />
-                      PDF
+                      Download
                     </Button>
                   </div>
                 </div>

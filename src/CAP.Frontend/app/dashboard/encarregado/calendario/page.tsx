@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -15,9 +15,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { fetchApi } from "@/lib/api"
 
 interface Evento {
-  id: number
+  id: string
   titulo: string
   tipo: "treino" | "jogo" | "evento"
   data: string
@@ -27,18 +28,12 @@ interface Evento {
   adversario?: string
 }
 
-const mockEventos: Evento[] = [
-  { id: 1, titulo: "Treino", tipo: "treino", data: "2025-01-27", hora: "18:30", local: "Campo Principal", atleta: "Joao Silva" },
-  { id: 2, titulo: "Jogo vs FC Exemplo", tipo: "jogo", data: "2025-01-25", hora: "15:00", local: "Campo Visitante", atleta: "Joao Silva", adversario: "FC Exemplo" },
-  { id: 3, titulo: "Treino", tipo: "treino", data: "2025-01-28", hora: "17:00", local: "Campo Principal", atleta: "Maria Silva" },
-  { id: 4, titulo: "Treino", tipo: "treino", data: "2025-01-29", hora: "18:30", local: "Campo Principal", atleta: "Joao Silva" },
-  { id: 5, titulo: "Torneio Infantil", tipo: "evento", data: "2025-02-01", hora: "09:00", local: "Pavilhao Municipal", atleta: "Maria Silva" },
-]
-
 export default function CalendarioEncarregadoPage() {
   const router = useRouter()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [eventos, setEventos] = useState<Evento[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -49,12 +44,64 @@ export default function CalendarioEncarregadoPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "encarregado") {
       router.push("/")
+      return
     }
+    fetchEventos()
   }, [router])
 
+  const fetchEventos = async () => {
+    try {
+      setLoading(true)
+      const data: any = await fetchApi("api/users/parental/dashboard")
+      const dependentes = data.dependentes || []
+      
+      let allEventos: Evento[] = []
+
+      for (const d of dependentes) {
+        const treinos: any[] = await fetchApi<any[]>(`api/sports/trainings/athlete/${d.id}`).catch(() => [])
+        const convocatorias: any[] = await fetchApi<any[]>(`api/sports/convocations/athlete/${d.id}`).catch(() => [])
+
+        const athleteTreinos = treinos.map(t => {
+            const dt = new Date(t.dataInicio)
+            return {
+                id: t.id,
+                titulo: t.descricao || "Treino",
+                tipo: "treino" as const,
+                data: dt.toISOString().split("T")[0],
+                hora: dt.toTimeString().substring(0, 5),
+                local: "Campo de Treinos",
+                atleta: d.nome
+            }
+        })
+        
+        const athleteConvs = convocatorias.map(c => {
+            const dt = new Date(c.dataEvento)
+            return {
+                id: c.id,
+                titulo: c.titulo || "Jogo",
+                tipo: "jogo" as const,
+                data: dt.toISOString().split("T")[0],
+                hora: dt.toTimeString().substring(0, 5),
+                local: c.local || "Campo Principal",
+                atleta: d.nome,
+                adversario: "AdversÃ¡rio"
+            }
+        })
+
+        allEventos = [...allEventos, ...athleteTreinos, ...athleteConvs]
+      }
+
+      setEventos(allEventos)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const eventosSelecionados = selectedDate
-    ? mockEventos.filter(
-        (evento) => evento.data === selectedDate.toISOString().split("T")[0]
+    ? eventos.filter(
+        (evento) => evento.data === selectedDate.toLocaleDateString("en-CA") // format YYYY-MM-DD
       )
     : []
 
@@ -69,13 +116,20 @@ export default function CalendarioEncarregadoPage() {
     }
   }
 
-  const diasComEventos = mockEventos.map((e) => new Date(e.data))
+  const diasComEventos = eventos.map((e) => {
+      const [year, month, day] = e.data.split("-")
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+  })
+
+  if (loading) {
+      return <div className="flex h-screen items-center justify-center">A carregar...</div>
+  }
 
   return (
-    <DashboardLayout role="encarregado" userName="Manuel Encarregado">
+    <DashboardLayout role="encarregado" userName="O Meu Perfil">
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Calendario</h1>
+          <h1 className="text-2xl font-bold text-foreground">CalendÃ¡rio</h1>
           <p className="text-muted-foreground">Atividades agendadas dos seus educandos</p>
         </div>
 
@@ -127,7 +181,7 @@ export default function CalendarioEncarregadoPage() {
                     <div className="space-y-4">
                       {eventosSelecionados.map((evento) => (
                         <div
-                          key={evento.id}
+                          key={`${evento.id}-${evento.atleta}`}
                           className="flex items-start justify-between p-4 rounded-lg bg-secondary/30"
                         >
                           <div className="space-y-2">
@@ -138,7 +192,7 @@ export default function CalendarioEncarregadoPage() {
                             <div className="flex items-center gap-2">
                               <Avatar className="size-6">
                                 <AvatarFallback className="text-xs">
-                                  {evento.atleta.split(" ").map((n) => n[0]).join("")}
+                                  {evento.atleta.split(" ").map((n: string) => n[0]).join("")}
                                 </AvatarFallback>
                               </Avatar>
                               <span className="text-sm">{evento.atleta}</span>
@@ -164,18 +218,21 @@ export default function CalendarioEncarregadoPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Proximos Eventos</CardTitle>
-                <CardDescription>Agenda dos proximos dias</CardDescription>
+                <CardTitle>PrÃ³ximos Eventos</CardTitle>
+                <CardDescription>Agenda dos prÃ³ximos dias</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockEventos
-                    .filter((e) => new Date(e.data) >= new Date())
-                    .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+                  {eventos
+                    .filter((e) => {
+                        const evtDate = new Date(`${e.data}T${e.hora}:00`);
+                        return evtDate >= new Date()
+                    })
+                    .sort((a, b) => new Date(`${a.data}T${a.hora}:00`).getTime() - new Date(`${b.data}T${b.hora}:00`).getTime())
                     .slice(0, 5)
                     .map((evento) => (
                       <div
-                        key={evento.id}
+                        key={`${evento.id}-${evento.atleta}-prox`}
                         className="flex items-center justify-between p-4 rounded-lg border"
                       >
                         <div className="flex items-center gap-4">
@@ -197,6 +254,9 @@ export default function CalendarioEncarregadoPage() {
                         <Badge variant="outline">{evento.local}</Badge>
                       </div>
                     ))}
+                    {eventos.filter((e) => new Date(`${e.data}T${e.hora}:00`) >= new Date()).length === 0 && (
+                        <p className="text-center text-muted-foreground py-4">NÃ£o hÃ¡ eventos futuros agendados.</p>
+                    )}
                 </div>
               </CardContent>
             </Card>

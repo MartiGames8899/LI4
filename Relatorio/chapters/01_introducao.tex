@@ -1,10 +1,10 @@
-﻿\chapter{Introdução}
+\chapter{Introdução}
 
 \section{Enquadramento e Objetivos do Trabalho}
 
 O presente relatório documenta o desenvolvimento de um sistema de software para a gestão integrada de um clube desportivo, realizado no âmbito da unidade curricular de Laboratórios de Informática IV. Este projeto surge num contexto onde a engenharia de software pode ser acelerada por \textit{assistência generativa}, sempre sujeita à validação técnica dos membros da equipa.
 
-O objetivo deste trabalho é planear e desenvolver uma aplicação web para o Clube Amigos de Polvoreira (CAP). Queremos também mostrar como usámos a Inteligência Artificial durante o processo, distinguindo o que foi gerado automaticamente daquilo que foi a nossa análise e decisão final para resolver os problemas reais do clube.
+O objetivo deste trabalho é planear e desenvolver uma aplicação web para o Clube Amigos de Polvoreira (CAP). Pretende-se igualmente documentar a forma como a Inteligência Artificial Generativa foi utilizada ao longo do processo, distinguindo de forma clara o que foi gerado automaticamente daquilo que resultou da análise e da decisão final da equipa.
 
 Os objetivos específicos incluem:
 \begin{itemize}
@@ -17,76 +17,58 @@ Os objetivos específicos incluem:
 
 \section{Large Language Models na Engenharia de Software}
 
-\subsection{Contextualização Tecnológica}
+\subsection{Contextualização}
 
-Os \textit{Large Language Models} (LLMs) representam uma das mais significativas inovações no campo da inteligência artificial dos últimos anos. Estes modelos, baseados em arquiteturas de redes neuronais do tipo \textit{Transformer}, são treinados em vastos corpora de texto e código, desenvolvendo a capacidade de compreender e gerar linguagem natural e linguagens de programação com um grau de sofisticação sem precedentes.
+Os \textit{Large Language Models} (LLMs) são modelos de redes neuronais baseados na arquitetura \textit{Transformer} \cite{vaswani2017}, treinados em grandes volumes de texto e código. Nos últimos anos, ferramentas como o GitHub Copilot e o Google Gemini tornaram-se auxiliares comuns no desenvolvimento de software, com capacidades que vão desde a geração de código até ao suporte à documentação técnica.
 
-No contexto da engenharia de software, este tipo de modelos emergiu como ferramenta potencialmente transformadora, oferecendo capacidades que vão desde a geração de código repetitivo até ao suporte à documentação técnica, passando pela análise de requisitos e deteção de erros. \textbf{Os exemplos concretos usados no projeto}, com indicação das ferramentas e \textit{prompts}, encontram-se exclusivamente nas secções ``\textit{Documentação de IA}''; o restante texto descreve sempre a leitura técnica dos autores.
+Neste projeto, os LLMs foram usados de forma controlada como \textbf{assistentes de rascunho}. Sempre que recorremos a um modelo, o pedido e a resposta foram registados nas caixas azuis de ``Documentação de IA'' ao longo do relatório. O restante texto reflete sempre a análise e decisão final da equipa.
 
-\subsection{Vantagens da Utilização de LLMs no Desenvolvimento de Software}
+\subsection{Riscos Observados}
 
-A integração de LLMs no processo de desenvolvimento de software apresenta diversas vantagens significativas:
-
-\begin{itemize}
-    \item \textbf{Aceleração do desenvolvimento}: Os LLMs podem gerar rapidamente código \textit{boilerplate}, estruturas de dados, e implementações de algoritmos comuns, reduzindo o tempo necessário para tarefas repetitivas e permitindo que os programadores se concentrem em aspetos mais complexos e criativos do desenvolvimento.
-
-    \item \textbf{Suporte à documentação}: A capacidade de gerar documentação técnica, comentários de código e especificações a partir de descrições em linguagem natural facilita a manutenção de projetos bem documentados, um aspeto frequentemente negligenciado devido a pressões de tempo.
-
-    \item \textbf{Apoio na análise de requisitos}: Os LLMs podem auxiliar na identificação de ambiguidades em especificações, sugerir requisitos potencialmente omitidos com base em padrões de domínio, e ajudar a estruturar casos de uso de forma mais completa.
-
-    \item \textbf{Aprendizagem e transferência de conhecimento}: Para equipas que trabalham com tecnologias novas ou pouco familiares, os LLMs funcionam como uma fonte de conhecimento acessível, explicando conceitos, demonstrando padrões de uso e sugerindo boas práticas.
-
-    \item \textbf{Revisão e refatoração de código}: Os modelos podem identificar potenciais problemas de qualidade, sugerir otimizações e propor refatorações que melhorem a legibilidade e manutenibilidade do código.
-
-    \item \textbf{Prototipagem rápida}: A capacidade de gerar rapidamente protótipos funcionais permite validar ideias e conceitos com os \textit{stakeholders} de forma mais ágil, reduzindo o risco de mal-entendidos nas fases iniciais do projeto.
-\end{itemize}
-
-\subsection{Desvantagens e Limitações dos LLMs}
-
-Apesar das vantagens evidentes, a utilização de LLMs no desenvolvimento de software apresenta limitações importantes que devem ser consideradas:
-
-\begin{itemize}
-    \item \textbf{Alucinações e informação incorreta}: Os LLMs podem gerar código ou informação que parece correta mas contém erros subtis, APIs inexistentes, ou práticas desatualizadas. Esta característica, conhecida como ``alucinação'', exige validação rigorosa de todo o \textit{output} gerado.
-
-    \item \textbf{Falta de compreensão contextual profunda}: Embora os LLMs processem contexto de forma sofisticada, não possuem verdadeira compreensão do domínio do problema, das restrições específicas do projeto, ou das decisões arquiteturais previamente tomadas. Isto pode resultar em sugestões tecnicamente corretas mas inadequadas ao contexto específico.
-
-    \item \textbf{Questões de segurança}: Código gerado por LLMs pode conter vulnerabilidades de segurança, especialmente quando os modelos reproduzem padrões problemáticos presentes nos dados de treino. A revisão de segurança continua a ser responsabilidade humana.
-
-    \item \textbf{Dependência e atrofia de competências}: A utilização excessiva de LLMs sem compreensão crítica pode levar a uma dependência prejudicial e à erosão de competências técnicas fundamentais, especialmente em programadores menos experientes.
-
-    \item \textbf{Propriedade intelectual e licenciamento}: Existem questões legais e éticas não resolvidas sobre a utilização de código gerado por modelos treinados em repositórios públicos, particularmente no que respeita a licenças de software e direitos de autor.
-
-    \item \textbf{Inconsistência e não-determinismo}: Os LLMs podem produzir respostas diferentes para a mesma pergunta em momentos diferentes, o que pode introduzir inconsistências no projeto se não houver uma gestão cuidadosa das decisões tomadas.
-
-    \item \textbf{Custos computacionais e de acesso}: A utilização de LLMs de elevada qualidade implica frequentemente custos de subscrição ou consumo de API que podem ser significativos para projetos de maior dimensão.
-\end{itemize}
+Durante o projeto observámos riscos reais associados à utilização destes modelos. As respostas tendem a ser genéricas quando o \textit{prompt} não inclui contexto suficiente sobre as restrições do CAP (RGPD, SAF-T, equipa reduzida) e ocasionalmente referem APIs inexistentes ou padrões desatualizados (fenómeno conhecido por ``alucinação''). Foi também notório que, quando se delega ao modelo a redação de várias secções consecutivas, o tom torna-se demasiado uniforme e perde naturalidade.
 
 \subsection{Abordagem Adotada neste Projeto}
 
-Neste projeto adotou-se uma abordagem \textbf{centrada no engenheiro}: a assistência automática produz rascunhos; a equipa regista o que pediu (caixas de cor) e, nas subsecções seguintes, explica o que manteve, o que descartou e porquê. Este duplo registo evita confundir narrativa de produto com evidência de método. As funções delegadas ao assistente foram essencialmente:
+Para mitigar estes riscos, adotámos uma abordagem \textbf{centrada no engenheiro}: o assistente produz rascunhos sobre os quais a equipa decide. As caixas azuis ``Documentação de IA'' ao longo do relatório registam o \textit{prompt} enviado e a resposta original, e o texto que se segue a cada caixa explica o que mantivemos, o que descartámos e porquê. As tarefas delegadas ao modelo concentraram-se em:
 
 \begin{itemize}
-    \item Explorar formulários de requisitos, entrevistas sintéticas ou listas ``de trabalho'' que depois se compararam com o material real do CAP;
-    \item Obter primeiras versões de tabelas especificativas e de excertos de documentos de exemplo;
-    \item Redigir \textit{summaries} ou listas de pontos a validar com a gerência e com a secretaria;
-    \item Propor esqueletos gráficos posteriormente redesenhados à mão (PlantUML, draw.io) para cumprir convenções UML e o guia do curso.
+    \item Gerar primeiras versões de tabelas de requisitos, posteriormente cruzadas com as entrevistas ao clube;
+    \item Propor esqueletos de diagramas UML, redesenhados manualmente em PlantUML e draw.io;
+    \item Sugerir opções arquiteturais com prós e contras, usadas como ponto de partida para as decisões da equipa;
+    \item Redigir resumos ou listas de pontos a validar com a gerência e a secretaria do CAP.
 \end{itemize}
 
-Em todas as situações, adotou-se por norma uma postura de ``\textit{rascunho rápido mas desconfiado}'': cruzamento sistemático com Sommerville e com as notas das reuniões, saneamento de linguagem vaga, revisão de invariantes (RGPD, SAF-T, segurança física dos atletas) e consolidação numa única versão aprovada pela equipa antes de integrar o relatório final.
+Em todas as situações adotámos uma postura de ``rascunho rápido mas desconfiado'': cruzamento sistemático com a documentação oficial das tecnologias \cite{efcore2023, nextjs2024, postgresql2024}, saneamento de linguagem vaga e consolidação numa única versão aprovada pela equipa antes de integrar o relatório.
 
 \section{Medidas de Sucesso}
 
-Para avaliar a eficácia da implementação do sistema de gestão do CAP, foram definidas as seguintes medidas de sucesso, que deverão ser monitorizadas durante o primeiro ano de utilização:
+Para avaliar se o sistema cumpre os seus objetivos, foram definidos os seguintes indicadores, a monitorizar durante o primeiro ano de utilização:
 
 \begin{itemize}
-    \item \textbf{Redução de faltas por ausência de informação}: Diminuir em 90\% os casos de atletas que faltam a eventos por falta de visualização de convocatórias ou alterações de horário, graças ao sistema de notificações centralizado.
-    \item \textbf{Regularização de Quotas}: Aumentar em 20\% a taxa de pagamento de quotas no prazo estipulado no primeiro trimestre após a introdução dos métodos MB Way e Referência Multibanco.
-    \item \textbf{Conformidade Clínica}: Eliminação total (0\%) de atletas a participar em treinos ou jogos com exames médicos desportivos caducados, através do sistema de bloqueio e alertas automáticos.
-    \item \textbf{Eficiência Administrativa}: Redução de 50\% no tempo gasto pela secretaria em tarefas de arquivo e conferência de documentos manuais.
-    \item \textbf{Satisfação dos Utilizadores}: Obter uma classificação média superior a 4/5 numa escala de satisfação dirigida aos atletas e encarregados de educação após a primeira época de utilização.
+    \item \textbf{Comunicação}: Redução significativa dos casos de atletas que faltam a eventos por desconhecimento, medida pela comparação com os registos da época anterior.
+    \item \textbf{Regularização de quotas}: Aumento da taxa de pagamento dentro do prazo, facilitado pela introdução de métodos digitais (MBWay e Referência Multibanco).
+    \item \textbf{Conformidade clínica}: Eliminação de situações em que atletas participam em atividades com atestados médicos caducados, garantida pelo sistema de bloqueio automático.
+    \item \textbf{Eficiência administrativa}: Redução do tempo dedicado pela secretaria a tarefas de arquivo, conferência e introdução manual de dados.
+    \item \textbf{Satisfação}: Obter uma avaliação positiva (superior a 4 em 5) num inquérito dirigido aos atletas e encarregados de educação após a primeira época.
+\end{itemize}
+
+\section{Estrutura do Relatório}
+O presente relatório encontra-se organizado em seis capítulos que refletem as diferentes fases do ciclo de desenvolvimento de software adotado \cite{sommerville2015}:
+
+\begin{itemize}
+    \item \textbf{Capítulo 1 --- Introdução}: Apresenta o enquadramento, os objetivos do trabalho, o papel dos LLMs no processo de desenvolvimento e a estrutura geral do relatório.
+
+    \item \textbf{Capítulo 2 --- Definição e Caracterização do Sistema}: Contextualiza o projeto, apresenta o caso de estudo do CAP, a motivação, a análise de viabilidade e o plano de execução.
+
+    \item \textbf{Capítulo 3 --- Levantamento e Análise de Requisitos}: Descreve a metodologia de recolha, intercala caixas de Documentação de IA com a análise da equipa, e apresenta os requisitos funcionais e não funcionais consolidados.
+
+    \item \textbf{Capítulo 4 --- Especificação e Modelação do Software}: Apresenta as decisões arquiteturais, a modelação estrutural (modelo de domínio, classes, componentes, implantação) e a modelação comportamental (máquinas de estados, casos de uso, diagramas de sequência e de atividade, \textit{mockups}).
+
+    \item \textbf{Capítulo 5 --- Implementação da Aplicação}: Documenta o processo de implementação das três camadas do sistema (dados, negócio e apresentação), com exemplos de código e a avaliação do cumprimento dos requisitos.
+
+    \item \textbf{Capítulo 6 --- Conclusão}: Sintetiza o trabalho realizado, apresenta uma análise crítica, reflete sobre o uso de IA generativa e identifica linhas de trabalho futuro.
 \end{itemize}
 
 %==========================================================================
 % CAPÍTULO 2 - DEFINIÇÃO E CARACTERIZAÇÃO DO SISTEMA
 %==========================================================================
-

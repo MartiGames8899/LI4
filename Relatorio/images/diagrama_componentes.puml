@@ -11,7 +11,7 @@ package "Camada de Apresentação" {
 
 interface "HTTP/REST/JSON\n(JWT Bearer)" as REST
 
-package "Camada de API (ASP.NET Core 8)" {
+package "Camada de API (ASP.NET Core 7)" {
     component [API Gateway\n& Autenticação] as APIGateway
 }
 
@@ -41,7 +41,7 @@ package "Camada de Dados" {
 }
 
 package "Integrações Externas" {
-    cloud "Easypay / Stripe\n(Gateway Pagamentos)" as PaymentGW
+    cloud "Ifthenpay / Easypay\n(Gateway Pagamentos)" as PaymentGW
     cloud "Serviço Email/SMS\n(SendGrid / Twilio)" as EmailService
     cloud "Autoridade Tributária\n(SAF-T XML)" as TaxAuth
 }

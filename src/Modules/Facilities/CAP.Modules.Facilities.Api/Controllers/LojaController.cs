@@ -65,6 +65,18 @@ public class LojaController : ControllerBase
 
         return Ok(encomenda);
     }
+    [HttpGet("orders")]
+    [Authorize]
+    public async Task<IActionResult> GetOrders()
+    {
+        var userIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (!Guid.TryParse(userIdStr, out var userId)) return Unauthorized();
+
+        var todasEncomendas = await _encomendaRepository.GetAllAsync();
+        var minhasEncomendas = todasEncomendas.Where(e => e.UtilizadorId == userId).ToList();
+
+        return Ok(minhasEncomendas);
+    }
 }
 
 public record CreateOrderRequest(List<OrderItemRequest> Items);

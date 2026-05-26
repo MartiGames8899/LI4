@@ -14,8 +14,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 
+import { fetchApi } from "@/lib/api"
+
 interface Evento {
-  id: number
+  id: string
   titulo: string
   tipo: "treino" | "jogo" | "evento"
   data: string
@@ -25,18 +27,14 @@ interface Evento {
   convocado: boolean
 }
 
-const mockEventos: Evento[] = [
-  { id: 1, titulo: "Treino", tipo: "treino", data: "2025-01-27", hora: "18:30", local: "Campo Principal", convocado: true },
-  { id: 2, titulo: "Jogo vs FC Exemplo", tipo: "jogo", data: "2025-01-25", hora: "15:00", local: "Campo Visitante", adversario: "FC Exemplo", convocado: true },
-  { id: 3, titulo: "Treino", tipo: "treino", data: "2025-01-29", hora: "18:30", local: "Campo Principal", convocado: true },
-  { id: 4, titulo: "Treino", tipo: "treino", data: "2025-01-31", hora: "18:30", local: "Campo Principal", convocado: true },
-  { id: 5, titulo: "Jogo vs SC Braga B", tipo: "jogo", data: "2025-02-01", hora: "10:00", local: "Campo Casa", adversario: "SC Braga B", convocado: true },
-]
+
 
 export default function CalendarioAtletaPage() {
   const router = useRouter()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [eventos, setEventos] = useState<Evento[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -47,11 +45,34 @@ export default function CalendarioAtletaPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "atleta") {
       router.push("/")
+      return
     }
+
+    const loadEventos = async () => {
+      try {
+        const data = await fetchApi<any[]>("api/sports/convocations/my")
+        const mapped = data.map(c => ({
+          id: c.id,
+          titulo: c.titulo,
+          tipo: c.tipo || "treino",
+          data: c.data,
+          hora: c.hora,
+          local: c.local,
+          convocado: true
+        }))
+        setEventos(mapped)
+      } catch (error) {
+        console.error("Erro ao carregar calendário:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadEventos()
   }, [router])
 
   const eventosSelecionados = selectedDate
-    ? mockEventos.filter(
+    ? eventos.filter(
         (evento) => evento.data === selectedDate.toISOString().split("T")[0]
       )
     : []
@@ -67,7 +88,17 @@ export default function CalendarioAtletaPage() {
     }
   }
 
-  const diasComEventos = mockEventos.map((e) => new Date(e.data))
+  const diasComEventos = eventos.map((e) => new Date(e.data))
+
+  if (isLoading) {
+    return (
+      <DashboardLayout role="atleta" userName="Atleta">
+        <div className="flex items-center justify-center h-[50vh]">
+          Carregando...
+        </div>
+      </DashboardLayout>
+    )
+  }
 
   return (
     <DashboardLayout role="atleta" userName="Joao Silva">
@@ -165,7 +196,7 @@ export default function CalendarioAtletaPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockEventos
+                  {eventos
                     .filter((e) => new Date(e.data) >= new Date())
                     .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
                     .slice(0, 5)

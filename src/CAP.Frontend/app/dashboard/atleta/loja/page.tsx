@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -11,101 +11,66 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ShoppingCart, Search, Plus, Minus, Trash2, CreditCard, Package, Shirt, Trophy } from "lucide-react"
 
-const produtos = [
-  {
-    id: 1,
-    nome: "Camisola Oficial CAP 2024/25",
-    categoria: "equipamento",
-    preco: 45.00,
-    tamanhos: ["XS", "S", "M", "L", "XL"],
-    imagem: "/images/logo-cap.png",
-    stock: 25,
-    destaque: true
-  },
-  {
-    id: 2,
-    nome: "Calcoes Treino",
-    categoria: "equipamento",
-    preco: 22.00,
-    tamanhos: ["XS", "S", "M", "L", "XL"],
-    imagem: "/images/logo-cap.png",
-    stock: 40,
-    destaque: false
-  },
-  {
-    id: 3,
-    nome: "Meias Oficiais (Par)",
-    categoria: "equipamento",
-    preco: 8.00,
-    tamanhos: ["35-38", "39-42", "43-46"],
-    imagem: "/images/logo-cap.png",
-    stock: 60,
-    destaque: false
-  },
-  {
-    id: 4,
-    nome: "Fato de Treino Completo",
-    categoria: "equipamento",
-    preco: 65.00,
-    tamanhos: ["XS", "S", "M", "L", "XL"],
-    imagem: "/images/logo-cap.png",
-    stock: 15,
-    destaque: true
-  },
-  {
-    id: 5,
-    nome: "Saco Desporto CAP",
-    categoria: "acessorios",
-    preco: 28.00,
-    tamanhos: ["Unico"],
-    imagem: "/images/logo-cap.png",
-    stock: 30,
-    destaque: false
-  },
-  {
-    id: 6,
-    nome: "Garrafa de Agua 750ml",
-    categoria: "acessorios",
-    preco: 12.00,
-    tamanhos: ["Unico"],
-    imagem: "/images/logo-cap.png",
-    stock: 50,
-    destaque: false
-  },
-  {
-    id: 7,
-    nome: "Bone CAP",
-    categoria: "acessorios",
-    preco: 15.00,
-    tamanhos: ["Unico"],
-    imagem: "/images/logo-cap.png",
-    stock: 35,
-    destaque: false
-  },
-  {
-    id: 8,
-    nome: "Cachecol CAP",
-    categoria: "acessorios",
-    preco: 18.00,
-    tamanhos: ["Unico"],
-    imagem: "/images/logo-cap.png",
-    stock: 20,
-    destaque: true
-  }
-]
+import { fetchApi } from "@/lib/api"
+
+interface Produto {
+  id: string
+  nome: string
+  descricao?: string
+  preco: number
+  stockAtual: number
+  imagemUrl: string
+  // Add missing frontend-only fields for now or map them
+  categoria?: string
+  tamanhos?: string[]
+  destaque?: boolean
+}
 
 interface CartItem {
-  produto: typeof produtos[0]
+  produto: Produto
   tamanho: string
   quantidade: number
 }
 
 export default function LojaAtletaPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [produtos, setProdutos] = useState<Produto[]>([])
   const [carrinho, setCarrinho] = useState<CartItem[]>([])
   const [carrinhoAberto, setCarrinhoAberto] = useState(false)
-  const [produtoSelecionado, setProdutoSelecionado] = useState<typeof produtos[0] | null>(null)
+  const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | null>(null)
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState("")
+  const [encomendas, setEncomendas] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [produtosData, encomendasData] = await Promise.all([
+          fetchApi<any[]>("api/facilities/store/products"),
+          fetchApi<any[]>("api/facilities/store/orders")
+        ])
+        const mapped = produtosData.map(p => ({
+          id: p.id,
+          nome: p.nome,
+          descricao: p.descricao,
+          preco: p.preco,
+          stockAtual: p.stockAtual,
+          imagemUrl: p.imagemUrl || "/images/logo-cap.png",
+          categoria: "equipamento", // default if none
+          tamanhos: ["XS", "S", "M", "L", "XL"], // default sizes
+          destaque: p.stockAtual > 20
+        }))
+        setProdutos(mapped)
+        setEncomendas(encomendasData || [])
+      } catch (error) {
+        console.error("Erro ao carregar loja:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadData()
+  }, [])
+
 
   const filteredProdutos = produtos.filter(p =>
     p.nome.toLowerCase().includes(searchTerm.toLowerCase())
@@ -132,11 +97,11 @@ export default function LojaAtletaPage() {
     setTamanhoSelecionado("")
   }
 
-  const removerDoCarrinho = (produtoId: number, tamanho: string) => {
+  const removerDoCarrinho = (produtoId: string, tamanho: string) => {
     setCarrinho(carrinho.filter(item => !(item.produto.id === produtoId && item.tamanho === tamanho)))
   }
 
-  const atualizarQuantidade = (produtoId: number, tamanho: string, delta: number) => {
+  const atualizarQuantidade = (produtoId: string, tamanho: string, delta: number) => {
     setCarrinho(carrinho.map(item => {
       if (item.produto.id === produtoId && item.tamanho === tamanho) {
         const novaQuantidade = item.quantidade + delta
@@ -227,7 +192,24 @@ export default function LojaAtletaPage() {
               )}
               <DialogFooter>
                 {carrinho.length > 0 && (
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={async () => {
+                    try {
+                      await fetchApi("api/facilities/store/orders", {
+                        method: "POST",
+                        body: JSON.stringify({
+                          items: carrinho.map(c => ({ produtoId: c.produto.id, quantidade: c.quantidade }))
+                        })
+                      })
+                      const updatedOrders = await fetchApi<any[]>("api/facilities/store/orders")
+                      setEncomendas(updatedOrders || [])
+                      setCarrinho([])
+                      setCarrinhoAberto(false)
+                      alert("Encomenda submetida!")
+                    } catch (e) {
+                      console.error(e)
+                      alert("Erro ao encomendar.")
+                    }
+                  }}>
                     <CreditCard className="mr-2" />
                     Finalizar Encomenda
                   </Button>
@@ -262,6 +244,10 @@ export default function LojaAtletaPage() {
             <TabsTrigger value="acessorios">
               <Trophy className="mr-2 size-4" />
               Acessorios
+            </TabsTrigger>
+            <TabsTrigger value="encomendas">
+              <Package className="mr-2 size-4" />
+              Minhas Encomendas
             </TabsTrigger>
           </TabsList>
 
@@ -309,6 +295,28 @@ export default function LojaAtletaPage() {
               ))}
             </div>
           </TabsContent>
+
+          <TabsContent value="encomendas" className="mt-6">
+            <div className="flex flex-col gap-4">
+              {encomendas.length === 0 ? (
+                <p className="text-muted-foreground">Não tem encomendas recentes.</p>
+              ) : (
+                encomendas.map((enc) => (
+                  <Card key={enc.id}>
+                    <CardHeader className="py-4">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base">Encomenda #{enc.id.substring(0, 8)}</CardTitle>
+                        <Badge variant={enc.estado === 0 ? "secondary" : "default"}>
+                          {enc.estado === 0 ? "Pendente" : "Processada"}
+                        </Badge>
+                      </div>
+                      <CardDescription>Total: {enc.total.toFixed(2)} EUR</CardDescription>
+                    </CardHeader>
+                  </Card>
+                ))
+              )}
+            </div>
+          </TabsContent>
         </Tabs>
 
         {/* Dialog Produto */}
@@ -324,15 +332,15 @@ export default function LojaAtletaPage() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-center rounded-lg bg-muted p-6">
                   <img
-                    src={produtoSelecionado.imagem}
+                    src={produtoSelecionado.imagemUrl}
                     alt={produtoSelecionado.nome}
                     className="size-32 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-primary">{produtoSelecionado.preco.toFixed(2)} EUR</span>
-                  <Badge variant={produtoSelecionado.stock > 10 ? "secondary" : "outline"}>
-                    {produtoSelecionado.stock} em stock
+                  <Badge variant={produtoSelecionado.stockAtual > 10 ? "secondary" : "outline"}>
+                    {produtoSelecionado.stockAtual} em stock
                   </Badge>
                 </div>
                 <Select value={tamanhoSelecionado} onValueChange={(value) => setTamanhoSelecionado(value ?? "")}>
@@ -340,7 +348,7 @@ export default function LojaAtletaPage() {
                     <SelectValue placeholder="Selecionar tamanho" />
                   </SelectTrigger>
                   <SelectContent>
-                    {produtoSelecionado.tamanhos.map((tamanho) => (
+                    {produtoSelecionado.tamanhos?.map((tamanho) => (
                       <SelectItem key={tamanho} value={tamanho}>
                         {tamanho}
                       </SelectItem>
@@ -366,13 +374,13 @@ export default function LojaAtletaPage() {
   )
 }
 
-function ProdutoCard({ produto, onSelect }: { produto: typeof produtos[0]; onSelect: () => void }) {
+function ProdutoCard({ produto, onSelect }: { produto: Produto; onSelect: () => void }) {
   return (
     <Card className="group cursor-pointer transition-shadow hover:shadow-md" onClick={onSelect}>
       <CardHeader className="p-4">
         <div className="relative flex items-center justify-center rounded-lg bg-muted p-4">
           <img
-            src={produto.imagem}
+            src={produto.imagemUrl}
             alt={produto.nome}
             className="size-24 object-contain transition-transform group-hover:scale-105"
           />
@@ -389,8 +397,8 @@ function ProdutoCard({ produto, onSelect }: { produto: typeof produtos[0]; onSel
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 pt-0">
         <span className="text-lg font-bold text-primary">{produto.preco.toFixed(2)} EUR</span>
-        <Badge variant={produto.stock > 10 ? "secondary" : "outline"} className="text-xs">
-          {produto.stock} disp.
+        <Badge variant={produto.stockAtual > 10 ? "secondary" : "outline"} className="text-xs">
+          {produto.stockAtual} disp.
         </Badge>
       </CardFooter>
     </Card>

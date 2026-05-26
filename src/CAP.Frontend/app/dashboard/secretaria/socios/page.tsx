@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { fetchApi } from "@/lib/api"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,92 +15,85 @@ import { Label } from "@/components/ui/label"
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field"
 import { Search, Plus, Users, UserCheck, UserX, Mail, Phone, Edit, Eye, Filter, Download } from "lucide-react"
 
-const socios = [
-  {
-    id: 1,
-    numeroSocio: "CAP-0001",
-    nome: "Manuel Antonio Silva",
-    email: "manuel.silva@email.com",
-    telefone: "912345678",
-    tipo: "fundador",
-    estado: "ativo",
-    dataInscricao: "2010-01-15",
-    quotasEmDia: true
-  },
-  {
-    id: 2,
-    numeroSocio: "CAP-0042",
-    nome: "Maria Fernanda Costa",
-    email: "maria.costa@email.com",
-    telefone: "923456789",
-    tipo: "regular",
-    estado: "ativo",
-    dataInscricao: "2018-03-22",
-    quotasEmDia: true
-  },
-  {
-    id: 3,
-    numeroSocio: "CAP-0089",
-    nome: "Jose Carlos Oliveira",
-    email: "jose.oliveira@email.com",
-    telefone: "934567890",
-    tipo: "regular",
-    estado: "ativo",
-    dataInscricao: "2020-09-10",
-    quotasEmDia: false
-  },
-  {
-    id: 4,
-    numeroSocio: "CAP-0102",
-    nome: "Ana Beatriz Santos",
-    email: "ana.santos@email.com",
-    telefone: "945678901",
-    tipo: "jovem",
-    estado: "ativo",
-    dataInscricao: "2022-01-05",
-    quotasEmDia: true
-  },
-  {
-    id: 5,
-    numeroSocio: "CAP-0115",
-    nome: "Pedro Miguel Ferreira",
-    email: "pedro.ferreira@email.com",
-    telefone: "956789012",
-    tipo: "regular",
-    estado: "suspenso",
-    dataInscricao: "2023-02-18",
-    quotasEmDia: false
-  },
-  {
-    id: 6,
-    numeroSocio: "CAP-0128",
-    nome: "Carla Sofia Rodrigues",
-    email: "carla.rodrigues@email.com",
-    telefone: "967890123",
-    tipo: "honorario",
-    estado: "ativo",
-    dataInscricao: "2015-06-30",
-    quotasEmDia: true
-  }
-]
+interface Socio {
+  id: string;
+  numeroSocio: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  tipo: string;
+  estado: string;
+  dataInscricao: string;
+  quotasEmDia: boolean;
+}
 
 export default function SociosSecretariaPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [filtroEstado, setFiltroEstado] = useState("todos")
   const [filtroTipo, setFiltroTipo] = useState("todos")
   const [novoSocioOpen, setNovoSocioOpen] = useState(false)
+  const [socios, setSocios] = useState<Socio[]>([])
+  
+  // Novo socio form state
+  const [novoNome, setNovoNome] = useState("")
+  const [novoEmail, setNovoEmail] = useState("")
+  const [novoTelefone, setNovoTelefone] = useState("")
+  const [novoTipo, setNovoTipo] = useState("regular")
+  const [novoDataInscricao, setNovoDataInscricao] = useState("")
+
+  const carregarSocios = async () => {
+    try {
+      const data = await fetchApi<Socio[]>('/api/users/socios')
+      setSocios(data)
+    } catch (err) {
+      console.error("Erro ao carregar socios", err)
+    }
+  }
+
+  useEffect(() => {
+    carregarSocios()
+  }, [])
+
+  const handleCriarSocio = async () => {
+    try {
+      await fetchApi('/api/users/socios', {
+        method: 'POST',
+        body: JSON.stringify({
+          nome: novoNome,
+          email: novoEmail,
+          telefone: novoTelefone,
+          tipo: novoTipo,
+          dataInscricao: novoDataInscricao ? new Date(novoDataInscricao).toISOString() : null
+        })
+      })
+      setNovoSocioOpen(false)
+      carregarSocios() // reload
+    } catch (err) {
+      console.error("Erro ao criar socio", err)
+    }
+  }
+
+  const handleExportCSV = () => {
+    const headers = ["Numero Socio", "Nome", "Email", "Telefone", "Tipo", "Estado", "Data Inscricao"]
+    const rows = sociosFiltrados.map(s => [s.numeroSocio, s.nome, s.email, s.telefone, s.tipo, s.estado, s.dataInscricao ? new Date(s.dataInscricao).toLocaleDateString("pt-PT") : ""])
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c ?? ""}"`).join(",")).join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a"); a.href = url; a.download = "socios.csv"; a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const sociosFiltrados = socios.filter(socio => {
-    const matchSearch = socio.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       socio.numeroSocio.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       socio.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchEstado = filtroEstado === "todos" || socio.estado === filtroEstado
-    const matchTipo = filtroTipo === "todos" || socio.tipo === filtroTipo
+    const matchSearch = socio.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       socio.numeroSocio?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       socio.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchEstado = filtroEstado === "todos" || socio.estado?.toLowerCase() === filtroEstado
+    const matchTipo = filtroTipo === "todos" || socio.tipo?.toLowerCase() === filtroTipo
     return matchSearch && matchEstado && matchTipo
   })
 
-  const totalAtivos = socios.filter(s => s.estado === "ativo").length
-  const totalSuspensos = socios.filter(s => s.estado === "suspenso").length
+  const totalAtivos = socios.filter(s => s.estado?.toLowerCase() === "ativo").length
+  const totalSuspensos = socios.filter(s => s.estado?.toLowerCase() === "suspenso").length
   const quotasEmAtraso = socios.filter(s => !s.quotasEmDia).length
 
   return (
@@ -112,7 +106,7 @@ export default function SociosSecretariaPage() {
             <p className="text-muted-foreground">Registe, edite e consulte informacoes dos socios do clube</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportCSV}>
               <Download className="mr-2 size-4" />
               Exportar
             </Button>
@@ -134,11 +128,11 @@ export default function SociosSecretariaPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <Field>
                       <FieldLabel htmlFor="nome">Nome Completo</FieldLabel>
-                      <Input id="nome" placeholder="Nome do socio" />
+                      <Input id="nome" placeholder="Nome do socio" value={novoNome} onChange={e => setNovoNome(e.target.value)} />
                     </Field>
                     <Field>
                       <FieldLabel htmlFor="tipo">Tipo de Socio</FieldLabel>
-                      <Select>
+                      <Select value={novoTipo} onValueChange={(v) => setNovoTipo(v ?? "regular")}>
                         <SelectTrigger id="tipo">
                           <SelectValue placeholder="Selecionar tipo" />
                         </SelectTrigger>
@@ -153,16 +147,16 @@ export default function SociosSecretariaPage() {
                   </div>
                   <Field>
                     <FieldLabel htmlFor="email">Email</FieldLabel>
-                    <Input id="email" type="email" placeholder="email@exemplo.com" />
+                    <Input id="email" type="email" placeholder="email@exemplo.com" value={novoEmail} onChange={e => setNovoEmail(e.target.value)} />
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="telefone">Telefone</FieldLabel>
-                    <Input id="telefone" type="tel" placeholder="912345678" />
+                    <Input id="telefone" type="tel" placeholder="912345678" value={novoTelefone} onChange={e => setNovoTelefone(e.target.value)} />
                   </Field>
                   <div className="grid grid-cols-2 gap-4">
                     <Field>
-                      <FieldLabel htmlFor="dataNascimento">Data de Nascimento</FieldLabel>
-                      <Input id="dataNascimento" type="date" />
+                      <FieldLabel htmlFor="dataNascimento">Data de Nascimento (Opcional)</FieldLabel>
+                      <Input id="dataNascimento" type="date" value={novoDataInscricao} onChange={e => setNovoDataInscricao(e.target.value)} />
                     </Field>
                     <Field>
                       <FieldLabel htmlFor="nif">NIF</FieldLabel>
@@ -178,7 +172,7 @@ export default function SociosSecretariaPage() {
                   <Button variant="outline" onClick={() => setNovoSocioOpen(false)}>
                     Cancelar
                   </Button>
-                  <Button onClick={() => setNovoSocioOpen(false)}>
+                  <Button onClick={handleCriarSocio}>
                     Registar Socio
                   </Button>
                 </DialogFooter>

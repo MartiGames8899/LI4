@@ -80,4 +80,129 @@ public class ConvocatoriasController : ControllerBase
 
         return Ok("Presença registada com sucesso");
     }
+
+    [HttpGet]
+    [Authorize(Roles = "Treinador,Gerencia")]
+    public async Task<IActionResult> GetAll()
+    {
+        var convs = await _convocatoriaRepository.GetAllAsync();
+        var result = convs.Select(c => new
+        {
+            Id = c.Id,
+            Titulo = c.Titulo,
+            Tipo = "treino", // default fallback
+            Data = c.DataEvento.ToString("yyyy-MM-dd"),
+            Hora = c.DataEvento.ToString("HH:mm"),
+            Local = c.Local,
+            Status = c.Estado == EstadoConvocatoria.Rascunho ? "rascunho" : c.Estado == EstadoConvocatoria.Publicada ? "enviada" : "fechada",
+            Respostas = new {
+                Confirmados = c.Convites.Count(cv => cv.Presenca == EstadoPresenca.Confirmada),
+                Recusados = c.Convites.Count(cv => cv.Presenca == EstadoPresenca.Ausente || cv.Presenca == EstadoPresenca.Justificada),
+                Pendentes = c.Convites.Count(cv => cv.Presenca == EstadoPresenca.Pendente)
+            },
+            Atletas = c.Convites.Select(cv => new {
+                Id = cv.AtletaId,
+                Nome = "Atleta " + cv.AtletaId.ToString().Substring(0,4), // Mocked for simplicity
+                Resposta = cv.Presenca == EstadoPresenca.Confirmada ? "confirmado" : cv.Presenca == EstadoPresenca.Pendente ? "pendente" : "recusado",
+                Motivo = cv.Observacoes
+            })
+        });
+        return Ok(result);
+    }
+    [HttpGet("my")]
+    [Authorize(Roles = "Atleta")]
+    public async Task<IActionResult> GetMyConvocations()
+    {
+        var userIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdStr)) return Unauthorized();
+        var userId = Guid.Parse(userIdStr);
+
+        var all = await _convocatoriaRepository.GetAllAsync();
+        var myConvs = all.Where(c => c.Convites.Any(cv => cv.AtletaId == userId)).Select(c => {
+            var myConvite = c.Convites.First(cv => cv.AtletaId == userId);
+            string estado = myConvite.Presenca switch {
+                EstadoPresenca.Confirmada => "confirmado",
+                EstadoPresenca.Ausente => "recusado",
+                EstadoPresenca.Justificada => "recusado",
+                _ => "pendente"
+            };
+
+            return new {
+                Id = c.Id,
+                Titulo = c.Titulo,
+                Tipo = "treino", // default fallback
+                Data = c.DataEvento.ToString("yyyy-MM-dd"),
+                Hora = c.DataEvento.ToString("HH:mm"),
+                Local = c.Local,
+                Adversario = "",
+                Estado = estado
+            };
+        });
+        
+        return Ok(myConvs);
+    }
+
+    [HttpPatch("{id}/my-presence")]
+    [Authorize(Roles = "Atleta")]
+    public async Task<IActionResult> UpdateMyPresence(Guid id, [FromBody] UpdateMyPresenceRequest request)
+    {
+        var userIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdStr)) return Unauthorized();
+        var userId = Guid.Parse(userIdStr);
+
+        var conv = await _convocatoriaRepository.GetByIdAsync(id);
+        if (conv == null) return NotFound("Convocatória não encontrada");
+
+        var convite = conv.Convites.FirstOrDefault(c => c.AtletaId == userId);
+        if (convite == null) return NotFound("Atleta não encontrado nesta convocatória");
+
+        convite.Presenca = request.Estado == "confirmado" ? EstadoPresenca.Confirmada : EstadoPresenca.Ausente;
+
+        await _convocatoriaRepository.SaveChangesAsync();
+
+        return Ok(new { message = "Resposta registada com sucesso" });
+    }
+
+    [HttpGet("athlete/{atletaId}")]
+    public async Task<IActionResult> GetByAthlete(Guid atletaId)
+    {
+        var convs = await _convocatoriaRepository.GetAllAsync();
+        var athleteConvs = convs.Where(c => c.Convites.Any(convite => convite.AtletaId == atletaId)).ToList();
+        return Ok(athleteConvs);
+    }
+
+    [HttpPatch("{id}")]
+    [Authorize(Roles = "Treinador,Gerencia")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateConvocationRequest request)
+    {
+        var conv = await _convocatoriaRepository.GetByIdAsync(id);
+        if (conv == null) return NotFound();
+
+        conv.Titulo = request.Titulo;
+        conv.DataEvento = request.DataEvento;
+        conv.Local = request.Local;
+
+        await _convocatoriaRepository.UpdateAsync(conv);
+        await _convocatoriaRepository.SaveChangesAsync();
+
+        return Ok(conv);
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Treinador,Gerencia")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var conv = await _convocatoriaRepository.GetByIdAsync(id);
+        if (conv == null) return NotFound();
+
+        await _convocatoriaRepository.DeleteAsync(conv);
+        await _convocatoriaRepository.SaveChangesAsync();
+
+        return NoContent();
+    }
+}
+
+public class UpdateMyPresenceRequest
+{
+    public string Estado { get; set; } = string.Empty;
 }

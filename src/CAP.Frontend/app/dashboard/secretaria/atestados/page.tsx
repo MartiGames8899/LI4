@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -36,14 +36,16 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const mockAtestados = [
-  { id: 1, atleta: "Joao Silva", equipa: "Sub-15", tipo: "desportivo", dataEmissao: "2024-06-15", dataValidade: "2025-06-15", status: "valido" },
-  { id: 2, atleta: "Pedro Santos", equipa: "Sub-15", tipo: "medico", dataEmissao: "2024-03-20", dataValidade: "2025-03-20", status: "a_expirar" },
-  { id: 3, atleta: "Miguel Costa", equipa: "Sub-13", tipo: "desportivo", dataEmissao: "2023-12-01", dataValidade: "2024-12-01", status: "expirado" },
-  { id: 4, atleta: "Tiago Ferreira", equipa: "Sub-15", tipo: "medico", dataEmissao: "2024-08-10", dataValidade: "2025-08-10", status: "valido" },
-  { id: 5, atleta: "Maria Silva", equipa: "Sub-11", tipo: "desportivo", dataEmissao: null, dataValidade: null, status: "em_falta" },
-  { id: 6, atleta: "Ana Costa", equipa: "Sub-13", tipo: "medico", dataEmissao: "2024-07-22", dataValidade: "2025-07-22", status: "valido" },
-]
+interface Atestado {
+  id: string;
+  atleta: string;
+  equipa: string;
+  tipo: string;
+  dataEmissao: string | null;
+  dataValidade: string | null;
+  status: string;
+  caminhoFicheiro?: string;
+}
 
 export default function AtestadosSecretariaPage() {
   const router = useRouter()
@@ -51,19 +53,64 @@ export default function AtestadosSecretariaPage() {
   const [filtroStatus, setFiltroStatus] = useState("todos")
   const [filtroEquipa, setFiltroEquipa] = useState("todas")
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("cap_user")
-    if (!storedUser) {
-      router.push("/")
-      return
-    }
-    const parsed = JSON.parse(storedUser)
-    if (parsed.role !== "secretaria") {
-      router.push("/")
-    }
-  }, [router])
+  const [atestados, setAtestados] = useState<Atestado[]>([])
 
-  const atestadosFiltrados = mockAtestados.filter((atestado) => {
+  useEffect(() => {
+    const carregarAtestados = async () => {
+      try {
+        const { fetchApi } = await import('@/lib/api')
+        const data = await fetchApi<any[]>('/api/clinical/certificates')
+        setAtestados(data.map(a => ({
+          id: a.id,
+          atleta: "Atleta Desconhecido",
+          equipa: "Sem Equipa",
+          tipo: "medico",
+          dataEmissao: a.dataEmissao,
+          dataValidade: a.dataExpiracao,
+          status: new Date(a.dataExpiracao) < new Date() ? "expirado" : "valido",
+          caminhoFicheiro: a.caminhoFicheiro,
+        })))
+      } catch (err) {
+        console.error("Erro ao carregar atestados", err)
+      }
+    }
+    carregarAtestados()
+  }, [])
+
+  const handleExportCSV = () => {
+    const headers = ["Atleta", "Equipa", "Tipo", "Data Emissao", "Data Validade", "Estado"]
+    const rows = atestadosFiltrados.map(a => [a.atleta, a.equipa, a.tipo, a.dataEmissao ? new Date(a.dataEmissao).toLocaleDateString("pt-PT") : "-", a.dataValidade ? new Date(a.dataValidade).toLocaleDateString("pt-PT") : "-", a.status])
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c ?? ""}"`).join(",")).join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a"); a.href = url; a.download = "atestados.csv"; a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const handleVerAtestado = (atestado: Atestado) => {
+    if (atestado.caminhoFicheiro) {
+      window.open(`http://localhost:5000${atestado.caminhoFicheiro}`, "_blank")
+    } else {
+      alert("Ficheiro não disponível")
+    }
+  }
+
+  const handleDownloadAtestado = async (atestado: Atestado) => {
+    if (!atestado.caminhoFicheiro) { alert("Ficheiro não disponível"); return }
+    try {
+      const token = localStorage.getItem("cap_token")
+      const res = await fetch(`http://localhost:5000${atestado.caminhoFicheiro}`, { headers: { Authorization: `Bearer ${token}` } })
+      if (!res.ok) throw new Error("Erro ao descarregar")
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a"); a.href = url; a.download = `atestado-${atestado.id}.pdf`; a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      alert("Erro ao descarregar ficheiro")
+    }
+  }
+
+  const atestadosFiltrados = atestados.filter((atestado) => {
     const matchSearch = atestado.atleta.toLowerCase().includes(searchTerm.toLowerCase())
     const matchStatus = filtroStatus === "todos" || atestado.status === filtroStatus
     const matchEquipa = filtroEquipa === "todas" || atestado.equipa === filtroEquipa
@@ -71,11 +118,11 @@ export default function AtestadosSecretariaPage() {
   })
 
   const stats = {
-    total: mockAtestados.length,
-    validos: mockAtestados.filter((a) => a.status === "valido").length,
-    aExpirar: mockAtestados.filter((a) => a.status === "a_expirar").length,
-    expirados: mockAtestados.filter((a) => a.status === "expirado").length,
-    emFalta: mockAtestados.filter((a) => a.status === "em_falta").length,
+    total: atestados.length,
+    validos: atestados.filter((a) => a.status === "valido").length,
+    aExpirar: atestados.filter((a) => a.status === "a_expirar").length,
+    expirados: atestados.filter((a) => a.status === "expirado").length,
+    emFalta: atestados.filter((a) => a.status === "em_falta").length,
   }
 
   const getStatusBadge = (status: string) => {
@@ -121,7 +168,7 @@ export default function AtestadosSecretariaPage() {
             <h1 className="text-2xl font-bold text-foreground">Gestao de Atestados</h1>
             <p className="text-muted-foreground">Controle de atestados medicos dos atletas</p>
           </div>
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleExportCSV}>
             <Download className="size-4 mr-2" />
             Exportar
           </Button>
@@ -255,7 +302,7 @@ export default function AtestadosSecretariaPage() {
                         <div className="flex items-center gap-3">
                           <Avatar className="size-8">
                             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                              {atestado.atleta.split(" ").map((n) => n[0]).join("")}
+                              {atestado.atleta.split(" ").map((n: string) => n[0]).join("")}
                             </AvatarFallback>
                           </Avatar>
                           <div>
@@ -287,10 +334,10 @@ export default function AtestadosSecretariaPage() {
                       <TableCell>{getStatusBadge(atestado.status)}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
-                          <Button variant="ghost" size="icon" className="size-8">
+                          <Button variant="ghost" size="icon" className="size-8" onClick={() => handleVerAtestado(atestado)}>
                             <Eye className="size-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="size-8">
+                          <Button variant="ghost" size="icon" className="size-8" onClick={() => handleDownloadAtestado(atestado)}>
                             <Download className="size-4" />
                           </Button>
                         </div>

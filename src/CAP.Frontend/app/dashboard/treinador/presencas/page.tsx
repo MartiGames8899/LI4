@@ -1,7 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { fetchApi } from "@/lib/api"
 import {
   CheckCircle,
   XCircle,
@@ -29,7 +30,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 
 interface Atleta {
-  id: number
+  id: string
   nome: string
   numero: number
   presente: boolean | null
@@ -37,7 +38,7 @@ interface Atleta {
 }
 
 interface Sessao {
-  id: number
+  id: string
   tipo: "treino" | "jogo"
   data: string
   hora: string
@@ -45,49 +46,15 @@ interface Sessao {
   atletas: Atleta[]
 }
 
-const mockSessoes: Sessao[] = [
-  {
-    id: 1,
-    tipo: "treino",
-    data: "2025-01-24",
-    hora: "18:30",
-    local: "Campo Principal",
-    atletas: [
-      { id: 1, nome: "Joao Silva", numero: 10, presente: true },
-      { id: 2, nome: "Pedro Santos", numero: 7, presente: true },
-      { id: 3, nome: "Miguel Costa", numero: 4, presente: false, justificacao: "Lesao" },
-      { id: 4, nome: "Tiago Ferreira", numero: 1, presente: true },
-      { id: 5, nome: "Andre Oliveira", numero: 9, presente: null },
-      { id: 6, nome: "Bruno Martins", numero: 6, presente: true },
-      { id: 7, nome: "Carlos Almeida", numero: 3, presente: false },
-      { id: 8, nome: "Daniel Sousa", numero: 8, presente: true },
-    ],
-  },
-  {
-    id: 2,
-    tipo: "treino",
-    data: "2025-01-22",
-    hora: "18:30",
-    local: "Campo Principal",
-    atletas: [
-      { id: 1, nome: "Joao Silva", numero: 10, presente: true },
-      { id: 2, nome: "Pedro Santos", numero: 7, presente: true },
-      { id: 3, nome: "Miguel Costa", numero: 4, presente: true },
-      { id: 4, nome: "Tiago Ferreira", numero: 1, presente: true },
-      { id: 5, nome: "Andre Oliveira", numero: 9, presente: false },
-      { id: 6, nome: "Bruno Martins", numero: 6, presente: true },
-      { id: 7, nome: "Carlos Almeida", numero: 3, presente: true },
-      { id: 8, nome: "Daniel Sousa", numero: 8, presente: false },
-    ],
-  },
-]
-
 export default function PresencasPage() {
   const router = useRouter()
-  const [selectedSessao, setSelectedSessao] = useState<Sessao>(mockSessoes[0])
+  const [sessoes, setSessoes] = useState<Sessao[]>([])
+  const [selectedSessao, setSelectedSessao] = useState<Sessao | null>(null)
   const [sessaoIndex, setSessaoIndex] = useState(0)
-  const [presencas, setPresencas] = useState<Record<number, boolean | null>>({})
+  const [presencas, setPresencas] = useState<Record<string, boolean | null>>({})
+  const [justificacoes, setJustificacoes] = useState<Record<string, string>>({})
   const [hasChanges, setHasChanges] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -98,29 +65,80 @@ export default function PresencasPage() {
     const parsed = JSON.parse(storedUser)
     if (parsed.role !== "treinador") {
       router.push("/")
+    } else {
+      loadData()
     }
   }, [router])
 
+  const loadData = async () => {
+    try {
+      const [treinosRes, athletesRes] = await Promise.all([
+        fetchApi<any>("/api/sports/trainings"),
+        fetchApi<any>("/api/users/athletes")
+      ])
+
+      const treinos = treinosRes.data || []
+      const athletes = athletesRes.data || []
+
+      const athletesMap = athletes.reduce((acc: any, a: any) => {
+        acc[a.id] = a
+        return acc
+      }, {})
+
+      const mappedSessoes: Sessao[] = treinos.map((t: any) => ({
+        id: t.id,
+        tipo: "treino",
+        data: t.dataInicio.split("T")[0],
+        hora: t.dataInicio.split("T")[1].substring(0, 5),
+        local: "EspaÃ§o " + t.espacoId, // Just a placeholder, would normally fetch the space
+        atletas: t.presencas.map((p: any) => {
+          const athleteInfo = athletesMap[p.atletaId] || { nome: "Desconhecido", numero: 0 }
+          return {
+            id: p.atletaId,
+            nome: athleteInfo.nome,
+            numero: athleteInfo.numero,
+            presente: p.estado === 1 ? true : p.estado === 2 || p.estado === 3 || p.estado === 4 ? false : null,
+            justificacao: p.justificacao
+          }
+        })
+      }))
+
+      setSessoes(mappedSessoes)
+      if (mappedSessoes.length > 0) {
+        setSelectedSessao(mappedSessoes[0])
+        setSessaoIndex(0)
+      }
+    } catch (error) {
+      console.error("Error loading sessions:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
-    // Initialize presencas from selected sessao
-    const initial: Record<number, boolean | null> = {}
-    selectedSessao.atletas.forEach((a) => {
-      initial[a.id] = a.presente
-    })
-    setPresencas(initial)
-    setHasChanges(false)
+    if (selectedSessao) {
+      const initial: Record<string, boolean | null> = {}
+      const initialJusts: Record<string, string> = {}
+      selectedSessao.atletas.forEach((a) => {
+        initial[a.id] = a.presente
+        initialJusts[a.id] = a.justificacao || ""
+      })
+      setPresencas(initial)
+      setJustificacoes(initialJusts)
+      setHasChanges(false)
+    }
   }, [selectedSessao])
 
-  const handlePresencaChange = (atletaId: number, value: boolean | null) => {
+  const handlePresencaChange = (atletaId: string, value: boolean | null) => {
     setPresencas((prev) => ({ ...prev, [atletaId]: value }))
     setHasChanges(true)
   }
 
   const handlePrevSessao = () => {
-    if (sessaoIndex < mockSessoes.length - 1) {
+    if (sessaoIndex < sessoes.length - 1) {
       const newIndex = sessaoIndex + 1
       setSessaoIndex(newIndex)
-      setSelectedSessao(mockSessoes[newIndex])
+      setSelectedSessao(sessoes[newIndex])
     }
   }
 
@@ -128,14 +146,38 @@ export default function PresencasPage() {
     if (sessaoIndex > 0) {
       const newIndex = sessaoIndex - 1
       setSessaoIndex(newIndex)
-      setSelectedSessao(mockSessoes[newIndex])
+      setSelectedSessao(sessoes[newIndex])
     }
   }
 
-  const handleSave = () => {
-    // Here you would send the presencas to the API
-    console.log("Saving presencas:", presencas)
-    setHasChanges(false)
+  const handleSave = async () => {
+    if (!selectedSessao) return
+    
+    // Convert to UpdatePresencaRequest payload
+    // EstadoPresencaTreino: 0: Pendente, 1: Presente, 2: FaltaJustificada, 3: FaltaInjustificada, 4: AusentePorLesao
+    const payload = Object.entries(presencas).map(([atletaId, presente]) => {
+      let estado = 0;
+      if (presente === true) estado = 1;
+      else if (presente === false) estado = justificacoes[atletaId] ? 2 : 3;
+
+      return {
+        atletaId,
+        estado,
+        justificacao: justificacoes[atletaId] || ""
+      }
+    });
+
+    try {
+      await fetchApi(`/api/sports/trainings/${selectedSessao.id}/attendance`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      setHasChanges(false)
+      // refresh data to sync states
+      loadData()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const stats = {
@@ -164,7 +206,11 @@ export default function PresencasPage() {
         </div>
 
         {/* Session Selector */}
-        <Card>
+        {!isLoading && sessoes.length === 0 ? (
+          <p>NÃ£o hÃ¡ sessÃµes de treino disponÃ­veis.</p>
+        ) : selectedSessao ? (
+          <>
+          <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="size-5" />
@@ -176,9 +222,9 @@ export default function PresencasPage() {
               <Select
                 value={selectedSessao.id.toString()}
                 onValueChange={(value) => {
-                  const sessao = mockSessoes.find((s) => s.id.toString() === value)
+                  const sessao = sessoes.find((s) => s.id.toString() === value)
                   if (sessao) {
-                    const index = mockSessoes.findIndex(s => s.id.toString() === value)
+                    const index = sessoes.findIndex(s => s.id.toString() === value)
                     setSessaoIndex(index)
                     setSelectedSessao(sessao)
                   }
@@ -188,7 +234,7 @@ export default function PresencasPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {mockSessoes.map((sessao) => (
+                  {sessoes.map((sessao) => (
                     <SelectItem key={sessao.id} value={sessao.id.toString()}>
                       {sessao.tipo === "treino" ? "Treino" : "Jogo"} - {new Date(sessao.data).toLocaleDateString("pt-PT")} ({sessao.hora})
                     </SelectItem>
@@ -197,7 +243,7 @@ export default function PresencasPage() {
               </Select>
 
               <div className="flex gap-2">
-                <Button variant="outline" size="icon" onClick={handlePrevSessao} disabled={sessaoIndex >= mockSessoes.length - 1}>
+                <Button variant="outline" size="icon" onClick={handlePrevSessao} disabled={sessaoIndex >= sessoes.length - 1}>
                   <ChevronLeft className="size-4" />
                 </Button>
                 <Button variant="outline" size="icon" onClick={handleNextSessao} disabled={sessaoIndex <= 0}>
@@ -295,7 +341,7 @@ export default function PresencasPage() {
                   <div className="flex items-center gap-4">
                     <Avatar className="size-10">
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {atleta.nome.split(" ").map((n) => n[0]).join("")}
+                        {atleta.nome.split(" ").map((n: string) => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -350,7 +396,7 @@ export default function PresencasPage() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  const newPresencas: Record<number, boolean | null> = {}
+                  const newPresencas: Record<string, boolean | null> = {}
                   selectedSessao.atletas.forEach((a) => {
                     newPresencas[a.id] = true
                   })
@@ -364,7 +410,7 @@ export default function PresencasPage() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  const newPresencas: Record<number, boolean | null> = {}
+                  const newPresencas: Record<string, boolean | null> = {}
                   selectedSessao.atletas.forEach((a) => {
                     newPresencas[a.id] = null
                   })
@@ -378,6 +424,8 @@ export default function PresencasPage() {
             </div>
           </CardContent>
         </Card>
+        </>
+        ) : null}
       </div>
     </DashboardLayout>
   )
