@@ -2,15 +2,24 @@
 
 left to right direction
 
+actor "Utilizador\nAutenticado" as User
 actor "Atleta / Candidato" as Athlete
 actor "Encarregado" as Parent
-actor "Utilizador Autenticado" as User
+actor "Treinador" as Coach
 actor "Secretaria" as Secretary
+actor "Gerência" as Management
+
+Athlete --|> User
+Parent --|> User
+Coach --|> User
+Secretary --|> User
+Management --|> User
 
 rectangle "Subsistema: Gestão de Utilizadores e Parental" {
-    usecase "Registar-se" as UC_Register
+    usecase "Registar-se\n/ Aceitar Convite" as UC_Register
     usecase "Iniciar Sessão" as UC_Login
     usecase "Gerir Perfil" as UC_EditProfile
+    usecase "Alterar Palavra-passe" as UC_ChangePassword
     usecase "Associar Educandos" as UC_LinkParental
     usecase "Aprovar Registo" as UC_ApproveRegistration
 }
@@ -20,6 +29,7 @@ Parent --> UC_Register
 
 User --> UC_Login
 User --> UC_EditProfile
+User --> UC_ChangePassword
 
 Parent --> UC_LinkParental
 

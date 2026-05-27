@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -45,6 +46,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
+import { fetchApi } from "@/lib/api"
 
 interface NavItem {
   title: string
@@ -163,7 +166,7 @@ const navigationByRole: Record<string, NavGroup[]> = {
       label: "Configuracoes",
       items: [
         { title: "Instalacoes", href: "/dashboard/gerencia/instalacoes", icon: Building2 },
-        { title: "Definicoes", href: "/dashboard/gerencia/definicoes", icon: Settings },
+        { title: "Definicoes", href: "/dashboard/definicoes", icon: Settings },
       ],
     },
   ],
@@ -179,8 +182,27 @@ export function DashboardLayout({ children, role, userName = "Utilizador" }: Das
   const pathname = usePathname()
   const router = useRouter()
   const navigation = navigationByRole[role] || []
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    const fetchUnread = async () => {
+      try {
+        const data = await fetchApi<any[]>("api/notifications/inbox")
+        const count = data.filter((n: any) => !n.lida).length
+        setUnreadCount(count)
+      } catch (e) {
+        console.error("Erro ao carregar notificações no layout", e)
+      }
+    }
+    fetchUnread()
+    
+    // Opcional: Polling a cada 60s
+    const interval = setInterval(fetchUnread, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleLogout = () => {
+    localStorage.removeItem("cap_token")
     localStorage.removeItem("cap_user")
     router.push("/")
   }
@@ -276,10 +298,12 @@ export function DashboardLayout({ children, role, userName = "Utilizador" }: Das
           <div className="flex-1" />
           <div className="relative" onClick={() => router.push("/dashboard/notificacoes")}>
             <Bell className="size-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors" />
-            <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-              <span className="relative inline-flex rounded-full size-3 bg-destructive border-2 border-background"></span>
-            </span>
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex size-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+                <span className="relative inline-flex rounded-full size-3 bg-destructive border-2 border-background"></span>
+              </span>
+            )}
           </div>
         </header>
         <main className="flex-1 p-6 overflow-auto">

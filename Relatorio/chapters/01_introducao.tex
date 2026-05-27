@@ -2,73 +2,73 @@
 
 \section{Enquadramento e Objetivos do Trabalho}
 
-O presente relatório documenta o desenvolvimento de um sistema de software para a gestão integrada de um clube desportivo, realizado no âmbito da unidade curricular de Laboratórios de Informática IV. Este projeto surge num contexto onde a engenharia de software pode ser acelerada por \textit{assistência generativa}, sempre sujeita à validação técnica dos membros da equipa.
+Este relatório documenta o desenvolvimento de um sistema de software para a gestão de um clube desportivo, feito no âmbito da unidade curricular de Laboratórios de Informática IV. O projeto foi desenvolvido com recurso a ferramentas de inteligência artificial generativa, mas com validação da equipa em todas as fases.
 
-O objetivo deste trabalho é planear e desenvolver uma aplicação web para o Clube Amigos de Polvoreira (CAP). Pretende-se igualmente documentar a forma como a Inteligência Artificial Generativa foi utilizada ao longo do processo, distinguindo de forma clara o que foi gerado automaticamente daquilo que resultou da análise e da decisão final da equipa.
+O objetivo é desenvolver uma aplicação web para o Clube Amigos de Polvoreira (CAP) e documentar como a inteligência artificial foi usada ao longo do processo, mostrando o que foi gerado pelos modelos e o que foi decidido pela equipa.
 
 Os objetivos específicos incluem:
 \begin{itemize}
-    \item Fazer o levantamento de requisitos, usando rascunhos de IA que foram depois corrigidos e adaptados por nós;
-    \item Desenhar a arquitetura do sistema e criar diagramas UML que expliquem como tudo funciona;
-    \item Desenvolver uma aplicação funcional que junte as partes desportiva, médica, financeira e administrativa;
-    \item Registar como interagimos com as ferramentas de IA, mostrando onde foram úteis e onde tivemos de intervir;
-    \item Garantir que o sistema final é prático e seguro para ser usado no dia a dia do CAP.
+    \item Fazer o levantamento de requisitos, usando rascunhos de IA que depois foram corrigidos pela equipa;
+    \item Desenhar a arquitetura do sistema e criar diagramas UML;
+    \item Desenvolver uma aplicação que inclua as áreas desportiva, clínica, financeira e administrativa;
+    \item Registar como foram usadas as ferramentas de IA, mostrando onde foram úteis e onde foi preciso intervir;
+    \item Garantir que o sistema é funcional e seguro para ser usado no clube.
 \end{itemize}
 
 \section{Large Language Models na Engenharia de Software}
 
 \subsection{Contextualização}
 
-Os \textit{Large Language Models} (LLMs) são modelos de redes neuronais baseados na arquitetura \textit{Transformer} \cite{vaswani2017}, treinados em grandes volumes de texto e código. Nos últimos anos, ferramentas como o GitHub Copilot e o Google Gemini tornaram-se auxiliares comuns no desenvolvimento de software, com capacidades que vão desde a geração de código até ao suporte à documentação técnica.
+Os \textit{Large Language Models} (LLMs) são modelos de linguagem treinados com grandes quantidades de texto e código \cite{vaswani2017}. Nos últimos anos, ferramentas como o GitHub Copilot e o Google Gemini passaram a ser usadas no desenvolvimento de software, tanto para gerar código como para apoiar a documentação.
 
-Neste projeto, os LLMs foram usados de forma controlada como \textbf{assistentes de rascunho}. Sempre que recorremos a um modelo, o pedido e a resposta foram registados nas caixas azuis de ``Documentação de IA'' ao longo do relatório. O restante texto reflete sempre a análise e decisão final da equipa.
+Neste projeto, os LLMs foram usados como assistentes. Cada vez que foi usado um modelo, o pedido e a resposta foram registados nas caixas azuis ao longo do relatório. O restante texto é da responsabilidade da equipa.
 
 \subsection{Riscos Observados}
 
-Durante o projeto observámos riscos reais associados à utilização destes modelos. As respostas tendem a ser genéricas quando o \textit{prompt} não inclui contexto suficiente sobre as restrições do CAP (RGPD, SAF-T, equipa reduzida) e ocasionalmente referem APIs inexistentes ou padrões desatualizados (fenómeno conhecido por ``alucinação''). Foi também notório que, quando se delega ao modelo a redação de várias secções consecutivas, o tom torna-se demasiado uniforme e perde naturalidade.
+Durante o projeto foram identificados alguns problemas no uso destes modelos. As respostas são mais genéricas quando não se dá contexto suficiente sobre as restrições do CAP (RGPD, SAF-T, equipa pequena). Por vezes os modelos referem APIs ou padrões que não existem, o que se chama ``alucinação''. Também se notou que quando se pede ao modelo várias secções seguidas, o texto fica uniforme demais e perde naturalidade.
 
 \subsection{Abordagem Adotada neste Projeto}
 
-Para mitigar estes riscos, adotámos uma abordagem \textbf{centrada no engenheiro}: o assistente produz rascunhos sobre os quais a equipa decide. As caixas azuis ``Documentação de IA'' ao longo do relatório registam o \textit{prompt} enviado e a resposta original, e o texto que se segue a cada caixa explica o que mantivemos, o que descartámos e porquê. As tarefas delegadas ao modelo concentraram-se em:
+Para evitar estes problemas, a equipa sempre reviu o que os modelos produziram. As caixas azuis ao longo do relatório mostram o pedido feito e a resposta recebida, e o texto a seguir explica o que ficou e o que foi alterado. As tarefas delegadas ao modelo foram:
 
 \begin{itemize}
-    \item Gerar primeiras versões de tabelas de requisitos, posteriormente cruzadas com as entrevistas ao clube;
-    \item Propor esqueletos de diagramas UML, redesenhados manualmente em PlantUML e draw.io;
+    \item Gerar primeiras versões de tabelas de requisitos, que depois foram comparadas com as entrevistas ao clube;
+    \item Propor esqueletos de diagramas UML, desenhados manualmente em PlantUML e draw.io;
     \item Sugerir opções arquiteturais com prós e contras, usadas como ponto de partida para as decisões da equipa;
     \item Redigir resumos ou listas de pontos a validar com a gerência e a secretaria do CAP.
 \end{itemize}
 
-Em todas as situações adotámos uma postura de validação e auditoria técnica rigorosa: a geração primária de conteúdo foi invariavelmente sujeita a cruzamento sistemático com a documentação oficial das tecnologias \cite{efcore2023, nextjs2024, postgresql2024}, saneamento de linguagem vaga e consolidação numa arquitetura unificada e aprovada pela equipa antes de integrar o projeto.
+Em todas as situações, a equipa reviu o que foi gerado, comparou com a documentação oficial das tecnologias \cite{efcore2023, nextjs2024, postgresql2024} e corrigiu o que estava errado ou pouco claro antes de usar no projeto.
 
 \section{Medidas de Sucesso}
 
-Para avaliar se o sistema cumpre os seus objetivos, foram definidos os seguintes indicadores, a monitorizar durante o primeiro ano de utilização:
+Para avaliar se o sistema está a funcionar bem, foram definidos os seguintes indicadores a observar durante o primeiro ano:
 
 \begin{itemize}
-    \item \textbf{Comunicação}: Redução significativa dos casos de atletas que faltam a eventos por desconhecimento, medida pela comparação com os registos da época anterior.
-    \item \textbf{Regularização de quotas}: Aumento da taxa de pagamento dentro do prazo, facilitado pela introdução de métodos digitais (MBWay e Referência Multibanco).
-    \item \textbf{Conformidade clínica}: Eliminação de situações em que atletas participam em atividades com atestados médicos caducados, garantida pelo sistema de bloqueio automático.
-    \item \textbf{Eficiência administrativa}: Redução do tempo dedicado pela secretaria a tarefas de arquivo, conferência e introdução manual de dados.
-    \item \textbf{Satisfação}: Obter uma avaliação positiva (superior a 4 em 5) num inquérito dirigido aos atletas e encarregados de educação após a primeira época.
+    \item \textbf{Comunicação}: Redução dos casos de atletas que faltam a eventos por falta de informação, comparando com os registos da época anterior.
+    \item \textbf{Pagamento de quotas}: Aumento da percentagem de pagamentos feitos dentro do prazo, com a introdução de MBWay e Referência Multibanco.
+    \item \textbf{Atestados médicos}: Eliminação de situações em que atletas participam com atestados caducados, graças ao bloqueio automático do sistema.
+    \item \textbf{Trabalho administrativo}: Redução do tempo da secretaria em tarefas de arquivo e introdução manual de dados.
+    \item \textbf{Satisfação}: Obter uma avaliação positiva (acima de 4 em 5) num inquérito feito a atletas e encarregados após a primeira época.
 \end{itemize}
 
 \section{Estrutura do Relatório}
-O presente relatório encontra-se organizado em sete capítulos que refletem as diferentes fases do ciclo de desenvolvimento de software adotado \cite{sommerville2015}:
+O relatório está organizado em sete capítulos, seguindo as fases do ciclo de desenvolvimento de software \cite{sommerville2015}:
 
 \begin{itemize}
-    \item \textbf{Capítulo 1 --- Introdução}: Apresenta o enquadramento, os objetivos do trabalho, o papel dos LLMs no processo de desenvolvimento e a estrutura geral do relatório.
+    \item \textbf{Capítulo 1 --- Introdução}: Apresenta os objetivos do trabalho, o papel dos LLMs e a estrutura do relatório.
 
-    \item \textbf{Capítulo 2 --- Definição e Caracterização do Sistema}: Contextualiza o projeto, apresenta o caso de estudo do CAP, a motivação, a análise de viabilidade e o plano de execução.
+    \item \textbf{Capítulo 2 --- Definição e Caracterização do Sistema}: Apresenta o caso de estudo do CAP, a motivação, a análise de viabilidade e o plano de trabalho.
 
-    \item \textbf{Capítulo 3 --- Levantamento e Análise de Requisitos}: Descreve a metodologia de recolha, intercala caixas de Documentação de IA com a análise da equipa, e apresenta os requisitos funcionais e não funcionais consolidados.
+    \item \textbf{Capítulo 3 --- Levantamento e Análise de Requisitos}: Descreve os métodos de recolha e apresenta os requisitos funcionais e não funcionais.
 
-    \item \textbf{Capítulo 4 --- Especificação e Modelação do Software}: Apresenta as decisões arquiteturais, a modelação estrutural (modelo de domínio, classes, componentes, implantação) e a modelação comportamental (máquinas de estados, casos de uso, diagramas de sequência e de atividade, \textit{mockups}).
+    \item \textbf{Capítulo 4 --- Especificação e Modelação do Software}: Apresenta as decisões de arquitetura e os diagramas do sistema (domínio, classes, componentes, casos de uso, sequência, etc.).
 
-    \item \textbf{Capítulo 5 --- Implementação da Aplicação}: Documenta o processo de implementação das três camadas do sistema (dados, negócio e apresentação), com exemplos de código e a avaliação do cumprimento dos requisitos.
+    \item \textbf{Capítulo 5 --- Implementação da Aplicação}: Descreve a implementação das três camadas do sistema, com exemplos de código.
 
-    \item \textbf{Capítulo 6 --- Documentação da Utilização de IA Generativa}: Regista de forma transparente a utilização de modelos de linguagem ao longo do projeto e reflete sobre a validação humana associada.
+    \item \textbf{Capítulo 6 --- Documentação da Utilização de IA Generativa}: Regista como foram usados os modelos de linguagem ao longo do projeto.
 
-    \item \textbf{Capítulo 7 --- Conclusão}: Sintetiza o trabalho realizado, apresenta uma análise crítica, reflete sobre as ferramentas utilizadas e identifica linhas de trabalho futuro.
+    \item \textbf{Capítulo 7 --- Conclusão}: Resume o trabalho feito, apresenta uma análise crítica e identifica melhorias futuras.
 \end{itemize}
 
 %==========================================================================

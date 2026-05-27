@@ -2,10 +2,16 @@
 
 left to right direction
 
-actor "Treinador" as Coach
-actor "Gerência" as Management
+actor "Utilizador\nAutenticado" as User
 actor "Atleta" as Athlete
-actor "Staff" as Staff
+actor "Treinador" as Coach
+actor "Secretaria" as Secretary
+actor "Gerência" as Management
+
+Athlete --|> User
+Coach --|> User
+Secretary --|> User
+Management --|> User
 
 rectangle "Subsistema: Gestão Logística e Instalações" {
     usecase "Consultar Ocupação de Espaços" as UC1
@@ -19,11 +25,12 @@ Coach --> UC2
 
 Management --> UC1
 Management --> UC4
+Management --> UC2
+
+Secretary --> UC2
+Secretary --> UC4
 
 Athlete --> UC1
 Athlete --> UC5
-
-Staff --> UC2
-Staff --> UC4
 
 @enduml

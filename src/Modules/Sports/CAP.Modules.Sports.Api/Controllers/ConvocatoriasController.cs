@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using CAP.Modules.Clinical.Core.Services;
 
+using CAP.Shared.Events;
+using MediatR;
+
 namespace CAP.Modules.Sports.Api.Controllers;
 
 [ApiController]
@@ -15,11 +18,13 @@ public class ConvocatoriasController : ControllerBase
 {
     private readonly IRepository<Convocatoria> _convocatoriaRepository;
     private readonly IClinicalService _clinicalService;
+    private readonly IMediator _mediator;
 
-    public ConvocatoriasController(IRepository<Convocatoria> convocatoriaRepository, IClinicalService clinicalService)
+    public ConvocatoriasController(IRepository<Convocatoria> convocatoriaRepository, IClinicalService clinicalService, IMediator mediator)
     {
         _convocatoriaRepository = convocatoriaRepository;
         _clinicalService = clinicalService;
+        _mediator = mediator;
     }
 
     [HttpPost]
@@ -59,6 +64,14 @@ public class ConvocatoriasController : ControllerBase
 
         conv.Estado = EstadoConvocatoria.Publicada;
         await _convocatoriaRepository.SaveChangesAsync();
+
+        // Notificar atletas via MediatR
+        await _mediator.Publish(new ConvocatoriaPublicadaEvent 
+        { 
+            ConvocatoriaId = conv.Id, 
+            Titulo = conv.Titulo, 
+            AtletasIds = conv.Convites.Select(c => c.AtletaId).ToList() 
+        });
 
         return Ok("Convocatória publicada e atletas notificados");
     }

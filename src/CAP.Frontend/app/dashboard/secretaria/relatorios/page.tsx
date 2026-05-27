@@ -10,6 +10,7 @@ import {
   Users,
   Euro,
   CheckCircle,
+  Loader2,
 } from "lucide-react"
 
 import { DashboardLayout } from "@/components/dashboard-layout"
@@ -24,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { fetchApi, API_BASE_URL } from "@/lib/api"
+import { fetchApi, downloadFile } from "@/lib/api"
 
 // Mocks to fallback if API doesn't return data (since reports usually run on end of month)
 const mockEstatisticasFallback = {
@@ -40,6 +41,7 @@ export default function RelatoriosSecretariaPage() {
   const router = useRouter()
 
   const [stats, setStats] = useState(mockEstatisticasFallback)
+  const [downloadingId, setDownloadingId] = useState<number | string | null>(null)
   const [relatorios, setRelatorios] = useState([
     { id: 1, titulo: "Relatorio Financeiro PDF", tipo: "financeiro", data: new Date().toISOString(), estado: "disponivel", path: "/api/reports/export/pdf?type=financeiro" },
     { id: 2, titulo: "Relatorio Financeiro Excel", tipo: "financeiro", data: new Date().toISOString(), estado: "disponivel", path: "/api/reports/export/excel" },
@@ -62,17 +64,13 @@ export default function RelatoriosSecretariaPage() {
 
   const fetchData = async () => {
     try {
-      // In a real scenario we could fetch from api/reports/financial
-      // For now we use the fallback as baseline and update with real users/quotas data if we want.
-      // But let's just use the fallback for dashboard visual structure if no real summaries are found.
       const financerData = await fetchApi<any[]>('/api/reports/financial').catch(() => [])
       if (financerData && financerData.length > 0) {
-        // If there's data from backend, map it
         const latest = financerData[0]
         setStats({
           ...stats,
           quotasRecebidas: latest.totalReceitas || stats.quotasRecebidas,
-          quotasPendentes: latest.totalDespesas || stats.quotasPendentes // just an example mapping
+          quotasPendentes: latest.totalDespesas || stats.quotasPendentes
         })
       }
     } catch (e) {
@@ -80,25 +78,17 @@ export default function RelatoriosSecretariaPage() {
     }
   }
 
-  const handleExport = (path: string) => {
-    // In a real app we might want to attach JWT to headers via fetch, then create a blob.
-    // For simplicity, if the API doesn't strictly check tokens for GET export or if we pass it via query, we could do window.open.
-    // Assuming we do it securely:
-    const token = localStorage.getItem("cap_token");
-    fetch(`${API_BASE_URL}${path}`, {
-        headers: { "Authorization": `Bearer ${token}` }
-    })
-    .then(res => res.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = path.includes('saft') ? 'export.xml' : path.includes('excel') ? 'export.xlsx' : 'export.pdf';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    })
-    .catch(err => console.error("Erro ao exportar", err));
+  const handleExport = async (path: string, id: number | string) => {
+    try {
+      const filename = path.includes('saft') ? 'export.xml' : path.includes('excel') ? 'export.xlsx' : 'export.pdf';
+      await downloadFile(path, filename, (state) => {
+        if (state === 'loading') setDownloadingId(id)
+        else setDownloadingId(null)
+      })
+    } catch (err) {
+      console.error("Erro ao exportar", err)
+      alert("Não foi possível transferir o relatório.")
+    }
   }
 
   return (
@@ -120,9 +110,21 @@ export default function RelatoriosSecretariaPage() {
                 <SelectItem value="novembro">Novembro 2024</SelectItem>
               </SelectContent>
             </Select>
-            <Button onClick={() => handleExport('/api/reports/export/pdf?type=geral')}>
-              <Download className="size-4 mr-2" />
-              Exportar
+            <Button 
+              onClick={() => handleExport('/api/reports/export/pdf?type=geral', 'global')}
+              disabled={downloadingId === 'global'}
+            >
+              {downloadingId === 'global' ? (
+                <>
+                  <Loader2 className="size-4 mr-2 animate-spin" />
+                  A exportar...
+                </>
+              ) : (
+                <>
+                  <Download className="size-4 mr-2" />
+                  Exportar
+                </>
+              )}
             </Button>
           </div>
         </div>
@@ -228,11 +230,20 @@ export default function RelatoriosSecretariaPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      disabled={relatorio.estado !== "disponivel"}
-                      onClick={() => handleExport(relatorio.path)}
+                      disabled={relatorio.estado !== "disponivel" || downloadingId === relatorio.id}
+                      onClick={() => handleExport(relatorio.path, relatorio.id)}
                     >
-                      <Download className="size-4 mr-1" />
-                      Download
+                      {downloadingId === relatorio.id ? (
+                        <>
+                          <Loader2 className="size-4 mr-1 animate-spin" />
+                          A transferir...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="size-4 mr-1" />
+                          Download
+                        </>
+                      )}
                     </Button>
                   </div>
                 </div>

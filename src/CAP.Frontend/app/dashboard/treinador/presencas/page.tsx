@@ -72,13 +72,10 @@ export default function PresencasPage() {
 
   const loadData = async () => {
     try {
-      const [treinosRes, athletesRes] = await Promise.all([
-        fetchApi<any>("/api/sports/trainings"),
-        fetchApi<any>("/api/users/athletes")
+      const [treinos, athletes] = await Promise.all([
+        fetchApi<any[]>("/api/sports/trainings"),
+        fetchApi<any[]>("api/users/athletes")
       ])
-
-      const treinos = treinosRes.data || []
-      const athletes = athletesRes.data || []
 
       const athletesMap = athletes.reduce((acc: any, a: any) => {
         acc[a.id] = a
@@ -90,7 +87,7 @@ export default function PresencasPage() {
         tipo: "treino",
         data: t.dataInicio.split("T")[0],
         hora: t.dataInicio.split("T")[1].substring(0, 5),
-        local: "EspaÃ§o " + t.espacoId, // Just a placeholder, would normally fetch the space
+        local: "Espaço " + t.espacoId,
         atletas: t.presencas.map((p: any) => {
           const athleteInfo = athletesMap[p.atletaId] || { nome: "Desconhecido", numero: 0 }
           return {
@@ -207,7 +204,7 @@ export default function PresencasPage() {
 
         {/* Session Selector */}
         {!isLoading && sessoes.length === 0 ? (
-          <p>NÃ£o hÃ¡ sessÃµes de treino disponÃ­veis.</p>
+          <p>Não há sessões de treino disponíveis.</p>
         ) : selectedSessao ? (
           <>
           <Card>
@@ -234,11 +231,14 @@ export default function PresencasPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {sessoes.map((sessao) => (
-                    <SelectItem key={sessao.id} value={sessao.id.toString()}>
-                      {sessao.tipo === "treino" ? "Treino" : "Jogo"} - {new Date(sessao.data).toLocaleDateString("pt-PT")} ({sessao.hora})
-                    </SelectItem>
-                  ))}
+                  {sessoes.map((sessao) => {
+                    const lbl = `${sessao.tipo === "treino" ? "Treino" : "Jogo"} - ${new Date(sessao.data).toLocaleDateString("pt-PT")} (${sessao.hora})`
+                    return (
+                      <SelectItem key={sessao.id} value={sessao.id.toString()} label={lbl}>
+                        {lbl}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
 

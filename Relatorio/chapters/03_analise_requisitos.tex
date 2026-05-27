@@ -1,17 +1,17 @@
 \chapter{Levantamento e Análise de Requisitos}\label{chap:analise_requisitos}
 
-\section{Estratégia e Métodos}
+\section{Estratégia e Métodos}\label{sec:rel_estrategia}
 
-O levantamento de requisitos é uma das fases mais importantes, porque qualquer erro aqui pode causar problemas em todo o desenvolvimento. Para este projeto, usámos uma abordagem baseada nas boas práticas de engenharia de software \cite{sommerville2015}, adaptada para a realidade de um clube local.
+O levantamento de requisitos é uma das fases mais importantes, porque qualquer erro aqui pode causar problemas no desenvolvimento. Para este projeto, foi usada uma abordagem baseada nas boas práticas de engenharia de software \cite{sommerville2015}.
 
-A nossa estratégia baseou-se em três pontos:
+A estratégia usada baseou-se em três pontos:
 \begin{enumerate}
-    \item \textbf{Usar várias fontes}: Não falámos apenas com uma pessoa nem olhámos apenas para um papel. Cruzámos informação de documentos, entrevistas e questionários para ter a certeza de que nada ficava esquecido.
-    \item \textbf{Falar com quem usa o sistema}: Ouvimos as pessoas que vão realmente usar a aplicação no dia a dia, desde a gerência até aos próprios atletas.
-    \item \textbf{Revisão constante}: Sempre que identificámos um requisito novo, voltámos a falar com o clube para confirmar se era mesmo aquilo que pretendiam.
+    \item \textbf{Usar várias fontes}: Foram usadas várias fontes de informação, como documentos do clube, entrevistas e questionários, para ter uma visão mais completa das necessidades.
+    \item \textbf{Consultar os utilizadores}: Foi recolhida informação junto das pessoas que vão usar o sistema, desde a gerência até aos atletas.
+    \item \textbf{Revisão dos requisitos}: Sempre que foi identificado um requisito novo, voltou-se a confirmar com o clube se era o que pretendiam.
 \end{enumerate}
 
-O primeiro passo foi identificar todos os grupos de pessoas que interagem com o clube, para percebermos quem seriam os nossos utilizadores principais (como atletas e treinadores) e quem seria afetado indiretamente (como a Autoridade Tributária por causa das faturas).
+O primeiro passo foi identificar todos os grupos de pessoas que interagem com o clube, para perceber quem seriam os utilizadores principais do sistema e quem seria afetado de forma indireta.
 
 \begin{itemize}
     \item \textbf{\textit{Stakeholders} primários} (utilizadores diretos do sistema):
@@ -32,7 +32,7 @@ O primeiro passo foi identificar todos os grupos de pessoas que interagem com o 
     \end{itemize}
 \end{itemize}
 
-Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidades específicas, expectativas em relação ao sistema, e potenciais resistências à mudança. Esta análise prévia orientou a seleção dos métodos de levantamento mais adequados a cada perfil.
+Para cada grupo foram identificadas as necessidades e o que esperavam do sistema. Isto ajudou a escolher os métodos de levantamento mais adequados para cada perfil.
 
 \verIA{sec:ia_requisitos}
 
@@ -40,7 +40,7 @@ Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidad
 
 \subsection{Métodos de Levantamento Utilizados}
 
-A equipa de desenvolvimento selecionou três métodos complementares de levantamento de requisitos, cada um com objetivos específicos e contribuições distintas para a compreensão global das necessidades do sistema:
+Foram escolhidos três métodos para o levantamento de requisitos:
 
 \begin{center}
 {\small
@@ -70,23 +70,23 @@ Questionário Online & Validar requisitos em escala e identificar prioridades & 
 \rowcolors{2}{white}{white}
 \end{center}
 
-A complementaridade destes métodos foi essencial para garantir uma cobertura abrangente das necessidades do sistema. Enquanto a análise documental permitiu compreender ``o que existe'', as entrevistas revelaram ``o que falta'' e ``o que causa problemas'', e os questionários validaram ``o que é prioritário'' para a maioria dos utilizadores.
+A combinação destes três métodos foi importante para ter uma visão completa das necessidades. A análise documental mostrou o que existe atualmente, as entrevistas revelaram os problemas e as necessidades, e os questionários permitiram perceber o que era mais prioritário para os utilizadores.
 
 \verIA{sec:ia_requisitos}
 
 \subsection{Planeamento do Levantamento}
 
-O processo de levantamento de requisitos foi organizado em três fases sequenciais, com duração total prevista de três semanas:
+O levantamento foi organizado em três fases, com uma duração total de três semanas:
 
 \begin{enumerate}
-    \item \textbf{Fase 1 -- Análise Documental} (1 semana): Recolha e análise dos documentos físicos utilizados pelo clube, identificação de entidades de dados e mapeamento dos processos atuais.
+    \item \textbf{Fase 1 -- Análise Documental} (1 semana): Recolha e análise dos documentos do clube, identificação dos dados e processos existentes.
 
-    \item \textbf{Fase 2 -- Entrevistas} (1 semana): Realização de entrevistas semiestruturadas com representantes de cada grupo de \textit{stakeholders} primários, focando problemas atuais e funcionalidades desejadas.
+    \item \textbf{Fase 2 -- Entrevistas} (1 semana): Entrevistas com representantes de cada grupo de utilizadores, sobre problemas atuais e funcionalidades desejadas.
 
-    \item \textbf{Fase 3 -- Questionário e Consolidação} (1 semana): Distribuição do questionário online, análise dos resultados e consolidação de todos os requisitos identificados num documento de especificação preliminar.
+    \item \textbf{Fase 3 -- Questionário e Consolidação} (1 semana): Distribuição do questionário, análise dos resultados e reunião de todos os requisitos num documento preliminar.
 \end{enumerate}
 
-Na ata da primeira reunião de planeamento, ficou registada esta abordagem metodológica e a divisão de responsabilidades entre os membros da equipa:
+Na primeira reunião ficou registado o plano e a divisão de tarefas entre os membros da equipa:
 
 \begin{figure}[H]
     \centering
@@ -95,28 +95,28 @@ Na ata da primeira reunião de planeamento, ficou registada esta abordagem metod
     \label{fig:ar-01}
 \end{figure}
 
-\subsection{Análise Documental}
+\subsection{Análise Documental}\label{sec:rel_documental}
 
-A análise documental constituiu o ponto de partida do processo de levantamento de requisitos. Este método, frequentemente subestimado, revelou-se fundamental para compreender os processos operacionais existentes, identificar as entidades de dados que o sistema terá de gerir, e descobrir regras de negócio implícitas que dificilmente emergiriam apenas através de entrevistas.
+A análise documental foi o ponto de partida do levantamento. Este método permitiu perceber os processos do clube, identificar os dados que o sistema vai ter de gerir e descobrir regras de negócio que não teriam sido identificadas só com entrevistas.
 
 \subsubsection{Objetivo e Abordagem}
 
-O objetivo desta fase foi mapear o fluxo de informação atual do clube, identificando:
+O objetivo desta fase foi perceber como a informação circula no clube, identificando:
 \begin{itemize}
-    \item Os tipos de documentos processados regularmente;
-    \item Os campos de dados registados em cada documento;
-    \item As relações entre diferentes documentos e processos;
-    \item As regras de validação e conformidade aplicáveis;
-    \item Os pontos de falha e ineficiência do sistema atual.
+    \item Os tipos de documentos usados regularmente;
+    \item Os dados registados em cada documento;
+    \item As relações entre documentos e processos;
+    \item As regras de validação que se aplicam;
+    \item Os pontos onde o sistema atual falha ou é ineficiente.
 \end{itemize}
 
-A gerência do clube foi solicitada a disponibilizar exemplos representativos de cada categoria de documento utilizado na operação quotidiana. Após uma triagem inicial, foram selecionados três documentos-chave que cobrem as três áreas funcionais principais do clube: a vertente clínica, a vertente desportiva e a vertente financeira.
+Foi pedido à gerência do clube exemplos dos documentos que usam no dia a dia. Foram escolhidos três documentos principais que cobrem as três áreas do clube: clínica, desportiva e financeira.
 
 \subsubsection{Documentos Analisados}
 
 \paragraph{Atestado Médico Desportivo}
 
-A análise deste documento foi essencial para compreender os requisitos do módulo clínico do sistema. O atestado médico constitui um documento legalmente obrigatório para a prática desportiva federada, e a sua gestão adequada é crítica para a operação do clube.
+A análise deste documento foi importante para perceber os requisitos do módulo clínico. O atestado médico é um documento obrigatório para a prática desportiva federada, e sem ele o atleta não pode participar em competições.
 
 Da análise do documento, foram extraídos os seguintes requisitos:
 \begin{itemize}
@@ -127,22 +127,12 @@ Da análise do documento, foram extraídos os seguintes requisitos:
     \item Bloqueio automático de atletas com atestado caducado para convocatórias e participação em jogos.
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
+\verIA{sec:ia_documentos}
 
-
-
-Com base em cruzamento entre o HTML sintético, as notas da secretaria e os requisitos já listados acima, sistematizámos os seguintes pontos adicionais sob forma de RF:
-\begin{itemize}
-    \item \textbf{RF - Upload de Documento:} O sistema deve permitir aos atletas ou encarregados de educação efetuarem o \textit{upload} do atestado médico em formato digital (PDF ou imagem).
-    \item \textbf{RF - Controlo de Validade:} O sistema deve extrair e registar a data de emissão do atestado médico, calculando a sua data de caducidade (habitualmente 1 ano após a emissão).
-    \item \textbf{RF - Validação da Secretaria:} O sistema deve permitir aos funcionários da secretaria aprovar ou rejeitar o atestado submetido, validando a assinatura e a vinheta do médico.
-    \item \textbf{RF - Alertas de Expiração:} O sistema deve notificar automaticamente o atleta e/ou encarregado de educação 30 dias antes de o atestado médico perder a validade.
-    \item \textbf{RF - Bloqueio de Convocatória:} O sistema não deve permitir que os treinadores adicionem a convocatórias oficiais os atletas cujo atestado médico se encontre caducado ou reprovado.
-\end{itemize}
 
 \paragraph{Relatório Oficial de Jogo}
 
-O relatório de jogo impresso permitiu mapear a vertente desportiva e estatística do sistema. Este documento é preenchido manualmente pela equipa técnica após cada partida e contém informação essencial para o acompanhamento do desempenho dos atletas.
+O relatório de jogo permitiu perceber os requisitos da área desportiva. Este documento é preenchido manualmente após cada jogo e contém informação sobre o desempenho dos atletas.
 
 Da análise do documento, foram identificadas as seguintes necessidades:
 \begin{itemize}
@@ -153,22 +143,13 @@ Da análise do documento, foram identificadas as seguintes necessidades:
     \item Observações técnicas do treinador.
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
+\verIA{sec:ia_documentos}
 
-A partir da estrutura e dos dados necessários para preencher este relatório de jogo, definiram-se como adenda os seguintes RF para o módulo desportivo:
-\begin{itemize}
-    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O sistema deve permitir que o treinador (ou delegado) preencha o relatório após o apito final, registando o resultado final, a equipa adversária e a data/local da partida.
-    \item \textbf{RF - Associação à Convocatória:} O sistema deve associar automaticamente o relatório de jogo à convocatória previamente gerada para essa partida, carregando a lista de atletas presentes.
-    \item \textbf{RF - Registo de Estatísticas e Disciplina:} O sistema deve permitir o registo de eventos individuais por atleta durante o jogo, tais como golos marcados, assistências e cartões (amarelos/vermelhos).
-    \item \textbf{RF - Registo de Lesões em Jogo:} O sistema deve possuir uma secção para assinalar lesões contraídas durante a partida, gerando um alerta automático para a secretaria e para o encarregado de educação (no caso de menores).
-    \item \textbf{RF - Submissão e Arquivo:} Após a submissão do relatório pelo treinador, o documento deve ficar trancado a novas edições e disponível para consulta global pela gerência e secretaria.
-\end{itemize}
-
-Estas métricas definiram os requisitos para o módulo de estatísticas, permitindo a construção de perfis de desempenho individual e coletivo que a gerência poderá utilizar para apresentar a potenciais patrocinadores.
+Estes dados serviram para definir os requisitos do módulo de estatísticas, que vai permitir criar perfis de desempenho para cada atleta e equipa.
 
 \paragraph{Fatura/Recibo de Quota}
 
-A análise do documento de pagamento de quotas revelou os requisitos do módulo financeiro. O cruzamento do formato deste recibo com a lógica de negócio do clube permitiu compreender o ciclo de vida de um pagamento.
+A análise da fatura de quotas mostrou os requisitos do módulo financeiro e permitiu perceber como funciona o ciclo de pagamentos no clube.
 
 Da análise do documento, foram identificadas as seguintes necessidades:
 \begin{itemize}
@@ -179,48 +160,37 @@ Da análise do documento, foram identificadas as seguintes necessidades:
     \item Exportação para formato SAF-T conforme exigido pela Autoridade Tributária.
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
+\verIA{sec:ia_documentos}
 
 
+\newpage
+\subsection{Entrevistas Direcionadas}\label{sec:rel_entrevistas}
 
-Tendo consolidado estas restrições, avançámos para a seguinte versão sintética dos RF financeiros prioritários:
-
-\begin{itemize}
-    \item \textbf{RF - Processamento de Quotas:} O sistema deve permitir à secretaria registar o pagamento mensal ou anual de quotas por parte de sócios ou atletas.
-    \item \textbf{RF - Emissão de Faturas e Recibos:} O sistema deve gerar automaticamente um documento em PDF (Fatura/Recibo) no momento da confirmação do pagamento, enviando-o para o email do utilizador.
-    \item \textbf{RF - Integração SAF-T:} O sistema deve garantir que todos os recibos emitidos possuem os dados necessários e são assinados digitalmente (RSA) para a correta exportação do ficheiro SAF-T para a Autoridade Tributária.
-    \item \textbf{RF - Controlo de Dívidas:} O sistema deve identificar automaticamente atletas ou sócios com quotas em atraso, destacando-os no \textit{dashboard} da secretaria.
-    \item \textbf{RF - Alertas de Pagamento:} O sistema deve enviar notificações automáticas (via email ou plataforma) aos encarregados de educação ou sócios nos 5 dias anteriores ao vencimento da quota.
-    \item \textbf{RF - Restrição por Dívida:} O sistema deve avisar ou bloquear a inclusão de atletas em convocatórias caso tenham mais de 2 meses de quotas em atraso (conforme os regulamentos do clube).
-\end{itemize}
-
-\subsection{Entrevistas Direcionadas}
-
-As entrevistas constituíram o método central de levantamento de requisitos, permitindo captar informação qualitativa que dificilmente emergiria através de outros métodos. Foram realizadas entrevistas semiestruturadas a três perfis essenciais do clube: um elemento da Gerência, um Treinador e um Atleta.
+As entrevistas foram o método principal de levantamento. Foram feitas entrevistas a três tipos de utilizadores do clube: um elemento da Gerência, um Treinador e um Atleta.
 
 \subsubsection{Metodologia das Entrevistas}
 
-Cada entrevista foi estruturada em três partes:
+Cada entrevista foi dividida em três partes:
 
 \begin{enumerate}
-    \item \textbf{Contextualização} (5 minutos): Apresentação do projeto e dos objetivos da entrevista, esclarecimento sobre confidencialidade e obtenção de consentimento.
+    \item \textbf{Contextualização} (5 minutos): Apresentação do projeto e dos objetivos da entrevista.
 
-    \item \textbf{Questões estruturadas} (20 minutos): Conjunto de perguntas pré-definidas focadas em:
+    \item \textbf{Questões estruturadas} (20 minutos): Perguntas sobre:
     \begin{itemize}
-        \item Descrição das tarefas quotidianas relacionadas com o clube;
-        \item Identificação de problemas e frustrações com os processos atuais;
-        \item Funcionalidades desejadas para o novo sistema;
-        \item Expectativas em termos de usabilidade e acessibilidade.
+        \item O que fazem no dia a dia no clube;
+        \item Problemas com os processos atuais;
+        \item Funcionalidades que gostariam no novo sistema;
+        \item O que esperam em termos de facilidade de uso.
     \end{itemize}
 
-    \item \textbf{Discussão aberta} (15 minutos): Espaço para o entrevistado levantar questões adicionais, propor funcionalidades não contempladas, e esclarecer dúvidas sobre o projeto.
+    \item \textbf{Discussão aberta} (15 minutos): Espaço para o entrevistado falar sobre outras questões ou sugerir funcionalidades não mencionadas.
 \end{enumerate}
 
-As entrevistas foram registadas em áudio (com autorização) e posteriormente transcritas para análise sistemática. De cada transcrição foram extraídos os requisitos implícitos e explícitos, categorizados por área funcional.
+As entrevistas foram gravadas em áudio com autorização e depois transcritas. De cada transcrição foram retirados os requisitos identificados, organizados por área funcional.
 
 \subsubsection{Resultados por Perfil de \textit{Stakeholder}}
 
-As conversas revelaram que a desorganização atual está a causar prejuízos financeiros, falhas de comunicação graves e até problemas de saúde física. Abaixo encontram-se sintetizados os principais pontos retirados de cada entrevista:
+As entrevistas mostraram que a falta de organização está a causar perdas financeiras e problemas de comunicação. Os principais pontos de cada entrevista são os seguintes:
 
 \subsubsection*{Perspetiva da Gerência}
 \begin{itemize}
@@ -229,19 +199,7 @@ As conversas revelaram que a desorganização atual está a causar prejuízos fi
     \item \textbf{Conflitos de Espaços:} Foi relatado um episódio em que as equipas de Futsal e Voleibol tentaram usar o pavilhão ao mesmo tempo devido a um erro num caderno de papel. O sistema tem de gerir o calendário de instalações.
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
-
-
-
-A partir das respostas consolidadas ao guião anterior, destacaram‑se sob forma de RF e notas funcionais os seguintes tópicos:
-
-\begin{itemize}
-    \item \textbf{RF - Dashboard de Gestão:} A direção necessita de um painel de controlo (\textit{dashboard}) que apresente estatísticas em tempo real, como o número de atletas inscritos por modalidade e o balanço financeiro mensal.
-    \item \textbf{RF - Gestão de Perfis e Acessos:} O sistema deve suportar diferentes níveis de permissões. A gerência deve ter acesso administrativo global, garantindo que dados financeiros sensíveis não são visíveis para treinadores ou atletas.
-    \item \textbf{RF - Conformidade Fiscal (SAF-T):} Foi sublinhado como requisito crítico e inegociável a capacidade de o sistema faturar e gerar o ficheiro SAF-T de forma automatizada para a Autoridade Tributária.
-    \item \textbf{RF - Relatórios de Seguros e Atestados:} A gerência quer a capacidade de gerar um relatório rápido listando todos os atletas que se encontram com o seguro desportivo ou atestado médico caducado.
-    \item \textbf{Dificuldade Atual Identificada:} O entrevistado destacou a perda de dezenas de horas mensais na verificação manual de transferências bancárias para reconciliação do pagamento de quotas.
-\end{itemize}
+\verIA{sec:ia_entrevistas}
 
 \subsubsection*{Perspetiva da Equipa Técnica (Treinadores)}
 \begin{itemize}
@@ -250,17 +208,7 @@ A partir das respostas consolidadas ao guião anterior, destacaram‑se sob form
     \item \textbf{Estatísticas e Material:} Há a necessidade de gráficos radar para comparar capacidades de atletas da mesma posição, além de um sistema rápido para registar assiduidade, ocorrências de jogo (golos, cartões) e requisitar material à secretaria.
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
-
-A partir do depoimento do treinador, sistematizámos os seguintes requisitos funcionais para o módulo de apoio à equipa técnica:
-
-\begin{itemize}
-    \item \textbf{RF - Gestão de Convocatórias:} O treinador precisa de um módulo onde possa selecionar os atletas para o jogo do fim de semana, enviando uma notificação automática para os mesmos.
-    \item \textbf{RF - Bloqueio de Atletas Irregulares:} O sistema deve impedir que o treinador convoque atletas que tenham o atestado médico caducado ou quotas em atraso, evitando penalizações desportivas.
-    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O treinador necessita de registar de forma célere os eventos da partida (golos, cartões, resultado final) diretamente no telemóvel ou \textit{tablet} após o jogo.
-    \item \textbf{RF - Registo de Assiduidades e Lesões:} Capacidade de registar as presenças nos treinos semanais e reportar lesões imediatas ao departamento médico/secretaria.
-    \item \textbf{Dificuldade Atual Identificada:} O treinador queixou-se de que perde muito tempo a tentar saber pela secretaria quem está "apto" a jogar devido a papelada atrasada, operando muitas vezes "às cegas".
-\end{itemize}
+\verIA{sec:ia_entrevistas}
 
 \subsubsection*{Perspetiva dos Atletas}
 \begin{itemize}
@@ -269,47 +217,38 @@ A partir do depoimento do treinador, sistematizámos os seguintes requisitos fun
     \item \textbf{Perfil Individual Desportivo:} Foi pedida uma área pessoal onde o atleta possa acompanhar a evolução do peso, altura e estatísticas individuais ao longo da época. Foi também manifestado interesse numa biblioteca multimédia para os vídeos táticos partilhados pelo treinador e num espaço para o palmarés (prémios e distinções).
 \end{itemize}
 
-\verIA{sec:ia_requisitos}
+\verIA{sec:ia_entrevistas}
 
-Dos tópicos validados pelo atleta/EE, destacaram‑se estas necessidades funcionais nucleares:
 
-\begin{itemize}
-    \item \textbf{RF - Consulta de Calendário e Convocatórias:} O atleta precisa de aceder a uma área pessoal onde possa ver a data, hora e local dos próximos jogos, bem como confirmar se está convocado.
-    \item \textbf{RF - Pagamento e Histórico de Quotas:} É essencial que o atleta consiga consultar o estado das suas mensalidades, obter as referências de pagamento (ex: MBWay, Multibanco) e fazer o \textit{download} das faturas/recibos anteriores.
-    \item \textbf{RF - Submissão de Documentação:} O sistema deve permitir ao atleta enviar o atestado médico digitalizado e atualizar os seus dados pessoais (ex: alteração de morada ou contacto de emergência).
-    \item \textbf{RF - Notificações Proativas:} O atleta deseja receber alertas no telemóvel ou por email quando uma quota está prestes a expirar ou quando o treinador publica uma convocatória de última hora.
-    \item \textbf{Dificuldade Atual Identificada:} A maior frustração apontada foi a necessidade de ir presencialmente à secretaria do clube (ficar em filas) apenas para entregar o atestado médico em papel no início de cada época.
-\end{itemize}
-
-\subsection{Questionário Online}
+\subsection{Questionário Online}\label{sec:rel_questionario}
 
 \subsubsection{Objetivo e Metodologia}
 
-Para complementar a análise documental e as entrevistas individuais, foi desenvolvido um questionário online com o objetivo de escalar a recolha de informação e obter dados quantitativos de uma amostra significativa de \textit{stakeholders}. Este método permitiu validar estatisticamente os problemas identificados nas fases anteriores e priorizar as funcionalidades a desenvolver com base em consensos da comunidade do clube.
+Para complementar as entrevistas e a análise documental, foi feito um questionário online para recolher informação de mais pessoas e perceber quais eram as prioridades da maioria.
 
-O questionário foi construído na plataforma Google Forms e distribuído eletronicamente a todos os membros do clube com endereço de correio eletrónico registado. O período de recolha de respostas foi de uma semana, tendo sido obtido um total de 47 respostas válidas.
+O questionário foi criado no Google Forms e enviado para todos os membros do clube com email registado. As respostas foram recolhidas durante uma semana e foram obtidas 47 respostas válidas.
 
 \subsubsection{Estrutura do Questionário}
 
-O formulário foi organizado em quatro secções temáticas:
+O questionário foi organizado em quatro partes:
 
 \begin{enumerate}
-    \item \textbf{Identificação do perfil}: Tipo de utilizador (atleta, encarregado de educação, treinador, funcionário), escalão etário, modalidade(s) praticada(s).
+    \item \textbf{Perfil}: Tipo de utilizador, escalão etário, modalidade(s) praticada(s).
 
-    \item \textbf{Comunicação e organização atual}: Avaliação da eficácia dos canais de comunicação existentes (grupos de WhatsApp, chamadas telefónicas, comunicação presencial), frequência de falhas de informação, impacto dessas falhas na operação do clube.
+    \item \textbf{Comunicação atual}: Como funciona a comunicação atual (WhatsApp, chamadas, presencial) e com que frequência há falhas de informação.
 
-    \item \textbf{Gestão financeira}: Facilidade no pagamento de quotas, frequência de atrasos involuntários, preferência por métodos de pagamento, necessidade de acesso a histórico de pagamentos.
+    \item \textbf{Pagamentos}: Como é feito o pagamento de quotas, se há atrasos, e que métodos de pagamento preferem.
 
-    \item \textbf{Funcionalidades desejadas}: Lista de funcionalidades potenciais para priorização (sistema de convocatórias, gestão de atestados médicos, reserva de instalações, estatísticas desportivas, etc.), espaço para sugestões adicionais em resposta aberta.
+    \item \textbf{Funcionalidades desejadas}: Lista de funcionalidades para priorizar (convocatórias, atestados, reserva de instalações, etc.) e espaço para sugestões adicionais.
 \end{enumerate}
 
-\verIA{sec:ia_requisitos}
+\verIA{sec:ia_questionario}
 
 
 
 \subsubsection{Análise dos Resultados}
 
-Os resultados obtidos confirmaram os padrões identificados nas entrevistas:
+Os resultados confirmaram o que tinha sido dito nas entrevistas:
 
 \begin{itemize}
     \item \textbf{87\%} dos inquiridos classificaram a comunicação atual como ``insuficiente'' ou ``muito insuficiente'';
@@ -319,7 +258,7 @@ Os resultados obtidos confirmaram os padrões identificados nas entrevistas:
     \item \textbf{78\%} dos encarregados de educação solicitaram acesso a um portal onde possam consultar a situação financeira e os documentos dos seus educandos.
 \end{itemize}
 
-O cruzamento destes dados quantitativos com os testemunhos das entrevistas permitiu estabelecer uma hierarquia clara de prioridades para o desenvolvimento do sistema, colocando os módulos de comunicação/notificações e gestão financeira no topo das funcionalidades a implementar.
+Ao juntar estes dados com as entrevistas, foi possível definir uma ordem de prioridades para o desenvolvimento, com os módulos de comunicação e gestão financeira no topo.
 
 \subsubsection{Exemplo de Questão}
 
@@ -334,21 +273,21 @@ Na figura seguinte é apresentado um exemplo de uma das questões que constavam 
 
 \subsection{Síntese e Validação dos Requisitos Levantados}
 
-A triangulação das três fontes de informação (análise documental, entrevistas e questionário) permitiu construir uma visão abrangente e validada das necessidades do sistema. Os requisitos identificados foram compilados num documento de especificação preliminar, que foi apresentado à gerência do clube para validação antes de prosseguir para a fase de especificação formal.
+A combinação das três fontes de informação (documentos, entrevistas e questionário) permitiu ter uma visão completa das necessidades do sistema. Os requisitos foram reunidos num documento que foi apresentado à gerência para validar antes de avançar para a especificação formal.
 
-Nesta reunião de validação, foram discutidos os seguintes pontos:
+Nessa reunião foram discutidos os seguintes pontos:
 \begin{itemize}
-    \item Confirmação da cobertura de todas as áreas funcionais identificadas;
-    \item Priorização das funcionalidades a desenvolver nas primeiras iterações;
-    \item Esclarecimento de ambiguidades e requisitos conflituantes;
-    \item Identificação de restrições técnicas e orçamentais que possam afetar o âmbito do projeto.
+    \item Verificar se todas as áreas funcionais estavam cobertas;
+    \item Definir quais as funcionalidades mais urgentes;
+    \item Esclarecer dúvidas e requisitos que pareciam contraditórios;
+    \item Identificar limitações técnicas e financeiras que pudessem afetar o projeto.
 \end{itemize}
 
-A validação foi bem-sucedida, tendo a gerência aprovado o documento de requisitos e autorizado o avanço para a fase de especificação formal. As secções seguintes apresentam os requisitos funcionais e não funcionais resultantes deste processo de levantamento.
+A gerência aprovou o documento de requisitos e foi dada autorização para avançar para a especificação. As secções seguintes apresentam os requisitos identificados.
 
 \subsection{User Stories Representativas}\label{sec:user_stories}
 
-Antes de avançar para a especificação formal dos requisitos, sintetizámos a informação recolhida nas entrevistas e no questionário em \textit{user stories}, no formato \emph{``Como \textless papel\textgreater, quero \textless ação\textgreater, para \textless benefício\textgreater''}. As \textit{stories} permitiram-nos manter o foco na perspetiva do utilizador real e serviram de ponte entre o discurso das entrevistas e a redação dos RF mais técnicos da secção seguinte. Apresentam-se abaixo as quinze \textit{stories} consideradas mais representativas, agrupadas por perfil:
+Antes da especificação formal, foi feito um resumo da informação das entrevistas e do questionário em \textit{user stories}, no formato \emph{``Como \textless papel\textgreater, quero \textless ação\textgreater, para \textless benefício\textgreater''}. As quinze \textit{stories} mais representativas, organizadas por perfil, são as seguintes:
 
 \paragraph{Atleta / Encarregado de Educação}
 \begin{itemize}
@@ -377,11 +316,11 @@ Antes de avançar para a especificação formal dos requisitos, sintetizámos a 
     \item Como gerente, quero gerir o calendário de reservas das instalações num único ecrã, para que duas equipas nunca apareçam no mesmo pavilhão à mesma hora.
 \end{itemize}
 
-Cada \textit{user story} acima fica formalizada num ou mais requisitos funcionais nas secções seguintes (por exemplo, ``confirmar disponibilidade num clique'' concretiza-se no RF-08; ``alerta 30 dias antes da caducidade'' no RF-11; ``exportação SAF-T com um clique'' no RF-19).
+Cada \textit{user story} está associada a um ou mais requisitos funcionais nas secções seguintes.
 
 \subsection{Norma de Especificação Adotada}
 
-A especificação que se segue foi construída com base nas orientações da norma \textbf{IEEE 830-1998} (\textit{Recommended Practice for Software Requirements Specifications}) e da sua sucessora \textbf{ISO/IEC/IEEE 29148:2018} (\textit{Requirements Engineering}). Em particular, seguimos as recomendações relativas à classificação entre requisitos funcionais e não funcionais, à atribuição de identificadores únicos e de prioridades, à inclusão de pré-condições, pós-condições e critérios de aceitação, e à rastreabilidade entre cada requisito e a sua origem (entrevista, documento ou questionário). Esta opção visa garantir que o documento serve simultaneamente de contrato com o cliente (CAP) e de entrada estruturada para a fase de modelação e especificação técnica apresentada no Capítulo~\ref{chap:especificacao_modelacao}.
+Os requisitos seguintes foram especificados segundo as normas \textbf{IEEE 830-1998} e \textbf{ISO/IEC/IEEE 29148:2018}. Cada requisito tem um identificador único, prioridade, pré-condições, pós-condições e critérios de aceitação, e está ligado à sua origem (entrevista, documento ou questionário).
 
 \section{Requisitos Funcionais}\label{sec:requisitos_funcionais}
 
@@ -390,9 +329,9 @@ A especificação que se segue foi construída com base nas orientações da nor
 % ---------------------------------------------------------
 % REQUISITO 1
 % ---------------------------------------------------------
-O RF-01, Gestão de Utilizadores e Perfis, é a base sobre a qual todos os outros módulos do sistema assentam. Responde à necessidade da gerência e da secretaria criarem, editarem e arquivarem os perfis de todos os membros do clube com os respetivos níveis de permissão, e exige que o utilizador responsável esteja autenticado com os privilégios adequados antes de iniciar qualquer destas operações.
+O RF-01 é a base do sistema, pois suporta todos os outros módulos. Permite à gerência e à secretaria criar, editar e arquivar os perfis de todos os membros do clube, com os respetivos níveis de acesso.
 
-Ao registar ou editar um perfil, o sistema valida em primeiro lugar a unicidade do email e do NIF. Se algum destes identificadores já existir, a operação é interrompida e o erro é apresentado ao utilizador. Em caso de sucesso, o perfil fica criado e as credenciais iniciais são enviadas por correio eletrónico. No arquivamento, quando um atleta ou funcionário deixa o clube, o sistema revoga o acesso mas preserva o histórico desportivo e financeiro associado, por motivos legais e de auditoria.
+Ao criar ou editar um perfil, o sistema verifica se o email e o NIF já existem. Se já existirem, a operação é cancelada e é mostrado o erro. Se tudo estiver correto, o perfil é criado e as credenciais são enviadas por email. Quando um atleta ou funcionário sai do clube, o acesso é removido mas o histórico fica guardado por razões legais.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -432,9 +371,9 @@ Ao registar ou editar um perfil, o sistema valida em primeiro lugar a unicidade 
 % ---------------------------------------------------------
 % REQUISITO 2
 % ---------------------------------------------------------
-O RF-02, Gestão de Perfis Parentais, complementa o anterior ao formalizar a relação entre encarregados de educação e atletas menores. Esta funcionalidade surgiu como prioridade na entrevista com a gerência e foi reforçada pelo questionário online: 78\% dos encarregados pediram um portal único para consultar a situação dos seus educandos. Sem este mecanismo, os pais com filhos em modalidades diferentes perdiam o controlo dos pagamentos e dos avisos.
+O RF-02 define como os encarregados de educação se ligam aos perfis dos atletas menores. Esta funcionalidade foi pedida na entrevista com a gerência e no questionário, onde 78\% dos encarregados pediram um portal único para acompanhar a situação dos educandos.
 
-Para criar uma vinculação, tanto o perfil do encarregado como o perfil do atleta têm de já existir e a associação tem de ser confirmada pela secretaria ou por um código único fornecido pelo clube, para garantir a legitimidade familiar. Uma vez vinculados, as contas correntes dos educandos passam a ser geridas como um todo (com uma única referência Multibanco/MBWay) e todos os alertas dirigidos a menores são reencaminhados para o contacto do encarregado. Quando um atleta atinge a maioridade, o sistema permite a transição ou desvinculação administrativa, mediante pedido.
+Para criar a ligação, os dois perfis têm de já existir e a associação tem de ser confirmada pela secretaria ou por um código do clube. Depois de ligados, as quotas dos educandos são geridas em conjunto, com uma única referência Multibanco/MBWay, e os avisos são enviados para o encarregado. Quando o atleta atingir a maioridade, a ligação pode ser removida.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -474,9 +413,9 @@ Para criar uma vinculação, tanto o perfil do encarregado como o perfil do atle
 % ---------------------------------------------------------
 % REQUISITO 3
 % ---------------------------------------------------------
-O RF-03, Sistema de Comunicação Interna, responde ao problema mais sublinhado pelos treinadores nas entrevistas: a dependência dos grupos de WhatsApp para tratar de assuntos do clube. Como esses grupos não têm histórico institucional nem garantias de leitura, situações como a convocatória do jogo de sábado --- em que metade dos atletas não viu a mensagem --- repetiam-se com frequência. O requisito formaliza um canal de mensagens dentro da plataforma, com persistência na base de dados e notificação imediata aos destinatários.
+O RF-03 resolve o problema mais referido pelos treinadores nas entrevistas: a dependência dos grupos de WhatsApp. Como esses grupos não têm garantias de leitura, já aconteceu metade dos atletas não ver a convocatória para o jogo do sábado. Este módulo cria um canal de mensagens dentro da plataforma, com histórico guardado na base de dados.
 
-A lista de contactos disponíveis a cada utilizador é restringida pela estrutura desportiva: um atleta só pode iniciar conversa com os treinadores da sua equipa ou com a secretaria, evitando comunicação não autorizada. O módulo suporta conversas 1-para-1 e grupos criados pela equipa técnica ou pela gerência (ex.\ ``Convocados Jogo Sábado''), e permite o envio de pequenos anexos para justificações de faltas ou partilha de táticas. Toda a comunicação fica auditável, o que é essencial para resolver disputas futuras.
+Cada utilizador só vê os contactos da sua equipa. Um atleta só pode falar com os treinadores da sua equipa ou com a secretaria. O módulo permite conversas individuais e grupos criados pelos treinadores ou pela gerência, e suporta o envio de anexos pequenos para justificações ou táticas.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -516,9 +455,9 @@ A lista de contactos disponíveis a cada utilizador é restringida pela estrutur
 % ---------------------------------------------------------
 % REQUISITO 4
 % ---------------------------------------------------------
-O RF-04, Motor de Notificações Automáticas, complementa o RF-03 com avisos gerados automaticamente pelo sistema em resposta a eventos. Os exemplos mais relevantes são: a publicação de uma convocatória, alterações de última hora em horários ou locais de treino, lembretes de quotas próximas do vencimento e alertas de caducidade de atestados médicos. Para o aviso chegar ao destino, basta que o utilizador tenha o email ou telemóvel preenchidos no perfil.
+O RF-04 complementa o RF-03 com avisos automáticos gerados pelo sistema. Os casos mais comuns são: publicação de uma convocatória, alterações de horário ou local de treino, avisos de quotas a vencer e alertas de atestados a caducar. Para o utilizador receber o aviso basta ter o email ou telemóvel preenchido no perfil.
 
-A diferença para o RF-03 é o sentido da comunicação: o motor de notificações dispara mensagens unidirecionais e sem intervenção humana, enquanto o chat interno é bidirecional e iniciado por utilizadores. Cada notificação gera também um registo de auditoria que confirma o envio, fundamental para evitar disputas como ``ninguém me avisou que o exame caducava''.
+A diferença para o RF-03 é que as notificações são automáticas e não precisam de intervenção humana, enquanto o chat é iniciado pelos utilizadores. Cada notificação fica registada para confirmar que foi enviada, o que evita disputas como ``ninguém me avisou''.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -558,9 +497,9 @@ A diferença para o RF-03 é o sentido da comunicação: o motor de notificaçõ
 % ---------------------------------------------------------
 % REQUISITO 5
 % ---------------------------------------------------------
-O RF-05, Gestão de Modalidades e Épocas, introduz o módulo desportivo a um nível administrativo. É a partir daqui que a gerência define quais as modalidades oferecidas pelo clube (Futebol, Basquetebol, Natação, etc.) e gere o ciclo de cada época: abertura, transição automática dos atletas para escalões etários adequados e fecho com arquivo dos dados.
+O RF-05 permite à gerência definir as modalidades do clube e gerir as épocas desportivas: abrir, transitar os atletas para os escalões certos e fechar com arquivo dos dados.
 
-Optou-se por restringir esta operação à gerência porque uma alteração de modalidade ou um fecho prematuro de época tem impacto em cascata sobre todas as outras tabelas (planteis, calendário, quotas). No fecho de época, os registos de presenças, convocatórias e relatórios técnicos transitam para um estado de ``apenas leitura'' e a inativação de uma modalidade preserva o histórico desportivo e financeiro do clube --- apenas a oculta dos novos formulários de inscrição.
+Esta operação é restrita à gerência porque uma alteração pode afetar várias partes do sistema. No fecho de época, os registos de presenças, convocatórias e relatórios passam para modo de leitura. Ao desativar uma modalidade, o histórico fica guardado, apenas deixa de aparecer nos formulários de inscrição.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -600,9 +539,9 @@ Optou-se por restringir esta operação à gerência porque uma alteração de m
 % ---------------------------------------------------------
 % REQUISITO 6
 % ---------------------------------------------------------
-O RF-06, Planeamento de Horários e Treinos, é a primeira função operacional do módulo desportivo. Permite ao treinador (ou à gerência) criar, editar e cancelar sessões de treino, com a particularidade de cada alteração ter de se refletir em tempo real no calendário individual dos atletas afetados. Foi o problema mais reportado pelo treinador entrevistado: como tinha um horário irregular, remarcava treinos por mensagem e metade dos atletas nunca via o aviso.
+O RF-06 permite ao treinador ou à gerência criar, editar e cancelar treinos. Qualquer alteração tem de aparecer de imediato no calendário dos atletas. Este foi o problema mais referido pelo treinador na entrevista: como remarcava treinos por mensagem, muitos atletas nunca viam o aviso.
 
-O agendamento exige que a época, a modalidade e o espaço físico estejam parametrizados, e o sistema bloqueia ativamente qualquer tentativa de marcação que crie sobreposição de horários no mesmo recurso. Quando uma alteração ocorre com menos de 24 horas de antecedência, o motor de notificações é acionado para alertar todos os envolvidos, garantindo que ninguém aparece num treino que já foi cancelado.
+O sistema bloqueia marcações que criem sobreposição de horários no mesmo espaço. Quando uma alteração ocorre com menos de 24 horas de antecedência, é enviada uma notificação automática a todos os envolvidos.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -643,9 +582,9 @@ O agendamento exige que a época, a modalidade e o espaço físico estejam param
 % REQUISITO RF-07
 % ---------------------------------------------------------
 
-O requisito RF-07, denominado Gestão de Presenças e Faltas, integra-se na área da Gestão Desportiva e Operacional e visa digitalizar o processo de controlo de assiduidade nas sessões de treino. Nas organizações desportivas tradicionais, este registo é frequentemente realizado em papel ou em ferramentas dispersas, impossibilitando a análise estatística da assiduidade ao longo da época e dificultando a deteção precoce de padrões de absentismo.
+O RF-07 permite registar as presenças nos treinos de forma digital. Normalmente este registo é feito em papel, o que dificulta a análise da assiduidade ao longo da época.
 
-O sistema concretiza este requisito ao gerar automaticamente a lista de chamada com base nos atletas inscritos, permitindo ao treinador, através de uma interface otimizada para dispositivos móveis, marcar rapidamente a presença ou falta de cada elemento. O histórico resultante fica imediatamente disponível na área pessoal do atleta e nos painéis de gestão, garantindo que encarregados de educação podem acompanhar a assiduidade dos seus educandos.
+O sistema gera automaticamente a lista de atletas com base na equipa, e o treinador marca a presença ou falta de cada um num telemóvel ou tablet. O histórico fica disponível para o atleta e para os encarregados de educação.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -681,9 +620,7 @@ O sistema concretiza este requisito ao gerar automaticamente a lista de chamada 
 % REQUISITO RF-08
 % ---------------------------------------------------------
 
-O requisito RF-08, designado Gestão de Convocatórias e Disponibilidade, insere-se na área da Gestão Desportiva e Operacional e tem como objetivo centralizar o processo de seleção e comunicação de convocatórias para eventos desportivos. A gestão eficaz de convocatórias é fundamental para garantir que os treinadores conseguem planear a participação das suas equipas com informação fiável sobre a disponibilidade de cada atleta.
-
-Através deste módulo, o treinador pode selecionar atletas de uma lista filtrada, visualizando imediatamente quaisquer impedimentos (lesões, suspensões, indisponibilidades declaradas). Os atletas e encarregados de educação recebem uma notificação imediata e podem confirmar ou recusar a presença diretamente na plataforma, sendo obrigatória a justificação em caso de recusa. O treinador dispõe de um painel em tempo real com o estado de cada convocado.
+O RF-08 permite ao treinador criar e enviar convocatórias para jogos ou eventos. O treinador seleciona os atletas de uma lista que já mostra quem está impedido (lesão, suspensão, indisponibilidade). Os atletas recebem uma notificação e podem confirmar ou recusar, sendo obrigatório justificar em caso de recusa. O treinador tem um painel com o estado de cada convocado em tempo real.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -719,9 +656,7 @@ Através deste módulo, o treinador pode selecionar atletas de uma lista filtrad
 % REQUISITO RF-09
 % ---------------------------------------------------------
 
-O requisito RF-09, denominado Planos de Treino e Recursos Táticos, engloba-se na área da Gestão Desportiva e Operacional e responde à necessidade de organizar e partilhar conteúdos técnicos entre a equipa técnica e os atletas. A centralização de planos de treino, vídeos de análise e esquemas táticos numa plataforma única elimina a dependência de canais de comunicação informais e garante o controlo de acesso à informação sensível de cada equipa.
-
-O treinador pode fazer o \textit{upload} de ficheiros multimédia (vídeos MP4, esquemas em PDF, imagens) e associá-los diretamente a sessões de treino ou épocas específicas. Os atletas da equipa acedem imediatamente ao conteúdo em modo de leitura, sendo o acesso estritamente isolado entre diferentes equipas para salvaguardar a confidencialidade tática.
+O RF-09 permite ao treinador partilhar planos de treino e recursos táticos com os atletas, sem depender de canais informais. O treinador faz o \textit{upload} de vídeos, PDFs ou imagens e associa-os a sessões ou épocas. Os atletas da equipa acedem ao conteúdo em modo de leitura, e o acesso é separado por equipa para garantir que os dados táticos ficam protegidos.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -757,9 +692,7 @@ O treinador pode fazer o \textit{upload} de ficheiros multimédia (vídeos MP4, 
 % REQUISITO RF-10
 % ---------------------------------------------------------
 
-O requisito RF-10, denominado Registo de Ocorrências e Disciplina, insere-se na área da Gestão Desportiva e Operacional e permite o registo estruturado de eventos ocorridos em contexto de jogo e de incidentes disciplinares. A distinção clara entre estatísticas desportivas (golos, assistências, cartões) e ocorrências de cariz disciplinar é essencial para a gestão rigorosa do comportamento dos atletas e para o cumprimento das obrigações perante as federações.
-
-O sistema alimenta automaticamente as estatísticas individuais de cada atleta com os eventos registados e aplica bloqueios preventivos em convocatórias sempre que uma suspensão disciplinar esteja em vigor. O acesso à informação é controlado por perfil: um atleta ou encarregado de educação apenas visualiza os registos respeitantes ao próprio, enquanto a equipa técnica e a gerência têm acesso à visão global do plantel.
+O RF-10 permite registar eventos de jogo (golos, cartões, substituições) e ocorrências disciplinares. O sistema atualiza automaticamente as estatísticas do atleta e bloqueia a sua inclusão em convocatórias se houver uma suspensão ativa. Cada atleta só vê os seus próprios registos, enquanto a equipa técnica e a gerência têm acesso ao plantel todo.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -795,9 +728,7 @@ O sistema alimenta automaticamente as estatísticas individuais de cada atleta c
 % REQUISITO RF-11
 % ---------------------------------------------------------
 
-O requisito RF-11, designado Gestão do Exame Médico Desportivo (EMD), insere-se na área da Saúde e Bem-Estar e representa um requisito de cumprimento obrigatório sob a perspetiva legal e federativa. O certificado de aptidão física, emitido por médico competente, é condição obrigatória para que um atleta possa participar em competições oficiais, pelo que a sua gestão centralizada e o controlo da validade são críticos para a operacionalidade do clube.
-
-O sistema permite o carregamento seguro do documento e o acompanhamento do estado do atleta ao longo do ciclo de vida do certificado. São emitidos alertas proativos antes da data de expiração, e, caso o prazo de validade seja ultrapassado sem renovação, o sistema altera automaticamente o estado do atleta para ``Inapto'', impedindo a sua inclusão em convocatórias até que um novo certificado válido seja submetido e aprovado pela gerência.
+O RF-11 trata da gestão do Exame Médico Desportivo. O atestado é obrigatório para competições oficiais, por isso a sua gestão é importante. O atleta ou encarregado faz o \textit{upload} do documento, que fica pendente de aprovação pela secretaria. São enviados alertas antes da data de validade e, se caducar sem renovação, o sistema muda o estado do atleta para ``Inapto'' e bloqueia a sua inclusão em convocatórias.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -833,9 +764,7 @@ O sistema permite o carregamento seguro do documento e o acompanhamento do estad
 % REQUISITO RF-12
 % ---------------------------------------------------------
 
-O requisito RF-12, denominado Gestão de Lesões e Recuperação, integra-se na área da Saúde e Bem-Estar e visa formalizar o processo de comunicação e acompanhamento de indisponibilidades físicas dos atletas. A ausência de um canal centralizado para este tipo de reporte obriga frequentemente os clubes a gerir esta informação de forma informal, com risco de envolver atletas lesionados em competições, com consequências para a saúde do desportista e para a responsabilidade do clube.
-
-Com este módulo, o atleta ou o seu encarregado de educação pode reportar uma queixa ou lesão através de um formulário estruturado, indicando a zona corporal afetada e o nível de dor. O treinador e o departamento médico recebem uma notificação imediata e o atleta fica visualmente destacado nas listas de plantel. O sistema impede ativamente a sua inclusão em convocatórias enquanto o estado ``Lesionado'' se mantiver ativo.
+O RF-12 permite ao atleta ou encarregado reportar uma lesão ou queixa física. O treinador recebe uma notificação imediata e o atleta fica destacado nas listas do plantel. O sistema impede que o treinador inclua um atleta lesionado numa convocatória enquanto o estado ``Lesionado'' estiver ativo.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -871,9 +800,7 @@ Com este módulo, o atleta ou o seu encarregado de educação pode reportar uma 
 % REQUISITO RF-13
 % ---------------------------------------------------------
 
-O requisito RF-13, designado Acompanhamento Físico e Evolução de Métricas, enquadra-se na área da Saúde e Bem-Estar e tem como finalidade suportar o acompanhamento longitudinal do desenvolvimento físico dos atletas ao longo das épocas desportivas. O registo sistemático de indicadores biométricos fornece à equipa técnica e médica informação objetiva para fundamentar decisões sobre cargas de treino, recuperação e nutrição.
-
-O sistema agrega os dados cronologicamente e apresenta-os em gráficos de evolução filtráveis por período, permitindo identificar tendências e responder proativamente a variações preocupantes. O acesso a esta informação é estritamente confidencial, restringindo-se ao próprio atleta, ao seu encarregado de educação e aos profissionais de saúde e técnicos com ligação à equipa, em conformidade com os princípios do RGPD.
+O RF-13 permite registar e acompanhar os dados físicos dos atletas ao longo das épocas (peso, altura, IMC, frequência cardíaca). O sistema mostra a evolução em gráficos filtráveis por período. Esta informação é confidencial e só o atleta, o encarregado e os técnicos ligados à equipa podem aceder.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -909,9 +836,7 @@ O sistema agrega os dados cronologicamente e apresenta-os em gráficos de evolu�
 % REQUISITO RF-14
 % ---------------------------------------------------------
 
-O requisito RF-14, denominado Gestão Documental e Federativa, integra-se na área da Saúde e Bem-Estar e centraliza o processo de recolha, armazenamento e validação dos documentos de identificação necessários para os processos de filiação federativa e para a ativação das apólices de seguro desportivo. A dispersão desta documentação em diferentes canais representa um risco operacional e de conformidade regulatória para o clube.
-
-O módulo permite que atletas e encarregados de educação façam o \textit{upload} seguro dos documentos (Cartão de Cidadão, Passaporte, fotografias) diretamente na plataforma, ficando em estado de ``A aguardar validação'' até que a secretaria proceda à sua verificação. Toda a informação é armazenada de forma encriptada, em conformidade com o RGPD, e o acesso é restrito ao remetente e à gerência, sendo os treinadores expressamente impedidos de aceder a estes dados.
+O RF-14 centraliza a entrega de documentos de identificação necessários para as federações e seguros desportivos. Os atletas ou encarregados fazem o \textit{upload} dos documentos (CC, Passaporte, fotos) diretamente na plataforma. A secretaria valida ou rejeita cada documento. Toda a informação é encriptada e os treinadores não têm acesso a estes dados.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -947,9 +872,7 @@ O módulo permite que atletas e encarregados de educação façam o \textit{uplo
 % REQUISITO RF-15
 % ---------------------------------------------------------
 
-O requisito RF-15, denominado Painéis de Desempenho (\textit{Dashboards}), enquadra-se na área de Análise e Desempenho e visa disponibilizar representações visuais e dinâmicas do historial de dados desportivos acumulados na plataforma. Cada perfil de utilizador acede a uma visão adaptada ao seu nível de permissão: o atleta consulta a sua própria evolução, o treinador compara métricas do plantel e a gerência obtém uma panorâmica global do desempenho desportivo do clube.
-
-Os painéis são gerados em modo de leitura exclusivo, com dados consolidados a partir dos módulos de assiduidade, ocorrências, lesões e métricas físicas. Filtros temporais permitem circunscrever a análise a períodos específicos (época atual, últimos 30 dias), e a gerência pode exportar os relatórios para PDF ou Excel para partilha com \textit{stakeholders} externos.
+O RF-15 disponibiliza painéis com dados desportivos. Cada tipo de utilizador vê informação diferente: o atleta vê a sua própria evolução, o treinador compara métricas do plantel e a gerência vê o panorama geral do clube. Os dados são apresentados em modo de leitura, com filtros por período, e a gerência pode exportar para PDF ou Excel.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -985,9 +908,7 @@ Os painéis são gerados em modo de leitura exclusivo, com dados consolidados a 
 % REQUISITO RF-16
 % ---------------------------------------------------------
 
-O requisito RF-16, designado Avaliação Qualitativa e Objetivos, integra-se na área de Análise e Desempenho e permite à equipa técnica complementar os dados quantitativos com avaliações de cariz qualitativo. O registo de notas técnicas e a definição de objetivos individuais de progressão são instrumentos fundamentais na formação desportiva, permitindo estabelecer metas claras e acompanhar a sua concretização ao longo da época.
-
-O treinador pode redigir relatórios técnicos após treinos ou jogos e definir objetivos para cada atleta, com prazos e estados de acompanhamento. O atleta e o seu encarregado de educação têm acesso em leitura às avaliações e objetivos que lhes dizem respeito, sem visibilidade sobre os de outros elementos do plantel, garantindo total privacidade e fomento de uma cultura de \textit{feedback} individual.
+O RF-16 permite ao treinador registar avaliações técnicas dos atletas e definir objetivos individuais com prazos. O atleta e o encarregado podem ver as avaliações e objetivos que lhes dizem respeito, sem acesso ao que é de outros atletas do plantel.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1023,9 +944,7 @@ O treinador pode redigir relatórios técnicos após treinos ou jogos e definir 
 % REQUISITO RF-17
 % ---------------------------------------------------------
 
-O requisito RF-17, denominado Gestão de Quotas e Pagamentos, integra-se na área da Tesouraria e Contabilidade e representa um pilar crítico para a sustentabilidade financeira do clube. A automatização do ciclo de cobranças -- desde a geração de referências de pagamento até à emissão de recibos e ao controlo de dívidas -- reduz significativamente a carga administrativa da tesouraria e melhora a taxa de recebimento de quotas.
-
-O sistema integra-se com \textit{gateways} de pagamento externos (como SIBS/Multibanco e MBWay) para disponibilizar referências de pagamento automáticas. As transações são averbadas automaticamente na conta corrente do associado, e a fatura/recibo é gerada em PDF para \textit{download} imediato. Em caso de dívida superior a dois meses, o sistema aplica bloqueios desportivos de forma automática, garantindo que a gestão de morosidade é sistemática e consistente.
+O RF-17 trata da gestão das quotas e pagamentos. O sistema gera referências Multibanco e MBWay automaticamente, regista os pagamentos na conta do sócio e emite a fatura em PDF. Se um atleta tiver mais de dois meses de quotas em atraso, o sistema bloqueia automaticamente a sua inclusão em convocatórias.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1061,9 +980,7 @@ O sistema integra-se com \textit{gateways} de pagamento externos (como SIBS/Mult
 % REQUISITO RF-18
 % ---------------------------------------------------------
 
-O requisito RF-18, designado Contabilidade Global do Clube, enquadra-se na área da Tesouraria e Contabilidade e visa disponibilizar à gerência e à tesouraria uma visão centralizada e em tempo real de toda a atividade financeira da organização. Para além das quotas dos associados, o clube gere um conjunto vasto de despesas e receitas -- contratos de \textit{staff} técnico, patrocínios, despesas com fornecedores de serviços essenciais -- que exigem uma plataforma de controlo integrada.
-
-O módulo agrega todos os movimentos financeiros registados e apresenta-os em painéis com gráficos comparativos de rendimentos versus gastos, desagregados por categoria. O registo de faturas de fornecedores inclui alertas de data limite de pagamento, e a exportação dos dados para PDF ou Excel facilita a prestação de contas a órgãos sociais ou entidades externas. O acesso a este módulo é estritamente restrito aos perfis de topo da organização.
+O RF-18 dá à gerência uma visão centralizada de toda a atividade financeira do clube: quotas, salários, patrocínios e despesas com fornecedores. Os dados aparecem em gráficos e podem ser exportados para PDF ou Excel. O acesso é restrito à gerência e à tesouraria.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1099,9 +1016,7 @@ O módulo agrega todos os movimentos financeiros registados e apresenta-os em pa
 % REQUISITO RF-19
 % ---------------------------------------------------------
 
-O requisito RF-19, denominado Conformidade Fiscal (Exportação SAF-T), insere-se na área da Tesouraria e Contabilidade e trata do cumprimento das obrigações fiscais do clube perante a Autoridade Tributária e Aduaneira (AT). A comunicação das receitas através de ficheiros normalizados (Standard Audit File for Tax -- SAF-T) é uma obrigação legal que, quando não automatizada, representa um processo manual moroso e sujeito a erros humanos.
-
-O sistema compila automaticamente as transações validadas num intervalo temporal selecionável e gera o ficheiro XML no formato SAF-T conforme as especificações das Finanças. É exigido que o motor financeiro assine cada fatura digitalmente (cifragem RSA da \textit{hash} da fatura anterior), assegurando o encadeamento inviolável exigido por lei. Antes da geração final, é apresentado um relatório de validação que identifica eventuais anomalias, garantindo que o ficheiro submetido está em conformidade. O acesso a esta funcionalidade é restrito aos perfis financeiros de topo.
+O RF-19 trata da obrigação legal de comunicar as receitas à Autoridade Tributária através do ficheiro SAF-T. O sistema gera o ficheiro XML automaticamente com base nas transações registadas, assina cada fatura com RSA e mostra um relatório de erros antes de gerar o ficheiro final. O acesso é restrito à gerência e à contabilidade.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1137,9 +1052,7 @@ O sistema compila automaticamente as transações validadas num intervalo tempor
 % REQUISITO RF-20
 % ---------------------------------------------------------
 
-O requisito RF-20, denominado Gestão de Espaços Físicos, integra-se na área de Logística, Infraestruturas e Equipamentos e resolve o problema recorrente da gestão ineficaz da utilização dos espaços do clube. A ausência de um sistema centralizado de reservas conduz frequentemente a conflitos de agendamento, subutilização de instalações e dificuldades no controlo de alugueres a entidades externas.
-
-O módulo disponibiliza um calendário unificado onde treinadores e gerência podem reservar campos, pavilhões e outros espaços para as suas atividades. O sistema valida proativamente a disponibilidade e impede marcações em duplicado. Para alugueres a entidades externas, o sistema aciona automaticamente a notificação da tesouraria para a emissão da respetiva fatura, integrando a gestão de espaços com o módulo financeiro.
+O RF-20 resolve o problema de conflitos de agendamento nos espaços do clube. Na entrevista com a gerência foi referido um caso em que duas equipas foram ao mesmo pavilhão à mesma hora. O módulo disponibiliza um calendário onde treinadores e gerência podem reservar espaços, e o sistema bloqueia marcações em duplicado. Para alugueres externos, a tesouraria é notificada para emitir a fatura.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1175,9 +1088,7 @@ O módulo disponibiliza um calendário unificado onde treinadores e gerência po
 % REQUISITO RF-21
 % ---------------------------------------------------------
 
-O requisito RF-21, designado Manutenção de Infraestruturas, enquadra-se na área de Logística, Infraestruturas e Equipamentos e visa organizar e registar as intervenções de manutenção nas instalações do clube. A manutenção preventiva e curativa de campos relvados, sistemas de iluminação e balneários é essencial para garantir condições de treino adequadas e para preservar o valor patrimonial das infraestruturas.
-
-O sistema permite agendar intervenções e registar o seu estado (``Agendada'', ``Em curso'', ``Concluída''), bloqueando automaticamente novas reservas no espaço afetado durante o período de indisponibilidade. Os treinadores e equipas com atividades planeadas no espaço são notificados proativamente, e os custos associados são registados e integrados na contabilidade do clube.
+O RF-21 permite agendar e registar as intervenções de manutenção nas instalações. Durante uma manutenção, o espaço fica bloqueado para novas reservas e os treinadores afetados recebem uma notificação. Os custos são registados e integrados na contabilidade.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1213,9 +1124,7 @@ O sistema permite agendar intervenções e registar o seu estado (``Agendada'', 
 % REQUISITO RF-22
 % ---------------------------------------------------------
 
-O requisito RF-22, denominado Gestão de Stock e Loja, integra-se na área de Logística, Infraestruturas e Equipamentos e tem como objetivo centralizar a gestão do inventário de material desportivo e do fardamento do clube. A gestão manual de stock origina frequentemente ruturas de material durante a época e dificulta o controlo de encomendas individuais de fardamento por parte dos atletas.
-
-O módulo disponibiliza uma loja interna na plataforma onde atletas e encarregados de educação podem encomendar e pagar fardamento, com o movimento financeiro a ser automaticamente gerado na conta corrente do associado. Em paralelo, a gerência e os treinadores dispõem de ferramentas de controlo de stock, com alertas de nível mínimo e distinção clara entre ``Material de Venda'' e ``Material de Treino'' para uso coletivo.
+O RF-22 centraliza a gestão do inventário e do fardamento do clube. Os atletas podem encomendar e pagar fardamento diretamente na plataforma, com o pagamento registado na sua conta. A gerência e os treinadores controlam o stock com alertas de nível mínimo e distinção entre material de venda e material de treino.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1251,9 +1160,7 @@ O módulo disponibiliza uma loja interna na plataforma onde atletas e encarregad
 % REQUISITO RF-23
 % ---------------------------------------------------------
 
-O requisito RF-23, designado Gestão de Eventos Extra-desportivos, enquadra-se na área de Logística, Infraestruturas e Equipamentos e visa estender as capacidades de organização da plataforma a eventos de natureza social e comunitária promovidos pelo clube. Galas de fim de época, jantares temáticos e torneios solidários são momentos de coesão associativa que exigem uma logística de inscrições e cobranças que, quando gerida manualmente, consome recursos significativos da secretaria.
-
-A gerência pode criar eventos, definir lotação máxima, prazo de inscrição, público-alvo e eventual custo de ingresso. Os membros inscrevem-se diretamente na plataforma, sendo gerada automaticamente uma referência de pagamento quando aplicável. O sistema bloqueia novas inscrições quando a lotação ou o prazo são atingidos, e disponibiliza uma lista de inscritos exportável para apoiar a organização do evento.
+O RF-23 permite à gerência criar e gerir eventos extra-desportivos como galas, jantares ou torneios solidários. A gerência define a lotação, o prazo e o custo. Os membros inscrevem-se diretamente na plataforma, que gera automaticamente a referência de pagamento quando necessário. O sistema bloqueia novas inscrições quando a lotação ou o prazo são atingidos.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1293,9 +1200,9 @@ A gerência pode criar eventos, definir lotação máxima, prazo de inscrição,
 % REQUISITO RNF-01
 % ---------------------------------------------------------
 
-O requisito não funcional RNF-01, relativo à Proteção de Dados Sensíveis através de Encriptação, enquadra-se na categoria de Segurança e Privacidade (RGPD) e estabelece as normas técnicas de proteção da informação mais sensível gerida pela plataforma. O CAP armazena dados de saúde, documentos de identificação e informação financeira de menores e adultos, pelo que a proteção rigorosa destes dados é simultaneamente uma obrigação legal e uma condição de confiança dos associados.
+O RNF-01 define os requisitos de segurança para os dados mais sensíveis do sistema. O CAP guarda dados de saúde, documentos de identificação e informações financeiras, pelo que é obrigatório proteger bem estes dados.
 
-O sistema deve garantir que toda a comunicação entre clientes e servidores é realizada exclusivamente sobre HTTPS, que as palavras-passe são armazenadas com algoritmos de \textit{hashing} resistentes a ataques de força bruta (como bcrypt ou Argon2) e que os ficheiros de saúde e identificação são encriptados no servidor de armazenamento antes de persistidos.
+Toda a comunicação tem de ser feita sobre HTTPS, as passwords têm de ser guardadas com algoritmos de \textit{hashing} seguros (como bcrypt ou Argon2) e os ficheiros de saúde e identificação têm de ser encriptados antes de ser guardados.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1328,9 +1235,9 @@ O sistema deve garantir que toda a comunicação entre clientes e servidores é 
 % REQUISITO RNF-02
 % ---------------------------------------------------------
 
-O requisito RNF-02, denominado Conformidade Legal e RGPD, integra-se na categoria de Segurança e Privacidade e estabelece os princípios de tratamento de dados pessoais que a plataforma deve respeitar ao abrigo do Regulamento Geral sobre a Proteção de Dados. A natureza do sistema -- que envolve dados de menores, dados de saúde e dados financeiros -- torna o cumprimento do RGPD não apenas obrigatório por lei, mas também essencial para a confiança dos associados na organização.
+O RNF-02 define como o sistema tem de cumprir o RGPD. Como o sistema guarda dados de menores, dados de saúde e dados financeiros, o cumprimento do RGPD é obrigatório por lei.
 
-A plataforma deve implementar mecanismos de recolha de consentimento explícito e informado, garantir ao titular o direito de acesso, portabilidade e supressão (direito ao esquecimento) dos seus dados, e assegurar que o tratamento de dados de menores é devidamente autorizado. O sistema deve também garantir que, em caso de incidente de segurança, os procedimentos de notificação previstos no RGPD possam ser ativados com base nos registos de auditoria disponíveis.
+A plataforma tem de pedir consentimento explícito, dar ao utilizador a possibilidade de ver, exportar e apagar os seus dados, e garantir que os dados de menores são tratados com autorização. Em caso de incidente, os registos de auditoria têm de permitir cumprir as obrigações de notificação do RGPD.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1363,9 +1270,9 @@ A plataforma deve implementar mecanismos de recolha de consentimento explícito 
 % REQUISITO RNF-03
 % ---------------------------------------------------------
 
-O requisito RNF-03, denominado Controlo de Acessos (RBAC), enquadra-se na categoria de Segurança e Privacidade e define a arquitetura de autorização da plataforma com base no modelo de controlo de acesso por papéis (\textit{Role-Based Access Control}). Num sistema com múltiplos tipos de utilizadores (Atletas, Encarregados de Educação, Treinadores, \textit{Staff}, Gerência), a segregação rigorosa das permissões é fundamental para garantir que cada perfil acede exclusivamente à informação e às funcionalidades que lhe são pertinentes.
+O RNF-03 define o sistema de controlo de acessos baseado em papéis (RBAC). Como há vários tipos de utilizadores (atletas, encarregados, treinadores, staff, gerência), é importante que cada um só veja e faça o que lhe corresponde.
 
-O modelo RBAC deve ser implementado em todas as camadas da aplicação: as permissões verificadas no lado do servidor impedem acessos não autorizados através de chamadas diretas à API, enquanto a interface oculta dinamicamente menus, botões e secções para as quais o utilizador não tem autorização. A nível horizontal, o isolamento entre equipas garante que um treinador de uma modalidade não consegue aceder a informação de outra equipa, mesmo partilhando o mesmo nível hierárquico.
+O RBAC é aplicado no servidor e na interface. No servidor, os pedidos sem permissão são rejeitados. Na interface, os menus e botões sem autorização ficam ocultos. Horizontalmente, um treinador de uma modalidade não pode ver informações de outra equipa.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1398,9 +1305,9 @@ O modelo RBAC deve ser implementado em todas as camadas da aplicação: as permi
 % REQUISITO RNF-04
 % ---------------------------------------------------------
 
-O requisito RNF-04, denominado Design Responsivo (Mobile-First), enquadra-se na categoria de Usabilidade e Experiência de Utilização e estabelece que a interface da plataforma deve ser concebida prioritariamente para dispositivos móveis, adaptando-se fluidamente a ecrãs de diferentes dimensões. A natureza operacional de muitos utilizadores da plataforma -- treinadores a realizar chamadas no campo, atletas a confirmar convocatórias em movimento -- impõe que a experiência em dispositivos móveis seja de primeira qualidade.
+O RNF-04 define que a interface deve funcionar bem em dispositivos móveis. Como muitos utilizadores vão usar a plataforma no telemóvel (treinadores no campo, atletas em movimento), é importante que a experiência seja boa em ecrãs pequenos.
 
-A abordagem \textit{mobile-first} implica que os \textit{layouts}, tipografias e elementos de interação são desenhados primeiramente para ecrãs pequenos e progressivamente adaptados para ecrãs maiores. Todos os elementos interativos devem ter dimensões adequadas para interação por toque, e a reorganização dos componentes deve ser fluida e intuitiva independentemente do dispositivo utilizado.
+A interface deve ser desenhada primeiro para telemóvel e depois adaptada para ecrãs maiores. Os botões e elementos interativos têm de ter um tamanho adequado para interação por toque.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1433,9 +1340,9 @@ A abordagem \textit{mobile-first} implica que os \textit{layouts}, tipografias e
 % REQUISITO RNF-05
 % ---------------------------------------------------------
 
-O requisito RNF-05, denominado Interface Intuitiva e Acessibilidade, integra-se na categoria de Usabilidade e Experiência de Utilização e visa garantir que a plataforma é utilizável por um público com diferentes níveis de literacia digital, desde jovens atletas até encarregados de educação com menor familiaridade com tecnologia. A adoção da plataforma pelo clube depende diretamente da facilidade com que os utilizadores conseguem completar as tarefas sem necessidade de formação extensiva.
+O RNF-05 define que a interface tem de ser fácil de usar para pessoas com diferentes níveis de experiência com tecnologia, desde jovens atletas até encarregados de educação menos habituados.
 
-O sistema deve proporcionar \textit{feedback} imediato após cada ação (confirmações, alertas de erro, notificações de sucesso), garantir que qualquer funcionalidade é alcançável em no máximo três cliques a partir do ecrã principal e respeitar os critérios de acessibilidade WCAG relativamente ao contraste de cores e à legibilidade dos elementos de interface.
+O sistema deve dar feedback imediato após cada ação (mensagens de confirmação ou erro), qualquer funcionalidade deve estar acessível em no máximo três cliques e a interface deve cumprir os critérios de acessibilidade WCAG em termos de contraste de cores.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1468,9 +1375,9 @@ O sistema deve proporcionar \textit{feedback} imediato após cada ação (confir
 % REQUISITO RNF-06
 % ---------------------------------------------------------
 
-O requisito RNF-06, relativo aos Tempos de Resposta Rápidos (\textit{Performance}), enquadra-se na categoria de Desempenho e Escalabilidade e estabelece os limites de latência aceitáveis para as operações mais comuns da plataforma. Tempos de resposta elevados comprometem a experiência de utilização e podem desmotivar a adoção do sistema, particularmente em contextos operacionais urgentes como a marcação de presenças em campo ou a confirmação de uma convocatória.
+O RNF-06 define os tempos de resposta que o sistema deve cumprir. Uma aplicação lenta desmotiva os utilizadores, principalmente quando é necessário agir rapidamente, como marcar presenças ou confirmar convocatórias.
 
-Os objetivos de desempenho definidos são: as chamadas à API de ações rotineiras devem ser concluídas em no máximo 500ms; as páginas principais da aplicação devem carregar em menos de 3 segundos em redes 4G; e os \textit{dashboards} com dados agregados devem ser renderizados em menos de 5 segundos. Estes valores devem ser verificados em condições de utilização normal e sob carga moderada.
+Os valores definidos são: chamadas à API em no máximo 500ms, páginas principais em menos de 3 segundos em rede 4G, e dashboards em menos de 5 segundos.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1503,9 +1410,9 @@ Os objetivos de desempenho definidos são: as chamadas à API de ações rotinei
 % REQUISITO RNF-07
 % ---------------------------------------------------------
 
-O requisito RNF-07, denominado Suporte a Picos de Acesso (Escalabilidade), enquadra-se na categoria de Desempenho e Escalabilidade e define a capacidade da arquitetura para absorver aumentos súbitos de tráfego sem degradação do serviço. Eventos como o início de uma época desportiva, a abertura de inscrições ou a divulgação de resultados podem gerar picos de acessos simultâneos que ultrapassam o volume habitual.
+O RNF-07 define a capacidade do sistema para lidar com picos de acessos. No início de uma época ou quando saem resultados, pode haver muitos utilizadores ao mesmo tempo.
 
-A arquitetura deve ser dimensionada para suportar no mínimo 100 utilizadores simultâneos sem perda de desempenho percetível. A base de dados deve ser otimizada com índices adequados para as consultas mais frequentes, e a infraestrutura de alojamento em nuvem deve permitir o escalonamento automático de recursos em resposta a aumentos de carga.
+O sistema deve suportar no mínimo 100 utilizadores em simultâneo sem degradar o desempenho. A base de dados deve ter índices adequados para as consultas mais frequentes e a infraestrutura deve permitir escalar os recursos quando necessário.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1538,9 +1445,9 @@ A arquitetura deve ser dimensionada para suportar no mínimo 100 utilizadores si
 % REQUISITO RNF-08
 % ---------------------------------------------------------
 
-O requisito RNF-08, denominado Alta Disponibilidade (\textit{Uptime}), enquadra-se na categoria de Disponibilidade e Fiabilidade e estabelece os objetivos de continuidade do serviço da plataforma. Para uma organização desportiva que utiliza a plataforma para gerir treinos, convocatórias e pagamentos em ciclo contínuo, paragens não planeadas representam uma disrupção operacional significativa que pode afetar a confiança dos associados.
+O RNF-08 define os objetivos de disponibilidade do sistema. Como o clube usa a plataforma para gerir treinos, convocatórias e pagamentos de forma contínua, paragens inesperadas causam problemas.
 
-O sistema deve garantir uma disponibilidade mínima de 99,9\% ao longo do ano civil, o que corresponde a um máximo de aproximadamente 8,7 horas de indisponibilidade acumulada por ano. As janelas de manutenção programada devem ser comunicadas com pelo menos 24 horas de antecedência, e o sistema de monitorização em tempo real deve alertar a equipa técnica de forma imediata em caso de anomalia.
+O sistema deve ter uma disponibilidade mínima de 99,9\% por ano (o que corresponde a menos de 9 horas de paragem por ano). Qualquer manutenção planeada deve ser comunicada com 24 horas de antecedência e deve haver monitorização em tempo real com alertas automáticos.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1573,9 +1480,9 @@ O sistema deve garantir uma disponibilidade mínima de 99,9\% ao longo do ano ci
 % REQUISITO RNF-09
 % ---------------------------------------------------------
 
-O requisito RNF-09, designado Cópias de Segurança (\textit{Backups}), enquadra-se na categoria de Disponibilidade e Fiabilidade e define a política de proteção dos dados da plataforma contra perdas acidentais, falhas de \textit{hardware} ou incidentes de segurança. Numa plataforma que centraliza dados desportivos, financeiros e de saúde, a perda de informação seria catastrófica para o clube e para os seus associados.
+O RNF-09 define a política de cópias de segurança. Como a plataforma centraliza dados desportivos, financeiros e de saúde, perder esses dados seria muito grave.
 
-O sistema deve executar cópias de segurança automáticas diárias da base de dados e dos ficheiros armazenados, guardando-as num local geograficamente distinto do servidor principal. Todos os \textit{backups} devem ser encriptados em conformidade com os requisitos legais. Em caso de falha catastrófica, o Objetivo de Tempo de Recuperação (RTO) máximo admissível é de quatro horas.
+O sistema deve fazer backups automáticos diários da base de dados e dos ficheiros, guardados num local diferente do servidor principal, encriptados. Em caso de falha grave, o sistema deve ser recuperado em no máximo 4 horas.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1608,9 +1515,9 @@ O sistema deve executar cópias de segurança automáticas diárias da base de d
 % REQUISITO RNF-10
 % ---------------------------------------------------------
 
-O requisito RNF-10, denominado Integração com \textit{Gateways} de Pagamento, enquadra-se na categoria de Integração e Interoperabilidade e define os requisitos técnicos para a ligação da plataforma a processadores de pagamento externos. A aceitação de pagamentos via Multibanco e MBWay é essencial para maximizar a comodidade dos associados na regularização das suas quotas e para reduzir a carga administrativa da tesouraria.
+O RNF-10 define os requisitos técnicos para a integração com sistemas de pagamento externos. Aceitar pagamentos via Multibanco e MBWay é importante para os sócios e reduz o trabalho da tesouraria.
 
-A integração deve ser realizada através das APIs dos operadores certificados (Ifthenpay, SIBS ou Easypay), garantindo que a geração de uma referência de pagamento é concluída em menos de 3 segundos. O sistema deve processar de forma fiável os \textit{callbacks} de confirmação de pagamento enviados pelo \textit{gateway}, atualizando automaticamente o estado da conta corrente do associado sem intervenção manual.
+A integração é feita com as APIs de operadores como Ifthenpay, SIBS ou Easypay. A geração de uma referência tem de ser feita em menos de 3 segundos e os callbacks de confirmação de pagamento têm de ser processados automaticamente, sem intervenção manual.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1643,9 +1550,7 @@ A integração deve ser realizada através das APIs dos operadores certificados 
 % REQUISITO RNF-11
 % ---------------------------------------------------------
 
-O requisito RNF-11, denominado Exportação de Dados e Normalização, enquadra-se na categoria de Integração e Interoperabilidade e estabelece as normas para a geração de ficheiros em formatos universais que permitam a interoperabilidade com sistemas externos. A plataforma deve ser capaz de produzir ficheiros fiscais (SAF-T), relatórios financeiros (Excel/CSV) e documentos formatados (PDF) que possam ser utilizados por contabilistas, federações e outros intervenientes externos.
-
-Os ficheiros SAF-T gerados devem passar na validação do validador oficial da Autoridade Tributária. Os ficheiros Excel e CSV devem ser codificados em UTF-8 para garantir a correta representação de caracteres portugueses. Os documentos PDF devem incluir o logótipo do clube, paginação e formatação adequada para impressão ou arquivo digital.
+O RNF-11 define os formatos de exportação que o sistema deve suportar para comunicar com sistemas externos. A plataforma deve gerar ficheiros SAF-T para as Finanças, Excel/CSV para relatórios e PDF para documentos como faturas e relatórios. Os ficheiros SAF-T têm de passar na validação da Autoridade Tributária e os ficheiros de texto têm de usar codificação UTF-8.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1678,9 +1583,9 @@ Os ficheiros SAF-T gerados devem passar na validação do validador oficial da A
 % REQUISITO RNF-12
 % ---------------------------------------------------------
 
-O requisito RNF-12, denominado Arquitetura Modular e Escalável, enquadra-se na categoria de Manutenibilidade e Auditoria e estabelece as diretrizes de desenho de \textit{software} que a plataforma deve seguir para garantir a sua sustentabilidade técnica a longo prazo. Um sistema que não respeite princípios de modularidade e separação de responsabilidades torna-se rapidamente difícil de manter, evoluir e adaptar às necessidades em constante mudança de uma organização desportiva.
+O RNF-12 define como o código deve ser organizado para ser fácil de manter e de expandir. Um sistema mal organizado torna-se difícil de alterar sem quebrar o que já funciona.
 
-O código deve ser estruturado segundo os princípios da \textit{Clean Architecture} ou do padrão MVC, com separação clara entre as camadas de apresentação, lógica de negócio e acesso a dados. Esta organização deve permitir a adição de novas funcionalidades sem comprometer a estabilidade do sistema existente, minimizando o risco de regressões e facilitando os processos de revisão de código.
+O código deve seguir os princípios de \textit{Clean Architecture} ou MVC, com separação clara entre as camadas de apresentação, lógica de negócio e acesso a dados. Desta forma, é possível adicionar novas funcionalidades sem afetar o que já existe.
 
 {\small
 \rowcolors{2}{rowblue}{white}
@@ -1713,9 +1618,9 @@ O código deve ser estruturado segundo os princípios da \textit{Clean Architect
 % REQUISITO RNF-13
 % ---------------------------------------------------------
 
-O requisito RNF-13, denominado Registos de Auditoria (\textit{Logs}), enquadra-se na categoria de Manutenibilidade e Auditoria e estabelece a obrigação de manter um registo persistente e imutável de todas as ações críticas realizadas na plataforma. A existência de \textit{logs} de auditoria é fundamental para a rastreabilidade de operações sensíveis, para a resolução de disputas entre utilizadores e para a demonstração de conformidade com os requisitos legais e regulatórios.
+O RNF-13 define a obrigação de manter registos de todas as ações críticas na plataforma. Estes registos são úteis para resolver disputas, identificar problemas e provar conformidade com as leis.
 
-Cada entrada no registo de auditoria deve conter, no mínimo, o identificador do utilizador, o \textit{timestamp} com fuso horário, o endereço IP da origem, a descrição da ação realizada e o identificador do recurso afetado. Os \textit{logs} devem ser armazenados de forma que impeça a sua edição ou eliminação por qualquer utilizador, incluindo administradores do sistema, garantindo a sua integridade enquanto registo de evidências.
+Cada registo deve conter o ID do utilizador, a data e hora, o IP de origem, a descrição da ação e o ID do recurso afetado. Os logs não podem ser editados nem eliminados por nenhum utilizador, nem mesmo por administradores.
 
 {\small
 \rowcolors{2}{rowblue}{white}

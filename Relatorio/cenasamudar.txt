@@ -1,5 +1,19 @@
--digrama caso de uso 4.2
--humanizar o codigo
--fazer os diagramas
+Relatorio
+
+-diagranas caso de uso 4.12- atleta e utitlizador relacoes de associacoao com o utilizador em falta, analisar o resto dos diagramas para faltas dessas
+-entrevistas devem partir pagina
 -aidiconar txto explicatoivo a especificacao do API
-	
+-Usar varios modelos de AI para o mesmo prompt e dps dar cross verification, pedir opiniao de um chat do resultado do outro
+-documentatar tabela de RBAC na documentacao IA
+-prompts na documentacao IA estao demasiado diferenfes umas fdas outras, usa a mesma linguegaem que usei para escrever o relatorio
+
+
+
+COdigo
+-quando seleciono alguma cena em dropdown, em vez de aparecer o que selecionei aparace o id bue longo da cena que escolhi
+-dps de usar o botao adicionar atleta, quando tento logar com o mail escolhido, deveria aparecer uma cena para escolher uma palavra passe e iniciar sessao
+-butao de download nos relatorios nao funciona
+-butao de exportar tmb nao faz nada napagina de relatorio
+-mudar a pakavra passe nao funciona
+-todas as paginas da gerencia nao existem
+-grupos de mensagens

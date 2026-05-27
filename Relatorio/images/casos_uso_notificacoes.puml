@@ -2,7 +2,7 @@
 
 left to right direction
 
-actor "Utilizador" as Utilizador
+actor "Utilizador\nAutenticado" as User
 actor "Sistema (Cronjob)" as Sistema
 
 rectangle "Subsistema: Gestão de Notificações" {
@@ -13,8 +13,8 @@ rectangle "Subsistema: Gestão de Notificações" {
     usecase "Notificar Alteração de Horário" as UC5
 }
 
-Utilizador --> UC1
-Utilizador --> UC2
+User --> UC1
+User --> UC2
 
 Sistema --> UC3
 Sistema --> UC4

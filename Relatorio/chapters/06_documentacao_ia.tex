@@ -5,9 +5,9 @@
 
 \chapter{Documentação da Utilização de Inteligência Artificial Generativa}\label{chap:documentacao_ia}
 
-A utilização de modelos de linguagem neste projeto foi uma parte central do nosso processo de trabalho, presente em praticamente todas as fases do desenvolvimento. Este capítulo tem dois objetivos: registar de forma transparente como e onde usámos IA generativa ao longo do projeto, e refletir sobre o que correu bem, o que correu mal e como a equipa validou o que vinha dos modelos.
+Este capítulo documenta como e onde foram usados modelos de linguagem ao longo do projeto, e reflete sobre os erros cometidos e como foram detetados.
 
-A estrutura deste capítulo espelha a organização do relatório. As Secções~\ref{sec:ia_definicao} a~\ref{sec:ia_implementacao} documentam a utilização de IA em cada uma das fases do projeto --- desde a definição do sistema até à implementação ---, enquanto as Secções~\ref{sec:ia_prompts} e~\ref{sec:ia_validacao} tratam, respetivamente, das lições aprendidas em engenharia de \textit{prompts} e da reflexão crítica sobre erros e validação humana. Quando houve interações relevantes, os \textit{prompts} utilizados aparecem em caixas azuis com o modelo usado e, quando aplicável, o resultado obtido.
+As Secções~\ref{sec:ia_definicao} a~\ref{sec:ia_implementacao} documentam a utilização de IA em cada fase, e as Secções~\ref{sec:ia_prompts} e~\ref{sec:ia_validacao} resumem as lições de \textit{prompting} e a reflexão crítica. Os \textit{prompts} relevantes aparecem em caixas azuis com o modelo usado.
 
 % ============================================================
 % SECÇÃO 6.1 — ABORDAGEM GERAL E FERRAMENTAS
@@ -15,16 +15,16 @@ A estrutura deste capítulo espelha a organização do relatório. As Secções~
 
 \section{Abordagem Geral e Ferramentas Utilizadas}\label{sec:ia_abordagem}
 
-Antes de detalhar a utilização por fase, importa identificar os modelos que usámos e a forma como interagimos com eles.
+Esta secção identifica os modelos usados e a forma como a equipa interagiu com eles.
 
 \subsection{Modelos Utilizados}
 
-Ao longo do projeto experimentaram-se vários modelos, de diferentes fornecedores, mas dois deles destacaram-se claramente na frequência de utilização:
+Foram usados vários modelos, mas dois foram os mais frequentes:
 
 \begin{itemize}
-    \item \textbf{Google Gemini} (família Gemini 2.5 Pro e Flash), utilizado maioritariamente pela interface Web. Foi o nosso modelo de referência para tarefas exploratórias: geração de documentos do clube, estruturação do questionário, redação de entrevistas simuladas e \textit{brainstorming} de opções arquiteturais. A vantagem do Gemini Web é a rapidez de iteração --- responde em segundos, suporta \textit{upload} de ficheiros de contexto e mantém o histórico da conversa numa janela acessível.
+    \item \textbf{Google Gemini} (família 2.5 Pro e Flash), usado principalmente pela interface Web para tarefas exploratórias: gerar documentos do clube, estruturar o questionário, simular entrevistas e fazer \textit{brainstorming} de opções arquiteturais.
 
-    \item \textbf{Anthropic Claude} (modelos Sonnet 4.5 e 4.6), utilizado quase sempre através da interface de terminal (Claude Code). Foi o modelo preferido para tarefas que envolvessem múltiplos ficheiros do projeto em simultâneo: redação em bloco do detalhamento dos requisitos, geração de código C\#, refactoring transversal e correções gramaticais aplicadas ao relatório inteiro.
+    \item \textbf{Anthropic Claude} (modelos Sonnet 4.5 e 4.6), usado quase sempre via terminal (Claude Code) para tarefas com múltiplos ficheiros: gerar código C\#, fazer \textit{refactoring} e corrigir o relatório inteiro.
 \end{itemize}
 
 Em fases mais específicas, recorremos pontualmente a:
@@ -35,28 +35,28 @@ Em fases mais específicas, recorremos pontualmente a:
     \item Modelos da OpenAI (GPT-4o e GPT-5), pontualmente, sobretudo para comparar respostas em decisões críticas e para confirmar diagnósticos quando o Gemini ou o Claude pareciam estar a alucinar.
 \end{itemize}
 
-A combinação Gemini + Claude foi a que melhor funcionou para nós. O Gemini é bom para explorar ideias e fazer perguntas rápidas na Web; o Claude no terminal é melhor para trabalhar diretamente nos ficheiros do projeto.
+A combinação Gemini + Claude foi a que melhor funcionou. O Gemini serve para explorar ideias; o Claude no terminal serve para trabalhar diretamente nos ficheiros.
 
 \subsection{Estratégias de Interação: Web vs CLI}
 
-Em termos práticos, usámos os modelos de duas formas distintas, com perfis de utilização muito diferentes.
+Os modelos foram usados de duas formas distintas.
 
-\paragraph{Interface Web (oficial dos fornecedores).}
-A versão Web (chat.google.com/gemini, claude.ai) é prática para resolver problemas rápidos, fazer perguntas pontuais, pedir correções e obter opiniões breves. Foi a estratégia dominante na fase de levantamento de requisitos: geração dos documentos do clube (atestado médico, relatório de jogo, fatura de quota), simulação de entrevistas com os \textit{stakeholders} e estruturação do questionário online. A vantagem é a velocidade de iteração e a possibilidade de carregar facilmente ficheiros de contexto. A limitação é que o modelo não tem acesso direto aos ficheiros do projeto: cada interação começa praticamente do zero, e cabe a quem usa colar o contexto necessário.
+\paragraph{Interface Web.}
+Usada para perguntas pontuais, geração de documentos e estruturação do questionário. A vantagem é a rapidez; a limitação é que o modelo não tem acesso direto aos ficheiros do projeto.
 
 \paragraph{Interface de terminal (Claude Code, Gemini CLI).}
-A segunda estratégia consiste em executar o LLM diretamente no diretório do projeto. É mais custosa em termos de tempo de preparação e \textit{tokens} consumidos, mas oferece vantagens decisivas:
+O LLM é executado diretamente no diretório do projeto. É mais lento de preparar, mas oferece vantagens importantes:
 
 \begin{itemize}
-    \item \textbf{Acesso direto aos ficheiros do trabalho.} O modelo lê e edita diretamente os ficheiros \texttt{.tex}, \texttt{.cs}, \texttt{.puml} etc. Isso elimina o esforço manual de colar código, copiar respostas e reformatar --- particularmente útil para tarefas repetitivas, como corrigir erros gramaticais ao longo de todo o relatório ou alinhar IDs de requisitos entre capítulos.
-    \item \textbf{Contexto persistente do projeto.} Como o modelo vê toda a estrutura de diretórios, as respostas são significativamente mais precisas. Há menos alucinações: o modelo sabe que classes existem, que ficheiros estão presentes e que decisões já foram tomadas.
-    \item \textbf{Operações em \textit{batch}.} Tarefas que seriam tediosas de fazer caixa-a-caixa na Web (por exemplo, gerar a tabela detalhada para 36 requisitos) podem ser delegadas num único \textit{prompt} bem construído.
+    \item \textbf{Acesso direto aos ficheiros.} O modelo lê e edita diretamente ficheiros \texttt{.tex}, \texttt{.cs}, \texttt{.puml}, sem precisar de colar código.
+    \item \textbf{Contexto do projeto.} As respostas são mais precisas porque o modelo vê toda a estrutura de diretórios.
+    \item \textbf{Operações em \textit{batch}.} Tarefas repetitivas (como gerar 36 tabelas de requisitos) podem ser feitas num único \textit{prompt}.
 \end{itemize}
 
-O risco associado a esta estratégia é também claro: como o modelo opera diretamente sobre os ficheiros, é mais fácil deixar passar uma alteração indesejada. A equipa minimizou este risco através de duas práticas: \textit{commits} frequentes (para conseguir reverter alterações com \texttt{git restore}) e revisão humana dos \textit{diffs} antes de qualquer alteração não trivial.
+O risco é que o modelo opera diretamente nos ficheiros. A equipa usou \textit{commits} frequentes e revisão dos \textit{diffs} para mitigar isso.
 
-\paragraph{Comparação das duas estratégias.}
-A Tabela~\ref{tab:comparacao_estrategias} sintetiza as diferenças entre as duas abordagens, tal como as sentimos ao longo do projeto.
+\paragraph{Comparação.}
+A Tabela~\ref{tab:comparacao_estrategias} resume as diferenças entre as duas abordagens.
 
 \begin{center}
 {\small
@@ -91,13 +91,11 @@ A Tabela~\ref{tab:comparacao_estrategias} sintetiza as diferenças entre as duas
 }
 \end{center}
 
-Ao usar as duas estratégias em paralelo, conseguimos tirar o melhor de cada uma. A Web servia para explorar ideias e fazer perguntas rápidas; o CLI para aplicar decisões e propagar correções pelo projeto todo.
+A Web servia para explorar ideias; o CLI para aplicar decisões e propagar correções pelo projeto.
 
 \subsection{Utilização Passiva: LLM como Assistente de Escrita}
 
-Uma utilização menos visível, mas importante de registar, é o uso passivo dos modelos como assistentes de escrita do próprio relatório. Não se trata de gerar conteúdo novo: trata-se de pedir ao modelo para corrigir gralhas, suavizar parágrafos demasiado robóticos, sugerir variações de vocabulário ou validar a sintaxe \LaTeX{}. Esta utilização foi sobretudo feita com Claude Code, dada a sua capacidade de operar sobre todo o documento de uma só vez.
-
-Importa sublinhar uma decisão da equipa: nas situações em que se delegou ao modelo a redação de várias secções consecutivas (como aconteceu no detalhamento inicial dos requisitos), o texto produzido tendia a ficar uniforme demais e a perder naturalidade. Foi necessário voltar atrás e reescrever passagens para introduzir variação no estilo. Esta reflexão sobre o risco de uniformização está desenvolvida na Secção~\ref{sec:ia_validacao}.
+Os modelos foram também usados como assistentes de escrita para corrigir gralhas, melhorar frases e validar sintaxe \LaTeX{}. Quando se delegou ao modelo a redação de várias secções seguidas, o texto ficava demasiado uniforme e foi necessário reescrever partes para introduzir variação. Este risco está discutido na Secção~\ref{sec:ia_validacao}.
 
 % ============================================================
 % AS SECÇÕES SEGUINTES SERÃO ADICIONADAS INCREMENTALMENTE
@@ -108,21 +106,18 @@ Importa sublinhar uma decisão da equipa: nas situações em que se delegou ao m
 
 \section{Fase 1 --- Definição e Contextualização do Sistema}\label{sec:ia_definicao}
 
-Para o Capítulo 2, decidimos não usar inteligência artificial para criar o conteúdo. Como tínhamos liberdade para inventar o caso de estudo, achámos que faria muito mais sentido sermos nós a criar a história e o contexto do Clube Amigos de Polvoreira (CAP).
-
-Como um dos elementos do nosso grupo é natural de Polvoreira, aproveitámos isso para construir um cenário proximo a nós.
-
-Nesta fase inicial, o uso de IA foi puramente passivo. Utilizamos os modelos apenas como assistentes de escrita, para rever a gramática, corrigir gralhas e dar pequenos toques no texto que tínhamos acabado de escrever.
+Nesta fase não foi usada IA para criar conteúdo. O caso de estudo foi criado pela equipa, aproveitando que um dos elementos é natural de Polvoreira. Os modelos foram usados apenas para rever gramática e corrigir gralhas no texto escrito pela equipa.
 
 \section{Fase 2 --- Elicitação e Análise de Requisitos}\label{sec:ia_requisitos}
+\verRelatorio[Capítulo de Análise de Requisitos]{sec:rel_estrategia}
 
-Esta foi a fase do projeto em que a utilização de IA teve mais peso. Os artefactos produzidos com auxílio de LLMs incluem os documentos sintéticos do clube, as entrevistas simuladas, o questionário online, a lista inicial de requisitos e o detalhamento exaustivo de cada um deles. Cada uma destas atividades é descrita nas subsecções seguintes, com o respetivo \textit{prompt}, a estratégia adotada e o artefacto produzido, anexado inline para consulta direta.
+Esta foi a fase onde a IA teve mais peso. Os artefactos produzidos incluem os documentos sintéticos do clube, as entrevistas simuladas, o questionário online e o detalhamento dos requisitos.
 
 \subsection{Definição da Estratégia de Levantamento}
 
-Antes de avançar para a recolha propriamente dita, recorremos ao Gemini Web para enquadrar metodologicamente o trabalho. Apresentámos o contexto do CAP e pedimos uma lista de métodos adequados a um ecossistema misto (atletas menores, gerência, treinadores, secretaria). A resposta serviu de catálogo: a equipa filtrou-a para os três métodos que faziam sentido dentro do prazo do projeto --- análise documental, entrevistas semiestruturadas e questionário online.
+Foi pedida ao Gemini uma lista de métodos de levantamento de requisitos para o contexto do CAP. A resposta foi filtrada para os três métodos que faziam sentido dentro do prazo: análise documental, entrevistas semiestruturadas e questionário online.
 
-\caixaprompt{Gemini (Web)}{No contexto do CAP (Clube Amigos de Polvoreira), sendo um clube desportivo com várias modalidades e diferentes tipos de pessoas (atletas, pais, treinadores, gerência), quero que me digas quais são os melhores métodos para o levantamento de requisitos para o nosso novo sistema de software.}{Para um ecossistema tão rico e diversificado como o do Clube Amigos de Polvoreira, recomendo uma abordagem mista (triangulação de métodos), inspirada nas práticas de Sommerville. Aqui estão os métodos mais indicados para o vosso caso:
+\caixaprompt{Gemini (Web)}{No contexto do CAP (Clube Amigos de Polvoreira), sendo um clube desportivo com várias modalidades e diferentes tipos de pessoas (atletas, pais, treinadores, gerência), quero que me digas quais são os melhores métodos para o levantamento de requisitos para o nosso novo sistema de software.}{O modelo sugeriu uma abordagem mista (triangulação de métodos), listando os seguintes métodos como os mais indicados para o caso em estudo:
 
 \begin{itemize}
     \item \textbf{Análise Documental:} Fundamental para perceber ``o que existe''. Devem recolher os atestados médicos, relatórios de jogo em papel e os livros de recibos de quotas atuais para perceber exatamente que dados precisam de ser transpostos para o digital.
@@ -140,9 +135,9 @@ Antes de avançar para a recolha propriamente dita, recorremos ao Gemini Web par
 
 Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}
 
-Com a estratégia definida, o passo seguinte foi identificar todos os \textit{stakeholders} relevantes. Carregámos no Gemini um documento com a contextualização do clube e pedimos uma listagem categorizada. O modelo identificou quase todos os perfis que já tínhamos em mente --- atletas, treinadores, gerência, secretaria, sócios não-praticantes, federações e Autoridade Tributária ---, mas \textbf{deixou de fora os Encarregados de Educação}, presumivelmente por não ter informação explícita sobre a estrutura etária dos atletas do CAP. A equipa acrescentou manualmente esse perfil, que veio a revelar-se um dos mais importantes do sistema (RF-02).
+Foi pedida ao Gemini uma listagem categorizada de \textit{stakeholders}. O modelo identificou a maior parte dos perfis, mas \textbf{deixou de fora os Encarregados de Educação}. A equipa acrescentou esse perfil manualmente --- veio a ser um dos mais importantes do sistema (RF-02).
 
-\caixaprompt{Gemini (Web)}{No contexto do CAP, quero que identifiques todos os stakeholders do clube.}{Para o Clube Amigos de Polvoreira (CAP), a identificação correta dos \textit{stakeholders} é fundamental para perceber quem irá interagir com o novo sistema e quem será afetado por ele. Tendo em conta a estrutura típica de um clube desportivo português, dividi os intervenientes em duas categorias principais:
+\caixaprompt{Gemini (Web)}{No contexto do CAP (Clube Amigos de Polvoreira), identifica e categoriza todos os \textit{stakeholders} do clube relevantes para o novo sistema, distinguindo entre utilizadores diretos e entidades indiretamente afetadas.}{O modelo dividiu os intervenientes em duas categorias principais, com base na estrutura típica de um clube desportivo português:
 
 \textbf{\textit{Stakeholders} Primários (Utilizadores Diretos):}
 \begin{itemize}
@@ -161,23 +156,14 @@ Com a estratégia definida, o passo seguinte foi identificar todos os \textit{st
 \end{itemize}}
 
 \subsection{Geração dos Documentos do Clube}\label{sec:ia_documentos}
+\verRelatorio[Capítulo de Análise de Requisitos]{sec:rel_documental}
 
-A análise documental exigia que tivéssemos exemplos representativos dos documentos manipulados pelo CAP --- atestado médico desportivo, relatório oficial de jogo e fatura/recibo de quota. Como esses documentos não estão publicamente disponíveis num formato útil, optámos por sintetizá-los com auxílio do Gemini.
-
-A geração não foi imediata. Houve três iterações até chegarmos a um formato que servisse:
-
-\begin{enumerate}
-    \item \textbf{Iteração 1 --- texto livre.} Pedimos ao Gemini para gerar o atestado em texto comum. O resultado foi correto no conteúdo mas inutilizável visualmente: um bloco de texto sem cabeçalho, sem campos identificados e sem \textit{layout}.
-    \item \textbf{Iteração 2 --- LaTeX.} Pedimos a versão em LaTeX. O modelo gerou código \texttt{tabular} válido, mas o resultado renderizado ficou rígido e pouco realista --- não parecia um documento oficial.
-    \item \textbf{Iteração 3 --- HTML.} Por sugestão do próprio modelo, pedimos o documento em HTML com estilos CSS embebidos. Esta versão saiu praticamente como queríamos logo no primeiro pedido. A pré-visualização foi convertida em PDF e usada como ponto de partida para a extração de requisitos.
-\end{enumerate}
-
-Os três documentos finais ficaram guardados em \texttt{Relatorio/docs/docsclube/} e estão reproduzidos integralmente nas Figuras~\ref{fig:doc-atestado},~\ref{fig:doc-relatorio} e~\ref{fig:doc-fatura} desta subsecção.
+Os documentos do clube (atestado médico, relatório de jogo, fatura de quota) foram gerados com o Gemini porque não estavam disponíveis num formato útil. Foram necessárias três iterações: texto livre (sem layout), LaTeX (rígido) e finalmente HTML com CSS, que ficou como pretendido e foi convertido para PDF. Os documentos estão em \texttt{Relatorio/docs/docsclube/} e reproduzidos nas Figuras~\ref{fig:doc-atestado},~\ref{fig:doc-relatorio} e~\ref{fig:doc-fatura}.
 
 \clearpage
 \subsubsection*{Atestado Médico Desportivo}
 
-\caixaprompt{Gemini (Web)}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. O documento renderizado está reproduzido na Figura~\ref{fig:doc-atestado}, e os requisitos funcionais extraídos são apresentados na lista que se segue.}
+\caixaprompt{Gemini (Web)}{No contexto do CAP, gera um exemplo de Atestado Médico Desportivo em HTML que reflita os campos legalmente exigidos para a prática federada. De seguida, extrai a lista de requisitos funcionais que este documento implica para o módulo clínico do sistema.}{O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. O documento renderizado está reproduzido na Figura~\ref{fig:doc-atestado}, e os requisitos funcionais extraídos são apresentados na lista que se segue.}
 
 \vspace{0.5em}
 \begin{center}
@@ -189,7 +175,7 @@ Os três documentos finais ficaram guardados em \texttt{Relatorio/docs/docsclube
 \clearpage
 \subsubsection*{Relatório Oficial de Jogo}
 
-\caixaprompt{Gemini (Web)}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. O documento renderizado está na Figura~\ref{fig:doc-relatorio}.}
+\caixaprompt{Gemini (Web)}{Mantendo o mesmo formato HTML, gera agora um exemplo de Relatório Oficial de Jogo com os campos essenciais para o registo desportivo pós-partida. De seguida, extrai os requisitos funcionais que este documento implica para o módulo desportivo do sistema.}{O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. O documento renderizado está na Figura~\ref{fig:doc-relatorio}.}
 
 \vspace{0.5em}
 \begin{center}
@@ -201,7 +187,7 @@ Os três documentos finais ficaram guardados em \texttt{Relatorio/docs/docsclube
 \clearpage
 \subsubsection*{Fatura/Recibo de Quota}
 
-\caixaprompt{Gemini (Web)}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. O documento renderizado está na Figura~\ref{fig:doc-fatura}.}
+\caixaprompt{Gemini (Web)}{Mantendo o mesmo formato HTML, gera agora um exemplo de Fatura/Recibo de Quota com os campos essenciais de faturação de um clube desportivo, incluindo os elementos exigidos para conformidade SAF-T. De seguida, extrai os requisitos funcionais que este documento implica para o módulo financeiro do sistema.}{O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. O documento renderizado está na Figura~\ref{fig:doc-fatura}.}
 
 \vspace{0.5em}
 \begin{center}
@@ -211,14 +197,14 @@ Os três documentos finais ficaram guardados em \texttt{Relatorio/docs/docsclube
 \end{center}
 
 \subsection{Simulação de Entrevistas}\label{sec:ia_entrevistas}
+\verRelatorio[Capítulo de Análise de Requisitos]{sec:rel_entrevistas}
 
-Para complementar a análise documental, simulámos entrevistas semiestruturadas a três perfis representativos: gerência, treinador e atleta (com perspetiva do encarregado de educação). Esta opção foi assumida claramente como uma simulação --- não foram entrevistas reais ---, e o Gemini foi instruído a manter um registo realista de problemas operacionais portugueses (papelada, WhatsApp, atestados caducados, conflitos de pavilhão).
+Foram simuladas entrevistas a três perfis: gerência, treinador e atleta. É uma simulação, não entrevistas reais. O Gemini foi instruído a usar problemas reais de contexto português (papelada, WhatsApp, atestados caducados). O resultado ficou satisfatório logo no primeiro \textit{prompt}. As três transcrições são reproduzidas abaixo.
 
-O resultado foi satisfatório logo no primeiro \textit{prompt} e praticamente não exigiu intervenção. As três transcrições são reproduzidas integralmente a seguir a cada um dos respetivos \textit{prompts}.
-
+\clearpage
 \subsubsection*{Entrevista à Gerência}
 
-\caixaprompt{Gemini (Web)}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Transcrição reproduzida integralmente abaixo.}
+\caixaprompt{Gemini (Web)}{No contexto do CAP, simula uma entrevista semiestruturada entre um membro da equipa de desenvolvimento e um membro da Gerência do clube. A entrevista deve focar-se nos problemas reais do dia a dia (gestão financeira, perda de patrocínios, comunicação, conflitos de espaços) e nas funcionalidades desejadas para o novo sistema. Produz a transcrição completa em formato pergunta-resposta.}{Transcrição reproduzida integralmente abaixo.}
 
 \begin{tcolorbox}[colback=white, colframe=gray!50, arc=1mm, title=\textbf{Transcrição da Entrevista à Gerência}]
 \small
@@ -243,9 +229,10 @@ O resultado foi satisfatório logo no primeiro \textit{prompt} e praticamente n�
 \textbf{Membro da Gerência:} Várias. Precisamos de automatizar o processamento de inscrições nas federações e a gestão de seguros desportivos em grupo. Na área da contabilidade, seria uma ajuda tremenda se o sistema gerasse os ficheiros normalizados (SAF-T) para exportação. E, claro, precisamos de uma forma fácil de comunicar com a equipa técnica e os atletas sem depender de dezenas de grupos de WhatsApp.
 \end{tcolorbox}
 
+\clearpage
 \subsubsection*{Entrevista ao Treinador}
 
-\caixaprompt{Gemini (Web)}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Transcrição reproduzida integralmente abaixo.}
+\caixaprompt{Gemini (Web)}{No contexto do CAP, simula uma entrevista semiestruturada entre um membro da equipa de desenvolvimento e um Treinador do clube. A entrevista deve cobrir os obstáculos da gestão técnica (comunicação de horários, convocatórias via WhatsApp, falta de histórico clínico, reserva de espaços) e as ferramentas que o novo sistema deve oferecer. Produz a transcrição completa em formato pergunta-resposta.}{Transcrição reproduzida integralmente abaixo.}
 
 \begin{tcolorbox}[colback=white, colframe=gray!50, arc=1mm, title=\textbf{Transcrição da Entrevista ao Treinador}]
 \small
@@ -270,9 +257,10 @@ O resultado foi satisfatório logo no primeiro \textit{prompt} e praticamente n�
 \textbf{Treinador:} A reserva de espaços é frequentemente caótica. Numa noite chuvosa recente, as equipas de Futsal e Voleibol entraram no pavilhão principal exatamente ao mesmo tempo devido a um erro no caderno de marcações da receção, o que gerou um enorme conflito. Precisamos de conseguir fazer a reserva de espaços físicos específicos, como o campo principal, o ginásio ou a sala de vídeo, diretamente numa plataforma digital. Para além disso, daria jeito poder fazer a requisição de material desportivo, como bolas, coletes e pinos, diretamente à gerência para as sessões de treino.
 \end{tcolorbox}
 
+\clearpage
 \subsubsection*{Entrevista ao Atleta}
 
-\caixaprompt{Gemini (Web)}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Transcrição reproduzida integralmente abaixo.}
+\caixaprompt{Gemini (Web)}{No contexto do CAP, simula uma entrevista semiestruturada entre um membro da equipa de desenvolvimento e um Atleta do clube. A entrevista deve abordar as dificuldades vividas pelos atletas (convocatórias, pagamentos, atestados caducados, falta de autonomia clínica) e os pedidos para o novo sistema. Produz a transcrição completa em formato pergunta-resposta.}{Transcrição reproduzida integralmente abaixo.}
 
 \begin{tcolorbox}[colback=white, colframe=gray!50, arc=1mm, title=\textbf{Transcrição da Entrevista ao Atleta}]
 \small
@@ -298,12 +286,11 @@ O resultado foi satisfatório logo no primeiro \textit{prompt} e praticamente n�
 \end{tcolorbox}
 
 \subsection{Estruturação do Questionário Online}\label{sec:ia_questionario}
+\verRelatorio[Capítulo de Análise de Requisitos]{sec:rel_questionario}
 
-Para escalar a recolha, decidimos enviar um questionário a todos os membros do clube com endereço de email registado. Como o Gemini não consegue criar formulários no Google Forms diretamente, a estratégia adotada foi diferente: pedimos primeiro a \textbf{estrutura} do questionário (secções, perfis-alvo, tipos de pergunta) e depois, num segundo momento, pedimos as \textbf{perguntas uma a uma}, num formato pronto a colar no Google Forms.
+Foi enviado um questionário a todos os membros do clube com email registado. Primeiro foi pedida ao Gemini a estrutura do questionário, e depois as perguntas uma a uma. Algumas foram rejeitadas por serem genéricas e outras foram refinadas. O questionário final ficou com cerca de vinte perguntas nas quatro secções definidas pelo modelo.
 
-Houve perguntas que a equipa rejeitou (por serem demasiado genéricas ou repetitivas) e outras que foram refinadas até ficarem claras. O questionário final ficou com aproximadamente vinte perguntas, distribuídas pelas quatro secções definidas pelo modelo.
-
-\caixaprompt{Gemini (Web)}{Quero que geres a estrutura de um questionário Google Forms para ser enviado a todos os stakeholders, e depois vamos gerar as perguntas 1 prompt de cada vez.}{Excelente abordagem. Para garantir que o questionário capte as necessidades de todos os intervenientes do Clube Amigos de Polvoreira de forma organizada, recomendo dividir o Google Forms nas seguintes secções principais, utilizando a lógica de ramificação (\textit{branching}) do formulário:
+\caixaprompt{Gemini (Web)}{Gera a estrutura de um questionário Google Forms a enviar aos \textit{stakeholders} do CAP, incluindo expressamente os Encarregados de Educação. A estrutura deve estar organizada por secções e prever ramificação consoante o perfil do inquirido. As perguntas serão depois geradas uma a uma, em \textit{prompts} dedicados.}{A estrutura sugerida pelo modelo dividiu o formulário nas seguintes secções principais, utilizando lógica de ramificação (\textit{branching}):
 
 \begin{itemize}
     \item \textbf{Secção 1: Perfil do Inquirido:} Pergunta inicial de seleção múltipla (Atleta, Encarregado de Educação, Treinador, Sócio ou Secretaria/Gerência) para direcionar o utilizador.
@@ -316,7 +303,7 @@ Houve perguntas que a equipa rejeitou (por serem demasiado genéricas ou repetit
     \item \textbf{Secção 4: O Novo Sistema:} Pergunta de resposta aberta para sugestão de funcionalidades prioritárias na nova plataforma.
 \end{itemize}}
 
-\caixaprompt{Gemini (Web)}{Agora gera a primeira pergunta da Secção 2 (Avaliação Geral), com o objetivo de medir a satisfação com os canais de comunicação atuais. Indica o tipo de pergunta e as opções de resposta sugeridas.}{\textbf{Pergunta sugerida:} ``Classifique o grau de utilidade que atribui à receção dos seguintes alertas automáticos na nova aplicação:''
+\caixaprompt{Gemini (Web)}{Gera a primeira pergunta da Secção 2 (Avaliação Geral) do questionário, com o objetivo de medir a satisfação com os canais de comunicação atuais do clube. Indica o tipo de pergunta, as opções de resposta sugeridas e se deve ser marcada como obrigatória.}{\textbf{Pergunta sugerida:} ``Classifique o grau de utilidade que atribui à receção dos seguintes alertas automáticos na nova aplicação:''
 
 \textbf{Tipo:} Matriz de escolha múltipla (grelha 1--5).
 
@@ -342,10 +329,11 @@ Marcar a pergunta como \textbf{obrigatória} para garantir respostas em todas as
 \end{figure}
 
 \subsection{Extração e Limpeza dos Requisitos}\label{sec:ia_extracao}
+\verRelatorio[Capítulo de Análise de Requisitos, secção de User Stories]{sec:user_stories}
 
-Reunidos os documentos gerados, as transcrições das entrevistas e as respostas do questionário, passámos à fase de extração de requisitos. O fluxo que seguimos foi pegar nos documentos e pedir ao modelo que extraísse as necessidades para cada grupo em separado, num prompt dedicado para cada perfil.
+Com os documentos, entrevistas e questionário reunidos, foi pedido ao modelo que extraísse os requisitos por perfil, um \textit{prompt} de cada vez.
 
-\caixaprompt{Gemini (Web)}{lê a entrevista e os documentos que geramos em cima e extrai todos os requisitos e problemas para os atletas.}{Claro! Aqui estão os requisitos focados nas necessidades dos atletas:
+\caixaprompt{Gemini (Web)}{Com base na entrevista ao atleta e nos documentos do clube gerados anteriormente, extrai a lista de requisitos e problemas relevantes para o perfil Atleta do sistema do CAP.}{O modelo extraiu os seguintes requisitos focados nas necessidades dos atletas:
 
 \textbf{Atletas:}
 \begin{itemize}\small
@@ -369,7 +357,7 @@ Reunidos os documentos gerados, as transcrições das entrevistas e as respostas
     \item Integração com MBWay/Referência Multibanco.
 \end{itemize}}
 
-\caixaprompt{Gemini (Web)}{agora faz o mesmo mas lê a entrevista do treinador e diz-me os requisitos para os treinadores.}{Aqui estão os requisitos extraídos da perspetiva dos treinadores:
+\caixaprompt{Gemini (Web)}{Aplicando o mesmo critério, extrai agora os requisitos relevantes para o perfil Treinador do sistema, com base na entrevista ao treinador.}{O modelo extraiu os seguintes requisitos da perspetiva dos treinadores:
 
 \textbf{Treinadores:}
 \begin{itemize}\small
@@ -393,7 +381,7 @@ Reunidos os documentos gerados, as transcrições das entrevistas e as respostas
     \item Definição de papéis dentro da equipa (capitão, sub-capitão).
 \end{itemize}}
 
-\caixaprompt{Gemini (Web)}{por fim, lê a entrevista da gerência e extrai os requisitos para eles.}{Aqui estão os requisitos focados nas necessidades e dores da gerência:
+\caixaprompt{Gemini (Web)}{Por último, extrai os requisitos relevantes para o perfil Gerência do sistema, com base na entrevista ao membro da Gerência.}{O modelo extraiu os seguintes requisitos focados nas necessidades e dores da gerência:
 
 \textbf{Gerência:}
 \begin{itemize}\small
@@ -419,13 +407,13 @@ Reunidos os documentos gerados, as transcrições das entrevistas e as respostas
     \item Gestão de seguros desportivos em grupo.
 \end{itemize}}
 
-Depois de termos as três listas extraídas individualmente, reparámos que alguns tópicos se sobrepunham. Pedimos então ao modelo que resolvesse as ambiguidades fundindo os requisitos repetidos.
+As três listas tinham sobreposições, por isso foi pedido ao modelo que as fundisse numa lista limpa.
 
-\caixaprompt{Gemini (Web)}{agora junta estas três listas numa só. há requisitos repetidos ou vagos, por isso resolve essas ambiguidades e dá-me uma lista limpa.}{Lista consolidada! Removi as redundâncias (como os vários pedidos de "Live Chat" que centralizei num "Chat Interno") e clarifiquei os pontos vagos. A lista combinada tem agora cerca de 36 requisitos limpos e sem sobreposições.}
+\caixaprompt{Gemini (Web)}{Consolida as três listas de requisitos (Atleta, Treinador e Gerência) numa única lista. Resolve sobreposições, elimina redundâncias e clarifica os pontos vagos, mantendo a rastreabilidade ao perfil de origem sempre que relevante.}{O modelo apresentou uma lista consolidada, removendo redundâncias (ex: múltiplos pedidos de "Live Chat" centralizados num "Chat Interno") e clarificando pontos vagos, resultando em cerca de 36 requisitos limitados.}
 
-Para ter uma perceção muito mais real do impacto que o sistema traria ao dia a dia do clube, pedimos ao modelo que traduzisse estes problemas práticos sob a forma de \textit{User Stories}. Isto serviu de base para as histórias que constam da Secção~\ref{sec:user_stories} do Capítulo~\ref{chap:analise_requisitos}.
+Foi também pedido ao modelo que gerasse \textit{User Stories} com base nos problemas, para perceber melhor o impacto do sistema. Estas histórias constam da Secção~\ref{sec:user_stories} do Capítulo~\ref{chap:analise_requisitos}.
 
-\caixaprompt{Gemini (Web)}{cria umas user stories com base nestes problemas, cerca de 7, para percebermos melhor as dores do clube e como o sistema as resolve}{Aqui estão 7 \textit{User Stories} narrativas que ilustram as dificuldades reais e a solução que o SBD Amador trará:
+\caixaprompt{Gemini (Web)}{Com base nos problemas identificados, redige sete \textit{user stories} narrativas que ilustrem dores concretas do clube e a forma como o novo sistema as resolve. Cada história deve nomear um interveniente e descrever uma situação real possível.}{O modelo gerou 7 \textit{User Stories} narrativas que ilustram as dificuldades reais e a solução sugerida:
 
 \begin{itemize}\small
     \item O André, capitão da equipa de hóquei em patins, estava inscrito para uma competição com a sua equipa mas como o seu atestado médico caducou sem o seu conhecimento (pois o clube esqueceu-se de avisar que deveria renová-lo), este não pôde participar. Como era um membro vital da equipa, esta perdeu a competição. \textbf{\#O sistema resolve isto enviando um alerta automático 30 dias antes da caducidade do atestado.}
@@ -437,9 +425,9 @@ Para ter uma perceção muito mais real do impacto que o sistema traria ao dia a
     \item O Tiago sentiu uma dor muscular e foi para casa. No treino seguinte, o treinador puxou por ele e sofreu rotura muscular. \textbf{\#O sistema permite um registo autónomo de lesões que alerta automaticamente a equipa médica e coloca o atleta numa lista de lesionados.}
 \end{itemize}}
 
-Por fim, pedimos ao modelo que pegasse na lista limpa gerada anteriormente e a organizasse nas duas categorias padrão: Requisitos Funcionais (RF) agrupados por área, e Requisitos Não Funcionais (RNF).
+Por fim, foi pedido ao modelo que organizasse a lista limpa em Requisitos Funcionais (por área) e Requisitos Não Funcionais.
 
-\caixaprompt{Gemini (Web)}{para acabar, organiza a lista limpa que fizeste antes dividindo em requisitos funcionais agrupados por área (tesouraria, saúde, etc) e requisitos não funcionais. inclui aspetos de segurança, performance e escalabilidade}{Entendido. Aqui está a consolidação final:
+\caixaprompt{Gemini (Web)}{Para concluir esta fase, organiza a lista consolidada de requisitos separando-os em Requisitos Funcionais agrupados por área (gestão de utilizadores, comunicação, gestão desportiva, saúde, financeira, instalações) e Requisitos Não Funcionais. Nos não-funcionais, inclui obrigatoriamente segurança e privacidade, desempenho, escalabilidade, usabilidade, disponibilidade, interoperabilidade e manutenibilidade.}{O modelo produziu a seguinte consolidação final:
 
 \textbf{Requisitos Funcionais Consolidados:}
 \begin{itemize}\small
@@ -463,28 +451,24 @@ Por fim, pedimos ao modelo que pegasse na lista limpa gerada anteriormente e a o
 \end{itemize}}
 
 \subsection{Detalhamento dos Requisitos}\label{sec:ia_detalhamento}
+\verRelatorio[Capítulo de Análise de Requisitos, secção de Requisitos Funcionais]{sec:requisitos_funcionais}
 
-Esta foi uma das fases mais pesadas em termos de trabalho bruto. Cada um dos 36 requisitos (23 RF + 13 RNF) precisava de ter uma tabela detalhada com ID, nome, área, ator principal, descrição, prioridade, origem, analista, pré-condições, pós-condições e critérios de aceitação. Fazer isto do zero manualmente demoraria muito tempo.
+Esta foi a fase mais pesada. Cada um dos 36 requisitos precisava de uma tabela com ID, nome, área, ator, descrição, prioridade, pré-condições, pós-condições e critérios de aceitação. A estratégia foi iterativa: primeiro foi gerado apenas o RF-01 para validar o formato, e depois os restantes um a um.
 
-A estratégia foi iterativa: usámos o Gemini (Web) no mesmo contexto onde já tínhamos extraído a lista resumida. Explicámos a estrutura exata das tabelas que queríamos usar no nosso relatório e pedimos para gerar apenas o primeiro requisito como teste, para validarmos o formato. Depois de acertar o modelo base, fomos pedindo os restantes um a um.
+\caixaprompt{Gemini (Web)}{Para o sistema do CAP, gera a especificação detalhada do primeiro Requisito Funcional, seguindo o formato das tabelas de especificação adotadas pela equipa: ID do Requisito, Nome, Atores, Descrição, Pré-condições, Pós-condições e Fluxo de Eventos (Principal e Exceções). Gera apenas o primeiro para validação do formato; os restantes serão pedidos um a um.}{O modelo compreendeu a estrutura pedida e produziu o primeiro requisito funcional focado na inscrição de atletas, pronto a passar para a fase de modelação (Casos de Uso):}
 
-\caixaprompt{Gemini (Web)}{Olha, agora para o nosso sistema do CAP, preciso que me comeces a gerar os requisitos funcionais. Quero que uses uma estrutura bem mais detalhada para cada um, tipo a das tabelas de especificação: ID do Requisito, Nome, Atores, Descrição, Pré-condições, Pós-condições e o Fluxo de Eventos (Principal e Exceções). Gera só o primeiro para ver se percebeste a ideia, depois vou-te pedindo os restantes.}{Percebido! Vou utilizar essa estrutura detalhada para garantir que a especificação fica pronta a passar para a fase de modelação (Casos de Uso). Aqui está o primeiro requisito funcional, focado na inscrição de atletas:}
-
-\caixaprompt{Gemini (Web)}{Boa, agora vamos passar para os requisitos não funcionais. Quero que faças a mesma coisa, mas usando a estrutura detalhada das nossas tabelas de RNF: ID do Requisito, Nome, Categoria, Descrição e Métrica de Aceitação. Gera só o primeiro, focado na segurança dos dados, para eu confirmar se a estrutura bate certo com as nossas tabelas.}{Combinado! Para os Requisitos Não Funcionais (RNF), vou adotar essa estrutura focada em métricas que possam ser testadas objetivamente pela equipa. Aqui tens o primeiro, focado na segurança e privacidade:}
+\caixaprompt{Gemini (Web)}{Aplica agora o mesmo método aos Requisitos Não Funcionais, com a estrutura adotada nas tabelas de RNF: ID do Requisito, Nome, Categoria, Descrição e Métrica de Aceitação. Gera apenas o primeiro, focado na segurança e privacidade dos dados, para validar a estrutura antes de prosseguir com os restantes.}{O modelo adotou a estrutura focada em métricas e forneceu o primeiro requisito não funcional, focado na segurança e privacidade:}
 
 \noindent\textit{\textbf{Nota da equipa:} Embora a geração iterativa nos tenha poupado muito trabalho na estruturação das tabelas, o conteúdo gerado precisou de bastante revisão. Tivemos de ajustar as prioridades atribuídas pelo modelo (por exemplo, elevando a importância da gestão de lesões) e validar os critérios de aceitação (como a necessidade de passar o validador oficial da Autoridade Tributária no caso do ficheiro SAF-T) para garantir que refletiam a realidade do clube e não apenas sugestões genéricas.}
 
 \section{Fase 3 --- Arquitetura e Modelação do Software}\label{sec:ia_arquitetura}
 
-A Fase 3 foi, do ponto de vista metodológico, a fase em que a equipa tirou maior partido de uma utilização \textbf{diferenciada} dos dois ambientes de LLM descritos na Secção~\ref{sec:ia_abordagem}. As decisões arquiteturais foram trabalhadas exclusivamente na \textbf{interface Web do Gemini}, num modo deliberadamente exploratório e iterativo. Já a produção dos artefactos de modelação UML --- diagramas de domínio, de classes, de componentes, de implantação, máquinas de estados e casos de uso --- foi delegada ao \textbf{Claude Code}, executado no diretório do projeto, com acesso direto aos ficheiros \texttt{.puml} versionados em \texttt{Relatorio/images/}.
-
-Esta divisão não foi acidental. As decisões arquiteturais são objeto de discussão entre humanos e exigem a comparação lado a lado de várias alternativas: usar a Web facilitou o trabalho \textit{a três} (em vez de \textit{a uma}) e evitou que o modelo tocasse em código antes da decisão estar tomada. Os diagramas, pelo contrário, são artefactos textuais (PlantUML) que beneficiam de iteração rápida sobre ficheiros existentes --- exatamente o cenário em que o Claude Code é mais eficiente.
+Nesta fase, as decisões arquiteturais foram trabalhadas no Gemini Web e os artefactos UML foram delegados ao Claude Code com acesso direto aos ficheiros \texttt{.puml}. Esta divisão faz sentido porque as decisões arquiteturais precisam de comparação de alternativas em grupo; os diagramas PlantUML beneficiam de iteração rápida sobre ficheiros existentes.
 
 \subsection{Decisões Arquiteturais via Gemini (Web)}\label{subsec:ia_arq_decisoes}
+\verRelatorio[Capítulo de Especificação e Modelação, secção de Decisões Arquiteturais]{sec:rel_decisoes_arq}
 
-A estratégia adotada para as decisões arquiteturais foi \textbf{tópico a tópico, com terna de opções}. Para cada eixo de decisão --- padrão arquitetural global, sistema de gestão de base de dados, \textit{stack} de \textit{backend} e paradigma de API --- a equipa abria uma conversa nova no Gemini Web e pedia explicitamente \textbf{três} alternativas representativas, acompanhadas de uma análise de prós e contras adaptada às restrições do CAP. A decisão final \emph{nunca} foi delegada ao modelo: era discutida internamente, registada em ata e só depois consolidada na Secção~\ref{sec:decisoes_arq} do Capítulo~\ref{chap:especificacao_modelacao}.
-
-A Tabela~\ref{tab:eixos_arq_ia} resume os quatro eixos abordados, o respetivo \textit{prompt} de partida e o resultado da deliberação humana.
+Para cada eixo de decisão foi aberta uma conversa nova no Gemini e pedidas três alternativas com prós e contras adaptados ao contexto do CAP. A decisão final foi sempre da equipa, não do modelo. A Tabela~\ref{tab:eixos_arq_ia} resume os quatro eixos e as decisões tomadas.
 
 \begin{center}
 {\small
@@ -517,7 +501,7 @@ Paradigma de API & Três paradigmas de comunicação aplicáveis a clientes Web,
 
 \subsubsection*{Padrão Arquitetural Global}
 
-\caixaprompt{Gemini 2.5 Pro (Web)}{No contexto do CAP --- equipa pequena de quatro estudantes de Engenharia, sistema com obrigações RGPD (dados clínicos) e SAF-T (financeiro), prazo académico de um semestre --- preciso de três opções credíveis para o padrão arquitetural global. Para cada uma, dá-me uma descrição breve, três vantagens e três desvantagens com impacto concreto no nosso contexto. Não escolhas por mim; a decisão é da equipa.}{Aqui estão três padrões arquiteturais que considero adequados ao vosso cenário:
+\caixaprompt{Gemini 2.5 Pro (Web)}{No contexto do CAP --- equipa pequena de quatro estudantes de Engenharia, sistema com obrigações RGPD (dados clínicos) e SAF-T (financeiro), prazo académico de um semestre --- preciso de três opções credíveis para o padrão arquitetural global. Para cada uma, dá-me uma descrição breve, três vantagens e três desvantagens com impacto concreto no nosso contexto. Não escolhas por mim; a decisão é da equipa.}{O modelo listou três padrões arquiteturais considerados adequados ao cenário descrito:
 
 \textbf{1. Monólito em Camadas (Layered Monolith).} Aplicação única organizada em camadas (apresentação, negócio, dados).
 \textit{Vantagens:} (i) curva de aprendizagem reduzida; (ii) implantação trivial; (iii) transações ACID locais.
@@ -531,7 +515,7 @@ Paradigma de API & Três paradigmas de comunicação aplicáveis a clientes Web,
 \textit{Vantagens:} (i) implantação simples como num monólito; (ii) baixo acoplamento se as regras forem respeitadas; (iii) caminho de evolução para microsserviços sem reescrita total.
 \textit{Desvantagens:} (i) exige disciplina de equipa para não violar as fronteiras; (ii) o \textit{bus} de eventos em memória não é durável por defeito; (iii) testes de integração ainda corrim no mesmo processo.
 
-Não recomendo eu uma opção, mas se quiserem ponderem o trade-off complexidade \textit{versus} isolamento.}
+A recomendação final alertou para ponderar o compromisso entre complexidade e isolamento.}
 
 \noindent\textit{\textbf{Nota da equipa:} A primeira reação do modelo, antes deste \textit{prompt} estruturado, foi recomendar microsserviços invocando ``escalabilidade futura''. Achámos a sugestão exagerada para um clube com poucas centenas de utilizadores e reformulámos o \textit{prompt} para forçar comparação tripla. A escolha final --- Monólito Modular --- foi tomada em ata após pesarmos a dimensão da equipa (quatro pessoas, prazo curto) contra a necessidade de isolar os módulos clínico e financeiro. O risco identificado pelo modelo (\textit{bus} de eventos não durável) foi anotado no \textit{backlog} técnico como ``adoção futura do padrão \textit{outbox}'', tal como referido na Secção~\ref{sec:decisoes_arq}.}
 
@@ -585,28 +569,71 @@ Não recomendo eu uma opção, mas se quiserem ponderem o trade-off complexidade
 
 \subsubsection*{O que correu bem, o que correu mal}
 
-A estratégia ``tópico a tópico, três opções'' funcionou bem em três dimensões: (i) produziu respostas com estrutura paralela, facilmente transponíveis para as tabelas comparativas do Capítulo~\ref{chap:especificacao_modelacao}; (ii) forçou o modelo a apresentar contrapontos credíveis em vez de defender a sua escolha favorita; (iii) deixou um rasto explícito de prós e contras que sustentou a deliberação interna.
+A estratégia de três opções por tópico funcionou bem: forçou o modelo a apresentar contrapontos em vez de defender a sua escolha, e produziu respostas facilmente transponíveis para tabelas.
 
-Em sentido oposto, registaram-se três limitações recorrentes:
+Foram identificadas três limitações recorrentes:
 
 \begin{itemize}
-    \item \textbf{Tendência para o \textit{hype}.} Sem restrições explícitas, o modelo gravitava para opções mais ``ambiciosas'' tecnologicamente (microsserviços, GraphQL, MongoDB), independentemente da dimensão do problema. Foi necessário enquadrar a equipa, o prazo e as obrigações regulatórias logo no \textit{prompt}.
-    \item \textbf{Alucinações em terreno conhecido.} O caso do EF Core/PostgreSQL mostrou que mesmo numa combinação amplamente documentada o modelo é capaz de inventar limitações.
-    \item \textbf{Suavização de \textit{trade-offs}.} Em algumas respostas iniciais os contras eram genéricos (``maior complexidade'', ``curva de aprendizagem'') e tiveram de ser pedidos explicitamente em termos do nosso contexto (ex.: ``como é que isso afeta o SAF-T?'').
+    \item \textbf{Tendência para o \textit{hype}.} Sem restrições explícitas, o modelo escolhia opções mais complexas (microsserviços, GraphQL, MongoDB) sem considerar a dimensão do problema.
+    \item \textbf{Alucinações em terreno conhecido.} O modelo afirmou que o EF Core ``não suporta PostgreSQL'', o que é falso.
+    \item \textbf{Contras genéricos.} Os pontos negativos eram vagos e tiveram de ser especificados em termos do contexto real do CAP.
 \end{itemize}
 
+\subsection{Geração da Matriz de Permissões RBAC}\label{subsec:ia_arq_rbac}
+\verRelatorio[Capítulo de Especificação e Modelação, secção da Matriz RBAC]{sec:rel_rbac}
+
+A Matriz de Permissões RBAC (reproduzida na Tabela~\ref{tab:rbac} do Capítulo~\ref{chap:especificacao_modelacao}) é um dos artefactos com maior impacto na segurança do sistema: cada linha mapeia diretamente em pelo menos um atributo \texttt{[Authorize(Roles = "...")]} dos \textit{controllers} ASP.NET Core. Um erro de atribuição traduz-se, na prática, num \textit{endpoint} aberto a quem não devia ter acesso, ou inacessível a quem devia. Por esta razão, a geração foi feita num único \textit{prompt} ao Claude Code com contexto total dos requisitos, mas a revisão foi exaustiva.
+
+\caixaprompt{Claude Sonnet 4.5 (Claude Code)}{Lê o ficheiro \texttt{chapters/03\_analise\_requisitos.tex} onde estão documentados todos os requisitos funcionais (RF-01 a RF-23) e os papéis de utilizador identificados (Atleta, Encarregado de Educação, Treinador, Secretaria e Gerência). Gera uma tabela LaTeX com a Matriz de Permissões RBAC completa: linhas são as operações principais do sistema (uma ou mais por RF) e colunas são os papéis. Usa os símbolos \textbackslash checkmark (acesso permitido) e --- (sem acesso). Para cada operação, fundamenta a atribuição na regra de negócio descrita no respetivo RF.}{Matriz gerada com 23 operações cruzadas com os 5 papéis. As atribuições foram derivadas das regras de negócio explícitas nos RF: Treinador com acesso completo ao módulo desportivo; Secretaria com acesso ao módulo administrativo e clínico mas sem acesso financeiro estratégico; Gerência com leitura global e acesso exclusivo a relatórios SAF-T e auditoria.}
+
+\paragraph{Critério de revisão.}
+A revisão foi feita por dois membros da equipa em conjunto, percorrendo cada uma das 23 linhas e, para cada coluna, respondendo à pergunta: \emph{``Que regra de negócio dos RF justifica este \checkmark{} ou este ---?''}. Sempre que a justificação não era óbvia, a célula era marcada como duvidosa e validada com o RF correspondente. Foram detetados quatro erros de atribuição:
+\begin{itemize}
+    \item \textit{\textbf{RF-19 (SAF-T) atribuído à Secretaria.} A geração de ficheiros SAF-T é uma obrigação fiscal estratégica e foi reservada exclusivamente à Gerência, conforme documentado na entrevista à Gerência. Corrigido: \textbf{Gerência} \checkmark, \textbf{Secretaria} ---.}
+    \item \textit{\textbf{RF-11 (Gestão de EMD) sem acesso ao Encarregado.} Os atestados médicos de menores são geridos pelos encarregados de educação. O modelo não captou esta relação parental. Corrigido: \textbf{Encarregado} (\checkmark).}
+    \item \textit{\textbf{RF-06 (Convocatórias) com acesso de leitura ao Atleta omitido.} O atleta precisa de consultar a convocatória para poder responder (RF-07). Acesso de leitura adicionado.}
+    \item \textit{\textbf{RF-16 (Loja) erroneamente incluído na Gerência.} A Gerência não gere o inventário da loja diretamente; esse papel cabe à Secretaria. Corrigido.}
+\end{itemize}
+
+\paragraph{Padrões observados nos erros.}
+Os quatro erros não foram aleatórios; partilhavam duas tendências do modelo. Primeiro, uma \emph{tendência hierárquica}: o LLM presumiu que a Gerência herda automaticamente o acesso de todos os outros papéis e que a Secretaria herda o da operação. Esta presunção é razoável em sistemas administrativos clássicos, mas no CAP a relação não é hierárquica --- é funcional, com a Gerência responsável por decisões estratégicas (SAF-T, contabilidade global) e a Secretaria responsável pelas operações do dia a dia. Segundo, uma \emph{ausência de pensamento sobre o ator parental}: o modelo tratou o Encarregado de Educação como um papel autónomo, sem capturar que herda permissões dos seus educandos (logado como Encarregado age sobre os atestados, quotas e queixas dos atletas associados).
+
+\paragraph{Validação cruzada com os controladores.}
+Após a correção manual, foi feita uma segunda passagem: para cada \textit{controller} já implementado, comparou-se o atributo \texttt{[Authorize(Roles = "...")]} com a linha correspondente da matriz. Esta passagem detetou três \textit{controllers} (entre os 16 já implementados na altura) onde o atributo estava em falta --- esses casos estão documentados nas correções ao \textit{backend} apresentadas mais à frente, na Subsecção~\ref{subsec:ia_impl_backend}. A revisão linha a linha demorou cerca de 30 minutos, mas garantiu que o RBAC implementado em C\# refletia as regras de negócio e não a interpretação inicial do modelo.
+
+\subsection{Verificação Cruzada entre Modelos}\label{subsec:ia_arq_crossverification}
+
+Para as decisões mais críticas --- nomeadamente o padrão arquitetural global e a escolha do SGBD --- a equipa adotou uma metodologia de \textbf{verificação cruzada entre modelos}, descrita em três passos:
+
+\begin{enumerate}
+    \item \textbf{Mesmo \textit{prompt}, modelos independentes.} O \textit{prompt} é submetido ao Gemini (sessão Web) e ao Claude (sessão separada, sem qualquer memória da conversa do Gemini). As respostas são guardadas em ficheiros separados.
+    \item \textbf{Diff de raciocínios.} A equipa lê as duas respostas lado a lado, identificando: convergências (pontos onde ambos concordam), divergências (recomendações opostas) e omissões (ponto referido por um modelo mas não pelo outro).
+    \item \textbf{Auditoria recíproca.} As omissões e divergências são depois submetidas como contraprova ao modelo \emph{oposto} (``o outro modelo apontou X como desvantagem; qual é a tua avaliação?''). Esta passagem força cada modelo a defender ou rever a sua posição inicial, e é frequentemente onde aparecem as nuances mais úteis.
+\end{enumerate}
+
+A subsecção que se segue ilustra o método aplicado à decisão arquitetural global. O passo 1 corresponde à submissão do mesmo \textit{prompt} ao Claude que já tinha sido submetido ao Gemini na Subsecção~\ref{subsec:ia_arq_decisoes} (\textit{prompt} reproduzido aqui para facilitar leitura). O passo 2 corresponde aos pontos listados após a caixa. O passo 3 corresponde à \emph{auditoria recíproca} que fecha a subsecção.
+
+\caixaprompt{Claude Sonnet 4.5 (Web)}{No contexto do CAP --- equipa de quatro estudantes, prazo académico de um semestre, sistema com dados clínicos (RGPD) e obrigações fiscais SAF-T --- apresenta três opções para o padrão arquitetural global. Para cada uma indica três vantagens e três desvantagens específicas para este contexto. Não escolhas por mim.}{Os três padrões mais adequados ao vosso contexto são o Monólito em Camadas, o Monólito Modular e os Microsserviços. O Monólito em Camadas é a opção de menor risco operacional para uma equipa pequena, mas o acoplamento entre domínios (clínico, financeiro, desportivo) pode tornar a conformidade RGPD difícil de auditar. O Monólito Modular oferece o melhor equilíbrio: fronteiras explícitas por domínio (auditável para RGPD), transações ACID locais (seguras para SAF-T) e implantação simples. Os Microsserviços introduzem complexidade desnecessária para o tamanho do problema. A minha recomendação é o Monólito Modular, mas a decisão final pertence à equipa.}
+
+\noindent\textit{\textbf{Passo 2 --- diferenças identificadas em relação à resposta do Gemini:}
+\begin{itemize}
+    \item O \textbf{Claude recomendou explicitamente} o Monólito Modular sem ser questionado; o Gemini recusou dar uma recomendação antes de ser explicitamente instruído a não decidir (o que acabou por ser útil para forçar a análise).
+    \item O Gemini identificou como desvantagem do Monólito Modular o facto de o barramento de eventos ser não durável por defeito; o Claude não mencionou esse ponto. A equipa considerou esta omissão relevante e incorporou-a na análise.
+    \item Ambos os modelos concordaram em rejeitar os Microsserviços para este contexto --- o que deu à equipa confiança adicional na decisão.
+\end{itemize}}
+
+\caixaprompt{Claude Sonnet 4.5 (Web) --- Passo 3, auditoria recíproca}{Outro modelo (Gemini) apontou como desvantagem do Monólito Modular o facto de o barramento de eventos ser, por defeito, não durável (mensagens em memória, perdem-se se o serviço cair). Concordas com esta observação no contexto do CAP? Se sim, que mitigação recomendas que seja compatível com a estratégia de Monólito Modular?}{Concordo. A observação é correta e relevante: num Monólito Modular implementado em ASP.NET Core, o \texttt{MediatR} ou um \texttt{EventBus} em memória \emph{perde} eventos publicados se o processo cair entre o \texttt{publish} e o \texttt{handler}. No contexto do CAP, isto é particularmente sensível para o motor de notificações (eventos como ``convocatória publicada'' não podem perder-se) e para o módulo financeiro (eventos de confirmação de pagamento). Mitigações compatíveis: (i) \textbf{outbox \textit{pattern}} --- gravar o evento na mesma transação da operação de domínio e despachar a partir da tabela \texttt{Outbox} num \textit{worker}; (ii) introduzir um \textit{broker} leve (RabbitMQ ou Redis Streams) só para os eventos críticos, mantendo o resto em memória. Para a vossa dimensão, a opção (i) é provavelmente mais simples e suficiente.}
+
+\noindent\textit{\textbf{Resultado da auditoria recíproca:}} a opinião pedida ao Claude sobre a observação do Gemini não só confirmou o risco como ofereceu uma mitigação concreta (\textit{outbox pattern}) que nenhum dos modelos tinha referido nas respostas iniciais. Esta mitigação ficou registada no Capítulo~\ref{chap:especificacao_modelacao} como decisão arquitetural a aplicar nos pontos críticos. Pedimos depois a confirmação inversa --- isto é, submetemos ao Gemini a recomendação do \textit{outbox pattern} feita pelo Claude. O Gemini validou-a, acrescentando que a \texttt{Outbox} deve ser indexada pela combinação \texttt{(despachado, criadoEm)} para que o \textit{worker} possa fazer \textit{polling} eficiente. Esta nota adicional foi também incorporada na decisão final.
+
+A metodologia de verificação cruzada acabou por ser aplicada também ao paradigma de API (REST vs.\ GraphQL vs.\ gRPC) e à escolha de SGBD (PostgreSQL vs.\ MySQL vs.\ MongoDB). Em todos os casos, o passo 3 (auditoria recíproca) revelou pelo menos um detalhe não capturado pela leitura inicial das duas respostas em paralelo --- o que confirmou o valor de não nos limitarmos à comparação ``A disse X, B disse Y''.
+
 \subsection{Produção dos Artefactos UML via Claude Code}\label{subsec:ia_arq_diagramas}
+\verRelatorio[Capítulo de Especificação e Modelação, Modelação Estrutural]{sec:rel_modelacao_estrutural}
 
-Tomadas as decisões, a equipa passou à modelação UML. Aqui a estratégia foi a oposta: em vez de uma conversa aberta na Web, abriu-se uma sessão do Claude Code no diretório \texttt{Relatorio/} com acesso aos ficheiros \texttt{.puml} já existentes (ainda esqueletos ou completamente vazios). O fluxo passou a ser ciclo curto: \textit{prompt} $\rightarrow$ ficheiro \texttt{.puml} gerado/editado $\rightarrow$ \textit{render} local com \texttt{plantuml.jar} $\rightarrow$ revisão visual $\rightarrow$ \textit{prompt} de correção, e assim sucessivamente.
+Para a modelação UML foi aberta uma sessão do Claude Code no diretório \texttt{Relatorio/} com acesso aos ficheiros \texttt{.puml}. O fluxo foi: \textit{prompt} $\rightarrow$ ficheiro \texttt{.puml} gerado $\rightarrow$ \textit{render} com \texttt{plantuml.jar} $\rightarrow$ revisão $\rightarrow$ correção.
 
-\begin{tcolorbox}[colback=yellow!10, colframe=orange!70!black, arc=2mm, boxrule=0.4mm, title=\textbf{Aviso importante sobre o estado dos diagramas}]
-\small
-Os diagramas reproduzidos no Capítulo~\ref{chap:especificacao_modelacao} (Modelo de Domínio, Diagrama de Classes, Diagramas de Componentes e Implantação, Máquinas de Estados e Diagramas de Casos de Uso) correspondem à \textbf{versão protótipo gerada com auxílio de LLM em PlantUML}. Apesar de semanticamente corretos após a revisão da equipa, alguns destes artefactos sofrem de limitações de \textbf{legibilidade e organização visual} típicas do \textit{layout} automático do PlantUML --- sobreposição de linhas, posicionamento sub-óptimo de pacotes e dificuldade em controlar a topologia geral do diagrama.
-
-Por essa razão, a equipa decidiu \textbf{reconstruir, na entrega final, o Modelo de Domínio, as Máquinas de Estados e os Diagramas de Casos de Uso em Visual Paradigm}, mantendo \emph{rigorosamente} a semântica documentada neste relatório mas melhorando a clareza visual. Os diagramas de classes, componentes e implantação são mantidos na sua versão PlantUML por se considerar que o nível de detalhe textual envolvido (assinaturas de operações, estereótipos de componentes) é melhor servido pela edição direta do código \texttt{.puml}.
-\end{tcolorbox}
-
-As subsecções seguintes documentam, para cada artefacto, o \textit{prompt} usado e --- mais importante --- aquilo que a equipa teve de corrigir manualmente no resultado bruto do modelo.
+As subsecções seguintes documentam o \textit{prompt} usado e as correções manuais feitas pela equipa.
 
 \subsubsection*{Modelo de Domínio}
 
@@ -645,8 +672,9 @@ As subsecções seguintes documentam, para cada artefacto, o \textit{prompt} usa
 \noindent\textit{\textbf{Nota da equipa --- correções aplicadas:} Detetámos no \textit{render} inicial que o modelo tinha desenhado o fluxo do \textit{webhook} de pagamentos a \textbf{entrar diretamente no módulo financeiro}, ignorando o API Gateway. Isto contradiz a decisão arquitetural (toda a entrada no sistema passa pelo Gateway, para benefício do RBAC e da auditoria) e introduziria um vetor de entrada não autenticado. Refizemos a seta para que o \textit{webhook} entre primeiro no Gateway, que valida a assinatura HMAC e só depois encaminha para o módulo financeiro. O \textit{prompt} original não era explícito quanto a isto --- foi uma correção de bom senso arquitetural que o modelo não captou.}
 
 \subsection{Modelação Comportamental via Claude Code}\label{subsec:ia_arq_comportamento}
+\verRelatorio[Capítulo de Especificação e Modelação, Modelação Comportamental]{sec:rel_modelacao_comportamental}
 
-A modelação comportamental --- máquinas de estados e casos de uso --- foi a parte da Fase 3 onde a colaboração com o LLM teve maiores ganhos de produtividade \emph{e}, simultaneamente, maior densidade de correções humanas. Os \textit{prompts} foram dados em bloco (um \textit{prompt} para gerar todas as máquinas, outro para gerar todos os casos de uso) e a revisão foi feita diagrama a diagrama.
+As máquinas de estados e casos de uso foram gerados em bloco (um \textit{prompt} para cada grupo) e depois revistos diagrama a diagrama.
 
 \subsubsection*{Máquinas de Estados}
 
@@ -673,11 +701,10 @@ A modelação comportamental --- máquinas de estados e casos de uso --- foi a p
     \item \textit{\textbf{Ator ``Sistema'' não declarado.} As notificações automáticas precisam de um ator \texttt{<<Sistema>>} para representar os \textit{cronjobs}. O modelo esqueceu-o no diagrama de Notificações; acrescentámo-lo.}
 \end{itemize}
 
-\noindent\textit{\textbf{Reiteração:} tal como referido na caixa de aviso no início desta subsecção, estes diagramas de casos de uso, em conjunto com o Modelo de Domínio e as Máquinas de Estados, serão republicados na entrega final em Visual Paradigm, mantendo intacta a semântica aqui documentada mas com \textit{layout} otimizado.}
-
 \subsection{Especificação Inicial da API}\label{subsec:ia_arq_api}
+\verRelatorio[Capítulo de Especificação e Modelação, Especificação de API]{sec:rel_api}
 
-A última peça desta fase foi a especificação inicial dos \textit{endpoints} REST. O \textit{prompt} pedido ao Claude Code partia do diagrama de classes finalizado.
+A última peça desta fase foi a especificação inicial dos \textit{endpoints} REST, pedida ao Claude Code com base no diagrama de classes finalizado.
 
 \caixaprompt{Claude Sonnet 4.5 (Claude Code)}{Com base no diagrama de classes em \texttt{images/diagrama\_classes.puml} e na Matriz de Permissões RBAC, gera uma proposta inicial de \textit{endpoints} REST para os módulos Desportivo, Clínico e Financeiro. Usa convenções RESTful (verbos HTTP, plurais, identificadores em \textit{path}). Identifica para cada \textit{endpoint} o papel autorizado.}{Proposta gerada com aproximadamente 60 \textit{endpoints} cobrindo CRUD completo das principais entidades (\texttt{/atletas}, \texttt{/equipas}, \texttt{/convocatorias}, \texttt{/atestados}, \texttt{/lesoes}, \texttt{/quotas}, \texttt{/pagamentos}). Autorizações anotadas em cada um.}
 
@@ -688,19 +715,17 @@ A última peça desta fase foi a especificação inicial dos \textit{endpoints} 
     \item \textit{Removemos o \textit{endpoint} \ttsplit{DELETE /atestados/\{id\}}: um atestado submetido nunca é apagado por motivos de auditoria; a operação correta é \ttsplit{POST /atestados/\{id\}/rejeitar}, que muda o estado mas preserva o registo histórico.}
 \end{itemize}
 
-A especificação detalhada da API consolidada (após estas e outras correções) é apresentada na Secção correspondente do Capítulo~\ref{chap:especificacao_modelacao}.
+A especificação consolidada da API está na Secção correspondente do Capítulo~\ref{chap:especificacao_modelacao}.
 
 \subsection{Balanço da Fase 3}
 
-A combinação dos dois ambientes provou ser eficaz: o Gemini Web foi o ambiente certo para discutir alternativas arquiteturais com a equipa toda à volta do mesmo ecrã, enquanto o Claude Code foi imbatível para iterar artefactos PlantUML versionados em git. Ainda assim, a Fase 3 confirmou uma intuição que se foi consolidando ao longo do projeto: \textbf{o LLM é um excelente acelerador, não um decisor}. Em praticamente todos os artefactos desta fase houve correções não triviais que o modelo, mesmo com \textit{prompts} bem construídos, não capturou sozinho --- sejam decisões arquiteturais (a inclinação para o \textit{hype} tecnológico), sejam erros de modelação (cardinalidades trocadas, estados em falta, atribuições RBAC erradas), sejam violações de princípios não escritos (o \textit{fat gateway}, o \textit{webhook} a ignorar o API Gateway, os \textit{endpoints} demasiado CRUD).
-
-A próxima fase, descrita na Secção~\ref{sec:ia_implementacao}, tira partido das decisões aqui tomadas e dos artefactos aqui produzidos para guiar a geração de código C\# e da camada de apresentação.
+A combinação Gemini + Claude Code funcionou bem, mas a Fase 3 confirmou que \textbf{o LLM é um acelerador, não um decisor}. Em praticamente todos os artefactos houve correções não triviais: inclinação para o \textit{hype} arquitetural, cardinalidades trocadas, estados em falta, atribuições RBAC erradas.
 
 \section{Fase 4 --- Implementação da Aplicação}\label{sec:ia_implementacao}
 
-A Fase 4 foi a fase em que mais código foi produzido em valor absoluto e, paradoxalmente, a fase em que o LLM gerou mais erros que escaparam à primeira leitura. A explicação é simples: aqui o modelo já não estava a propor alternativas de alto nível (como na Fase 3) nem a sintetizar documentos (como na Fase 2); estava a escrever \emph{código que tinha de compilar e correr}. Cada caractere produzido era um caractere que podia partir o sistema --- e, por várias vezes, partiu.
+Esta foi a fase em que mais código foi produzido e, paradoxalmente, onde o LLM gerou mais erros. Aqui o modelo estava a escrever código que tinha de compilar e correr.
 
-À semelhança da Fase 3, a equipa segregou explicitamente as ferramentas em função do tipo de artefacto a produzir. Para o \textit{backend} em C\# / .NET 7 utilizou-se o \textbf{Gemini CLI} executado no diretório \texttt{src/}, com acesso direto à árvore de ficheiros do projeto. Para a camada de apresentação em Next.js / React utilizou-se o \textbf{Vercel v0}, uma ferramenta especializada em gerar componentes React/JSX com pré-visualização visual imediata. A Tabela~\ref{tab:ferramentas_impl} contrasta as duas ferramentas para que fique claro porque foram escolhidas em paralelo, e não uma única.
+O \textit{backend} C\# / .NET foi gerado com o \textbf{Gemini CLI} no diretório \texttt{src/}. O \textit{frontend} foi gerado com o \textbf{Vercel v0}, que devolve componentes React/JSX com pré-visualização visual. A Tabela~\ref{tab:ferramentas_impl} contrasta as duas ferramentas.
 
 \begin{center}
 {\small
@@ -733,11 +758,12 @@ Melhor para\ldots & Esqueletos de módulo, \textit{controllers}, \textit{reposit
 \rowcolors{2}{white}{white}
 \end{center}
 
-A divisão funcionou bem, mas como veremos as duas ferramentas tinham perfis de erro \emph{muito} diferentes. O Gemini CLI errava maioritariamente em silêncio (código que compila e parece correr, mas tem uma vulnerabilidade ou um \textit{race condition}); o v0 errava \emph{em voz alta} (a interface não respondia ao \textit{token} JWT, ou os dados não chegavam à \textit{view}). Em retrospetiva, os erros do v0 foram menos graves porque eram detetados imediatamente em ciclo de teste manual; os erros do Gemini CLI exigiram revisão de código atenta para serem encontrados.
+As duas ferramentas tinham perfis de erro diferentes. O Gemini CLI errava em silêncio (código que compila mas tem vulnerabilidades); o v0 errava de forma visível (interface sem dados, JWT ignorado). Os erros do v0 eram menos graves porque eram detetados imediatamente; os do Gemini CLI exigiam revisão atenta.
 
 \subsection{Geração do \textit{Backend} com Gemini CLI}\label{subsec:ia_impl_backend}
+\verRelatorio[Capítulo de Implementação, Camada de Negócio]{sec:rel_backend}
 
-A estratégia adotada no \textit{backend} foi de geração \textbf{incremental e ordenada}, espelhando a ordem natural de construção descrita no Capítulo~\ref{chap:implementacao}: primeiro a base partilhada e os modelos de domínio, depois os \texttt{DbContext} e migrações, em seguida os repositórios e por fim os \textit{controllers} e o sistema de autenticação. Em cada etapa, o Gemini CLI tinha à sua disposição os artefactos de modelação já produzidos na Fase 3 (diagramas de classes em \texttt{images/diagrama\_classes.puml}, matriz RBAC e tabelas de casos de uso) e a estrutura do projeto que entretanto se ia consolidando.
+O \textit{backend} foi gerado de forma incremental: primeiro a base partilhada, depois os \texttt{DbContext}, os repositórios e por fim os \textit{controllers}. O Gemini CLI tinha acesso aos artefactos da Fase 3 (diagramas de classes, matriz RBAC, tabelas de casos de uso).
 
 \subsubsection*{Esqueleto da Solução e Classe Base \texttt{Entity}}
 
@@ -798,10 +824,9 @@ A estratégia adotada no \textit{backend} foi de geração \textbf{incremental e
 \noindent\textit{\textbf{Nota da equipa --- correções aplicadas:} O \textit{seeder} gerado funcionava, mas produzia dados \emph{demasiado uniformes} para serem úteis em testes: todos os atletas tinham 100\% de presenças, todos os atestados estavam válidos durante exatamente 365 dias, todas as quotas tinham sido pagas no dia da emissão. O resultado é que os \textit{dashboards} davam todos os indicadores em ``verde'' e era impossível testar visualmente os alertas e as exceções. Reescrevemos a lógica para usar um \texttt{Random} com \textit{seed} fixa (para reprodutibilidade) e distribuir as presenças entre 60\% e 95\%, as datas de validade dos atestados entre $-30$ e $+300$ dias, e os pagamentos entre os estados \texttt{Pago}, \texttt{Pendente} e \texttt{EmAtraso}. Esta decisão está alinhada com a justificação documentada no Capítulo~\ref{chap:implementacao} sobre a importância de dados não uniformes para testar a interface.}
 
 \subsection{Geração do \textit{Frontend} com Vercel v0}\label{subsec:ia_impl_frontend}
+\verRelatorio[Capítulo de Implementação, Camada de Apresentação]{sec:rel_frontend}
 
-O Vercel v0 distingue-se de qualquer outro LLM por gerar \emph{simultaneamente} código React/JSX e uma pré-visualização visual em tempo real. Em vez de produzir um bloco de texto que tem de ser colado e renderizado, devolve uma página interativa que pode ser inspecionada, exportada e iterada. Esta característica fez dele a ferramenta natural para a camada de apresentação --- mas, como se verá, esta vantagem trouxe um conjunto novo de problemas.
-
-A estratégia de utilização foi a seguinte: para cada página principal da aplicação fornecíamos ao v0 (i) uma descrição textual do que pretendíamos, (ii) o \textit{mockup} desenhado em PlantUML (ver Capítulo~\ref{chap:especificacao_modelacao}) como ponto de partida visual e (iii) uma lista das chamadas à API que a página teria de fazer. O v0 devolvia um componente React completo, com \textit{layout}, estilos Tailwind, e \textit{data} provisória. A equipa exportava o componente, integrava-o na estrutura de diretórios documentada em [routing] do Capítulo~\ref{chap:implementacao} e substituía os dados \textit{mock} por chamadas reais via \texttt{fetchApi}.
+Para cada página foi fornecido ao v0 (i) uma descrição textual, (ii) o \textit{mockup} em PlantUML e (iii) as chamadas à API necessárias. O v0 devolvia um componente React completo com dados provisórios. A equipa integrava o componente no projeto e substituía os dados \textit{mock} por chamadas reais via \texttt{fetchApi}.
 
 \subsubsection*{Página de \textit{Login}}
 
@@ -842,7 +867,7 @@ A estratégia de utilização foi a seguinte: para cada página principal da apl
 
 \subsection{Contentorização com Docker Compose}\label{subsec:ia_impl_docker}
 
-O ficheiro \texttt{docker-compose.yml} e os dois \texttt{Dockerfile} (API e \textit{frontend}) foram gerados com auxílio do Gemini CLI, num único \textit{prompt} no final da fase de implementação.
+O \texttt{docker-compose.yml} e os dois \texttt{Dockerfile} foram gerados com o Gemini CLI num único \textit{prompt}.
 
 \caixaprompt{Gemini 2.5 Pro (CLI)}{Cria \texttt{docker-compose.yml} na raiz do repositório com três serviços: \texttt{db} (PostgreSQL 15 Alpine), \texttt{api} (ASP.NET Core 7 construído com \textit{multi-stage build}, expondo a porta 5000) e \texttt{frontend} (Next.js 16 construído com \textit{standalone output}, expondo a porta 3000). \texttt{api} depende de \texttt{db}. Variáveis de ambiente lidas a partir de \texttt{.env}. Cria também os dois \texttt{Dockerfile} correspondentes.}{Ficheiros criados. \texttt{docker-compose.yml} com \texttt{depends\_on: db}. \texttt{Dockerfile} da API com etapas \texttt{build} (SDK) e \texttt{runtime} (\texttt{aspnet}). \texttt{Dockerfile} do \textit{frontend} com etapas \texttt{deps}, \texttt{build} e \texttt{runner}.}
 
@@ -855,23 +880,19 @@ O ficheiro \texttt{docker-compose.yml} e os dois \texttt{Dockerfile} (API e \tex
 
 \subsection{Balanço da Fase 4}\label{subsec:ia_impl_balanco}
 
-Olhando para esta fase com algum recuo, é justo dizer que sem o auxílio do Gemini CLI e do v0 não teríamos chegado ao mesmo grau de cobertura funcional dentro do prazo académico. A geração de \textit{boilerplate} foi simplesmente espantosa: os sete \texttt{DbContext}, os sete repositórios genéricos, os dezoito \textit{controllers}, o \texttt{DataSeeder} e o esqueleto de cada \textit{dashboard} nasceram nos LLM em ordens de magnitude inferiores ao tempo que demoraríamos a escrevê-los do zero.
+Sem o Gemini CLI e o v0, não teria sido possível chegar ao mesmo grau de cobertura funcional dentro do prazo. Os sete \texttt{DbContext}, os dezoito \textit{controllers} e os esqueletos dos \textit{dashboards} foram gerados muito mais rápido do que seria possível manualmente.
 
-Por outro lado, esta foi a fase em que mais se notou que \textbf{a IA não tem juízo de segurança nem de correção fim a fim}. As correções listadas nesta secção não são polimento estético: são erros que, se tivessem chegado a produção, teriam consequências reais --- enumeração de utilizadores por canal lateral de \textit{timing}, \textit{webhooks} de pagamento sem assinatura HMAC, contadores de \textit{lockout} mal reiniciados, \textit{race conditions} no arranque do contentor. Estes problemas não foram detetados pelo modelo nem por nenhum teste automático: foram detetados por revisão humana atenta, leitura de \textit{logs} e simulação de cenários adversos.
+Por outro lado, esta foi a fase onde mais se notou que \textbf{a IA não tem juízo de segurança}. As correções desta secção não são polimento: são erros que, em produção, teriam consequências reais (enumeração de utilizadores, \textit{webhooks} sem HMAC, \textit{lockout} mal reiniciado). Nenhum foi detetado pelo modelo --- foram encontrados por revisão humana e testes adversos.
 
-Como estimativa qualitativa (não temos métricas exatas, apenas a sensação após várias semanas de iteração), aproximadamente \textbf{60--70\% das linhas de código que constituem o sistema final nasceram num LLM}, mas só \textbf{cerca de 20\%} sobreviveram sem qualquer alteração. O restante foi sujeito a renomeações, refactoring, correções de \textit{bugs} ou reescritas completas. Esta proporção parece-nos um equilíbrio saudável: a IA pagou-se largamente em produtividade na geração de \textit{boilerplate}, mas exigiu --- e exigirá em qualquer projeto sério --- um filtro humano apertado em tudo o que tem implicações de segurança, desempenho ou semântica de domínio.
-
-A próxima secção (\ref{sec:ia_prompts}) sistematiza as lições de engenharia de \textit{prompts} que foram emergindo destas quatro fases, e a Secção~\ref{sec:ia_validacao} fecha o capítulo com uma reflexão geral sobre o que correu mal, como detetámos os erros e o que faríamos diferente num próximo projeto.
+Cerca de \textbf{60--70\% das linhas de código} nasceram num LLM, mas só \textbf{cerca de 20\%} sobreviveram sem alterações. A IA pagou-se em \textit{boilerplate}, mas exigiu revisão atenta em tudo o que tem implicações de segurança.
 
 \section{Engenharia de Prompts: Boas Práticas e Lições}\label{sec:ia_prompts}
 
-Ao longo das quatro fases descritas nas secções anteriores, a equipa foi acumulando intuições sobre o que faz a diferença entre um \textit{prompt} que devolve trabalho aproveitável e um \textit{prompt} que devolve respostas vagas, alucinadas ou estruturalmente más. Esta secção sistematiza essas intuições. Não pretende ser um manual de engenharia de \textit{prompts} (existem livros e cursos inteiros para isso); é antes um \textit{cheat sheet} interno, escrito \textit{a posteriori}, das regras que descobrimos --- por vezes a custo --- ao longo do semestre.
-
-A discussão está organizada em três eixos: as práticas que se revelaram consistentemente eficazes (\textbf{6.6.1}), os anti-padrões em que caímos repetidamente até nos forçarmos a evitá-los (\textbf{6.6.2}) e algumas observações específicas a cada uma das duas famílias de modelos que mais usámos --- Gemini e Claude (\textbf{6.6.3}).
+Esta secção resume as boas práticas e anti-padrões de \textit{prompting} que a equipa foi aprendendo ao longo do semestre.
 
 \subsection{Boas Práticas Consolidadas}\label{subsec:ia_prompts_boas}
 
-A Tabela~\ref{tab:boas_praticas} apresenta, em forma sintética, as oito boas práticas que mais impacto tiveram na qualidade do trabalho devolvido pelos modelos. Cada uma é acompanhada de uma justificação curta e de uma referência a uma das secções anteriores onde a sua aplicação (ou ausência) é visível.
+A Tabela~\ref{tab:boas_praticas} resume as oito boas práticas que mais impacto tiveram na qualidade do trabalho.
 
 \begin{center}
 {\small
@@ -914,13 +935,11 @@ Separar conversas por tópico & Conversas longas e mistas degradam-se (\textit{c
 \rowcolors{2}{white}{white}
 \end{center}
 
-Duas destas práticas merecem comentário adicional. A \textbf{validação de formato com um exemplo} foi a que mais tempo nos poupou em valor absoluto. Quando precisámos de gerar as 36 tabelas de detalhamento dos requisitos (Secção~\ref{sec:ia_detalhamento}), pedimos primeiro o RF-01 isolado, validámos a estrutura, corrigimos uma coluna trocada, e \emph{só depois} pedimos os restantes 35. Se tivéssemos pedido tudo de uma só vez, teríamos descoberto a coluna trocada após 36 respostas e ficaríamos com o dilema de refazer tudo ou aceitar a inconsistência.
-
-O \textbf{\textit{prompt grounding}} (cruzar explicitamente com artefactos anteriores) tornou-se reflexo na Fase 3. Em vez de pedir ``gera um diagrama de classes para um sistema de gestão de clube'', o pedido evoluiu para ``com base no modelo de domínio em \texttt{images/modelo\_dominio.puml} e nas tabelas de requisitos do Capítulo~3, gera o diagrama de classes em \ldots''. A diferença em qualidade foi noite e dia: nomes consistentes, cardinalidades alinhadas, sem entidades inventadas que não existiam no domínio.
+A \textbf{validação de formato com um exemplo} poupou muito tempo. Para as 36 tabelas de requisitos, o RF-01 foi gerado primeiro para validar o formato antes de pedir os restantes 35. O \textbf{\textit{prompt grounding}} (cruzar com artefactos anteriores) reduziu muito as alucinações nos diagramas: nomes consistentes, cardinalidades corretas.
 
 \subsection{Anti-Padrões Repetidos}\label{subsec:ia_prompts_maus}
 
-Foi também útil registar os erros que cometemos sistematicamente nas primeiras semanas até nos forçarmos a evitá-los. A Tabela~\ref{tab:anti_padroes} lista os cinco que mais aprendemos a reconhecer.
+A Tabela~\ref{tab:anti_padroes} lista os cinco anti-padrões mais comuns.
 
 \begin{center}
 {\small
@@ -957,27 +976,27 @@ Confiar em código que ``compila'' & Compila não significa correto; muitos erro
 \rowcolors{2}{white}{white}
 \end{center}
 
-O anti-padrão da \textbf{delegação de decisão} merece destaque: foi aquele de que mais nos custou abdicar. É tentador, depois de o modelo apresentar três opções, perguntar-lhe ``qual escolherias''. A resposta é normalmente bem-fundamentada e plausível --- e \textit{isso} é o problema. Como a Secção~\ref{subsec:ia_arq_decisoes} mostra, o modelo tende a gravitar para opções tecnologicamente ``ambiciosas'' (microsserviços, GraphQL, MongoDB) que não fazem sentido para o nosso contexto. A regra que adotámos foi simples: \emph{o modelo apresenta, a equipa decide}.
+A \textbf{delegação de decisão} foi o anti-padrão mais difícil de evitar. O modelo tende a escolher opções tecnologicamente ambiciosas que não fazem sentido para o contexto. A regra adotada foi simples: \emph{o modelo apresenta, a equipa decide}.
 
 \subsection{Notas Específicas por Modelo}\label{subsec:ia_prompts_modelos}
 
-Embora a esmagadora maioria das observações acima se aplique a qualquer modelo moderno de qualidade comparável, registaram-se algumas diferenças sistemáticas entre o Gemini (família 2.5) e o Claude (família Sonnet 4.5/4.6) que vale a pena notar.
+Foram também registadas diferenças entre o Gemini (família 2.5) e o Claude (família Sonnet 4.5/4.6):
 
-\paragraph{Gemini.} Excelente para \textit{brainstorming} e geração de conteúdo estruturado (tabelas, listas, comparativos). Em respostas longas tende a ser ligeiramente verboso e a usar emojis ou negrito de forma excessiva --- algo que tivemos de pedir explicitamente para não fazer no contexto do relatório. A Web é particularmente útil pela rapidez de iteração e pelo suporte a \textit{upload} de ficheiros de contexto. Em CLI (Gemini CLI) revelou-se competente em código C\#, embora com a propensão para \textit{boilerplate} que documentámos na Secção~\ref{subsec:ia_impl_backend}.
+\paragraph{Gemini.} Bom para \textit{brainstorming} e conteúdo estruturado. Tende a ser verboso e usar negrito em excesso. Em CLI é competente em código C\#.
 
-\paragraph{Claude.} Mais conservador no estilo de escrita, com tendência para texto técnico bem estruturado e menos verboso. Em Claude Code (CLI), foi consistentemente o melhor a operar sobre múltiplos ficheiros do projeto simultaneamente, com taxa de alucinação visivelmente inferior à do Gemini CLI quando o pedido envolvia muitos ficheiros de contexto. Em contrapartida, é mais cauteloso a propor decisões fortes --- tem tendência a oferecer ``depende'' onde o Gemini cairia em recomendar diretamente. Para o nosso caso, esta cautela foi mais virtude do que defeito.
+\paragraph{Claude.} Mais conservador e menos verboso. Em Claude Code opera melhor sobre múltiplos ficheiros com menos alucinações. Tende a oferecer ``depende'' em vez de recomendar diretamente, o que no contexto deste projeto foi mais virtude do que defeito.
 
-\paragraph{v0.} Caso à parte. Não é um modelo de propósito geral; é uma ferramenta especializada na geração de componentes React/JSX com pré-visualização visual. O perfil de erros é também específico: dados \textit{hardcoded}, strings em inglês mesmo pedido em PT, acessibilidade fraca por defeito. Útil exclusivamente em fase de prototipagem visual; para integração com API real tudo tem de ser tocado.
+\paragraph{v0.} Especializado em componentes React/JSX com pré-visualização visual. Os erros são previsíveis: dados \textit{hardcoded}, strings em inglês, acessibilidade fraca. Útil só em prototipagem visual.
 
-A escolha do modelo certo para cada tarefa --- mais do que a ``melhor'' \textit{prompt engineering} --- foi o fator que mais notámos na qualidade final do trabalho. Modelo errado para a tarefa errada gera fricção; modelo certo, mesmo com \textit{prompts} medianos, gera trabalho usável.
+A escolha do modelo certo para cada tarefa foi mais importante do que a qualidade dos \textit{prompts}.
 
 \section{Validação Humana e Reflexão Crítica}\label{sec:ia_validacao}
 
-Esta última secção encerra o capítulo com uma reflexão sobre o que mais importa do ponto de vista da \emph{disciplina académica}: não os \textit{prompts} que correram bem, mas os erros que a IA cometeu, a forma como os apanhámos --- ou não --- e o que isso nos diz sobre o valor real da delegação a modelos generativos num projeto de Engenharia de Software.
+Esta secção reflete sobre os erros que a IA cometeu, como foram detetados, e o que isso diz sobre o uso de modelos generativos em Engenharia de Software.
 
 \subsection{Catálogo dos Erros Mais Significativos}\label{subsec:ia_val_erros}
 
-A Tabela~\ref{tab:erros_ia} consolida, por fase, os erros e alucinações mais notáveis que detetámos ao longo do projeto. Não é uma lista exaustiva (essa estenderia o relatório por dezenas de páginas) mas é representativa do \emph{tipo} de erro que esperar.
+A Tabela~\ref{tab:erros_ia} resume os erros mais notáveis por fase.
 
 \begin{center}
 {\footnotesize
@@ -1034,46 +1053,34 @@ Fase 4 & Frontend gerado com dados \textit{hardcoded}. & Componentes não funcio
 \rowcolors{2}{white}{white}
 \end{center}
 
-A leitura cruzada desta tabela revela um padrão claro: \textbf{os erros de gravidade alta ou crítica concentram-se na Fase 4} (implementação). Os erros das Fases 2 e 3 foram, em retrospetiva, recuperáveis com algum esforço de revisão; os da Fase 4, se tivessem chegado a produção, teriam consequências reais --- desde a impossibilidade prática de testar o sistema até à possibilidade de manipular pagamentos sem autenticação.
-
-Isto não é coincidência. Nas fases iniciais o LLM trabalha em terreno conceptual, onde os erros são visíveis (um \textit{stakeholder} omitido é fácil de detetar). Na fase de implementação trabalha em código que compila e corre --- e que pode estar errado de formas subtis e perigosas que só uma revisão atenta detecta.
+Os erros de gravidade alta concentram-se na Fase 4. Nas fases iniciais os erros são visíveis (um \textit{stakeholder} omitido é fácil de detetar); na implementação o código compila mas pode ter vulnerabilidades que só uma revisão atenta encontra.
 
 \subsection{O Processo de Revisão da Equipa}\label{subsec:ia_val_processo}
 
-A capacidade de detetar os erros listados acima não foi acidental. A equipa adotou desde cedo um conjunto de práticas de revisão que se foram tornando hábito:
+A equipa adotou as seguintes práticas de revisão:
 
 \begin{itemize}
-    \item \textbf{Nenhum \textit{commit} sem leitura humana do \textit{diff}.} Mesmo em Claude Code, onde o modelo edita ficheiros diretamente, exigiu-se que pelo menos um elemento da equipa revisse o \textit{diff} antes de \texttt{git add}. Esta regra foi violada uma ou duas vezes nas primeiras semanas; nunca depois de a primeira regressão silenciosa ter sido descoberta.
+    \item \textbf{Nenhum \textit{commit} sem revisão do \textit{diff}.} Pelo menos um elemento da equipa revia o \textit{diff} antes de fazer \texttt{git add}.
 
-    \item \textbf{Revisão por pares para \textit{controllers} sensíveis.} \textit{Controllers} com implicação de segurança (autenticação, \textit{webhooks}, exportação SAF-T) foram sempre revistos por um segundo elemento da equipa. Foi assim que apanhámos a falha do HMAC no controlador de \textit{webhooks}: o autor da revisão notou que faltava o atributo de autorização \emph{e} a validação de assinatura, num pedido onde nenhum dos dois fazia sentido faltar.
+    \item \textbf{Revisão por pares para \textit{controllers} sensíveis.} \textit{Controllers} de segurança (autenticação, \textit{webhooks}, SAF-T) foram revistos por um segundo elemento. Foi assim que se detetou a falha do HMAC.
 
-    \item \textbf{Testes manuais de cenário adverso.} Não temos uma \textit{suite} de testes automatizados extensiva nesta iteração (limitação assumida). Em compensação, foram conduzidas sessões dedicadas de teste manual com cenários adversos: cinco tentativas seguidas de \textit{login} para forçar o \textit{lockout}, submissão de webhook com assinatura inválida, registo simultâneo do mesmo NIF a partir de dois \textit{browsers}, etc. Foi nestas sessões que detetámos o problema do contador de \textit{login} e o \textit{race condition} do arranque do Docker.
+    \item \textbf{Testes manuais adversos.} Sem testes automatizados extensivos, foram feitas sessões de teste manual: cinco \textit{logins} errados seguidos, \textit{webhook} com assinatura inválida, dois registos simultâneos do mesmo NIF. Detetou-se aqui o problema do contador de \textit{lockout} e o \textit{race condition} do Docker.
 
-    \item \textbf{Leitura de \textit{logs} SQL em modo verbose.} O EF Core permite ativar \textit{logging} detalhado das \textit{queries} em desenvolvimento. Foi nesta leitura que detetámos o problema N+1 do repositório do EE: a página do \textit{dashboard} carregava em \textasciitilde 200 ms mas disparava 13 \textit{queries}, em vez de uma.
+    \item \textbf{\textit{Logs} SQL em modo verbose.} Foi assim que se detetou o problema N+1 do repositório do EE: 13 \textit{queries} em vez de uma.
 
-    \item \textbf{Pedir ao próprio modelo para auditar o \textit{output}.} Em alguns casos, depois de o modelo gerar um \textit{controller}, abriu-se uma nova conversa com \emph{outro} modelo (tipicamente GPT-4o ou Claude se o gerador tinha sido Gemini, e vice-versa) e pediu-se uma revisão crítica. O segundo modelo, sem o ``orgulho'' do primeiro, frequentemente apontava problemas que o original não tinha apanhado. Esta técnica funcionou particularmente bem para erros de segurança.
+    \item \textbf{Segundo modelo a auditar.} Após gerar um \textit{controller}, foi pedida uma revisão a um modelo diferente. Funcionou bem para erros de segurança.
 \end{itemize}
 
 \subsection{Estimativa de Impacto: O Que Ganhámos e O Que Perdemos}\label{subsec:ia_val_impacto}
 
-Qualquer afirmação sobre o ``ganho'' real da utilização de IA generativa exige honestidade sobre o que não conseguimos medir. Não fizemos \textit{baseline} comparativa (não há uma versão paralela do projeto feita sem IA contra a qual comparar); as estimativas que se seguem são qualitativas, baseadas na sensação da equipa após várias semanas de trabalho.
+As estimativas são qualitativas, sem \textit{baseline} comparativa.
 
-\textbf{O que ganhámos.} O ganho mais óbvio foi em \textbf{velocidade de produção bruta} de artefactos: as 36 tabelas de detalhamento dos requisitos, os 7 esqueletos de módulo C\#, os 18 \textit{controllers}, os 7 diagramas PlantUML de casos de uso, os componentes React de cada \textit{dashboard}. Cada uma destas peças, escrita manualmente do zero, teria consumido várias horas; com auxílio de IA, consumiu minutos para um primeiro \textit{jet} e horas para revisão. Estimamos que a redução de tempo total na produção destes artefactos rondou os \textbf{50--60\%}.
+\textbf{O que ganhámos.} O ganho principal foi em \textbf{velocidade}. As 36 tabelas de requisitos, os 7 esqueletos C\#, os 18 \textit{controllers} e os componentes React foram gerados muito mais rápido do que seria possível manualmente. A redução de tempo estimada nos artefactos rondou \textbf{50--60\%}. O \textit{brainstorming} com um interlocutor disponível 24/7 também acelerou as decisões arquiteturais.
 
-Um segundo ganho, mais subtil, foi o \textbf{\textit{brainstorming} de melhor qualidade} nas fases iniciais. Ter um interlocutor disponível 24/7 para discutir abordagens metodológicas (Secção~\ref{sec:ia_requisitos}) ou comparar três opções arquiteturais (Secção~\ref{subsec:ia_arq_decisoes}) acelerou a convergência da equipa em direção a decisões fundamentadas. Sem IA, estas mesmas decisões seriam tomadas, mas com mais tempo de discussão interna e mais incerteza sobre se a equipa estava a considerar todas as alternativas relevantes.
-
-\textbf{O que perdemos.} O custo principal foi o \textbf{esforço de revisão}, que não é desprezível e que muitas vezes se subestima na conversa pública sobre IA. Cada artefacto gerado teve de ser lido com atenção; muitos tiveram de ser corrigidos; alguns tiveram de ser reescritos quase por inteiro. Estimamos que para cada hora ``poupada'' na geração, gastámos \textbf{10--20 minutos} adicionais em revisão e correção --- ou seja, o ganho líquido foi de cerca de \textbf{40--50\%} do ganho bruto.
-
-Um segundo custo, mais difícil de quantificar, foi o \textbf{risco de uniformização do estilo de escrita} do relatório. Quando se delega a redação de várias secções consecutivas a um único modelo, o resultado tende a soar uniforme, com tiques de linguagem repetidos (uso excessivo de ``robusto'', ``crucial'', ``garantir''). A equipa teve de voltar atrás várias vezes para introduzir variação de estilo --- algo que não acontece quando o texto é escrito por humanos diferentes.
-
-Finalmente, registamos um custo \emph{epistémico} pelo qual vale a pena alertar: a tentação de aceitar uma resposta plausível como correta sem a verificar. Esta tentação é particularmente forte quando o modelo escreve com confiança e o assunto está fora do nosso domínio de conforto (segurança aplicacional, configuração de Docker em produção, padrões \textit{enterprise} de DI). Foi nestas zonas que a maior parte dos nossos erros se concentrou.
+\textbf{O que perdemos.} O custo principal foi a \textbf{revisão}, muitas vezes subestimada. Para cada hora poupada na geração, gastaram-se cerca de \textbf{10--20 minutos} em revisão, dando um ganho líquido de \textbf{40--50\%}. A uniformização do estilo do relatório foi outro custo: texto gerado em bloco fica demasiado homogéneo e foi necessário reescrever passagens. Por último, a tentação de aceitar uma resposta plausível sem verificar foi constante, especialmente em áreas como segurança e Docker.
 
 \subsection{Conclusão: A IA como Acelerador, Não como Decisor}\label{subsec:ia_val_conclusao}
 
-Se houvesse que reduzir a reflexão deste capítulo a uma única frase, seria a que já foi avançada no fecho da Secção~\ref{subsec:ia_arq_diagramas} e repetida em variações ao longo dos capítulos: \textbf{a IA generativa é um excelente acelerador, mas não substitui o juízo humano em nenhum dos pontos críticos do projeto}. Nem na decisão arquitetural (onde tende para o \textit{hype}), nem na semântica de domínio (onde inventa cardinalidades e omite estados), nem na segurança (onde escreve código que compila mas tem vulnerabilidades), nem na estética do relatório (onde uniformiza a voz da equipa).
+A IA generativa é um acelerador, mas não substitui o juízo humano nos pontos críticos: decisões arquiteturais, semântica de domínio, segurança. Os ganhos são reais; os riscos também. A diferença entre tirar partido positivo da IA e ser enganado pelos seus erros silenciosos está na disciplina de revisão.
 
-Esta conclusão pode soar conservadora face ao entusiasmo público com IA generativa, mas é a que efetivamente representa a nossa experiência. Os ganhos são reais e mensuráveis; os riscos também. A diferença entre tirar partido líquido positivo da IA e ser tragado pelos seus erros silenciosos está, em última análise, na disciplina de revisão da equipa que a usa.
-
-Se voltássemos a começar este projeto hoje, com tudo o que aprendemos, fá-lo-íamos novamente com auxílio de IA generativa --- mas com três alterações principais ao processo: (i) reservar tempo explícito para revisão de \textit{diffs}, em vez de a tratar como \textit{overhead}; (ii) adotar uma \textit{suite} de testes automatizados desde o início, em vez de depender só de testes manuais; (iii) ser mais agressivo na divisão do trabalho por modelos diferentes, especialmente em decisões de segurança, onde a obtenção de uma segunda opinião automatizada (segundo modelo a auditar o \textit{output} do primeiro) custa pouco e apanha muito.
-
-Esta é a posição da equipa no fim do projeto. Não desvaloriza o que a IA nos permitiu fazer; reconhece também o que não nos permitiu dispensar.
+Se o projeto fosse começar de novo, a equipa voltaria a usar IA, mas com três mudanças: (i) reservar tempo explícito para revisão de \textit{diffs}; (ii) adotar testes automatizados desde o início; (iii) usar um segundo modelo para auditar o \textit{output} do primeiro, especialmente em decisões de segurança.

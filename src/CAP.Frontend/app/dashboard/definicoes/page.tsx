@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { 
   User, 
   Settings, 
@@ -23,11 +23,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { fetchApi } from "@/lib/api"
 
-export default function DefinicoesPage() {
+function DefinicoesContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const forceChange = searchParams.get("forceChange") === "true"
 
   const [user, setUser] = useState<any>(null)
-  
   const [isSaving, setIsSaving] = useState(false)
 
   // Formulário Pessoal
@@ -38,6 +39,11 @@ export default function DefinicoesPage() {
   const [smsNotifs, setSmsNotifs] = useState(false)
   const [pushNotifs, setPushNotifs] = useState(true)
 
+  // Segurança
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
     if (!storedUser) {
@@ -47,18 +53,19 @@ export default function DefinicoesPage() {
     const parsed = JSON.parse(storedUser)
     setUser(parsed)
     setTelefone(parsed.telefone || "")
-    // Idealmente, buscaríamos preferências reais da API
-  }, [router])
+
+    if (forceChange) {
+      alert("Por favor, altere a sua palavra-passe para continuar a utilizar o sistema.")
+    }
+  }, [router, forceChange])
 
   const handleSavePessoal = async () => {
     setIsSaving(true)
     try {
-      // Simular chamada à API
       await new Promise(r => setTimeout(r, 600))
       const updatedUser = { ...user, telefone }
       localStorage.setItem("cap_user", JSON.stringify(updatedUser))
       setUser(updatedUser)
-      
       alert("As tuas informações pessoais foram atualizadas com sucesso.")
     } catch (e) {
       alert("Não foi possível guardar as alterações.")
@@ -70,12 +77,42 @@ export default function DefinicoesPage() {
   const handleSaveNotifications = async () => {
     setIsSaving(true)
     try {
-      // Aqui faríamos fetchApi para /api/notifications/preferences
       await new Promise(r => setTimeout(r, 500))
-      
       alert("As tuas preferências de notificações foram atualizadas.")
     } catch (e) {
       alert("Não foi possível atualizar preferências.")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleUpdatePassword = async () => {
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert("Por favor, preencha todos os campos.")
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      alert("A nova palavra-passe e a confirmação não coincidem.")
+      return
+    }
+
+    setIsSaving(true)
+    try {
+      await fetchApi("/api/users/profile/password", {
+        method: "PUT",
+        body: JSON.stringify({ currentPassword, newPassword })
+      })
+      alert("A tua palavra-passe foi alterada com sucesso.")
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+      
+      if (forceChange) {
+        // Redirecionar para dashboard principal se era uma mudança forçada
+        router.push(`/dashboard/${user.role}`)
+      }
+    } catch (e: any) {
+      alert(e.message || "Não foi possível alterar a palavra-passe.")
     } finally {
       setIsSaving(false)
     }
@@ -94,7 +131,7 @@ export default function DefinicoesPage() {
           <p className="text-muted-foreground">Gere as tuas preferências, informações pessoais e segurança.</p>
         </div>
 
-        <Tabs defaultValue="perfil" className="space-y-4">
+        <Tabs defaultValue={forceChange ? "seguranca" : "perfil"} className="space-y-4">
           <TabsList className="bg-muted/50 p-1">
             <TabsTrigger value="perfil" className="flex items-center gap-2">
               <User className="size-4" />
@@ -155,33 +192,33 @@ export default function DefinicoesPage() {
                 <CardDescription>Escolhe como queres ser notificado pelo CAP.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">  
                   <div className="flex items-center gap-4">
                     <div className="p-2 bg-primary/10 text-primary rounded-full">
                       <Mail className="size-5" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">E-mail</h4>
-                      <p className="text-sm text-muted-foreground">Recebe resumos diários e anúncios importantes.</p>
+                      <p className="text-sm text-muted-foreground">Recebe resumos diários e anúncios importantes.</p>        
                     </div>
                   </div>
                   <Switch checked={emailNotifs} onCheckedChange={setEmailNotifs} />
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">  
                   <div className="flex items-center gap-4">
                     <div className="p-2 bg-primary/10 text-primary rounded-full">
                       <Smartphone className="size-5" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">SMS</h4>
-                      <p className="text-sm text-muted-foreground">Avisos urgentes como alterações de treinos ou jogos.</p>
+                      <p className="text-sm text-muted-foreground">Avisos urgentes como alterações de treinos ou jogos.</p>  
                     </div>
                   </div>
                   <Switch checked={smsNotifs} onCheckedChange={setSmsNotifs} />
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">  
                   <div className="flex items-center gap-4">
                     <div className="p-2 bg-primary/10 text-primary rounded-full">
                       <Bell className="size-5" />
@@ -209,23 +246,43 @@ export default function DefinicoesPage() {
                 <CardDescription>Atualiza a tua palavra-passe para manter a conta segura.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 max-w-md">
+                {forceChange && (
+                  <div className="p-3 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md mb-4">
+                    Pela sua segurança, é obrigatório alterar a palavra-passe no primeiro acesso.
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label>Palavra-passe Atual</Label>
-                  <Input type="password" placeholder="••••••••" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={currentPassword}
+                    onChange={e => setCurrentPassword(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Nova Palavra-passe</Label>
-                  <Input type="password" placeholder="••••••••" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={newPassword}
+                    onChange={e => setNewPassword(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Confirmar Nova Palavra-passe</Label>
-                  <Input type="password" placeholder="••••••••" />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                  />
                 </div>
               </CardContent>
               <CardFooter className="border-t px-6 py-4">
-                <Button onClick={() => alert("Password alterada")} variant="default">
+                <Button onClick={handleUpdatePassword} disabled={isSaving}>
                   <Lock className="size-4 mr-2" />
-                  Alterar Palavra-passe
+                  {isSaving ? "A alterar..." : "Alterar Palavra-passe"}
                 </Button>
               </CardFooter>
             </Card>
@@ -234,5 +291,13 @@ export default function DefinicoesPage() {
         </Tabs>
       </div>
     </DashboardLayout>
+  )
+}
+
+export default function DefinicoesPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-[400px]">Carregando definições...</div>}>
+      <DefinicoesContent />
+    </Suspense>
   )
 }

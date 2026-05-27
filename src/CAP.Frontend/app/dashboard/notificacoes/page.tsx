@@ -180,7 +180,7 @@ export default function NotificacoesUniversalPage() {
                         </SelectTrigger>
                         <SelectContent>
                           {destinatariosPossiveis.map(d => (
-                            <SelectItem key={d.id} value={d.id}>{d.nome} (Atleta)</SelectItem>
+                            <SelectItem key={d.id} value={d.id} label={d.nome}>{d.nome} (Atleta)</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -12,6 +12,7 @@ import {
   Trash2,
   CheckCircle,
   XCircle,
+  Settings,
   Users,
 } from "lucide-react"
 
@@ -50,6 +51,8 @@ interface Instalacao {
   tipo: string;
   capacidade: number;
   estado: number; // 0 = Disponivel, 1 = EmManutencao
+  ativo?: boolean;
+  observacoes?: string;
 }
 
 interface Reserva {
@@ -67,12 +70,23 @@ import { fetchApi } from "@/lib/api"
 export default function InstalacoesSecretariaPage() {
   const router = useRouter()
   const [novaReservaOpen, setNovaReservaOpen] = useState(false)
+  const [editarInstalacaoOpen, setEditarInstalacaoOpen] = useState(false)
+  const [verReservasOpen, setVerReservasOpen] = useState(false)
+  const [instalacaoSelecionada, setInstalacaoSelecionada] = useState<Instalacao | null>(null)
 
   const [instalacoes, setInstalacoes] = useState<Instalacao[]>([])
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [loading, setLoading] = useState(true)
 
   // Form states
+  const [editarForm, setEditarForm] = useState({
+    nome: "",
+    tipo: "",
+    capacidade: 0,
+    ativo: true,
+    observacoes: ""
+  })
+
   const [novaReserva, setNovaReserva] = useState({
     espacoId: "",
     titulo: "",
@@ -129,7 +143,7 @@ export default function InstalacoesSecretariaPage() {
       loadData()
     } catch (e) {
       console.error(e)
-      alert("Erro ao criar reserva (possÃ­vel conflito de horÃ¡rio)")
+      alert("Erro ao criar reserva (possível conflito de horário)")
     }
   }
 
@@ -143,7 +157,68 @@ export default function InstalacoesSecretariaPage() {
     }
   }
 
-  const disponiveis = instalacoes.filter((i) => i.estado === 0).length
+  const handleOpenEdit = (inst: Instalacao) => {
+    setInstalacaoSelecionada(inst)
+    setEditarForm({
+      nome: inst.nome,
+      tipo: mapTipoToString(inst.tipo),
+      capacidade: inst.capacidade || 0,
+      ativo: inst.ativo !== false, // Default to true se undefined
+      observacoes: inst.observacoes || ""
+    })
+    setEditarInstalacaoOpen(true)
+  }
+
+  const handleOpenVerReservas = (inst: Instalacao) => {
+    setInstalacaoSelecionada(inst)
+    setVerReservasOpen(true)
+  }
+
+  const handleSaveInstalacao = async () => {
+    if (!instalacaoSelecionada) return;
+    try {
+      await fetchApi(`/api/facilities/spaces/${instalacaoSelecionada.id}`, {
+        method: "PUT",
+        body: JSON.stringify(editarForm)
+      })
+      setEditarInstalacaoOpen(false)
+      loadData()
+    } catch (e) {
+      alert("Erro ao atualizar instalação");
+    }
+  }
+
+  const mapTipoToString = (tipo: any): string => {
+    if (typeof tipo === 'string') return tipo;
+    const map: Record<number, string> = {
+      0: "CampoRelvado",
+      1: "Pavilhao",
+      2: "Ginasio",
+      3: "Balneario"
+    };
+    return map[tipo] || "Ginasio";
+  };
+
+  const handleToggleEstado = async (inst: Instalacao) => {
+    try {
+      const novoEstadoAtivo = inst.ativo === false ? true : false;
+      await fetchApi(`/api/facilities/spaces/${inst.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          nome: inst.nome,
+          tipo: mapTipoToString(inst.tipo),
+          capacidade: inst.capacidade || 0,
+          ativo: novoEstadoAtivo,
+          observacoes: inst.observacoes || ""
+        })
+      });
+      loadData();
+    } catch (e) {
+      alert("Erro ao alterar estado da instalação");
+    }
+  }
+
+  const disponiveis = instalacoes.filter((i) => i.ativo !== false).length
   const reservasHoje = reservas.filter((r) => new Date(r.dataInicio).toDateString() === new Date().toDateString()).length
 
   return (
@@ -209,6 +284,90 @@ export default function InstalacoesSecretariaPage() {
                 <Button onClick={handleCreateReservation} disabled={!novaReserva.espacoId || !novaReserva.data || !novaReserva.horaInicio || !novaReserva.horaFim}>
                   Confirmar Reserva
                 </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={verReservasOpen} onOpenChange={setVerReservasOpen}>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Reservas - {instalacaoSelecionada?.nome}</DialogTitle>
+                <DialogDescription>Listagem de reservas para esta instalação</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto">
+                {instalacaoSelecionada && reservas.filter(r => r.espacoId === instalacaoSelecionada.id).length > 0 ? (
+                  reservas.filter(r => r.espacoId === instalacaoSelecionada.id).map(reserva => (
+                    <div key={reserva.id} className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+                      <div>
+                        <p className="text-sm text-muted-foreground">{reserva.titulo}</p>
+                        <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="size-3" />
+                            {new Date(reserva.dataInicio).toLocaleDateString("pt-PT")}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="size-3" />
+                            {new Date(reserva.dataInicio).toLocaleTimeString("pt-PT", {hour: '2-digit', minute:'2-digit'})} - {new Date(reserva.dataFim).toLocaleTimeString("pt-PT", {hour: '2-digit', minute:'2-digit'})}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="icon" className="size-8 text-destructive" onClick={() => handleDeleteReserva(reserva.id)}>
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-muted-foreground text-center py-4">Sem reservas para esta instalação.</p>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={editarInstalacaoOpen} onOpenChange={setEditarInstalacaoOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editar Instalação</DialogTitle>
+                <DialogDescription>Atualize os dados da instalação</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Nome</Label>
+                  <Input value={editarForm.nome} onChange={e => setEditarForm({ ...editarForm, nome: e.target.value })} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Tipo</Label>
+                    <Select value={editarForm.tipo} onValueChange={(val) => setEditarForm({ ...editarForm, tipo: val || "" })}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Tipo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="CampoRelvado">Campo Relvado</SelectItem>
+                        <SelectItem value="Pavilhao">Pavilhão</SelectItem>
+                        <SelectItem value="Ginasio">Ginásio</SelectItem>
+                        <SelectItem value="Balneario">Balneário</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Capacidade</Label>
+                    <Input type="number" value={editarForm.capacidade} onChange={e => setEditarForm({ ...editarForm, capacidade: parseInt(e.target.value) || 0 })} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Observações</Label>
+                  <Input value={editarForm.observacoes} onChange={e => setEditarForm({ ...editarForm, observacoes: e.target.value })} />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input type="checkbox" id="ativo" checked={editarForm.ativo} onChange={e => setEditarForm({ ...editarForm, ativo: e.target.checked })} className="rounded border-gray-300 text-primary focus:ring-primary" />
+                  <Label htmlFor="ativo">Instalação Ativa (Disponível)</Label>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setEditarInstalacaoOpen(false)}>Cancelar</Button>
+                <Button onClick={handleSaveInstalacao}>Guardar</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -290,22 +449,24 @@ export default function InstalacoesSecretariaPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Badge
-                        variant={instalacao.estado === 0 ? "secondary" : "outline"}
-                        className={instalacao.estado === 0 ? "bg-success/10 text-success" : ""}
-                      >
-                        {instalacao.estado === 0 ? (
-                          <>
-                            <CheckCircle className="size-3 mr-1" />
-                            Disponivel
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="size-3 mr-1" />
-                            Manutencao
-                          </>
-                        )}
-                      </Badge>
+                      <div onClick={() => handleToggleEstado(instalacao)} className="cursor-pointer transition-opacity hover:opacity-70">
+                        <Badge
+                          variant={instalacao.ativo !== false ? "secondary" : "outline"}
+                          className={instalacao.ativo !== false ? "bg-success/10 text-success" : ""}
+                        >
+                          {instalacao.ativo !== false ? (
+                            <>
+                              <CheckCircle className="size-3 mr-1" />
+                              Disponível
+                            </>
+                          ) : (
+                            <>
+                              <Settings className="size-3 mr-1" />
+                              Manutenção
+                            </>
+                          )}
+                        </Badge>
+                      </div>
                       <DropdownMenu>
                         <DropdownMenuTrigger>
                           <Button variant="ghost" size="icon" className="size-8">
@@ -313,11 +474,11 @@ export default function InstalacoesSecretariaPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleOpenEdit(instalacao)}>
                             <Edit className="size-4 mr-2" />
                             Editar
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleOpenVerReservas(instalacao)}>
                             <Calendar className="size-4 mr-2" />
                             Ver Reservas
                           </DropdownMenuItem>

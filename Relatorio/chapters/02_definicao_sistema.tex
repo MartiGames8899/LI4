@@ -1,26 +1,26 @@
 \chapter{Definição e Caracterização do Sistema}
 
 \section{Contextualização}
-Os clubes e associações desportivas desempenham um papel fundamental na promoção da atividade física, do convívio social e do desenvolvimento pessoal dos seus participantes. Estas organizações são frequentemente responsáveis pela formação de jovens atletas, pela organização de eventos desportivos e pela dinamização da vida comunitária nas regiões onde se inserem.
+Os clubes desportivos têm um papel importante na promoção do desporto e no convívio social das comunidades onde estão inseridos. São também responsáveis pela formação de atletas e pela organização de eventos.
 
-Com o crescimento das atividades e o aumento do número de participantes, a gestão destas instituições torna-se cada vez mais exigente. A administração de informações relacionadas com atletas, treinadores, modalidades, equipas, pagamentos e outras atividades administrativas pode tornar-se complexa quando realizada de forma manual ou com recurso a ferramentas pouco integradas.
+Com o aumento do número de atletas e de atividades, a gestão destes clubes torna-se mais difícil. Gerir informações de atletas, treinadores, pagamentos e outras tarefas de forma manual pode levar a erros e desorganização.
 
-Neste contexto, a utilização de sistemas informáticos de apoio à gestão assume um papel cada vez mais relevante. Estas soluções permitem centralizar informação, melhorar a organização dos dados e facilitar os processos administrativos, contribuindo para uma gestão mais eficiente e estruturada das atividades do clube.
+Por isso, o uso de sistemas informáticos para apoiar esta gestão é cada vez mais importante. Estes sistemas permitem centralizar a informação e facilitar os processos administrativos.
 \section{Apresentação do Caso de Estudo}
 O Clube Amigos de Polvoreira (CAP) é um clube desportivo fundado em 1990 em Polvoreira, Guimarães. Começou com um pequeno grupo de moradores que queria incentivar o desporto e o convívio entre os jovens da zona.
 
 Com o passar dos anos, o clube cresceu muito e hoje tem várias modalidades, desde a formação até aos escalões amadores e profissionais. Este crescimento tornou o CAP muito importante para a comunidade, mas também trouxe novos desafios para quem o gere.
 
-Atualmente, a gestão é feita em grande parte de forma manual ou com recurso a ferramentas desconectadas. O controlo de sócios, os pagamentos das quotas, a disponibilidade dos atletas e a contabilidade do clube são geridos de forma tradicional, o que implica uma carga de trabalho considerável e propicia a ocorrência de erros.
+Atualmente, a gestão é feita em grande parte de forma manual ou com ferramentas separadas. O controlo de sócios, os pagamentos das quotas, a disponibilidade dos atletas e a contabilidade do clube são geridos de forma tradicional, o que exige muito trabalho e causa erros.
 
-Como o clube quer continuar a crescer e a organizar-se melhor, decidiu avançar com a criação de uma aplicação de gestão. Esta ferramenta servirá para ajudar a direção, facilitar o trabalho dos treinadores, melhorar a comunicação com os atletas e preparar o clube para o futuro.
+Como o clube quer continuar a crescer e a organizar-se melhor, decidiu avançar com a criação de uma aplicação de gestão. Esta ferramenta vai ajudar a direção, facilitar o trabalho dos treinadores e melhorar a comunicação com os atletas.
 
 \section{Motivação e Objetivos}
-O clube gere um número significativo de atletas, treinadores e funcionários e ambiciona expandir os seus escalões para atingir patamares competitivos mais elevados.
+O clube tem um número considerável de atletas, treinadores e funcionários e pretende crescer para competir a níveis mais altos.
 
-Até ao momento, os registos são feitos em papel por diferentes pessoas. A direção do clube tem recebido queixas sobre o volume de documentação em papel e verificaram-se casos de perda de documentos importantes. Este processo manual origina erros, desorganização e impede a direção de ter um controlo efetivo sobre as informações.
+Até agora, os registos são feitos em papel por várias pessoas diferentes. A direção já recebeu queixas sobre o volume de papel e já houve casos de perda de documentos. Este processo manual causa erros e não permite que a direção tenha controlo sobre as informações.
 
-O crescimento que o clube prevê mostra que o papel já não chega. O sistema informático é visto como a solução central para resolver estes problemas. Com ele, o CAP pretende:
+O clube precisa de crescer e o sistema em papel já não chega. O sistema informático é a solução para estes problemas. Com ele, o CAP quer:
 \begin{itemize}
     \item Melhorar a comunicação entre atletas, direção e treinadores;
     \item Ter um maior controlo e segurança sobre os dados do clube;
@@ -39,7 +39,7 @@ O crescimento que o clube prevê mostra que o papel já não chega. O sistema in
     \item \textbf{Pagamentos modernos}: A integração com MBWay e referências Multibanco simplifica o processo para os encarregados de educação e reduz as situações de pagamento em atraso.
 \end{itemize}
 \section{Recursos Necessários}
-Para a realização do projeto, foram necessários recursos humanos e materiais.
+Para o projeto foram usados os seguintes recursos humanos e materiais.
 
 Ao nível dos \textbf{recursos humanos}, a equipa divide-se em:
 \begin{itemize}
@@ -73,7 +73,7 @@ Linguagens        & C\# (.NET), TypeScript, SQL, LaTeX. \\ \hline
 Frameworks        & ASP.NET Core, Entity Framework Core \cite{efcore2023}, Next.js \cite{nextjs2024}, React, shadcn/ui. \\ \hline
 Base de Dados     & PostgreSQL 15 \cite{postgresql2024}. \\ \hline
 Infra \& DevOps   & Docker, Docker Compose \cite{docker2024}, Git, GitHub. \\ \hline
-Modelação         & PlantUML, draw.io, Visual Paradigm. \\ \hline
+Modelação         & PlantUML, draw.io. \\ \hline
 Desenvolvimento   & Visual Studio Code, JetBrains Rider, Postman. \\ \hline
 Documentação      & LaTeX (TeXstudio), Google Docs, Gemini. \\ \hline
 \end{xltabular}
@@ -82,14 +82,14 @@ Documentação      & LaTeX (TeXstudio), Google Docs, Gemini. \\ \hline
 \end{center}
 
 \section{Análise de Viabilidade}
-Antes de avançar com o desenvolvimento, fizemos uma análise de viabilidade do ponto de vista operacional e económico. As estimativas que se seguem foram construídas a partir das entrevistas com a direção do CAP e do questionário aos sócios, sendo por isso \textbf{estimativas qualitativas baseadas no relato dos utilizadores}, e não medições com instrumentos formais. A entrega de uma versão piloto em produção será essencial para confirmar (ou ajustar) os números abaixo.
+Antes de avançar, foi feita uma análise de viabilidade do ponto de vista operacional e financeiro. Os valores apresentados foram obtidos a partir das entrevistas com a direção do CAP e do questionário aos sócios, por isso são \textbf{estimativas baseadas no que foi dito pelos utilizadores} e não medições exatas. Uma versão em produção será necessária para confirmar estes números.
 
 \subsection*{Benefícios operacionais esperados}
 \begin{itemize}
-    \item \textbf{Redução de trabalho administrativo}: A secretaria reportou na entrevista cerca de \textbf{20 horas por mês} dedicadas à conferência manual de transferências e à atualização do livro de quotas. Com a integração de \textit{gateways} de pagamento e a reconciliação automática (RF-17), estimamos uma poupança de pelo menos metade desse tempo, libertando 10 horas/mês para tarefas com mais valor.
-    \item \textbf{Redução de erros}: O sistema impõe validações automáticas (unicidade de email/NIF, conflitos de horário, dependências de quotas e atestados) que cobrem $\approx$\,80\% dos casos de erro reportados pela direção. Mesmo que não eliminem todos os erros, removem a maior parte das introduções manuais redundantes.
-    \item \textbf{Aumento de sócios}: 65\% dos inquiridos identificaram a falta de pagamento \textit{online} como barreira à renovação atempada. A introdução de MBWay e referências Multibanco deverá traduzir-se num aumento mensurável da taxa de renovação no primeiro ano.
-    \item \textbf{Redução de custos materiais}: Eliminação progressiva do papel para atestados, recibos e convocatórias. Considerando o consumo declarado pelo CAP (cerca de 8\,000 folhas/ano e despesas de arquivo), o impacto direto situa-se em algumas centenas de euros por ano --- pequeno, mas não negligenciável quando combinado com a redução das deslocações à secretaria.
+    \item \textbf{Redução de trabalho administrativo}: A secretaria disse na entrevista gastar cerca de \textbf{20 horas por mês} a verificar transferências manualmente e a atualizar o livro de quotas. Com a integração de pagamentos automáticos (RF-17), espera-se poupar pelo menos metade desse tempo.
+    \item \textbf{Redução de erros}: O sistema tem validações automáticas (email e NIF únicos, conflitos de horário, quotas e atestados) que cobrem cerca de 80\% dos erros reportados pela direção.
+    \item \textbf{Aumento de sócios}: 65\% dos inquiridos disseram que a falta de pagamento \textit{online} era um problema para renovar a tempo. Com MBWay e Multibanco, espera-se que mais sócios renovem dentro do prazo.
+    \item \textbf{Redução de custos materiais}: Ao deixar de usar papel para atestados, recibos e convocatórias, o CAP pode poupar algumas centenas de euros por ano (o clube usa cerca de 8\,000 folhas/ano).
 \end{itemize}
 
 \subsection*{Estimativa de custo}
@@ -125,20 +125,20 @@ Margem para imprevistos ($\approx$ 15\%) & $\approx$ 6\,000~€ & Reserva técni
 \rowcolors{2}{white}{white}
 \end{center}
 
-Considerando que o CAP perdeu, segundo a gerência, um patrocínio que ultrapassava o valor anual deste custo apenas por falta de organização de dados, o investimento é viável a médio prazo. A natureza modular da solução permite ainda escalonar funcionalidades futuras (chat interno, eventos extra-desportivos, integração federativa) sem necessidade de refazer a base.
+A gerência referiu que o clube perdeu um patrocínio por falta de organização de dados, um valor superior ao custo anual deste projeto. O investimento parece ser viável. A arquitetura modular permite adicionar funcionalidades no futuro sem precisar de refazer o que já está feito.
 \section{Plano de Execução do Projeto}
-Foi organizada uma reunião entre os elementos da equipa de desenvolvimento e o dono do clube Orlando Ramalho Forte com o intuito de ser definido um plano de execução para o projeto.
-A equipa selecionou a metodologia sequencial segundo o modelo \textit{Waterfall} \cite{royce1970}, de maneira a que o projeto avance de forma linear, facilitando a organização e o planeamento.
-Em conjunto com a direção do clube foi definido o seguinte plano de execução:
+Foi feita uma reunião com Orlando Ramalho Forte para definir o plano de execução.
+A equipa escolheu a metodologia \textit{Waterfall} \cite{royce1970}, onde o projeto avança de forma linear por fases.
+O plano definido foi o seguinte:
 
 \begin{figure}[H]
     \centering
-    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{Gant.png}}
+    \makebox[\textwidth]{\includegraphics[width=\textwidth]{gantt.png}}
     \caption{Diagrama de Gantt para planeamento da execução do projeto.}
     \label{fig:gantt}
 \end{figure}
 
-O plano alinha-se com as quatro etapas definidas no enunciado da unidade curricular: Conceção e Engenharia de Requisitos (9~fev a 2~mar), Arquitetura e \textit{Design} (2~mar a 23~mar), Implementação (23~mar a 13~abr) e Verificação, Validação e Avaliação (13~abr a 11~mai). A entrega do relatório final e a apresentação ficam reservadas para a última semana de maio. Ao longo do projeto, mantivémos esta calendarização como referência, com sobreposições controladas entre etapas (por exemplo, a especificação de algumas máquinas de estados decorreu em paralelo com o início da implementação dos respetivos módulos, sempre que a estabilidade do modelo o permitia).
+O plano segue as quatro etapas do enunciado: Requisitos (9~fev a 2~mar), Arquitetura e \textit{Design} (2~mar a 23~mar), Implementação (23~mar a 13~abr) e Verificação e Testes (13~abr a 11~mai). O relatório e a apresentação ficam para a última semana de maio. Ao longo do projeto houve algumas sobreposições entre fases quando isso fazia sentido, como foi o caso da especificação de algumas máquinas de estados que decorreu ao mesmo tempo que a implementação dos módulos correspondentes.
 
 %==========================================================================
 % CAPÍTULO 3 - LEVANTAMENTO E ANÁLISE DE REQUISITOS

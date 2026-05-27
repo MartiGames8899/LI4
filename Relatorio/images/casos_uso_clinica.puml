@@ -2,10 +2,16 @@
 
 left to right direction
 
+actor "Utilizador\nAutenticado" as User
 actor "Atleta" as Athlete
 actor "Encarregado" as Parent
 actor "Treinador" as Coach
 actor "Secretaria" as Secretary
+
+Athlete --|> User
+Parent --|> User
+Coach --|> User
+Secretary --|> User
 
 rectangle "Subsistema: Gestão Clínica e Performance" {
     usecase "Submeter Atestado Médico" as UC_SubmitMedical

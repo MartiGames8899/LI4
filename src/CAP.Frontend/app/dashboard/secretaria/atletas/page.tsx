@@ -37,6 +37,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -67,53 +77,47 @@ export default function AtletasSecretariaPage() {
   const [atletas, setAtletas] = useState<Atleta[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("cap_user")
-    if (!storedUser) {
-      router.push("/")
-      return
-    }
-    const parsed = JSON.parse(storedUser)
-    if (parsed.role !== "secretaria") {
-      router.push("/")
-    } else {
-      fetchData()
-    }
-  }, [router])
+  // Create athlete state
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const [newAthlete, setNewAthlete] = useState({ nome: "", email: "", role: "Atleta" })
+  const [isSaving, setIsSaving] = useState(false)
+  const [lastInvitationToken, setLastInvitationToken] = useState<string | null>(null)
 
-  const fetchData = async () => {
+  const handleCreateAthlete = async () => {
+    if (!newAthlete.nome || !newAthlete.email) return
+    setIsSaving(true)
     try {
-      setLoading(true)
-      const data = await fetchApi<Atleta[]>('api/users/athletes').catch(() => [])
-      setAtletas(data.map(d => ({
-        ...d,
-        equipa: d.equipa || "Sem Equipa",
-        estado: d.estado || "ativo"
-      })))
+      const res = await fetchApi<any>('api/users/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(newAthlete)
+      })
+      if (res.invitationToken) {
+        setLastInvitationToken(res.invitationToken)
+      } else {
+        setIsCreateOpen(false)
+        setNewAthlete({ nome: "", email: "", role: "Atleta" })
+      }
+      fetchData()
     } catch (e) {
       console.error(e)
+      alert("Erro ao criar atleta")
     } finally {
-      setLoading(false)
+      setIsSaving(false)
     }
   }
 
-  const handleExportCSV = () => {
-    const headers = ["Nome", "Email", "Telefone", "Equipa", "Posicao", "Numero", "Estado", "Atestado Valido"]
-    const rows = atletasFiltrados.map(a => [a.nome, a.email, a.telefone, a.equipa, a.posicao, a.numero, a.estado, a.atestadoValido ? "Sim" : "Nao"])
-    const csv = [headers, ...rows].map(r => r.map(c => `"${c ?? ""}"`).join(",")).join("\n")
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a"); a.href = url; a.download = "atletas.csv"; a.click()
-    URL.revokeObjectURL(url)
+  const handleCloseDialog = () => {
+    setIsCreateOpen(false)
+    setLastInvitationToken(null)
+    setNewAthlete({ nome: "", email: "", role: "Atleta" })
   }
 
-  const atletasFiltrados = atletas.filter((atleta) => {
-    const matchSearch = atleta.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      atleta.email?.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchEquipa = filtroEquipa === "todas" || atleta.equipa === filtroEquipa
-    const matchEstado = filtroEstado === "todos" || atleta.estado === filtroEstado
-    return matchSearch && matchEquipa && matchEstado
-  })
+  const copyInvitationLink = () => {
+    if (!lastInvitationToken) return
+    const url = `${window.location.origin}/auth/setup-password?token=${lastInvitationToken}`
+    navigator.clipboard.writeText(url)
+    alert("Link de convite copiado para a área de transferência!")
+  }
 
   const totalAtivos = atletas.filter((a) => a.estado === "ativo").length
   const semAtestado = atletas.filter((a) => !a.atestadoValido).length
@@ -131,10 +135,74 @@ export default function AtletasSecretariaPage() {
               <FileText className="size-4 mr-2" />
               Exportar
             </Button>
-            <Button>
-              <Plus className="size-4 mr-2" />
-              Novo Atleta
-            </Button>
+            <Dialog open={isCreateOpen} onOpenChange={(open) => !open && handleCloseDialog()}>
+              <DialogTrigger render={
+                <Button>
+                  <Plus className="size-4 mr-2" />
+                  Novo Atleta
+                </Button>
+              } />
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{lastInvitationToken ? "Atleta Registado!" : "Novo Atleta"}</DialogTitle>
+                  <DialogDescription>
+                    {lastInvitationToken 
+                      ? "O atleta foi criado com sucesso. Partilhe o link abaixo para que ele possa configurar a sua palavra-passe." 
+                      : "Crie uma nova conta de atleta. O atleta receberá um convite para configurar os seus acessos."}
+                  </DialogDescription>
+                </DialogHeader>
+
+                {lastInvitationToken ? (
+                  <div className="space-y-4 py-4">
+                    <div className="p-4 bg-muted rounded-lg border flex flex-col gap-2">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase">Link de Convite</p>
+                      <code className="text-sm break-all bg-background p-2 rounded border">
+                        {`${window.location.origin}/auth/setup-password?token=${lastInvitationToken}`}
+                      </code>
+                    </div>
+                    <Button className="w-full" onClick={copyInvitationLink}>
+                      <FileText className="size-4 mr-2" />
+                      Copiar Link
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="nome">Nome Completo</Label>
+                      <Input 
+                        id="nome" 
+                        value={newAthlete.nome} 
+                        onChange={e => setNewAthlete(f => ({ ...f, nome: e.target.value }))}
+                        placeholder="Ex: João Silva" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email"
+                        value={newAthlete.email} 
+                        onChange={e => setNewAthlete(f => ({ ...f, email: e.target.value }))}
+                        placeholder="atleta@exemplo.pt" 
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <DialogFooter>
+                  {lastInvitationToken ? (
+                    <Button onClick={handleCloseDialog}>Concluir</Button>
+                  ) : (
+                    <>
+                      <Button variant="outline" onClick={() => setIsCreateOpen(false)}>Cancelar</Button>
+                      <Button onClick={handleCreateAthlete} disabled={isSaving || !newAthlete.nome || !newAthlete.email}>
+                        {isSaving ? "A Guardar..." : "Criar Atleta"}
+                      </Button>
+                    </>
+                  )}
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 

@@ -1,10 +1,17 @@
 @startuml
 
+actor "Utilizador"               as User
 actor "Atleta"                   as Athlete
 actor "Encarregado\nde Educação" as Parent
 actor "Treinador"                as Coach
 actor "Secretaria"               as Secretary
 actor "Gerência"                 as Management
+
+Athlete    --|> User
+Parent     --|> User
+Coach      --|> User
+Secretary  --|> User
+Management --|> User
 
 rectangle "Sistema CAP" {
     package "Utilizadores &\nAutenticação" as P_Auth
@@ -15,28 +22,25 @@ rectangle "Sistema CAP" {
     package "Notificações"                 as P_Notif
 }
 
-Athlete    --> P_Auth
+User       --> P_Auth
+
 Athlete    --> P_Sport
 Athlete    --> P_Clinic
 Athlete    --> P_Notif
 
-Parent     --> P_Auth
 Parent     --> P_Clinic
 Parent     --> P_Finance
 Parent     --> P_Notif
 
-Coach      --> P_Auth
 Coach      --> P_Sport
 Coach      --> P_Clinic
 Coach      --> P_Facilities
 Coach      --> P_Notif
 
-Secretary  --> P_Auth
 Secretary  --> P_Clinic
 Secretary  --> P_Finance
 Secretary  --> P_Facilities
 
-Management --> P_Auth
 Management --> P_Finance
 Management --> P_Facilities
 Management --> P_Sport

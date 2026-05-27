@@ -2,9 +2,14 @@
 
 left to right direction
 
-actor "Treinador" as Coach
-actor "Encarregado" as Parent
+actor "Utilizador\nAutenticado" as User
 actor "Atleta" as Athlete
+actor "Encarregado" as Parent
+actor "Treinador" as Coach
+
+Athlete --|> User
+Parent --|> User
+Coach --|> User
 
 rectangle "Subsistema: Gestão Desportiva e Treinos" {
     usecase "Consultar Plantel" as UC_ManageSquad

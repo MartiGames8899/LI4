@@ -51,6 +51,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Checkbox } from "@/components/ui/checkbox"
 import { fetchApi } from "@/lib/api"
 
 interface Convocatoria {
@@ -83,6 +84,11 @@ interface Equipa {
 
 const emptyCreate = { titulo: "", tipo: "treino", data: "", hora: "", local: "", equipaId: "" }
 
+interface AtletaSimple {
+  id: string
+  nome: string
+}
+
 export default function ConvocatoriasPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState("todas")
@@ -96,6 +102,10 @@ export default function ConvocatoriasPage() {
   const [editForm, setEditForm] = useState({ titulo: "", data: "", hora: "", local: "" })
   const [isSaving, setIsSaving] = useState(false)
 
+  // Athlete selection state
+  const [atletasDisponiveis, setAtletasDisponiveis] = useState<AtletaSimple[]>([])
+  const [selectedAtletasIds, setSelectedAtletasIds] = useState<string[]>([])
+
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
     if (!storedUser) { router.push("/"); return }
@@ -105,8 +115,31 @@ export default function ConvocatoriasPage() {
     } else {
       fetchConvocatorias()
       fetchEquipas()
+      fetchAtletas()
     }
   }, [router])
+
+  const fetchAtletas = async () => {
+    try {
+      const data = await fetchApi<any[]>("api/users/athletes")
+      setAtletasDisponiveis(data.map(d => ({ id: d.id, nome: d.nome, equipa: d.equipa })))
+    } catch {
+      setAtletasDisponiveis([])
+    }
+  }
+
+  const handleToggleAthlete = (id: string) => {
+    setSelectedAtletasIds(prev => 
+      prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+    )
+  }
+
+  const handleSelectAll = () => {
+    const filteredAtletas = createForm.equipaId 
+      ? atletasDisponiveis.filter((a: any) => a.equipa === equipas.find(e => e.id === createForm.equipaId)?.nome)
+      : atletasDisponiveis
+    setSelectedAtletasIds(filteredAtletas.map(a => a.id))
+  }
 
   const fetchConvocatorias = async () => {
     try {
@@ -139,13 +172,14 @@ export default function ConvocatoriasPage() {
           dataEvento,
           local: createForm.local,
           equipaId,
-          atletasIds: [],
+          atletasIds: selectedAtletasIds,
         }),
       })
       // auto-publish
       await fetchApi(`/api/sports/convocations/${created.id}/publish`, { method: "PATCH" }).catch(() => null)
       setIsCreateDialogOpen(false)
       setCreateForm(emptyCreate)
+      setSelectedAtletasIds([])
       fetchConvocatorias()
     } catch (e) {
       console.error(e)
@@ -224,6 +258,11 @@ export default function ConvocatoriasPage() {
     }
   }
 
+  // Helper to get filtered athletes in the dialog
+  const athletesToShow = createForm.equipaId 
+    ? atletasDisponiveis.filter((a: any) => a.equipa === equipas.find(e => e.id === createForm.equipaId)?.nome)
+    : []
+
   return (
     <DashboardLayout role="treinador" userName="Carlos Treinador">
       <div className="space-y-6">
@@ -233,12 +272,12 @@ export default function ConvocatoriasPage() {
             <p className="text-muted-foreground">Gestao de convocatorias para treinos e jogos</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger>
+            <DialogTrigger render={
               <Button>
                 <Plus className="size-4 mr-2" />
                 Nova Convocatoria
               </Button>
-            </DialogTrigger>
+            } />
             <DialogContent className="max-w-lg">
               <DialogHeader>
                 <DialogTitle>Nova Convocatoria</DialogTitle>
@@ -252,10 +291,13 @@ export default function ConvocatoriasPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Equipa</Label>
-                    <Select value={createForm.equipaId} onValueChange={v => setCreateForm(f => ({ ...f, equipaId: v ?? "" }))}>
+                    <Select value={createForm.equipaId} onValueChange={v => {
+                      setCreateForm(f => ({ ...f, equipaId: v ?? "" }))
+                      setSelectedAtletasIds([]) // Reset selection when team changes
+                    }}>
                       <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
                       <SelectContent>
-                        {equipas.map(e => <SelectItem key={e.id} value={e.id}>{e.nome}</SelectItem>)}
+                        {equipas.map(e => <SelectItem key={e.id} value={e.id} label={e.nome}>{e.nome}</SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -274,6 +316,36 @@ export default function ConvocatoriasPage() {
                     <Input id="hora" type="time" value={createForm.hora} onChange={e => setCreateForm(f => ({ ...f, hora: e.target.value }))} />
                   </div>
                 </div>
+
+                {createForm.equipaId && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label>Atletas ({selectedAtletasIds.length} selecionados)</Label>
+                      <Button variant="ghost" size="sm" onClick={handleSelectAll} className="h-7 text-xs">
+                        Selecionar Todos
+                      </Button>
+                    </div>
+                    <ScrollArea className="h-40 border rounded-md p-2">
+                      <div className="space-y-2">
+                        {athletesToShow.map(a => (
+                          <div key={a.id} className="flex items-center gap-2">
+                            <Checkbox 
+                              id={`atleta-${a.id}`} 
+                              checked={selectedAtletasIds.includes(a.id)}
+                              onCheckedChange={() => handleToggleAthlete(a.id)}
+                            />
+                            <Label htmlFor={`atleta-${a.id}`} className="text-sm font-normal cursor-pointer">
+                              {a.nome}
+                            </Label>
+                          </div>
+                        ))}
+                        {athletesToShow.length === 0 && (
+                          <p className="text-center text-muted-foreground text-xs py-4">Nenhum atleta nesta equipa.</p>
+                        )}
+                      </div>
+                    </ScrollArea>
+                  </div>
+                )}
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>Cancelar</Button>

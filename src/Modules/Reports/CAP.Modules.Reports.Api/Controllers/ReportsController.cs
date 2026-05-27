@@ -64,6 +64,7 @@ public class ReportsController : ControllerBase
         var year = DateTime.UtcNow.Year;
         var month = DateTime.UtcNow.Month;
         var xml = _saftService.GenerateSaftXml(year, month);
-        return Content(xml, "application/xml");
+        var bytes = System.Text.Encoding.UTF8.GetBytes(xml);
+        return File(bytes, "application/xml", $"saft_{year}_{month:D2}.xml");
     }
 }

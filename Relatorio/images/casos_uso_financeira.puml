@@ -2,9 +2,14 @@
 
 left to right direction
 
-actor "Gerência" as Management
+actor "Utilizador\nAutenticado" as User
 actor "Encarregado" as Parent
 actor "Secretaria" as Secretary
+actor "Gerência" as Management
+
+Parent --|> User
+Secretary --|> User
+Management --|> User
 
 rectangle "Subsistema: Gestão Financeira e Fiscal" {
     usecase "Gerar Quotas da Época" as UC_GenerateQuotas

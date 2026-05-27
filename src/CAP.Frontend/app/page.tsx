@@ -34,7 +34,12 @@ export default function LoginPage() {
         const data = await response.json()
         localStorage.setItem("cap_token", data.token)
         localStorage.setItem("cap_user", JSON.stringify({ email, role: data.role.toLowerCase(), nome: data.nome }))
-        router.push(`/dashboard/${data.role.toLowerCase()}`)
+        
+        if (data.mustChangePassword) {
+          router.push(`/dashboard/definicoes?forceChange=true`)
+        } else {
+          router.push(`/dashboard/${data.role.toLowerCase()}`)
+        }
       } else {
         const err = await response.json().catch(() => ({ message: "Email ou password incorretos" }))
         setError(err.message || "Email ou password incorretos")

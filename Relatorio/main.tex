@@ -73,6 +73,15 @@
     \par\smallskip\noindent\textit{\footnotesize\textcolor{blue!50!black}{$\hookrightarrow$ \textit{Prompt e resultado documentados no Cap.~\ref{chap:documentacao_ia}, Secção~\ref{#1}.}}}\par\medskip
 }
 
+% Mini-referência inversa: aponta do Capítulo de IA de volta à secção
+% original do relatório. Uso: \verRelatorio{ref:rel_requisitos}.
+% Aceita um segundo argumento opcional com o nome do capítulo destino
+% (e.g., "Capítulo de Análise de Requisitos") para tornar a navegação
+% mais explícita; quando omitido, mostra apenas a secção.
+\newcommand{\verRelatorio}[2][]{%
+    \par\smallskip\noindent\textit{\footnotesize\textcolor{purple!60!black}{$\hookleftarrow$ \textit{Voltar para \ifx&#1&Secção~\ref{#2}\else#1, Secção~\ref{#2}\fi{} do relatório principal.}}}\par\medskip
+}
+
 % Identificador monospace que pode partir em qualquer caractere (evita texto cortado em colunas estreitas)
 \newcommand{\ttsplit}[1]{\texttt{\seqsplit{#1}}}
     %% List of acronyms
