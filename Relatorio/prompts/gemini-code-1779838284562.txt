@@ -1,0 +1,11 @@
+\caixaprompt{GPT-4o}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}
+
+A partir da estrutura e dos dados necessários para preencher este relatório de jogo, extraí os seguintes Requisitos Funcionais (RF) cruciais para o módulo de gestão desportiva do sistema do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O sistema deve permitir que o treinador (ou delegado) preencha o relatório após o apito final, registando o resultado final, a equipa adversária e a data/local da partida.
+    \item \textbf{RF - Associação à Convocatória:} O sistema deve associar automaticamente o relatório de jogo à convocatória previamente gerada para essa partida, carregando a lista de atletas presentes.
+    \item \textbf{RF - Registo de Estatísticas e Disciplina:} O sistema deve permitir o registo de eventos individuais por atleta durante o jogo, tais como golos marcados, assistências e cartões (amarelos/vermelhos).
+    \item \textbf{RF - Registo de Lesões em Jogo:} O sistema deve possuir uma secção para assinalar lesões contraídas durante a partida, gerando um alerta automático para a secretaria e para o encarregado de educação (no caso de menores).
+    \item \textbf{RF - Submissão e Arquivo:} Após a submissão do relatório pelo treinador, o documento deve ficar trancado a novas edições e disponível para consulta global pela gerência e secretaria.
+\end{itemize}}

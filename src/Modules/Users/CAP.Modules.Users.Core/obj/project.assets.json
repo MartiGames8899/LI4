@@ -775,11 +775,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+      "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
       "projectName": "CAP.Modules.Users.Core",
-      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+      "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
+      "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -794,8 +794,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+            "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
             }
           }
         }

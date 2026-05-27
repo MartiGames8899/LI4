@@ -6,9 +6,9 @@ services:
     image: postgres:15-alpine
     container_name: cap-db
     environment:
-      POSTGRES_USER: cap_user
-      POSTGRES_PASSWORD: cap_password_123
-      POSTGRES_DB: cap_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -30,8 +30,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=cap_database;Username=cap_user;Password=cap_password_123
-      - Jwt__Key=ChaveSecretaMuitoSeguraParaJWTTokensDoCAP2024!
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=CAP.API
       - Jwt__Audience=CAP.Frontend
     ports:

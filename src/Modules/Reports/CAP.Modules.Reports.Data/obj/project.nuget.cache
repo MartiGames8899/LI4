@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gvEI2RmjjbEGPhxQaGpHk5ffXIN2K75VZblXpfI11fkFYwnDHZReEXHfk/hTjcKcdVhlSV5D3o1zRB158vPTRg==",
+  "dgSpecHash": "7mxgQY5jSqWw+1yM+D4Ir2lPsJHceQCUPuUmxx0Sxy4zq28cR9XIJhQ3axuPFtqWReZrS8TJ8L7+HXTRKnURkg==",
   "success": true,
-  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
+  "projectFilePath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml\\0.102.1\\closedxml.0.102.1.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",

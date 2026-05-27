@@ -28,6 +28,7 @@ using CAP.Modules.Users.Core.Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using CAP.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,7 +87,12 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.
 
 // Authentication
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "secret_key_with_at_least_32_characters");
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new InvalidOperationException("Configuração Jwt:Key em falta no ambiente. O sistema não pode arrancar sem segurança JWT.");
+}
+var key = Encoding.ASCII.GetBytes(jwtKey);
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -105,63 +111,41 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-// Dependency Injection
-builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<UserRepository>();
-
-// Sports Module Repositories
-builder.Services.AddScoped(typeof(IRepository<>), typeof(SportsRepository<>));
-
-// Clinical Module Repositories
-builder.Services.AddScoped<IRepository<AtestadoMedico>, ClinicalRepository<AtestadoMedico>>();
-builder.Services.AddScoped<IRepository<Lesao>, ClinicalRepository<Lesao>>();
-builder.Services.AddScoped<IClinicalService, ClinicalService>();
-
-// Finance Module Repositories
-builder.Services.AddScoped<IRepository<QuotaDefinicao>, FinanceRepository<QuotaDefinicao>>();
-builder.Services.AddScoped<IRepository<Quota>, FinanceRepository<Quota>>();
-builder.Services.AddScoped<IRepository<Pagamento>, FinanceRepository<Pagamento>>();
-builder.Services.AddScoped<IRepository<Recibo>, FinanceRepository<Recibo>>();
-
-// Notifications Module
-builder.Services.AddScoped<IRepository<Notificacao>, NotificationsRepository<Notificacao>>();
-builder.Services.AddScoped<IRepository<NotificacaoPreferencia>, NotificationsRepository<NotificacaoPreferencia>>();
-builder.Services.AddScoped<INotificationEngine, NotificationEngine>();
-
-// Facilities Module
-builder.Services.AddScoped<IRepository<Espaco>, FacilitiesRepository<Espaco>>();
-builder.Services.AddScoped<IRepository<Reserva>, FacilitiesRepository<Reserva>>();
-builder.Services.AddScoped<IFacilityService, FacilityService>();
-
-// Reports Module
-builder.Services.AddScoped<IRepository<ResumoFinanceiro>, ReportsRepository<ResumoFinanceiro>>();
-builder.Services.AddScoped<IRepository<ResumoDesportivo>, ReportsRepository<ResumoDesportivo>>();
-builder.Services.AddScoped<IExportService, ExportService>();
-builder.Services.AddScoped<ISaftService, SaftService>();
+// Dependency Injection via Extension Methods
+builder.Services.AddUsersModule()
+                .AddSportsModule()
+                .AddClinicalModule()
+                .AddFinanceModule()
+                .AddNotificationsModule()
+                .AddFacilitiesModule()
+                .AddReportsModule();
 
 var app = builder.Build();
 
-// Executa as Migrações e Seeder Automaticamente no Arranque
-using (var scope = app.Services.CreateScope())
+// Executa as Migrações e Seeder
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("RunMigrations"))
 {
-    var services = scope.ServiceProvider;
-    
-    var usersDb = services.GetRequiredService<UsersDbContext>();
-    var sportsDb = services.GetRequiredService<SportsDbContext>();
-    var clinicalDb = services.GetRequiredService<ClinicalDbContext>();
-    var financeDb = services.GetRequiredService<FinanceDbContext>();
-    var facilitiesDb = services.GetRequiredService<FacilitiesDbContext>();
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        
+        var usersDb = services.GetRequiredService<UsersDbContext>();
+        var sportsDb = services.GetRequiredService<SportsDbContext>();
+        var clinicalDb = services.GetRequiredService<ClinicalDbContext>();
+        var financeDb = services.GetRequiredService<FinanceDbContext>();
+        var facilitiesDb = services.GetRequiredService<FacilitiesDbContext>();
 
-    usersDb.Database.Migrate();
-    sportsDb.Database.Migrate();
-    clinicalDb.Database.Migrate();
-    financeDb.Database.Migrate();
-    services.GetRequiredService<NotificationsDbContext>().Database.Migrate();
-    facilitiesDb.Database.Migrate();
-    services.GetRequiredService<ReportsDbContext>().Database.Migrate();
+        usersDb.Database.Migrate();
+        sportsDb.Database.Migrate();
+        clinicalDb.Database.Migrate();
+        financeDb.Database.Migrate();
+        services.GetRequiredService<NotificationsDbContext>().Database.Migrate();
+        facilitiesDb.Database.Migrate();
+        services.GetRequiredService<ReportsDbContext>().Database.Migrate();
 
-    // Correr Seeder
-    await CAP.API.Data.DataSeeder.SeedAsync(usersDb, sportsDb, clinicalDb, financeDb, facilitiesDb);
+        // Correr Seeder
+        await CAP.API.Data.DataSeeder.SeedAsync(usersDb, sportsDb, clinicalDb, financeDb, facilitiesDb);
+    }
 }
 
 // Configure the HTTP request pipeline.

@@ -1114,8 +1114,28 @@
           }
         }
       },
+      "CAP.Modules.Finance.Core/1.0.0": {
+        "dependencies": {
+          "CAP.Shared": "1.0.0"
+        },
+        "runtime": {
+          "CAP.Modules.Finance.Core.dll": {}
+        }
+      },
+      "CAP.Modules.Finance.Data/1.0.0": {
+        "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.20",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
+        },
+        "runtime": {
+          "CAP.Modules.Finance.Data.dll": {}
+        }
+      },
       "CAP.Modules.Reports.Core/1.0.0": {
         "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
+          "CAP.Modules.Finance.Data": "1.0.0",
           "CAP.Shared": "1.0.0",
           "ClosedXML": "0.102.1",
           "QuestPDF": "2023.12.0"
@@ -1930,6 +1950,16 @@
       "sha512": "sha512-8tnUCmMbn6c/HGuHFyq1sulHym8YReTKDNXFFQk0U8nldNx6RGrwRvLh0+aQjEc7YoC3Q1ztH1npLt7dClKqjw==",
       "path": "xlparser/1.5.2",
       "hashPath": "xlparser.1.5.2.nupkg.sha512"
+    },
+    "CAP.Modules.Finance.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CAP.Modules.Finance.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "CAP.Modules.Reports.Core/1.0.0": {
       "type": "project",

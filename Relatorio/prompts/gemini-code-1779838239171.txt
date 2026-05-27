@@ -1,0 +1,14 @@
+\caixaprompt{GPT-4o}{Boa, agora vamos passar para os requisitos não funcionais. Quero que faças a mesma coisa, mas usando a estrutura detalhada das nossas tabelas de RNF: ID do Requisito, Nome, Categoria, Descrição e Métrica de Aceitação. Gera só o primeiro, focado na segurança dos dados, para eu confirmar se a estrutura bate certo com as nossas tabelas.}{Combinado! Para os Requisitos Não Funcionais (RNF), vou adotar essa estrutura focada em métricas que possam ser testadas objetivamente pela equipa. Aqui tens o primeiro, focado na segurança e privacidade:
+
+\textbf{ID:} RNF-01
+\textbf{Nome:} Conformidade com o RGPD e Proteção de Dados
+\textbf{Categoria:} Segurança e Privacidade
+\textbf{Descrição:} O sistema deve garantir que todos os dados sensíveis dos atletas (como NIF, contactos e atestados médicos) são armazenados de forma segura na base de dados (PostgreSQL), cumprindo as normas do Regulamento Geral sobre a Proteção de Dados (RGPD). As credenciais de acesso devem ser guardadas com recurso a algoritmos de \textit{hashing} (ex: bcrypt).
+\textbf{Métrica de Aceitação:} Uma auditoria técnica à base de dados deve confirmar que 100\% das palavras-passe estão guardadas em formato \textit{hash} e que não existe informação sensível exposta em texto limpo. Deve também existir um "Termo de Consentimento" de aceitação obrigatória no primeiro login.
+
+Estou pronto para gerar os restantes RNFs. Podes pedir quando quiseres!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} À semelhança do processo adotado nos Requisitos Funcionais, a geração dos restantes Requisitos Não Funcionais foi efetuada de forma iterativa, garantindo sempre a mesma estrutura tabular. A listagem completa e os respetivos diagramas/tabelas encontram-se no Capítulo 3 deste relatório.}}

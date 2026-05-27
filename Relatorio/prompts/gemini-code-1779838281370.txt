@@ -1,0 +1,12 @@
+\caixaprompt{GPT-4o}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. \textit{(Nota da equipa: O código e a pré-visualização deste ficheiro encontram-se na secção de Anexos do relatório).}
+
+A partir dos dados presentes na fatura gerada, identifiquei os seguintes Requisitos Funcionais (RF) fundamentais para o módulo financeiro do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Processamento de Quotas:} O sistema deve permitir à secretaria registar o pagamento mensal ou anual de quotas por parte de sócios ou atletas.
+    \item \textbf{RF - Emissão de Faturas e Recibos:} O sistema deve gerar automaticamente um documento em PDF (Fatura/Recibo) no momento da confirmação do pagamento, enviando-o para o email do utilizador.
+    \item \textbf{RF - Integração SAF-T:} O sistema deve garantir que todos os recibos emitidos possuem os dados necessários (NIF, morada, taxa de IVA) para a correta exportação do ficheiro SAF-T para a Autoridade Tributária.
+    \item \textbf{RF - Controlo de Dívidas:} O sistema deve identificar automaticamente atletas ou sócios com quotas em atraso, destacando-os no \textit{dashboard} da secretaria.
+    \item \textbf{RF - Alertas de Pagamento:} O sistema deve enviar notificações automáticas (via email ou plataforma) aos encarregados de educação ou sócios nos 5 dias anteriores ao vencimento da quota.
+    \item \textbf{RF - Restrição por Dívida:} O sistema deve avisar ou bloquear a inclusão de atletas em convocatórias caso tenham mais de 2 meses de quotas em atraso (conforme os regulamentos do clube).
+\end{itemize}}

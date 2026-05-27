@@ -1,3 +1,4 @@
+@startuml
 ' Estilo partilhado — relatório CAP (cores alinhadas ao cabeçalho #00529B)
 ' Incluir no topo de cada diagrama: !include _cap_skin.puml
 skinparam shadowing false
@@ -73,3 +74,4 @@ skinparam note {
   BackgroundColor #FFFDE7
   BorderColor #C9A012
 }
+@enduml

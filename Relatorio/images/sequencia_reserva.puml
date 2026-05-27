@@ -1,5 +1,5 @@
-@startuml sequencia_reserva
-!include _cap_skin.puml
+@startuml
+
 hide footbox
 
 title Diagrama de Sequência: Reserva de Instalação (RF-7.1)

@@ -302,3 +302,4 @@ c:\Trabalho\LI4\src\CAP.API\obj\Debug\net7.0\scopedcss\bundle\CAP.API.styles.css
 c:\Trabalho\LI4\src\CAP.API\obj\Debug\net7.0\CAP.API.csproj.CopyComplete
 c:\Trabalho\LI4\src\CAP.API\obj\Debug\net7.0\CAP.API.genruntimeconfig.cache
 c:\Trabalho\LI4\src\CAP.API\obj\Debug\net7.0\ref\CAP.API.dll
+C:\Trabalho\LI4\src\CAP.API\bin\Debug\net7.0\BCrypt-Net-Next.dll

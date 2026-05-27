@@ -1,5 +1,4 @@
-@startuml atividade_atestado
-!include _cap_skin.puml
+@startuml
 
 title Diagrama de Atividade: Submissao e Validacao de EMD (RF-4.1)
 

@@ -1952,10 +1952,40 @@
           "lib/netstandard1.6/XLParser.dll": {}
         }
       },
+      "CAP.Modules.Finance.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "CAP.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/CAP.Modules.Finance.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CAP.Modules.Finance.Core.dll": {}
+        }
+      },
+      "CAP.Modules.Finance.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.20",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
+        },
+        "compile": {
+          "bin/placeholder/CAP.Modules.Finance.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CAP.Modules.Finance.Data.dll": {}
+        }
+      },
       "CAP.Modules.Reports.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
+          "CAP.Modules.Finance.Data": "1.0.0",
           "CAP.Shared": "1.0.0",
           "ClosedXML": "0.102.1",
           "QuestPDF": "2023.12.0"
@@ -6265,6 +6295,16 @@
         "xlparser.nuspec"
       ]
     },
+    "CAP.Modules.Finance.Core/1.0.0": {
+      "type": "project",
+      "path": "../../Finance/CAP.Modules.Finance.Core/CAP.Modules.Finance.Core.csproj",
+      "msbuildProject": "../../Finance/CAP.Modules.Finance.Core/CAP.Modules.Finance.Core.csproj"
+    },
+    "CAP.Modules.Finance.Data/1.0.0": {
+      "type": "project",
+      "path": "../../Finance/CAP.Modules.Finance.Data/CAP.Modules.Finance.Data.csproj",
+      "msbuildProject": "../../Finance/CAP.Modules.Finance.Data/CAP.Modules.Finance.Data.csproj"
+    },
     "CAP.Modules.Reports.Core/1.0.0": {
       "type": "project",
       "path": "../CAP.Modules.Reports.Core/CAP.Modules.Reports.Core.csproj",
@@ -6289,11 +6329,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
+      "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
       "projectName": "CAP.Modules.Reports.Data",
-      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
+      "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\obj\\",
+      "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -6308,8 +6348,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
             }
           }
         }

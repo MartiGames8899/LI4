@@ -36,3 +36,11 @@ c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Mod
 c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Shared.pdb
 c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\obj\Debug\net7.0\CAP.Modules.Users.Api.csproj.CopyComplete
 c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\obj\Debug\net7.0\ref\CAP.Modules.Users.Api.dll
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Clinical.Core.dll
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Clinical.Data.dll
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Sports.Core.dll
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Sports.Data.dll
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Clinical.Data.pdb
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Clinical.Core.pdb
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Sports.Data.pdb
+c:\Trabalho\LI4\src\Modules\Users\CAP.Modules.Users.Api\bin\Debug\net7.0\CAP.Modules.Sports.Core.pdb

@@ -12,13 +12,16 @@ public class NotificationEngine : INotificationEngine
 {
     private readonly IRepository<Notificacao> _notificacaoRepository;
     private readonly IRepository<NotificacaoPreferencia> _preferenciaRepository;
+    private readonly IEmailSender _emailSender;
 
     public NotificationEngine(
         IRepository<Notificacao> notificacaoRepository,
-        IRepository<NotificacaoPreferencia> preferenciaRepository)
+        IRepository<NotificacaoPreferencia> preferenciaRepository,
+        IEmailSender emailSender)
     {
         _notificacaoRepository = notificacaoRepository;
         _preferenciaRepository = preferenciaRepository;
+        _emailSender = emailSender;
     }
 
     public async Task SendAsync(Guid utilizadorId, string titulo, string mensagem, TipoNotificacao tipo)
@@ -45,10 +48,16 @@ public class NotificationEngine : INotificationEngine
         }
     }
 
-    private Task DispatchExternalAsync(Guid utilizadorId, string titulo, string mensagem, CanalNotificacao canal)
+    private async Task DispatchExternalAsync(Guid utilizadorId, string titulo, string mensagem, CanalNotificacao canal)
     {
-        // Simulação de envio externo (Email, SMS, Push)
-        Console.WriteLine($"[NotificationEngine] Enviando via {canal} para {utilizadorId}: {titulo}");
-        return Task.CompletedTask;
+        if (canal == CanalNotificacao.Email)
+        {
+            await _emailSender.SendEmailToUserAsync(utilizadorId, titulo, mensagem);
+        }
+        else
+        {
+            // Simulação de outros canais (SMS, Push)
+            Console.WriteLine($"[NotificationEngine] Enviando via {canal} para {utilizadorId}: {titulo}");
+        }
     }
 }

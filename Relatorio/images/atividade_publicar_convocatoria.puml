@@ -1,5 +1,5 @@
-@startuml atividade_publicar_convocatoria
-!include _cap_skin.puml
+@startuml
+
 hide stereotypes
 
 title Diagrama de Atividade: Publicação de Convocatória (RF-3.4)

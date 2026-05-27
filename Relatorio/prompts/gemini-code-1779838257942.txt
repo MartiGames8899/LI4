@@ -1,0 +1,11 @@
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}
+
+A partir desta conversa, extraí os seguintes Requisitos Funcionais (RF) voltados para o portal do utilizador/atleta:
+
+\begin{itemize}
+    \item \textbf{RF - Consulta de Calendário e Convocatórias:} O atleta precisa de aceder a uma área pessoal onde possa ver a data, hora e local dos próximos jogos, bem como confirmar se está convocado.
+    \item \textbf{RF - Pagamento e Histórico de Quotas:} É essencial que o atleta consiga consultar o estado das suas mensalidades, obter as referências de pagamento (ex: MBWay, Multibanco) e fazer o \textit{download} das faturas/recibos anteriores.
+    \item \textbf{RF - Submissão de Documentação:} O sistema deve permitir ao atleta enviar o atestado médico digitalizado e atualizar os seus dados pessoais (ex: alteração de morada ou contacto de emergência).
+    \item \textbf{RF - Notificações Proativas:} O atleta deseja receber alertas no telemóvel ou por email quando uma quota está prestes a expirar ou quando o treinador publica uma convocatória de última hora.
+    \item \textbf{Dificuldade Atual Identificada:} A maior frustração apontada foi a necessidade de ir presencialmente à secretaria do clube (ficar em filas) apenas para entregar o atestado médico em papel no início de cada época.
+\end{itemize}}

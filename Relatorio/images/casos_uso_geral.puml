@@ -1,6 +1,4 @@
-@startuml casos_uso_geral
-!include _cap_skin.puml
-skinparam dpi 150
+@startuml
 
 actor "Atleta"                   as Athlete
 actor "Encarregado\nde Educação" as Parent

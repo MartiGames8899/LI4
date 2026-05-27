@@ -1,0 +1,5 @@
+-digrama caso de uso 4.2
+-humanizar o codigo
+-fazer os diagramas
+-aidiconar txto explicatoivo a especificacao do API
+	

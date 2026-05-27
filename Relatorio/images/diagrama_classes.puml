@@ -1,8 +1,5 @@
-@startuml diagrama_classes
-!include _cap_skin.puml
-skinparam classAttributeIconSize 0
-skinparam defaultFontSize 8
-skinparam dpi 150
+@startuml
+
 hide circle
 
 ' ══════════════════════════════════════════

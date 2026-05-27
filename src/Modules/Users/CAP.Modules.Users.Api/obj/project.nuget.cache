@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "RVh0nI6DxkqktWmCWAMEjlI2R181Rq5p53PJk7GggWgfMDjZZW+RpZ6WHvUvV1MAzMHuD2E35DiyVJMjO5a3dg==",
+  "dgSpecHash": "BqdYCqm00DFQHUYmqfkkYCZt9C/jVw4gbACap2Oos+3MnyfKs8TatjKNnJRqGt0/96YfAFLp9hV8MXO6paFj6g==",
   "success": true,
-  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+  "projectFilePath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\tiago\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

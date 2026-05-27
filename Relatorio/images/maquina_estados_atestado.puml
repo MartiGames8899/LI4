@@ -1,5 +1,5 @@
-@startuml maquina_estados_atestado
-!include _cap_skin.puml
+@startuml
+
 hide stereotypes
 
 title Máquina de Estados: Ciclo de Vida do Atestado Médico (RF-11)

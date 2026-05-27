@@ -74,3 +74,7 @@ C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\obj\Debug\net7.0\CAP
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\obj\Debug\net7.0\refint\CAP.Modules.Reports.Api.dll
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\obj\Debug\net7.0\CAP.Modules.Reports.Api.pdb
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\obj\Debug\net7.0\ref\CAP.Modules.Reports.Api.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\bin\Debug\net7.0\CAP.Modules.Finance.Core.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\bin\Debug\net7.0\CAP.Modules.Finance.Data.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\bin\Debug\net7.0\CAP.Modules.Finance.Core.pdb
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api\bin\Debug\net7.0\CAP.Modules.Finance.Data.pdb

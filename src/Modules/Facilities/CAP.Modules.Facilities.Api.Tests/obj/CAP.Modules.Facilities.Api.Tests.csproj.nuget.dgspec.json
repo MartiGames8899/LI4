@@ -1,0 +1,344 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api.Tests\\CAP.Modules.Facilities.Api.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectName": "CAP.Shared",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[14.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api.Tests\\CAP.Modules.Facilities.Api.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api.Tests\\CAP.Modules.Facilities.Api.Tests.csproj",
+        "projectName": "CAP.Modules.Facilities.Api.Tests",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api.Tests\\CAP.Modules.Facilities.Api.Tests.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.3.10, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.7.1, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
+        "projectName": "CAP.Modules.Facilities.Api",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\CAP.Modules.Facilities.Api.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
+        "projectName": "CAP.Modules.Facilities.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
+        "projectName": "CAP.Modules.Facilities.Data",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\CAP.Modules.Facilities.Data.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Facilities\\CAP.Modules.Facilities.Core\\CAP.Modules.Facilities.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.20, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

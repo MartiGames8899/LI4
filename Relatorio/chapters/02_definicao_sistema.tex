@@ -48,13 +48,26 @@ Ao nível dos \textbf{recursos humanos}, a equipa divide-se em:
 \end{itemize}
 
 Ao nível dos \textbf{recursos materiais}, foram utilizados:
+\begin{center}
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{4cm}|p{10.5cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Categoria}} & \textcolor{white}{\textbf{Recursos}} \\ \hline
+\endfirsthead
+
+\multicolumn{2}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Categoria}} & \textcolor{white}{\textbf{Recursos}} \\ \hline
+\endhead
+
+\hline \multicolumn{2}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Recursos de software utilizados no projeto.}
+\label{tab:recursos-software} \\
+\endlastfoot
+
 Hardware          & 4 computadores pessoais (um por elemento da equipa). \\ \hline
 Linguagens        & C\# (.NET), TypeScript, SQL, LaTeX. \\ \hline
 Frameworks        & ASP.NET Core, Entity Framework Core \cite{efcore2023}, Next.js \cite{nextjs2024}, React, shadcn/ui. \\ \hline
@@ -63,11 +76,10 @@ Infra \& DevOps   & Docker, Docker Compose \cite{docker2024}, Git, GitHub. \\ \h
 Modelação         & PlantUML, draw.io, Visual Paradigm. \\ \hline
 Desenvolvimento   & Visual Studio Code, JetBrains Rider, Postman. \\ \hline
 Documentação      & LaTeX (TeXstudio), Google Docs, Gemini. \\ \hline
-\end{tabular}
-\caption{Recursos de software utilizados no projeto.}
-\label{tab:recursos-software}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 \section{Análise de Viabilidade}
 Antes de avançar com o desenvolvimento, fizemos uma análise de viabilidade do ponto de vista operacional e económico. As estimativas que se seguem foram construídas a partir das entrevistas com a direção do CAP e do questionário aos sócios, sendo por isso \textbf{estimativas qualitativas baseadas no relato dos utilizadores}, e não medições com instrumentos formais. A entrega de uma versão piloto em produção será essencial para confirmar (ou ajustar) os números abaixo.
@@ -82,24 +94,36 @@ Antes de avançar com o desenvolvimento, fizemos uma análise de viabilidade do 
 
 \subsection*{Estimativa de custo}
 O custo total do projeto foi estimado em menos de 50\,000~€, segundo a seguinte decomposição:
+\begin{center}
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{6cm}|p{3.5cm}|p{4.5cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Rubrica}} & \textcolor{white}{\textbf{Estimativa}} & \textcolor{white}{\textbf{Pressuposto}} \\ \hline
+\endfirsthead
+
+\multicolumn{3}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Rubrica}} & \textcolor{white}{\textbf{Estimativa}} & \textcolor{white}{\textbf{Pressuposto}} \\ \hline
+\endhead
+
+\hline \multicolumn{3}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Decomposição da estimativa de custo do projeto.}
+\label{tab:estimativa-custo} \\
+\endlastfoot
+
 Desenvolvimento (4 elementos $\times$ 16 semanas) & $\approx$ 38\,400~€ & 30~h/semana, 20~€/h (júnior) \\ \hline
 Infraestrutura cloud (1.º ano)        & $\approx$ 1\,200~€  & VPS + Postgres geridas \\ \hline
 Domínio, certificado SSL e email      & $\approx$ 200~€     & Renovação anual \\ \hline
 Licenças de software                  & $\approx$ 0~€       & Toda a \textit{stack} é OSS \\ \hline
 Margem para imprevistos ($\approx$ 15\%) & $\approx$ 6\,000~€ & Reserva técnica \\ \hline
 \textbf{Total estimado} & \textbf{$\approx$ 45\,800~€} & \\ \hline
-\end{tabular}
-\caption{Decomposição da estimativa de custo do projeto.}
-\label{tab:estimativa-custo}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 Considerando que o CAP perdeu, segundo a gerência, um patrocínio que ultrapassava o valor anual deste custo apenas por falta de organização de dados, o investimento é viável a médio prazo. A natureza modular da solução permite ainda escalonar funcionalidades futuras (chat interno, eventos extra-desportivos, integração federativa) sem necessidade de refazer a base.
 \section{Plano de Execução do Projeto}

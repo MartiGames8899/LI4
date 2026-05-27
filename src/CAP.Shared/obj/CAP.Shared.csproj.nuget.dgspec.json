@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {}
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {}
   },
   "projects": {
-    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"

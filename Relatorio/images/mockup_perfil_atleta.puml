@@ -1,3 +1,4 @@
+@startuml
 @startsalt
 {+
   <b>CAP</b> | Área Pessoal - João Silva | [Sair]
@@ -43,3 +44,4 @@
   }
 }
 @endsalt
+@enduml

@@ -1,0 +1,27 @@
+\caixaprompt{GPT-4o}{Olha, agora para o nosso sistema do CAP, preciso que me comeces a gerar os requisitos funcionais. Quero que uses uma estrutura bem mais detalhada para cada um, tipo a das tabelas de especificação: ID do Requisito, Nome, Atores, Descrição, Pré-condições, Pós-condições e o Fluxo de Eventos (Principal e Exceções). Gera só o primeiro para ver se percebeste a ideia, depois vou-te pedindo os restantes.}{Percebido! Vou utilizar essa estrutura detalhada para garantir que a especificação fica pronta a passar para a fase de modelação (Casos de Uso). Aqui está o primeiro requisito funcional, focado na inscrição de atletas:
+
+\textbf{ID:} RF-01
+\textbf{Nome:} Inscrição e Registo de Novos Atletas
+\textbf{Atores:} Funcionário da Secretaria (Ator Principal)
+\textbf{Descrição:} O sistema deve permitir à secretaria registar um novo atleta, inserindo os seus dados pessoais, modalidade e escalão, criando o respetivo perfil de acesso.
+\textbf{Pré-condições:} O funcionário da secretaria tem de estar autenticado no sistema com privilégios administrativos.
+\textbf{Pós-condições:} O perfil do atleta é criado na base de dados, associado a um escalão, e é enviado um email automático com as credenciais de acesso provisórias.
+
+\textbf{Fluxo Principal:}
+1. O funcionário seleciona a opção "Novo Atleta" no painel de gestão.
+2. O sistema apresenta o formulário de inscrição em branco.
+3. O funcionário preenche os dados obrigatórios (Nome, NIF, Data de Nascimento, Contacto, Modalidade).
+4. O funcionário anexa o atestado médico digitalizado.
+5. O funcionário clica em "Guardar Registo".
+6. O sistema valida os dados e regista o atleta com sucesso.
+
+\textbf{Fluxos de Exceção:}
+\textit{3a. NIF já existente:} O sistema alerta que já existe um utilizador com esse NIF e cancela a criação.
+\textit{4a. Formato de ficheiro inválido:} Se o atestado não for PDF ou Imagem, o sistema bloqueia o upload e pede novo ficheiro.
+
+Estou pronto. Podes pedir o próximo requisito quando quiseres!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} De forma a manter a concisão deste relatório, omitimos a listagem dos \textit{prompts} subsequentes. O processo repetiu-se iterativamente para gerar a totalidade dos Requisitos Funcionais, garantindo que o modelo respeitava sempre esta estrutura tabular detalhada. O resultado final desta extração e as respetivas tabelas encontram-se no Capítulo 3.}}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {}
+    "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {}
   },
   "projects": {
-    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
-        "projectName": "CAP.Modules.Reports.Core",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
+        "projectName": "CAP.Modules.Finance.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -85,8 +85,138 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
+        "projectName": "CAP.Modules.Finance.Data",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.20, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
+        "projectName": "CAP.Modules.Reports.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
               }
             }
           }

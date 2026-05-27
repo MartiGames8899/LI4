@@ -1,5 +1,5 @@
-@startuml sequencia_registo_utilizador
-!include _cap_skin.puml
+@startuml
+
 hide footbox
 
 title Diagrama de Sequência: Registo de Novo Utilizador

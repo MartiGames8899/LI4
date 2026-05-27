@@ -42,19 +42,33 @@ Para cada grupo de \textit{stakeholders}, foram identificadas as suas necessidad
 
 A equipa de desenvolvimento selecionou três métodos complementares de levantamento de requisitos, cada um com objetivos específicos e contribuições distintas para a compreensão global das necessidades do sistema:
 
+\begin{center}
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{3.5cm}|p{5cm}|p{6cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Método}} & \textcolor{white}{\textbf{Objetivo Principal}} & \textcolor{white}{\textbf{Informação Obtida}} \\ \hline
+\endfirsthead
+
+\multicolumn{3}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Método}} & \textcolor{white}{\textbf{Objetivo Principal}} & \textcolor{white}{\textbf{Informação Obtida}} \\ \hline
+\endhead
+
+\hline \multicolumn{3}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Métodos de levantamento de requisitos e suas contribuições.}
+\label{tab:metodos-levantamento} \\
+\endlastfoot
+
 Análise Documental & Compreender os processos atuais e os dados manipulados & Entidades de dados, fluxos de informação, regras de negócio implícitas \\ \hline
 Entrevistas Direcionadas & Captar necessidades específicas e problemas vivenciados & Requisitos funcionais prioritários, dores dos utilizadores, expectativas qualitativas \\ \hline
 Questionário Online & Validar requisitos em escala e identificar prioridades & Validação estatística, priorização de funcionalidades, identificação de consensos \\ \hline
-\end{tabular}
-\caption{Métodos de levantamento de requisitos e suas contribuições}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 A complementaridade destes métodos foi essencial para garantir uma cobertura abrangente das necessidades do sistema. Enquanto a análise documental permitiu compreender ``o que existe'', as entrevistas revelaram ``o que falta'' e ``o que causa problemas'', e os questionários validaram ``o que é prioritário'' para a maioria dos utilizadores.
 
@@ -174,7 +188,7 @@ Tendo consolidado estas restrições, avançámos para a seguinte versão sinté
 \begin{itemize}
     \item \textbf{RF - Processamento de Quotas:} O sistema deve permitir à secretaria registar o pagamento mensal ou anual de quotas por parte de sócios ou atletas.
     \item \textbf{RF - Emissão de Faturas e Recibos:} O sistema deve gerar automaticamente um documento em PDF (Fatura/Recibo) no momento da confirmação do pagamento, enviando-o para o email do utilizador.
-    \item \textbf{RF - Integração SAF-T:} O sistema deve garantir que todos os recibos emitidos possuem os dados necessários (NIF, morada, taxa de IVA) para a correta exportação do ficheiro SAF-T para a Autoridade Tributária.
+    \item \textbf{RF - Integração SAF-T:} O sistema deve garantir que todos os recibos emitidos possuem os dados necessários e são assinados digitalmente (RSA) para a correta exportação do ficheiro SAF-T para a Autoridade Tributária.
     \item \textbf{RF - Controlo de Dívidas:} O sistema deve identificar automaticamente atletas ou sócios com quotas em atraso, destacando-os no \textit{dashboard} da secretaria.
     \item \textbf{RF - Alertas de Pagamento:} O sistema deve enviar notificações automáticas (via email ou plataforma) aos encarregados de educação ou sócios nos 5 dias anteriores ao vencimento da quota.
     \item \textbf{RF - Restrição por Dívida:} O sistema deve avisar ou bloquear a inclusão de atletas em convocatórias caso tenham mais de 2 meses de quotas em atraso (conforme os regulamentos do clube).
@@ -332,7 +346,7 @@ Nesta reunião de validação, foram discutidos os seguintes pontos:
 
 A validação foi bem-sucedida, tendo a gerência aprovado o documento de requisitos e autorizado o avanço para a fase de especificação formal. As secções seguintes apresentam os requisitos funcionais e não funcionais resultantes deste processo de levantamento.
 
-\subsection{User Stories Representativas}
+\subsection{User Stories Representativas}\label{sec:user_stories}
 
 Antes de avançar para a especificação formal dos requisitos, sintetizámos a informação recolhida nas entrevistas e no questionário em \textit{user stories}, no formato \emph{``Como \textless papel\textgreater, quero \textless ação\textgreater, para \textless benefício\textgreater''}. As \textit{stories} permitiram-nos manter o foco na perspetiva do utilizador real e serviram de ponte entre o discurso das entrevistas e a redação dos RF mais técnicos da secção seguinte. Apresentam-se abaixo as quinze \textit{stories} consideradas mais representativas, agrupadas por perfil:
 
@@ -1087,7 +1101,7 @@ O módulo agrega todos os movimentos financeiros registados e apresenta-os em pa
 
 O requisito RF-19, denominado Conformidade Fiscal (Exportação SAF-T), insere-se na área da Tesouraria e Contabilidade e trata do cumprimento das obrigações fiscais do clube perante a Autoridade Tributária e Aduaneira (AT). A comunicação das receitas através de ficheiros normalizados (Standard Audit File for Tax -- SAF-T) é uma obrigação legal que, quando não automatizada, representa um processo manual moroso e sujeito a erros humanos.
 
-O sistema compila automaticamente as transações validadas num intervalo temporal selecionável e gera o ficheiro XML no formato SAF-T conforme as especificações das Finanças. Antes da geração final, é apresentado um relatório de validação que identifica eventuais anomalias, garantindo que o ficheiro submetido está em conformidade. O acesso a esta funcionalidade é restrito aos perfis financeiros de topo.
+O sistema compila automaticamente as transações validadas num intervalo temporal selecionável e gera o ficheiro XML no formato SAF-T conforme as especificações das Finanças. É exigido que o motor financeiro assine cada fatura digitalmente (cifragem RSA da \textit{hash} da fatura anterior), assegurando o encadeamento inviolável exigido por lei. Antes da geração final, é apresentado um relatório de validação que identifica eventuais anomalias, garantindo que o ficheiro submetido está em conformidade. O acesso a esta funcionalidade é restrito aos perfis financeiros de topo.
 
 {\small
 \rowcolors{2}{rowblue}{white}

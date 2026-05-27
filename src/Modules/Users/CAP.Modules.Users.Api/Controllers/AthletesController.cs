@@ -57,7 +57,7 @@ public class AthletesController : ControllerBase
             // Equipa Principal
             var equipa = _sportsDb.AtletaEquipas
                 .Where(ae => ae.AtletaId == a.Id)
-                .Select(ae => ae.Equipa.Nome)
+                .Select(ae => ae.Equipa != null ? ae.Equipa.Nome : null)
                 .FirstOrDefault() ?? "Sem Equipa";
 
             return new

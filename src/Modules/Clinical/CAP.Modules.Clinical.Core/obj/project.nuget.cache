@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IWdJ4MO0YmG7HBA5Lvm/YB2BGpgknmoadXCNvBT9IhvxIrPZIcHVxijA/yUo748uz2kRSJo1JJx6ob1gj0ha7g==",
+  "dgSpecHash": "kOjWXUR8QtOYXAocTFs/eU8xHDeIClJHaFeT4GJ4AvamCmwj7Tj82GzLdwDNUQtMNKFCB0xgxrncXa1ntjfyZg==",
   "success": true,
-  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+  "projectFilePath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

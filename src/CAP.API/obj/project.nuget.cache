@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5s3AZRnDuzWsh9k1oR4DbafNCaUZO8JMwGU52bwVgSqkY1dNqyJyORCSAGqAHChNRpl0x9vbZ9UqSz/cajpEww==",
+  "dgSpecHash": "cPplKc6TxlJmPSBS+W4NNFjvMFH+/Ee6GbMsRfds1F4G7dBZFnEufCqoYXU9XU9CjiKES9H2CzJuld7tUYWq+A==",
   "success": true,
-  "projectFilePath": "c:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj",
+  "projectFilePath": "C:\\Trabalho\\LI4\\src\\CAP.API\\CAP.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\tiago\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\documentformat.openxml\\3.1.1\\documentformat.openxml.3.1.1.nupkg.sha512",

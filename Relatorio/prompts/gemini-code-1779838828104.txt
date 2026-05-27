@@ -1,0 +1,245 @@
+% =========================================================================
+% 1. CONFIGURAÇÃO PARA O PREÂMBULO (Colocar antes do \begin{document})
+% =========================================================================
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+
+% Definição da cor azul clarinho subtil
+\definecolor{azulclaro}{RGB}{240, 248, 255} 
+
+% Comando customizado para o registo de prompts
+\newcommand{\caixaprompt}[3]{
+    \begin{tcolorbox}[
+        enhanced,
+        colback=azulclaro,
+        colframe=blue!50!black,
+        arc=2mm,
+        boxrule=0.5mm,
+        title=\textbf{Documentação de IA},
+        fonttitle=\sffamily,
+        coltitle=white,
+        attach title to upper,
+        after title={\par\medskip},
+        breakable % Permite que a caixa se divida entre páginas se for muito longa
+    ]
+        \textbf{Modelo Usado:} #1 \\
+        \textbf{Prompt:} \textit{"#2"} \\
+        \tcbline
+        \textbf{Resultado:} #3
+    \end{tcolorbox}
+}
+
+% =========================================================================
+% 2. CORPO DO RELATÓRIO (Inserir ao longo do trabalho nas secções respetivas)
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% SECÇÃO: MÉTODOS DE LEVANTAMENTO DE REQUISITOS
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{No contexto do CAP (Clube Amigos de Polvoreira), sendo um clube desportivo com várias modalidades e diferentes tipos de pessoas (atletas, pais, treinadores, gerência), quero que me digas quais são os melhores métodos para o levantamento de requisitos para o nosso novo sistema de software.}{Para um ecossistema tão rico e diversificado como o do Clube Amigos de Polvoreira, recomendo uma abordagem mista (triangulação de métodos), inspirada nas práticas de Sommerville. Aqui estão os métodos mais indicados para o vosso caso:
+
+\begin{itemize}
+    \item \textbf{Análise Documental:} Fundamental para perceber "o que existe". Devem recolher os atestados médicos, relatórios de jogo em papel e os livros de recibos de quotas atuais para perceber exatamente que dados precisam de ser transpostos para o digital.
+    \item \textbf{Entrevistas Direcionadas (Semiestruturadas):} Essencial para captar dores específicas. Recomendo entrevistar representantes chave: um elemento da direção (para a vertente financeira/SAF-T), um treinador (sobre convocatórias e lesões) e um atleta.
+    \item \textbf{Questionários Online:} Sendo um clube com muitos associados, a melhor forma de validar problemas à escala é enviando um formulário via email para todos os atletas e encarregados de educação.
+    \item \textbf{Observação Direta (Etnografia):} Passar uma tarde na secretaria do clube num dia de jogo ou de inscrições para observar os estrangulamentos do processo manual.
+    \item \textbf{Focus Groups (Grupos de Foco):} Juntar numa sala treinadores de diferentes modalidades para debater como deve funcionar o sistema de reserva do pavilhão sem gerar conflitos.
+    \item \textbf{Prototipagem Rápida:} Criar ecrãs falsos (\textit{mockups}) do sistema e mostrar à gerência para garantir que a usabilidade se adequa à literacia digital dos funcionários.
+\end{itemize}
+
+Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: IDENTIFICAÇÃO DE STAKEHOLDERS
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{No contexto do CAP, quero que identifiques todos os stakeholders do clube.}{Para o Clube Amigos de Polvoreira (CAP), a identificação correta dos \textit{stakeholders} é fundamental para perceber quem irá interagir com o novo sistema e quem será afetado por ele. Tendo em conta a estrutura típica de um clube desportivo português, dividi os intervenientes em duas categorias principais:
+
+\textbf{\textit{Stakeholders} Primários (Utilizadores Diretos):}
+\begin{itemize}
+    \item \textbf{Atletas:} Os praticantes das diversas modalidades do clube.
+    \item \textbf{Treinadores:} Os responsáveis técnicos das equipas, que farão convocatórias e registo de lesões.
+    \item \textbf{Encarregados de Educação:} Os responsáveis legais pelos atletas menores, fundamentais para a gestão de pagamentos e autorizações.
+    \item \textbf{Secretaria:} Os funcionários administrativos que gerem inscrições, validação de atestados e processos diários.
+    \item \textbf{Gerência:} Os órgãos de direção e administração que necessitam de uma visão global financeira e desportiva.
+\end{itemize}
+
+\textbf{\textit{Stakeholders} Secundários (Afetados Indiretamente):}
+\begin{itemize}
+    \item \textbf{Sócios não-praticantes:} Membros associados sem atividade desportiva ativa.
+    \item \textbf{Fornecedores e parceiros:} Entidades externas com relações comerciais com o clube.
+    \item \textbf{Autoridades desportivas:} Federações e associações reguladoras das competições.
+    \item \textbf{Autoridade Tributária (AT):} Entidade reguladora fiscal, essencial para efeitos de conformidade e exportação do SAF-T.
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: EXTRAÇÃO DE DOCUMENTOS - ATESTADO MÉDICO
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{Com certeza! O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. \textit{(Nota da equipa: O código e a pré-visualização do ficheiro HTML gerado encontram-se na secção de Anexos no final deste relatório).}
+
+Com base na estrutura de dados presente nesse atestado médico, extraí a seguinte lista de Requisitos Funcionais (RF) que devem ser implementados no sistema do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Upload de Documento:} O sistema deve permitir aos atletas ou encarregados de educação efetuarem o \textit{upload} do atestado médico em formato digital (PDF ou imagem).
+    \item \textbf{RF - Controlo de Validade:} O sistema deve extrair e registar a data de emissão do atestado médico, calculando a sua data de caducidade (habitualmente 1 ano após a emissão).
+    \item \textbf{RF - Validação da Secretaria:} O sistema deve permitir aos funcionários da secretaria aprovar ou rejeitar o atestado submetido, validando a assinatura e a vinheta do médico.
+    \item \textbf{RF - Alertas de Expiração:} O sistema deve notar automaticamente o atleta e/ou encarregado de educação 30 dias antes de o atestado médico perder a validade.
+    \item \textbf{RF - Bloqueio de Convocatória:} O sistema não deve permitir que os treinadores adicionem a convocatórias oficiais os atletas cujo atestado médico se encontre caducado ou reprovado.
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: EXTRAÇÃO DE DOCUMENTOS - RELATÓRIO DE JOGO
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Agora gera, no mesmo formato, um documento de relatório de jogo e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo do Relatório Oficial de Jogo foi gerado em HTML, contendo os campos essenciais para o registo desportivo pós-partida. \textit{(Nota da equipa: À semelhança do documento anterior, o código e a pré-visualização encontram-se na secção de Anexos deste relatório).}
+
+A partir da estrutura e dos dados necessários para preencher este relatório de jogo, extraí os seguintes Requisitos Funcionais (RF) cruciais para o módulo de gestão desportiva do sistema do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O sistema deve permitir que o treinador (or delegado) preencha o relatório após o apito final, registando o resultado final, a equipa adversária e a data/local da partida.
+    \item \textbf{RF - Associação à Convocatória:} O sistema deve associar automaticamente o relatório de jogo à convocatória previamente gerada para essa partida, carregando a lista de atletas presentes.
+    \item \textbf{RF - Registo de Estatísticas e Disciplina:} O sistema deve permitir o registo de eventos individuais por atleta durante o jogo, tais como golos marcados, assistências e cartões (amarelos/vermelhos).
+    \item \textbf{RF - Registo de Lesões em Jogo:} O sistema deve possuir uma secção para assinalar lesões contraídas durante a partida, gerando um alerta automático para a secretaria e para o encarregado de educação (no caso de menores).
+    \item \textbf{RF - Submissão e Arquivo:} Após a submissão do relatório pelo treinador, o documento deve ficar trancado a novas edições e disponível para consulta global pela gerência e secretaria.
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: EXTRAÇÃO DE DOCUMENTOS - FATURA DE QUOTA
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Agora gera, no mesmo formato, um documento de uma fatura de quota e mais uma vez extrai os requisitos do mesmo.}{Com certeza! O protótipo da Fatura/Recibo de Quota foi gerado em HTML, respeitando os campos essenciais de faturação de um clube desportivo. \textit{(Nota da equipa: O código e a pré-visualização deste ficheiro encontram-se na secção de Anexos do relatório).}
+
+A partir dos dados presentes na fatura gerada, identifiquei os seguintes Requisitos Funcionais (RF) fundamentais para o módulo financeiro do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Processamento de Quotas:} O sistema deve permitir à secretaria registar o pagamento mensal ou anual de quotas por parte de sócios ou atletas.
+    \item \textbf{RF - Emissão de Faturas e Recibos:} O sistema deve gerar automaticamente um documento em PDF (Fatura/Recibo) no momento da confirmação do pagamento, enviando-o para o email do utilizador.
+    \item \textbf{RF - Integração SAF-T:} O sistema deve garantir que todos os recibos emitidos possuem os dados necessários (NIF, morada, taxa de IVA) para a correta exportação do ficheiro SAF-T para a Autoridade Tributária.
+    \item \textbf{RF - Controlo de Dívidas:} O sistema deve identificar automaticamente atletas ou sócios com quotas em atraso, destacando-os no \textit{dashboard} da secretaria.
+    \item \textbf{RF - Alertas de Pagamento:} O sistema deve enviar notificações automáticas (via email ou plataforma) aos encarregados de educação ou sócios nos 5 dias anteriores ao vencimento da quota.
+    \item \textbf{RF - Restrição por Dívida:} O sistema deve avisar ou bloquear a inclusão de atletas em convocatórias caso tenham mais de 2 meses de quotas em atraso (conforme os regulamentos do clube).
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ENTREVISTA À GERÊNCIA
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada simulada entre um membro da equipa de desenvolvimento e um elemento da Direção (Gerência) do CAP. \textit{(Nota da equipa: A transcrição completa desta entrevista encontra-se na secção de Anexos no final deste relatório).}
+
+A partir da análise das respostas do membro da gerência, extraí os seguintes pontos-chave e Requisitos Funcionais (RF) focados na gestão global e financeira do clube:
+
+\begin{itemize}
+    \item \textbf{RF - Dashboard de Gestão:} A direção necessita de um painel de controlo (\textit{dashboard}) que apresente estatísticas em tempo real, como o número de atletas inscritos por modalidade e o balanço financeiro mensal.
+    \item \textbf{RF - Gestão de Perfis e Acessos:} O sistema deve suportar diferentes níveis de permissões. A gerência deve ter acesso administrative global, garantindo que dados financeiros sensíveis não são visíveis para treinadores ou atletas.
+    \item \textbf{RF - Conformidade Fiscal (SAF-T):} Foi sublinhado como requisito crítico e inegociável a capacidade de o sistema faturar e gerar o ficheiro SAF-T de forma automatizada para a Autoridade Tributária.
+    \item \textbf{RF - Relatórios de Seguros e Atestados:} A gerência quer a capacidade de gerar um relatório rápido listando todos os atletas que se encontram com o seguro desportivo ou atestado médico caducado.
+    \item \textbf{Dificuldade Atual Identificada:} O entrevistado destacou a perda de dezenas de horas mensais na verificação manual de transferências bancárias para reconciliação do pagamento de quotas.
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ENTREVISTA AO TREINADOR
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}
+
+Com base nas respostas do treinador, identifiquei os seguintes Requisitos Funcionais (RF) e principais necessidades operacionais para a gestão desportiva:
+
+\begin{itemize}
+    \item \textbf{RF - Gestão de Convocatórias:} O treinador precisa de um módulo onde possa selecionar os atletas para o jogo do fim de semana, enviando uma notificação automática para os mesmos.
+    \item \textbf{RF - Bloqueio de Atletas Irregulares:} O sistema deve impedir que o treinador convoque atletas que tenham o atestado médico caducado ou quotas em atraso, evitando penalizações desportivas.
+    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O treinador necessita de registar de forma célere os eventos da partida (golos, cartões, resultado final) diretamente no telemóvel ou \textit{tablet} após o jogo.
+    \item \textbf{RF - Registo de Assiduidades e Lesões:} Capacidade de registar as presenças nos treinos semanais e reportar lesões imediatas ao departamento médico/secretaria.
+    \item \textbf{Dificuldade Atual Identificada:} O treinador queixou-se de que perde muito tempo a tentar saber pela secretaria quem está "apto" a jogar devido a papelada atrasada, operando muitas vezes "às cegas".
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ENTREVISTA AO ATLETA
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Atleta do clube.}{Sem problema! Criei a simulação de uma entrevista focada na experiência de um Atleta do CAP (e do seu Encarregado de Educação). \textit{(Nota da equipa: A transcrição na íntegra está disponível no ficheiro `EntrevistaAtleta.txt` nos Anexos do relatório).}
+
+A partir desta conversa, extraí os seguintes Requisitos Funcionais (RF) voltados para o portal do utilizador/atleta:
+
+\begin{itemize}
+    \item \textbf{RF - Consulta de Calendário e Convocatórias:} O atleta precisa de aceder a uma área pessoal onde possa ver a data, hora e local dos próximos jogos, bem como confirmar se está convocado.
+    \item \textbf{RF - Pagamento e Histórico de Quotas:} É essencial que o atleta consiga consultar o estado das suas mensalidades, obter as referências de pagamento (ex: MBWay, Multibanco) e fazer o \textit{download} das faturas/recibos anteriores.
+    \item \textbf{RF - Submissão de Documentação:} O sistema deve permitir ao atleta enviar o atestado médico digitalizado e atualizar os seus dados pessoais (ex: alteração de morada ou contacto de emergência).
+    \item \textbf{RF - Notificações Proativas:} O atleta deseja receber alertas no telemóvel ou por email quando uma quota está prestes a expirar ou quando o treinador publica uma convocatória de última hora.
+    \item \textbf{Dificuldade Atual Identificada:} A maior frustração apontada foi a necessidade de ir presencialmente à secretaria do clube (ficar em filas) apenas para entregar o atestado médico em papel no início de cada época.
+\end{itemize}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ESTRUTURAÇÃO DO QUESTIONÁRIO ONLINE
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Quero que geres a estrutura de um questionário Google Forms para ser enviado a todos os stakeholders, e depois vamos gerar as perguntas 1 prompt de cada vez.}{Excelente abordagem. Para garantir que o questionário capte as necessidades de todos os intervenientes do Clube Amigos de Polvoreira de forma organizada, recomendo dividir o Google Forms nas seguintes secções principais, utilizando a lógica de ramificação (\textit{branching`) do formulário:
+
+\begin{itemize}
+    \item \textbf{Secção 1: Perfil do Inquirido:} Pergunta inicial de seleção múltipla (Atleta, Encarregado de Educação, Treinador, Sócio ou Secretaria/Gerência) para direcionar o utilizador.
+    \item \textbf{Secção 2: Avaliação Geral (Todos):} Questões sobre os canais de comunicação atuais (WhatsApp, email, presencial) e as maiores dores na obtenção de informação do clube.
+    \item \textbf{Secção 3: Módulos Específicos (Ramificados):}
+    \begin{itemize}
+        \item \textit{Para Treinadores:} Dificuldades nas convocatórias, assiduidades e relatórios de jogo.
+        \item \textit{Para Pais/Atletas:} Experiência com o pagamento de quotas, envio de atestados e acesso ao calendário de jogos.
+    \end{itemize}
+    \item \textbf{Secção 4: O Novo Sistema:} Pergunta de resposta aberta para sugestão de funcionalidades prioritárias na nova plataforma.
+\end{itemize}
+
+Estou pronto para avançar. Pode enviar o próximo prompt para começarmos a desenhar as perguntas e opções de resposta da Secção 1!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} Por motivos de concisão do relatório, optámos por não documentar nesta secção a totalidade das iterações seguintes. O desenvolvimento das perguntas exatas e opções de resposta foi realizado de forma iterativa, através de um \textit{prompt} dedicado a cada pergunta individual. O resumo visual das respostas obtidas (\texttt{forms.png}) encontra-se documentado na secção respetiva.}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ESPECIFICAÇÃO DE REQUISITOS FUNCIONAIS (TABELA DETALHADA)
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Olha, agora para o nosso sistema do CAP, preciso que me comeces a gerar os requisitos funcionais. Quero que uses uma estrutura bem mais detalhada para cada um, tipo a das tabelas de especificação: ID do Requisito, Nome, Atores, Descrição, Pré-condições, Pós-condições e o Fluxo de Eventos (Principal e Exceções). Gera só o primeiro para ver se percebeste a ideia, depois vou-te pedindo os restantes.}{Percebido! Vou utilizar essa estrutura detalhada para garantir que a especificação fica pronta a passar para a fase de modelação (Casos de Uso). Aqui está o primeiro requisito funcional, focado na inscrição de atletas:
+
+\textbf{ID:} RF-01 \\
+\textbf{Nome:} Inscrição e Registo de Novos Atletas \\
+\textbf{Atores:} Funcionário da Secretaria (Ator Principal) \\
+\textbf{Descrição:} O sistema deve permitir à secretaria registar um novo atleta, inserindo os seus dados pessoais, modalidade e escalão, criando o respetivo perfil de acesso. \\
+\textbf{Pré-condições:} O funcionário da secretaria tem de estar autenticado no sistema com privilégios administrativos. \\
+\textbf{Pós-condições:} O perfil do atleta é criado na base de dados, associado a um escalão, e é enviado um email automático com as credenciais de acesso provisórias.
+
+\textbf{Fluxo Principal:}
+1. O funcionário seleciona a opção "Novo Atleta" no painel de gestão.
+2. O sistema apresenta o formulário de inscrição em branco.
+3. O funcionário preenche os dados obrigatórios (Nome, NIF, Data de Nascimento, Contacto, Modalidade).
+4. O funcionário anexa o atestado médico digitalizado.
+5. O funcionário clica em "Guardar Registo".
+6. O sistema valida os dados e regista o atleta com sucesso.
+
+\textbf{Fluxos de Exceção:} \\
+\textit{3a. NIF já existente:} O sistema alerta que já existe um utilizador com esse NIF e cancela a criação. \\
+\textit{4a. Formato de ficheiro inválido:} Se o atestado não for PDF ou Imagem, o sistema bloqueia o upload e pede novo ficheiro.
+
+Estou pronto. Podes pedir o próximo requisito quando quiseres!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} De forma a manter a concisão deste relatório, omitimos a listagem dos \textit{prompts} subsequentes. O processo repetiu-se iterativamente para gerar a totalidade dos Requisitos Funcionais, garantindo que o modelo respeitava sempre esta estrutura tabular detalhada. O resultado final desta extração e as respetivas tabelas encontram-se no Capítulo 3.}}
+
+
+% -------------------------------------------------------------------------
+% SECÇÃO: ESPECIFICAÇÃO DE REQUISITOS NÃO FUNCIONAIS (TABELA DETALHADA)
+% -------------------------------------------------------------------------
+\caixaprompt{GPT-4o}{Boa, agora vamos passar para os requisitos não funcionais. Quero que faças a mesma coisa, mas usando a estrutura detalhada das nossas tabelas de RNF: ID do Requisito, Nome, Categoria, Descrição e Métrica de Aceitação. Gera só o primeiro, focado na segurança dos dados, para eu confirmar se a estrutura bate certo com as nossas tabelas.}{Combinado! Para os Requisitos Não Funcionais (RNF), vou adotar essa estrutura focada em métricas que possam ser testadas objetivamente pela equipa. Aqui tens o primeiro, focado na segurança e privacidade:
+
+\textbf{ID:} RNF-01 \\
+\textbf{Nome:} Conformidade com o RGPD e Proteção de Dados \\
+\textbf{Categoria:} Segurança e Privacidade \\
+\textbf{Descrição:} O sistema deve garantir que todos os dados sensíveis dos atletas (como NIF, contactos e atestados médicos) são armazenados de forma segura na base de dados (PostgreSQL), cumprindo as normas do Regulamento Geral sobre a Proteção de Dados (RGPD). As credenciais de acesso devem ser guardadas com recurso a algoritmos de \textit{hashing} (ex: bcrypt). \\
+\textbf{Métrica de Aceitação:} Uma auditoria técnica à base de dados deve confirmar que 100\% das palavras-passe estão guardadas em formato \textit{hash} e que não existe informação sensível exposta em texto limpo. Deve também existir um "Termo de Consentimento" de aceitação obrigatória no primeiro login.
+
+Estou pronto para gerar os restantes RNFs. Podes pedir quando quiseres!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} À semelhança do processo adotado nos Requisitos Funcionais, a geração dos restantes Requisitos Não Funcionais foi efetuada de forma iterativa, garantindo sempre a mesma estrutura tabular. A listagem completa e os respetivos diagramas/tabelas encontram-se no Capítulo 3 deste relatório.}}

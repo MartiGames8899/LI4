@@ -1,5 +1,4 @@
-@startuml modelo_dominio
-!include _cap_skin.puml
+@startuml
 
 hide circle
 hide members

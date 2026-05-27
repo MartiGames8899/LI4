@@ -4845,11 +4845,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+      "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
       "projectName": "CAP.Modules.Sports.Api",
-      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
+      "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\CAP.Modules.Sports.Api.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
+      "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4864,14 +4864,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
             },
-            "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
             },
-            "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
             }
           }
         }

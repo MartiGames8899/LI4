@@ -1,5 +1,5 @@
-@startuml sequencia_publicar_convocatoria
-!include _cap_skin.puml
+@startuml
+
 hide footbox
 
 title Diagrama de Sequência: Publicação de Convocatória

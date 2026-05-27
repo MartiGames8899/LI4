@@ -4826,11 +4826,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
+      "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
       "projectName": "CAP.Modules.Finance.Api",
-      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
+      "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\CAP.Modules.Finance.Api.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\obj\\",
+      "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4845,11 +4845,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
             },
-            "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Data\\CAP.Modules.Finance.Data.csproj"
             }
           }
         }

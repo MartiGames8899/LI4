@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "CAP.API/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
           "CAP.Modules.Clinical.Api": "1.0.0",
           "CAP.Modules.Clinical.Core": "1.0.0",
           "CAP.Modules.Clinical.Data": "1.0.0",
@@ -38,6 +39,14 @@
         },
         "runtime": {
           "CAP.API.dll": {}
+        }
+      },
+      "BCrypt.Net-Next/4.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
+          }
         }
       },
       "ClosedXML/0.105.0": {
@@ -888,6 +897,8 @@
       },
       "CAP.Modules.Reports.Core/1.0.0": {
         "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
+          "CAP.Modules.Finance.Data": "1.0.0",
           "CAP.Shared": "1.0.0",
           "ClosedXML": "0.105.0",
           "QuestPDF": "2026.5.0"
@@ -937,6 +948,11 @@
       },
       "CAP.Modules.Users.Api/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
+          "CAP.Modules.Clinical.Core": "1.0.0",
+          "CAP.Modules.Clinical.Data": "1.0.0",
+          "CAP.Modules.Sports.Core": "1.0.0",
+          "CAP.Modules.Sports.Data": "1.0.0",
           "CAP.Modules.Users.Core": "1.0.0",
           "CAP.Modules.Users.Data": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
@@ -981,6 +997,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BCrypt.Net-Next/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gwLD2KfCuwQesP17aVh4h6lpiMPEVt5Lbpndo0ej903hNUUTtyxt3ARdDjmuydBRTAUICc7OVKVbaOvc6SQYXA==",
+      "path": "bcrypt.net-next/4.2.0",
+      "hashPath": "bcrypt.net-next.4.2.0.nupkg.sha512"
     },
     "ClosedXML/0.105.0": {
       "type": "package",

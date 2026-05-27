@@ -1,3 +1,4 @@
+@startuml
 @startsalt
 {+
   <b>CAP</b> | Dashboard do Treinador - Equipa Sub-17 | [Sair]
@@ -39,3 +40,4 @@
   [Ver Plantel Completo]  [Registar Assiduidade]  [Estatísticas]
 }
 @endsalt
+@enduml

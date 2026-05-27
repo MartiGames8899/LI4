@@ -1,6 +1,4 @@
-@startuml maquina_estados_reserva
-!include _cap_skin.puml
-skinparam dpi 150
+@startuml
 
 [*] --> Pendente : Pedido de reserva\nsubmetido
 

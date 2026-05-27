@@ -17,10 +17,10 @@ public class UserRepository : IRepository<Utilizador>
     public async Task<IEnumerable<Utilizador>> GetAllAsync() => 
         await _context.Utilizadores.ToListAsync();
 
-    public async Task AddAsync(Utilizador entity) => 
+    public virtual async Task AddAsync(Utilizador entity) => 
         await _context.Utilizadores.AddAsync(entity);
 
-    public Task UpdateAsync(Utilizador entity)
+    public virtual Task UpdateAsync(Utilizador entity)
     {
         _context.Utilizadores.Update(entity);
         return Task.CompletedTask;
@@ -32,10 +32,10 @@ public class UserRepository : IRepository<Utilizador>
         return Task.CompletedTask;
     }
 
-    public async Task SaveChangesAsync() => 
+    public virtual async Task SaveChangesAsync() => 
         await _context.SaveChangesAsync();
 
-    public async Task<Utilizador?> GetByEmailAsync(string email) =>
+    public virtual async Task<Utilizador?> GetByEmailAsync(string email) =>
         await _context.Utilizadores.FirstOrDefaultAsync(u => u.Email == email);
 
     public async Task<EncarregadoEducacao?> GetEncarregadoWithDependentesAsync(Guid id) =>

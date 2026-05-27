@@ -1,0 +1,19 @@
+\caixaprompt{GPT-4o}{Quero que geres a estrutura de um questionário Google Forms para ser enviado a todos os stakeholders, e depois vamos gerar as perguntas 1 prompt de cada vez.}{Excelente abordagem. Para garantir que o questionário capte as necessidades de todos os intervenientes do Clube Amigos de Polvoreira de forma organizada, recomendo dividir o Google Forms nas seguintes secções principais, utilizando a lógica de ramificação (\textit{branching}) do formulário:
+
+\begin{itemize}
+    \item \textbf{Secção 1: Perfil do Inquirido:} Pergunta inicial de seleção múltipla (Atleta, Encarregado de Educação, Treinador, Sócio ou Secretaria/Gerência) para direcionar o utilizador.
+    \item \textbf{Secção 2: Avaliação Geral (Todos):} Questões sobre os canais de comunicação atuais (WhatsApp, email, presencial) e as maiores dores na obtenção de informação do clube.
+    \item \textbf{Secção 3: Módulos Específicos (Ramificados):}
+    \begin{itemize}
+        \item \textit{Para Treinadores:} Dificuldades nas convocatórias, assiduidades e relatórios de jogo.
+        \item \textit{Para Pais/Atletas:} Experiência com o pagamento de quotas, envio de atestados e acesso ao calendário de jogos.
+    \end{itemize}
+    \item \textbf{Secção 4: O Novo Sistema:} Pergunta de resposta aberta para sugestão de funcionalidades prioritárias na nova plataforma.
+\end{itemize}
+
+Estou pronto para avançar. Pode enviar o próximo prompt para começarmos a desenhar as perguntas e opções de resposta da Secção 1!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} Por motivos de concisão do relatório, optámos por não documentar nesta secção a totalidade das iterações seguintes. Conforme planeado, o desenvolvimento das perguntas exatas e opções de resposta foi realizado de forma iterativa, através de um \textit{prompt} dedicado a cada pergunta individual. O resumo visual das respostas obtidas (\texttt{forms.png}) encontra-se documentado na secção respetiva.}}

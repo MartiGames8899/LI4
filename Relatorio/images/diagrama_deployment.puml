@@ -1,8 +1,4 @@
-@startuml diagrama_deployment
-!include _cap_skin.puml
-skinparam dpi 150
-skinparam nodesep 30
-skinparam ranksep 40
+@startuml
 
 node "Dispositivos Cliente" as Clients {
   node "Browser Web\n(React SPA)" as Browser

@@ -1,5 +1,5 @@
-@startuml casos_uso_financeira
-!include _cap_skin.puml
+@startuml
+
 left to right direction
 
 actor "Gerência" as Management

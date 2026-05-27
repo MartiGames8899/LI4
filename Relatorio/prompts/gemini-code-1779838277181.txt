@@ -1,0 +1,11 @@
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Membro da gerência.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada simulada entre um membro da equipa de desenvolvimento e um elemento da Direção (Gerência) do CAP. \textit{(Nota da equipa: A transcrição completa desta entrevista encontra-se na secção de Anexos no final deste relatório).}
+
+A partir da análise das respostas do membro da gerência, extraí os seguintes pontos-chave e Requisitos Funcionais (RF) focados na gestão global e financeira do clube:
+
+\begin{itemize}
+    \item \textbf{RF - Dashboard de Gestão:} A direção necessita de um painel de controlo (\textit{dashboard}) que apresente estatísticas em tempo real, como o número de atletas inscritos por modalidade e o balanço financeiro mensal.
+    \item \textbf{RF - Gestão de Perfis e Acessos:} O sistema deve suportar diferentes níveis de permissões. A gerência deve ter acesso administrativo global, garantindo que dados financeiros sensíveis não são visíveis para treinadores ou atletas.
+    \item \textbf{RF - Conformidade Fiscal (SAF-T):} Foi sublinhado como requisito crítico e inegociável a capacidade de o sistema faturar e gerar o ficheiro SAF-T de forma automatizada para a Autoridade Tributária.
+    \item \textbf{RF - Relatórios de Seguros e Atestados:} A gerência quer a capacidade de gerar um relatório rápido listando todos os atletas que se encontram com o seguro desportivo ou atestado médico caducado.
+    \item \textbf{Dificuldade Atual Identificada:} O entrevistado destacou a perda de dezenas de horas mensais na verificação manual de transferências bancárias para reconciliação do pagamento de quotas.
+\end{itemize}}

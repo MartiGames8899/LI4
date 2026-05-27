@@ -1181,11 +1181,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+      "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
       "projectName": "CAP.Modules.Clinical.Data",
-      "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+      "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
       "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-      "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\obj\\",
+      "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1200,8 +1200,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
-              "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+            "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
             }
           }
         }

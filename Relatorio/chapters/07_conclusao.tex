@@ -1,0 +1,45 @@
+\chapter{Conclusão}\label{chap:conclusao}
+
+\section{Síntese do Trabalho Realizado}
+
+Este relatório documenta o ciclo completo de desenvolvimento de um sistema de gestão integrada para o Clube Amigos de Polvoreira (CAP), desde o levantamento de requisitos junto da gerência, treinadores e atletas até à implementação e avaliação da aplicação. O resultado é uma plataforma funcional, contentorizada com Docker e arrancável com um único comando, que digitaliza os processos administrativos, desportivos, clínicos e financeiros do clube e substitui os registos em papel por uma solução centralizada e acessível via navegador.
+
+O sistema assenta numa arquitetura de Monólito Modular com sete módulos independentes (Utilizadores, Desportivo, Clínico, Financeiro, Notificações, Instalações e Relatórios), cada um com o seu próprio esquema na base de dados e o seu \texttt{DbContext}. A separação lógica entre módulos permite que cada área evolua de forma autónoma --- a divisão revelou-se acertada, sobretudo no isolamento entre os dados clínicos sensíveis e os dados financeiros sujeitos a SAF-T. Do lado da apresentação, optou-se por uma SPA em Next.js/React com \textit{dashboards} adaptados a cada papel, garantindo que cada utilizador acede apenas à informação que lhe diz respeito.
+
+Em termos de cobertura, dos 23 requisitos funcionais elicitados, 14 foram integralmente cumpridos, 6 parcialmente cumpridos e 3 ficaram fora do âmbito desta iteração. Os RNF mais ligados ao desenho do código (RBAC, modularidade, exportação SAF-T, design responsivo) foram cumpridos; os ligados à operação em produção (\textit{uptime}, escalabilidade, \textit{backups} automáticos) só serão verdadeiramente avaliáveis após a passagem a um ambiente real.
+
+\section{Análise Crítica}
+
+O desenvolvimento deste projeto permitiu aplicar de forma integrada um conjunto de conceitos da Engenharia de Software --- desde a triangulação de fontes no levantamento de requisitos, passando pela modelação UML estrutural e comportamental, até à implementação em camadas com injeção de dependências. Houve três decisões que, em retrospetiva, consideramos terem sido as mais acertadas:
+
+\begin{itemize}
+    \item A escolha do \textbf{Monólito Modular} em vez de microsserviços. Para a dimensão da equipa e o calendário disponível, microsserviços teriam consumido tempo desproporcionado em \textit{tooling} de orquestração, sem benefício real. Manter um único processo com fronteiras lógicas claras provou ser o equilíbrio certo entre simplicidade e disciplina arquitetural.
+    \item A abordagem \textbf{Code-First} com Entity Framework Core. Ao trabalhar diretamente sobre as classes C\#, a equipa concentrou-se na lógica de negócio em vez de manter \textit{scripts} SQL em paralelo. As \textit{migrations} versionadas no Git asseguraram que qualquer membro da equipa conseguia subir uma base de dados consistente em segundos.
+    \item A presença de um \texttt{DataSeeder} programático. Em vez de um SQL estático, gerar dados em C\# permite que as datas dos treinos, atestados e quotas sejam sempre relativas à data corrente, mantendo os \textit{dashboards} sempre realistas e simplificando demonstrações.
+\end{itemize}
+
+Por outro lado, ficaram a descoberto algumas limitações que devem ser reconhecidas. O sistema de notificações ficou limitado a alertas \textit{in-app}, sem integração com email/SMS, por não termos investido tempo a configurar provedores externos. Felizmente, lacunas graves que existiam inicialmente --- como a ausência de \textbf{hashing de palavras-passe} e a falta de uma \textbf{suite de testes automatizados} --- foram ultrapassadas com sucesso na iteração final, onde implementámos \texttt{BCrypt.Net-Next} para garantir a confidencialidade (RNF-01) e \texttt{xUnit} para robustecer a API.
+
+\section{Reflexão sobre o Uso de IA Generativa}
+
+A utilização sistemática de modelos de linguagem como assistentes ao longo do projeto foi uma experiência reveladora. Tirámos três lições principais que vale a pena registar.
+
+\textbf{Os LLMs são bons aceleradores, não substitutos.} Nas tarefas em que o resultado depende essencialmente de combinar conhecimento padrão (estruturas típicas de UML, esqueletos de classes, prós e contras de tecnologias conhecidas), o assistente poupa horas de trabalho. Nas tarefas em que o resultado depende de \emph{decisões específicas do domínio} --- por exemplo, perceber que o bloqueio automático por dívida deve ser aplicado a partir de \emph{dois meses} de atraso (regra interna do CAP) e não três --- o assistente não tem como saber, e qualquer texto que produza sobre o assunto é improviso. Aqui o engenheiro é insubstituível.
+
+\textbf{A qualidade da resposta é proporcional à qualidade do contexto.} Os \textit{prompts} mais bem-sucedidos foram aqueles em que fornecemos restrições concretas (``equipa de 4 pessoas, prazo de 16 semanas, RGPD obrigatório, SAF-T inegociável''). Os menos bem-sucedidos foram pedidos genéricos do tipo ``escreve uma secção sobre arquitetura'' --- nesses casos o texto produzido era plausível mas vago, repleto de termos como ``pilar estrutural'' ou ``fulcral'' que tivemos de cortar manualmente.
+
+\textbf{O risco de uniformização é real.} Quando se delegam várias secções consecutivas ao mesmo modelo, o tom torna-se demasiado homogéneo e fica visível a um leitor atento que houve assistência automática. Foi necessário reescrever passagens inteiras para introduzir variação na estrutura das frases e para devolver a voz da equipa ao texto. As caixas ``Documentação de IA'' espalhadas pelo relatório procuram registar este processo de cocriação de forma transparente.
+
+\section{Trabalho Futuro}
+
+A modularidade da arquitetura permite que a evolução do sistema seja feita de forma incremental. As linhas de trabalho prioritárias identificadas são as seguintes, por ordem de urgência:
+
+\begin{enumerate}
+    \item \textbf{Segurança Adicional}: mover o segredo JWT para variáveis de ambiente injetadas pelo orquestrador em produção e adicionar autenticação de dois fatores (2FA) para os papéis de Secretaria e Gerência.
+    \item \textbf{Notificações externas}: ligar o serviço de notificações a um \textit{gateway} de email (SendGrid ou equivalente) e a um \textit{gateway} de SMS, materializando os alertas de caducidade e de pagamento previstos em RF-04 fora do contexto da própria aplicação.
+    \item \textbf{Expansão da suite de testes}: expandir os testes unitários atuais para outros serviços de negócio (especialmente regras como \texttt{isApto()} ou cálculo de IMC) e testes de integração end-to-end, executados em CI no GitHub.
+    \item \textbf{Integração real de pagamentos}: substituir a simulação atual por uma ligação à API do Ifthenpay ou Easypay, validando o tratamento dos \textit{webhooks} HMAC e a reconciliação automática de transações pendentes.
+    \item \textbf{Observabilidade e \textit{backups}}: introduzir agregação centralizada de \textit{logs}, métricas básicas (latência, taxa de erro por \textit{endpoint}) e rotina de \textit{backups} encriptados verificáveis, completando os RNF-09 e RNF-13.
+\end{enumerate}
+
+A versão atual da plataforma cumpre os objetivos definidos no início do trabalho e constitui uma base sólida sobre a qual a evolução acima descrita pode assentar. Mais importante do que ter ``acabado'' funcionalidades, julgamos ter deixado uma arquitetura suficientemente disciplinada para que o próximo grupo a tocar no código consiga continuar sem reescrever o que está feito.

@@ -1,5 +1,5 @@
-@startuml sequencia_pagamento_quota
-!include _cap_skin.puml
+@startuml
+
 hide footbox
 
 title Diagrama de Sequência: Pagamento de Quota (Resiliente)

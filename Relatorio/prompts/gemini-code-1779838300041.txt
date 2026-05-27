@@ -1,0 +1,17 @@
+\caixaprompt{GPT-4o}{No contexto do CAP (Clube Amigos de Polvoreira), sendo um clube desportivo com várias modalidades e diferentes tipos de pessoas (atletas, pais, treinadores, gerência), quero que me digas quais são os melhores métodos para o levantamento de requisitos para o nosso novo sistema de software.}{Para um ecossistema tão rico e diversificado como o do Clube Amigos de Polvoreira, recomendo uma abordagem mista (triangulação de métodos), inspirada nas práticas de Sommerville. Aqui estão os métodos mais indicados para o vosso caso:
+
+\begin{itemize}
+    \item \textbf{Análise Documental:} Fundamental para perceber "o que existe". Devem recolher os atestados médicos, relatórios de jogo em papel e os livros de recibos de quotas atuais para perceber exatamente que dados precisam de ser transpostos para o digital.
+    
+    \item \textbf{Entrevistas Direcionadas (Semiestruturadas):} Essencial para captar dores específicas. Recomendo entrevistar representantes chave: um elemento da direção (para a vertente financeira/SAF-T), um treinador (sobre convocatórias e lesões) e um atleta.
+    
+    \item \textbf{Questionários Online:} Sendo um clube com muitos associados, a melhor forma de validar problemas à escala (ex: dificuldades de comunicação em grupos de WhatsApp ou métodos de pagamento preferidos) é enviando um formulário via email para todos os atletas e encarregados de educação.
+    
+    \item \textbf{Observação Direta (Etnografia):} Passar uma tarde na secretaria do clube num dia de jogo ou de inscrições para observar os estrangulamentos do processo manual.
+    
+    \item \textbf{Focus Groups (Grupos de Foco):} Juntar numa sala treinadores de diferentes modalidades para debater como deve funcionar o sistema de reserva do pavilhão sem gerar conflitos.
+    
+    \item \textbf{Prototipagem Rápida:} Criar ecrãs falsos (\textit{mockups}) do sistema e mostrar à gerência para garantir que a usabilidade se adequa à literacia digital dos funcionários.
+\end{itemize}
+
+Recomendo que escolham 2 a 3 destes métodos para garantir uma boa cobertura sem esgotar o tempo útil do projeto.}

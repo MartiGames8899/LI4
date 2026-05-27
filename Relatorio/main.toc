@@ -47,9 +47,9 @@
 \contentsline {section}{\numberline {4.2}Decisões Arquiteturais}{57}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Padrão Arquitetural Global}{57}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Sistema de Gestão de Base de Dados}{59}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Tecnologias e Stack de Backend}{59}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Paradigma de Comunicação e API}{60}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Apresentação Geral da Especificação}{61}{section.4.3}%
+\contentsline {subsection}{\numberline {4.2.3}Tecnologias e Stack de Backend}{60}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Paradigma de Comunicação e API}{61}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Apresentação Geral da Especificação}{62}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Modelação Estrutural}{62}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Modelo de Domínio}{62}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Diagrama de Classes}{64}{subsection.4.4.2}%
@@ -58,107 +58,103 @@
 \contentsline {subsection}{\numberline {4.4.5}Matriz de Permissões RBAC}{67}{subsection.4.4.5}%
 \contentsline {section}{\numberline {4.5}Modelação Comportamental}{68}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Diagramas de Máquina de Estados}{68}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Diagramas de Casos de Uso}{75}{subsection.4.5.2}%
-\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Utilizadores}{81}{subsubsection*.19}%
-\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Desportiva}{84}{subsubsection*.20}%
-\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Clínica}{89}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Financeira}{98}{subsubsection*.22}%
-\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Instalações}{103}{subsubsection*.23}%
-\contentsline {subsection}{\numberline {4.5.3}Diagramas de Sequência}{108}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Diagramas de Atividade}{113}{subsection.4.5.4}%
-\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Registo de utilizador}{114}{subsubsection*.24}%
-\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Processamento de pagamento}{116}{subsubsection*.25}%
-\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Publicação de convocatória}{117}{subsubsection*.26}%
-\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Submissão e Validação de Atestado}{118}{subsubsection*.27}%
-\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Reserva de Instalação}{120}{subsubsection*.28}%
-\contentsline {section}{\numberline {4.6}Design de Interfaces}{121}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Identidade Visual e Princípios de Design}{121}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}Esboços das Interfaces Principais}{122}{subsection.4.6.2}%
-\contentsline {subsubsection}{\nonumberline Ecrã de Login e Registo (RF-01)}{122}{subsubsection*.29}%
-\contentsline {subsubsection}{\nonumberline Dashboard do Treinador (RF-08)}{124}{subsubsection*.30}%
-\contentsline {subsubsection}{\nonumberline Perfil do Atleta e Encarregado (RF-11, RF-17)}{124}{subsubsection*.31}%
-\contentsline {subsubsection}{\nonumberline Dashboard da Secretaria (RF-01, RF-11, RF-14, RF-19)}{125}{subsubsection*.32}%
-\contentsline {section}{\numberline {4.7}Especificação de API (RESTful)}{126}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Validação da Especificação Construída}{130}{section.4.8}%
-\contentsline {chapter}{\numberline {5}Implementação da Aplicação}{133}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Processo de Implementação}{133}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Implementação da Base de Dados}{134}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Criação da Base de Dados e Esquemas}{135}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Entidades e Modelo de Dados}{136}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Mecanismo de Migrações}{138}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Povoamento da Base de Dados}{139}{subsection.5.2.4}%
-\contentsline {section}{\numberline {5.3}Desenvolvimento da Camada de Dados}{141}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Interface Genérica de Repositório}{141}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Implementação Genérica com Entity Framework Core}{141}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Repositórios Especializados}{142}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}Injeção de Dependências}{143}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Resumo da Arquitetura da Camada de Dados}{144}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Desenvolvimento da Camada de Negócio}{145}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Autenticação com JSON Web Tokens}{145}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Proteção contra Ataques de Força Bruta}{146}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Controlo de Acessos por Papel (RBAC)}{147}{subsection.5.4.3}%
-\contentsline {subsection}{\numberline {5.4.4}Estrutura dos Controladores por Módulo}{147}{subsection.5.4.4}%
-\contentsline {subsection}{\numberline {5.4.5}Exemplo de Regra de Negócio: Registo de Presenças}{148}{subsection.5.4.5}%
-\contentsline {subsection}{\numberline {5.4.6}Comunicação Inter-Módulo com MediatR}{149}{subsection.5.4.6}%
-\contentsline {section}{\numberline {5.5}Desenvolvimento da Camada de Apresentação}{150}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Componentes Reutilizáveis}{150}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Gestão de Sessão e Comunicação com a API}{150}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}Navegação e Routing por Papel}{151}{subsection.5.5.3}%
-\contentsline {subsection}{\numberline {5.5.4}Página de Login e Fluxo de Autenticação}{152}{subsection.5.5.4}%
-\contentsline {subsection}{\numberline {5.5.5}Estrutura de um Dashboard}{153}{subsection.5.5.5}%
-\contentsline {subsection}{\numberline {5.5.6}Exemplo de Página: Gestão de Presenças}{154}{subsection.5.5.6}%
-\contentsline {section}{\numberline {5.6}Avaliação da Aplicação Desenvolvida}{154}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Verificação dos Requisitos Funcionais}{154}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Verificação dos Requisitos Não Funcionais}{156}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Conformidade com a Especificação}{158}{subsection.5.6.3}%
-\contentsline {chapter}{\numberline {6}Documentação da Utilização de Inteligência Artificial Generativa}{160}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Abordagem Geral e Ferramentas Utilizadas}{160}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Modelos Utilizados}{160}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Estratégias de Interação: Web vs CLI}{161}{subsection.6.1.2}%
-\contentsline {paragraph}{\nonumberline Interface Web (oficial dos fornecedores).}{161}{paragraph*.33}%
-\contentsline {paragraph}{\nonumberline Interface de terminal (Claude Code, Gemini CLI).}{161}{paragraph*.34}%
-\contentsline {paragraph}{\nonumberline Combinação das duas estratégias.}{162}{paragraph*.35}%
-\contentsline {subsection}{\numberline {6.1.3}Utilização Passiva: LLM como Assistente de Escrita}{162}{subsection.6.1.3}%
-\contentsline {section}{\numberline {6.2}Aplicação por Fase do Projeto}{163}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Fase 1 --- Definição e Contextualização do Sistema}{163}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Fase 2 --- Elicitação e Análise de Requisitos}{163}{subsection.6.2.2}%
-\contentsline {subsubsection}{\nonumberline Definição da Estratégia de Levantamento}{163}{subsubsection*.36}%
-\contentsline {subsubsection}{\nonumberline Identificação dos \textit {Stakeholders}}{164}{subsubsection*.37}%
-\contentsline {subsubsection}{\nonumberline Geração dos Documentos do Clube}{165}{subsubsection*.38}%
-\contentsline {subsubsection}{\nonumberline Simulação de Entrevistas}{167}{subsubsection*.39}%
-\contentsline {subsubsection}{\nonumberline Estruturação do Questionário Online}{168}{subsubsection*.40}%
-\contentsline {subsubsection}{\nonumberline Extração dos Requisitos a partir dos Artefactos}{170}{subsubsection*.41}%
-\contentsline {subsubsection}{\nonumberline Detalhamento Exaustivo dos Requisitos (Claude Code)}{171}{subsubsection*.42}%
-\contentsline {subsection}{\numberline {6.2.3}Fase 3 --- Arquitetura e Modelação do Software}{172}{subsection.6.2.3}%
-\contentsline {subsubsection}{\nonumberline Decisões Arquiteturais}{172}{subsubsection*.43}%
-\contentsline {subsubsection}{\nonumberline Modelação Estrutural: Modelo de Domínio}{173}{subsubsection*.44}%
-\contentsline {subsubsection}{\nonumberline Diagrama de Classes}{174}{subsubsection*.45}%
-\contentsline {subsubsection}{\nonumberline Diagramas de Componentes e Implantação}{175}{subsubsection*.46}%
-\contentsline {subsubsection}{\nonumberline Máquinas de Estado}{175}{subsubsection*.47}%
-\contentsline {subsubsection}{\nonumberline Diagramas de Sequência e Atividade}{176}{subsubsection*.48}%
-\contentsline {subsubsection}{\nonumberline Casos de Uso e Especificação de API}{177}{subsubsection*.49}%
-\contentsline {subsubsection}{\nonumberline Design de Interfaces e Mockups (V0)}{178}{subsubsection*.50}%
-\contentsline {subsection}{\numberline {6.2.4}Fase 4 --- Implementação da Aplicação}{179}{subsection.6.2.4}%
-\contentsline {subsubsection}{\nonumberline Estratégia Geral de Geração de Código}{179}{subsubsection*.51}%
-\contentsline {subsubsection}{\nonumberline Geração das Entidades de Domínio}{180}{subsubsection*.52}%
-\contentsline {subsubsection}{\nonumberline Geração dos Controllers e Lógica de Negócio}{180}{subsubsection*.53}%
-\contentsline {subsubsection}{\nonumberline Implementação do DataSeeder}{181}{subsubsection*.54}%
-\contentsline {subsubsection}{\nonumberline Camada de Apresentação (Frontend)}{181}{subsubsection*.55}%
-\contentsline {subsection}{\numberline {6.2.5}Fase 5 --- Redação do Relatório}{182}{subsection.6.2.5}%
-\contentsline {subsubsection}{\nonumberline Redação em Bloco do Texto Explicatório}{182}{subsubsection*.56}%
-\contentsline {subsubsection}{\nonumberline Correção Gramatical e Estilística}{182}{subsubsection*.57}%
-\contentsline {subsubsection}{\nonumberline Validação e Limpeza de Sintaxe LaTeX}{182}{subsubsection*.58}%
-\contentsline {section}{\numberline {6.3}Engenharia de \textit {Prompts}: Boas Práticas e Lições}{183}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Boas Práticas Identificadas}{183}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Anti-Padrões que Encontrámos}{183}{subsection.6.3.2}%
-\contentsline {section}{\numberline {6.4}Validação Humana e Reflexão Crítica}{184}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}O que a IA Falhou ou Inventou}{184}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Processo de Revisão da Equipa}{185}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Estimativa de Impacto}{185}{subsection.6.4.3}%
-\contentsline {subsection}{\numberline {6.4.4}Conclusão da Reflexão}{186}{subsection.6.4.4}%
-\contentsline {chapter}{\numberline {7}Conclusão}{187}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Síntese do Trabalho Realizado}{187}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Análise Crítica}{187}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Reflexão sobre o Uso de IA Generativa}{188}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Trabalho Futuro}{189}{section.7.4}%
+\contentsline {subsection}{\numberline {4.5.2}Diagramas de Casos de Uso}{74}{subsection.4.5.2}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Utilizadores}{80}{subsubsection*.19}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Desportiva}{83}{subsubsection*.20}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Clínica}{86}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão Financeira}{92}{subsubsection*.22}%
+\contentsline {subsubsection}{\nonumberline Subsistema de Gestão de Instalações}{96}{subsubsection*.23}%
+\contentsline {subsection}{\numberline {4.5.3}Diagramas de Sequência}{99}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Diagramas de Atividade}{104}{subsection.4.5.4}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Registo de utilizador}{105}{subsubsection*.24}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Processamento de pagamento}{107}{subsubsection*.25}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Publicação de convocatória}{108}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Submissão e Validação de Atestado}{109}{subsubsection*.27}%
+\contentsline {subsubsection}{\nonumberline Diagrama de atividade: Reserva de Instalação}{111}{subsubsection*.28}%
+\contentsline {section}{\numberline {4.6}Design de Interfaces}{112}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Identidade Visual e Princípios de Design}{112}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Esboços das Interfaces Principais}{113}{subsection.4.6.2}%
+\contentsline {subsubsection}{\nonumberline Ecrã de Login e Registo (RF-01)}{113}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Dashboard do Treinador (RF-08)}{115}{subsubsection*.30}%
+\contentsline {subsubsection}{\nonumberline Perfil do Atleta e Encarregado (RF-11, RF-17)}{115}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Dashboard da Secretaria (RF-01, RF-11, RF-14, RF-19)}{116}{subsubsection*.32}%
+\contentsline {section}{\numberline {4.7}Especificação de API (RESTful)}{117}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Validação da Especificação Construída}{120}{section.4.8}%
+\contentsline {chapter}{\numberline {5}Implementação da Aplicação}{122}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Processo de Implementação}{122}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Implementação da Base de Dados}{123}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Criação da Base de Dados e Esquemas}{124}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Entidades e Modelo de Dados}{125}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Mecanismo de Migrações}{127}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Povoamento da Base de Dados}{129}{subsection.5.2.4}%
+\contentsline {section}{\numberline {5.3}Desenvolvimento da Camada de Dados}{130}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Interface Genérica de Repositório}{130}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Implementação Genérica com Entity Framework Core}{131}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Repositórios Especializados}{132}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Injeção de Dependências}{132}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Resumo da Arquitetura da Camada de Dados}{133}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Desenvolvimento da Camada de Negócio}{134}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Autenticação com JSON Web Tokens}{134}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Hashing e Segurança de Passwords}{135}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Proteção contra Ataques de Força Bruta}{135}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Controlo de Acessos por Papel (RBAC)}{136}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}Estrutura dos Controladores por Módulo}{137}{subsection.5.4.5}%
+\contentsline {subsection}{\numberline {5.4.6}Exemplo de Regra de Negócio: Registo de Presenças}{138}{subsection.5.4.6}%
+\contentsline {subsection}{\numberline {5.4.7}Comunicação Inter-Módulo com MediatR}{139}{subsection.5.4.7}%
+\contentsline {section}{\numberline {5.5}Desenvolvimento da Camada de Apresentação}{139}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Componentes Reutilizáveis}{140}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Gestão de Sessão e Comunicação com a API}{140}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Navegação e Routing por Papel}{141}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Página de Login e Fluxo de Autenticação}{142}{subsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.5.5}Estrutura de um Dashboard}{143}{subsection.5.5.5}%
+\contentsline {subsection}{\numberline {5.5.6}Exemplo de Página: Gestão de Presenças}{143}{subsection.5.5.6}%
+\contentsline {section}{\numberline {5.6}Avaliação da Aplicação Desenvolvida}{144}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Verificação dos Requisitos Funcionais}{144}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Verificação dos Requisitos Não Funcionais}{146}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Conformidade com a Especificação}{147}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}Garantia de Qualidade e Testes Unitários}{148}{subsection.5.6.4}%
+\contentsline {chapter}{\numberline {6}Documentação da Utilização de Inteligência Artificial Generativa}{149}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Abordagem Geral e Ferramentas Utilizadas}{149}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Modelos Utilizados}{149}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Estratégias de Interação: Web vs CLI}{150}{subsection.6.1.2}%
+\contentsline {paragraph}{\nonumberline Interface Web (oficial dos fornecedores).}{150}{paragraph*.33}%
+\contentsline {paragraph}{\nonumberline Interface de terminal (Claude Code, Gemini CLI).}{150}{paragraph*.34}%
+\contentsline {paragraph}{\nonumberline Comparação das duas estratégias.}{151}{paragraph*.35}%
+\contentsline {subsection}{\numberline {6.1.3}Utilização Passiva: LLM como Assistente de Escrita}{152}{subsection.6.1.3}%
+\contentsline {section}{\numberline {6.2}Fase 1 --- Definição e Contextualização do Sistema}{152}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Fase 2 --- Elicitação e Análise de Requisitos}{152}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Definição da Estratégia de Levantamento}{153}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Geração dos Documentos do Clube}{155}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Simulação de Entrevistas}{158}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Estruturação do Questionário Online}{165}{subsection.6.3.4}%
+\contentsline {subsection}{\numberline {6.3.5}Extração e Limpeza dos Requisitos}{167}{subsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.3.6}Detalhamento dos Requisitos}{172}{subsection.6.3.6}%
+\contentsline {section}{\numberline {6.4}Fase 3 --- Arquitetura e Modelação do Software}{173}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Decisões Arquiteturais via Gemini (Web)}{173}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Produção dos Artefactos UML via Claude Code}{177}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Modelação Comportamental via Claude Code}{181}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}Especificação Inicial da API}{183}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Balanço da Fase 3}{184}{subsection.6.4.5}%
+\contentsline {section}{\numberline {6.5}Fase 4 --- Implementação da Aplicação}{184}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Geração do \textit {Backend} com Gemini CLI}{185}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Geração do \textit {Frontend} com Vercel v0}{191}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Contentorização com Docker Compose}{194}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Balanço da Fase 4}{194}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Engenharia de Prompts: Boas Práticas e Lições}{195}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Boas Práticas Consolidadas}{195}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Anti-Padrões Repetidos}{197}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Notas Específicas por Modelo}{198}{subsection.6.6.3}%
+\contentsline {paragraph}{\nonumberline Gemini.}{198}{paragraph*.36}%
+\contentsline {paragraph}{\nonumberline Claude.}{198}{paragraph*.37}%
+\contentsline {paragraph}{\nonumberline v0.}{198}{paragraph*.38}%
+\contentsline {section}{\numberline {6.7}Validação Humana e Reflexão Crítica}{198}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}Catálogo dos Erros Mais Significativos}{199}{subsection.6.7.1}%
+\contentsline {subsection}{\numberline {6.7.2}O Processo de Revisão da Equipa}{200}{subsection.6.7.2}%
+\contentsline {subsection}{\numberline {6.7.3}Estimativa de Impacto: O Que Ganhámos e O Que Perdemos}{201}{subsection.6.7.3}%
+\contentsline {subsection}{\numberline {6.7.4}Conclusão: A IA como Acelerador, Não como Decisor}{202}{subsection.6.7.4}%
+\contentsline {chapter}{\numberline {7}Conclusão}{203}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Síntese do Trabalho Realizado}{203}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Análise Crítica}{203}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Reflexão sobre o Uso de IA Generativa}{204}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Trabalho Futuro}{205}{section.7.4}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

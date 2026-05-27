@@ -1,6 +1,4 @@
-@startuml sequencia_login
-!include _cap_skin.puml
-skinparam dpi 150
+@startuml
 
 actor "Utilizador" as User
 participant "Frontend\n(React SPA)" as FE

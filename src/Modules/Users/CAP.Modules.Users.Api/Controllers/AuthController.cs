@@ -24,12 +24,12 @@ public class AuthController : ControllerBase
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
         if (user == null)
-            return Unauthorized("Credenciais inválidas");
+            return Unauthorized(new { message = "Credenciais inválidas" });
 
         if (user.LockoutEnd.HasValue && user.LockoutEnd.Value > DateTime.UtcNow)
-            return Unauthorized($"Conta bloqueada. Tente novamente após {user.LockoutEnd.Value.ToLocalTime():HH:mm}");
+            return Unauthorized(new { message = $"Conta bloqueada. Tente novamente após {user.LockoutEnd.Value.ToLocalTime():HH:mm}" });
 
-        if (user.PasswordHash != request.Password)
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
             user.FailedLoginAttempts++;
             if (user.FailedLoginAttempts >= 5)
@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
             }
             await _userRepository.UpdateAsync(user);
             await _userRepository.SaveChangesAsync();
-            return Unauthorized("Credenciais inválidas");
+            return Unauthorized(new { message = "Credenciais inválidas" });
         }
 
         user.FailedLoginAttempts = 0;
@@ -62,7 +62,7 @@ public class AuthController : ControllerBase
         {
             Nome = request.Nome,
             Email = request.Email,
-            PasswordHash = request.Password, // Simplificado para este MVP
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             Role = request.Role
         };
 

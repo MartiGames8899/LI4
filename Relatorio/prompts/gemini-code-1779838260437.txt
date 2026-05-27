@@ -1,0 +1,11 @@
+\caixaprompt{GPT-4o}{Quero que geres uma entrevista feita por um membro da equipa de desenvolvimento a um Treinador do clube.}{Com certeza! Elaborei a transcrição de uma entrevista semiestruturada entre a equipa de desenvolvimento e um Treinador do CAP. \textit{(Nota da equipa: A transcrição completa encontra-se no ficheiro `EntrevistaTreinador.txt` na secção de Anexos deste relatório).}
+
+Com base nas respostas do treinador, identifiquei os seguintes Requisitos Funcionais (RF) e principais necessidades operacionais para a gestão desportiva:
+
+\begin{itemize}
+    \item \textbf{RF - Gestão de Convocatórias:} O treinador precisa de um módulo onde possa selecionar os atletas para o jogo do fim de semana, enviando uma notificação automática para os mesmos.
+    \item \textbf{RF - Bloqueio de Atletas Irregulares:} O sistema deve impedir que o treinador convoque atletas que tenham o atestado médico caducado ou quotas em atraso, evitando penalizações desportivas.
+    \item \textbf{RF - Preenchimento do Relatório de Jogo:} O treinador necessita de registar de forma célere os eventos da partida (golos, cartões, resultado final) diretamente no telemóvel ou \textit{tablet} após o jogo.
+    \item \textbf{RF - Registo de Assiduidades e Lesões:} Capacidade de registar as presenças nos treinos semanais e reportar lesões imediatas ao departamento médico/secretaria.
+    \item \textbf{Dificuldade Atual Identificada:} O treinador queixou-se de que perde muito tempo a tentar saber pela secretaria quem está "apto" a jogar devido a papelada atrasada, operando muitas vezes "às cegas".
+\end{itemize}}

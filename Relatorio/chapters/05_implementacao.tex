@@ -37,24 +37,37 @@ Ao contrário da abordagem tradicional, onde o primeiro passo seria escrever ins
 
 A base de dados do CAP é um único servidor PostgreSQL~15, mas encontra-se internamente dividida em sete \textbf{esquemas} (\textit{schemas}), um por cada módulo do sistema. Esta separação garante o isolamento lógico dos dados de cada domínio, tal como recomendado pela arquitetura de Monólito Modular. A tabela seguinte resume os esquemas e as tabelas principais de cada um:
 
+\begin{center}
+{\footnotesize
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{3cm}|p{4cm}|p{7.5cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Esquema}} & \textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Tabelas Principais}} \\ \hline
-\texttt{users}         & Gestão de Utilizadores     & \texttt{Utilizadores} (com TPH para Atleta, Treinador, Encarregado) \\ \hline
-\texttt{sports}        & Gestão Desportiva          & \texttt{Modalidades}, \texttt{Escaloes}, \texttt{Equipas}, \texttt{AtletaEquipas}, \texttt{Treinos}, \texttt{PresencasTreino}, \texttt{Convocatorias}, \texttt{Convites}, \texttt{OcorrenciasJogo}, \texttt{AvaliacoesQualitativas} \\ \hline
-\texttt{clinical}      & Gestão Clínica             & \texttt{Atestados}, \texttt{Lesoes} \\ \hline
-\texttt{finance}       & Gestão Financeira          & \texttt{QuotaDefinicoes}, \texttt{Quotas}, \texttt{Pagamentos}, \texttt{Recibos}, \texttt{PagamentoQuota} \\ \hline
-\texttt{notifications} & Serviço de Notificações    & \texttt{Notificacoes}, \texttt{NotificacaoPreferencias} \\ \hline
-\texttt{facilities}    & Gestão de Instalações      & \texttt{Espacos}, \texttt{Reservas} \\ \hline
-\texttt{reports}       & Serviço de Relatórios      & \texttt{ResumosFinanceiros}, \texttt{ResumosDesportivos} \\ \hline
-\end{tabular}
+\endfirsthead
+
+\multicolumn{3}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Esquema}} & \textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Tabelas Principais}} \\ \hline
+\endhead
+
+\hline \multicolumn{3}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
 \caption{Esquemas da base de dados e respetivas tabelas principais.}
-\label{tab:esquemas-bd}
-\end{table}
+\label{tab:esquemas-bd} \\
+\endlastfoot
+
+\ttsplit{users}         & Gestão de Utilizadores     & \ttsplit{Utilizadores} (com TPH para Atleta, Treinador, Encarregado) \\ \hline
+\ttsplit{sports}        & Gestão Desportiva          & \ttsplit{Modalidades}, \ttsplit{Escaloes}, \ttsplit{Equipas}, \ttsplit{AtletaEquipas}, \ttsplit{Treinos}, \ttsplit{PresencasTreino}, \ttsplit{Convocatorias}, \ttsplit{Convites}, \ttsplit{OcorrenciasJogo}, \ttsplit{AvaliacoesQualitativas} \\ \hline
+\ttsplit{clinical}      & Gestão Clínica             & \ttsplit{Atestados}, \ttsplit{Lesoes} \\ \hline
+\ttsplit{finance}       & Gestão Financeira          & \ttsplit{QuotaDefinicoes}, \ttsplit{Quotas}, \ttsplit{Pagamentos}, \ttsplit{Recibos}, \ttsplit{PagamentoQuota} \\ \hline
+\ttsplit{notifications} & Serviço de Notificações    & \ttsplit{Notificacoes}, \ttsplit{NotificacaoPreferencias} \\ \hline
+\ttsplit{facilities}    & Gestão de Instalações      & \ttsplit{Espacos}, \ttsplit{Reservas} \\ \hline
+\ttsplit{reports}       & Serviço de Relatórios      & \ttsplit{ResumosFinanceiros}, \ttsplit{ResumosDesportivos} \\ \hline
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 A atribuição de cada módulo ao seu esquema é feita na configuração do respetivo \texttt{DbContext}, através da instrução \texttt{modelBuilder.HasDefaultSchema("nome")}. Abaixo, apresenta-se um excerto simplificado do \texttt{UsersDbContext}, que ilustra esta configuração:
 
@@ -157,6 +170,8 @@ O \texttt{enum EstadoPresencaTreino} define cinco estados possíveis --- \texttt
 \subsection{Mecanismo de Migrações}
 
 O Entity Framework Core utiliza um sistema de \textit{Migrations} para gerir a evolução do esquema da base de dados. Cada vez que as classes de domínio são alteradas --- por exemplo, quando se adiciona um novo campo a uma entidade ---, é gerada uma nova migração que contém as instruções de alteração necessárias. Estas migrações são ficheiros C\# versionados no repositório Git, garantindo que a evolução do esquema é rastreável e reproduzível.
+
+Uma melhoria crítica implementada ao nível da arquitetura foi a restrição da aplicação automática das migrações (\texttt{Database.Migrate()}). Se no início do desenvolvimento esta funcionalidade era executada incondicionalmente no arranque, foi depois envolvida numa verificação \texttt{if (app.Environment.IsDevelopment())}. Esta alteração evita que uma instância de produção aplique modificações irreversíveis à base de dados no momento do arranque (por exemplo, após uma escalabilidade horizontal), garantindo um controlo restrito das alterações ao esquema em ambientes \textit{live}.
 
 Abaixo, apresenta-se um excerto da migração inicial do módulo de Utilizadores, que cria o esquema \texttt{users} e a tabela \texttt{Utilizadores}:
 
@@ -325,28 +340,19 @@ Neste código, o método \texttt{OfType<T>()} filtra os registos da tabela \text
 
 \subsection{Injeção de Dependências}
 
-Todos os repositórios e serviços são registados no contentor de injeção de dependências do ASP.NET Core com o ciclo de vida \texttt{Scoped}, o que significa que cada pedido HTTP recebe a sua própria instância do repositório (e, consequentemente, a sua própria instância do \texttt{DbContext}). Esta abordagem garante que diferentes pedidos não partilham o mesmo contexto de dados, evitando problemas de concorrência. Abaixo, apresenta-se um excerto da configuração no ficheiro \texttt{Program.cs}:
+Todos os repositórios e serviços são registados no contentor de injeção de dependências do ASP.NET Core com o ciclo de vida \texttt{Scoped}, garantindo que cada pedido HTTP recebe a sua própria instância do repositório e do respetivo \texttt{DbContext}. Numa fase inicial, a configuração concentrava-se inteiramente no ficheiro \texttt{Program.cs}, conduzindo ao que na engenharia de software é classificado como um \textit{anti-pattern God Object} --- um componente central hipertrofiado com demasiadas responsabilidades, violando o \textit{Princípio da Responsabilidade Única (SRP)}.
 
-\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Registo dos repositórios no contentor de injeção de dependências.},label={lst:di}]
-// Users Module
-builder.Services.AddScoped<UserRepository>();
+Para corrigir este aspeto arquitetural, a configuração foi modularizada e extraída para a classe \texttt{ModuleExtensions.cs}, utilizando o padrão \textit{Extension Methods} no \texttt{IServiceCollection}. Esta refatorização proporcionou um \texttt{Program.cs} fluente, imaculado e altamente modular:
 
-// Sports Module (generico - resolve qualquer IRepository<T>)
-builder.Services.AddScoped(typeof(IRepository<>),
-    typeof(SportsRepository<>));
-
-// Clinical Module
-builder.Services.AddScoped<IRepository<AtestadoMedico>,
-    ClinicalRepository<AtestadoMedico>>();
-builder.Services.AddScoped<IRepository<Lesao>,
-    ClinicalRepository<Lesao>>();
-
-// Finance Module
-builder.Services.AddScoped<IRepository<Quota>,
-    FinanceRepository<Quota>>();
-builder.Services.AddScoped<IRepository<Pagamento>,
-    FinanceRepository<Pagamento>>();
-// ... restantes modulos seguem o mesmo padrao
+\begin{lstlisting}[language={[Sharp]C},basicstyle=\ttfamily\small,breaklines=true,frame=single,caption={Registo delegado aos métodos de extensão (\texttt{Program.cs}).},label={lst:di}]
+// Dependency Injection via Extension Methods
+builder.Services.AddUsersModule()
+                .AddSportsModule()
+                .AddClinicalModule()
+                .AddFinanceModule()
+                .AddNotificationsModule()
+                .AddFacilitiesModule()
+                .AddReportsModule();
 \end{lstlisting}
 
 A utilização de \texttt{typeof(IRepository<>)} com o registo de tipo aberto (\textit{open generic}) no módulo desportivo é particularmente elegante: em vez de registar manualmente cada combinação de \texttt{IRepository<Modalidade>}, \texttt{IRepository<Equipa>}, etc., uma única linha resolve automaticamente qualquer pedido de repositório para qualquer entidade do módulo.
@@ -355,25 +361,37 @@ A utilização de \texttt{typeof(IRepository<>)} com o registo de tipo aberto (\
 
 A tabela seguinte apresenta, de forma consolidada, a relação entre cada módulo, o seu \texttt{DbContext}, o tipo de repositório utilizado e as entidades que gere:
 
+\begin{center}
+{\footnotesize
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{2.8cm}|p{3.2cm}|p{3.5cm}|p{5cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3.7cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{DbContext}} & \textcolor{white}{\textbf{Repositório}} & \textcolor{white}{\textbf{Entidades}} \\ \hline
-Utilizadores  & \texttt{UsersDbContext}         & \texttt{UserRepository}                & Utilizador, Atleta, Treinador, Encarregado \\ \hline
-Desportivo    & \texttt{SportsDbContext}        & \texttt{SportsRepository<T>}           & Modalidade, Equipa, Treino, Convocatoria, Presença \\ \hline
-Clínico       & \texttt{ClinicalDbContext}      & \texttt{ClinicalRepository<T>}         & AtestadoMedico, Lesao \\ \hline
-Financeiro    & \texttt{FinanceDbContext}       & \texttt{FinanceRepository<T>}          & QuotaDefinicao, Quota, Pagamento, Recibo \\ \hline
-Notificações  & \texttt{NotificationsDbContext} & \texttt{NotificationsRepository<T>}    & Notificacao, NotificacaoPreferencia \\ \hline
-Instalações   & \texttt{FacilitiesDbContext}    & \texttt{FacilitiesRepository<T>}       & Espaco, Reserva \\ \hline
-Relatórios    & \texttt{ReportsDbContext}       & \texttt{ReportsRepository<T>}          & ResumoFinanceiro, ResumoDesportivo \\ \hline
-\end{tabular}
+\endfirsthead
+
+\multicolumn{4}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{DbContext}} & \textcolor{white}{\textbf{Repositório}} & \textcolor{white}{\textbf{Entidades}} \\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
 \caption{Mapeamento entre módulos, contextos de dados e repositórios.}
-\label{tab:camada-dados}
-\end{table}
+\label{tab:camada-dados} \\
+\endlastfoot
+
+Utilizadores  & \ttsplit{UsersDbContext}         & \ttsplit{UserRepository}                & Utilizador, Atleta, Treinador, Encarregado \\ \hline
+Desportivo    & \ttsplit{SportsDbContext}        & \ttsplit{SportsRepository<T>}           & Modalidade, Equipa, Treino, Convocatoria, Presença \\ \hline
+Clínico       & \ttsplit{ClinicalDbContext}      & \ttsplit{ClinicalRepository<T>}         & AtestadoMedico, Lesao \\ \hline
+Financeiro    & \ttsplit{FinanceDbContext}       & \ttsplit{FinanceRepository<T>}          & QuotaDefinicao, Quota, Pagamento, Recibo \\ \hline
+Notificações  & \ttsplit{NotificationsDbContext} & \ttsplit{NotificationsRepository<T>}    & Notificacao, NotificacaoPreferencia \\ \hline
+Instalações   & \ttsplit{FacilitiesDbContext}    & \ttsplit{FacilitiesRepository<T>}       & Espaco, Reserva \\ \hline
+Relatórios    & \ttsplit{ReportsDbContext}       & \ttsplit{ReportsRepository<T>}          & ResumoFinanceiro, ResumoDesportivo \\ \hline
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 Esta organização garante que cada módulo acede exclusivamente ao seu próprio esquema na base de dados, e que a comunicação entre módulos é feita ao nível da camada de negócio (via \textit{Controllers} ou eventos MediatR), nunca ao nível da camada de dados. Desta forma, respeita-se o princípio de isolamento do Monólito Modular definido no Capítulo~\ref{chap:especificacao_modelacao}.
 
@@ -416,6 +434,12 @@ public string GenerateToken(Utilizador user)
 \end{lstlisting}
 
 O \textit{token} tem uma validade de 7 dias e é assinado com o algoritmo HMAC-SHA256 utilizando uma chave simétrica configurada nas variáveis de ambiente do servidor. A inclusão do \texttt{ClaimTypes.Role} é fundamental para o controlo de acessos baseado em papéis, como veremos a seguir.
+
+\subsection{Hashing e Segurança de Passwords}
+
+De modo a respeitar os princípios da segurança e confidencialidade exigidos pelo \textbf{RNF-01}, a API implementa \textit{password hashing}. As \textit{passwords} nunca são armazenadas em texto simples. Recorremos à biblioteca \texttt{BCrypt.Net-Next} para garantir que a gravação do registo aplica a transformação através de um algoritmo criptográfico resistente, gerando uma \textit{hash} autêntica. 
+
+Aquando do \textit{login}, o sistema invoca \texttt{BCrypt.Verify(request.Password, user.PasswordHash)} para confrontar a \textit{password} introduzida com o valor cifrado na base de dados, garantindo proteção contra ataques caso a base de dados seja comprometida. De igual modo, o \textit{seeder} principal da base de dados (\texttt{DataSeeder}) foi configurado para injetar utilizadores predefinidos utilizando sempre o método de \textit{hash} em vez de valores explícitos.
 
 \subsection{Proteção contra Ataques de Força Bruta}
 
@@ -486,36 +510,48 @@ Esta abordagem garante que as permissões definidas na Matriz RBAC (Tabela~\ref{
 
 Cada módulo do sistema expõe a sua funcionalidade através de um ou mais controladores. A tabela seguinte apresenta o inventário completo dos controladores implementados, agrupados por módulo:
 
+\begin{center}
+{\footnotesize
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{2.5cm}|p{4cm}|p{3cm}|p{5cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{3.7cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Controlador}} & \textcolor{white}{\textbf{Rota Base}} & \textcolor{white}{\textbf{Funcionalidades}} \\ \hline
-\multirow{5}{*}{Utilizadores} & \texttt{AuthController}       & \texttt{/api/users/auth}       & Login, Registo \\ \cline{2-4}
-                               & \texttt{AthletesController}   & \texttt{/api/users/athletes}   & Listar e consultar atletas \\ \cline{2-4}
-                               & \texttt{ProfileController}    & \texttt{/api/users/profile}    & Editar perfil próprio \\ \cline{2-4}
-                               & \texttt{ParentalController}   & \texttt{/api/users/parental}   & Relação EE $\leftrightarrow$ Atleta \\ \cline{2-4}
-                               & \texttt{SociosController}     & \texttt{/api/users/socios}     & Gestão de sócios \\ \hline
-\multirow{4}{*}{Desportivo}    & \texttt{TeamsController}      & \texttt{/api/sports/teams}     & Equipas e plantéis \\ \cline{2-4}
-                               & \texttt{TreinosController}    & \texttt{/api/sports/trainings} & Treinos e presenças \\ \cline{2-4}
-                               & \texttt{ConvocatoriasController} & \texttt{/api/sports/calls}  & Convocatórias e convites \\ \cline{2-4}
-                               & \texttt{OcorrenciasController} & \texttt{/api/sports/events}   & Resultados de jogos \\ \hline
-\multirow{2}{*}{Clínico}       & \texttt{AtestadosController}  & \texttt{/api/clinical/cert.}   & Submissão e validação de atestados \\ \cline{2-4}
-                               & \texttt{LesoesController}     & \texttt{/api/clinical/injuries} & Reportar e gerir lesões \\ \hline
-\multirow{3}{*}{Financeiro}    & \texttt{QuotasController}     & \texttt{/api/finance/quotas}   & Definição e consulta de quotas \\ \cline{2-4}
-                               & \texttt{PagamentosController} & \texttt{/api/finance/pagam.}   & Registo de pagamentos \\ \cline{2-4}
-                               & \texttt{WebhooksController}   & \texttt{/api/finance/webhooks} & Confirmação assíncrona \\ \hline
-Notificações                   & \texttt{NotificationsController} & \texttt{/api/notifications} & Envio e consulta de alertas \\ \hline
-\multirow{2}{*}{Instalações}   & \texttt{FacilitiesController}   & \texttt{/api/facilities}      & Espaços e reservas \\ \cline{2-4}
-                               & \texttt{LojaController}         & \texttt{/api/facilities/loja} & Catálogo e encomendas de fardamento \\ \hline
-Relatórios                     & \texttt{ReportsController}      & \texttt{/api/reports}         & Exportação SAF-T e resumos \\ \hline
-\end{tabular}
+\endfirsthead
+
+\multicolumn{4}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Módulo}} & \textcolor{white}{\textbf{Controlador}} & \textcolor{white}{\textbf{Rota Base}} & \textcolor{white}{\textbf{Funcionalidades}} \\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
 \caption{Inventário dos controladores da API REST, organizados por módulo.}
-\label{tab:controladores}
-\end{table}
+\label{tab:controladores} \\
+\endlastfoot
+
+Utilizadores  & \ttsplit{AuthController}          & \ttsplit{/api/users/auth}         & Login, Registo \\ \hline
+Utilizadores  & \ttsplit{AthletesController}      & \ttsplit{/api/users/athletes}     & Listar e consultar atletas \\ \hline
+Utilizadores  & \ttsplit{ProfileController}       & \ttsplit{/api/users/profile}      & Editar perfil próprio \\ \hline
+Utilizadores  & \ttsplit{ParentalController}      & \ttsplit{/api/users/parental}     & Relação EE $\leftrightarrow$ Atleta \\ \hline
+Utilizadores  & \ttsplit{SociosController}        & \ttsplit{/api/users/socios}       & Gestão de sócios \\ \hline
+Desportivo    & \ttsplit{TeamsController}         & \ttsplit{/api/sports/teams}       & Equipas e plantéis \\ \hline
+Desportivo    & \ttsplit{TreinosController}       & \ttsplit{/api/sports/trainings}   & Treinos e presenças \\ \hline
+Desportivo    & \ttsplit{ConvocatoriasController} & \ttsplit{/api/sports/calls}       & Convocatórias e convites \\ \hline
+Desportivo    & \ttsplit{OcorrenciasController}   & \ttsplit{/api/sports/events}      & Resultados de jogos \\ \hline
+Clínico       & \ttsplit{AtestadosController}     & \ttsplit{/api/clinical/certs}     & Submissão e validação de atestados \\ \hline
+Clínico       & \ttsplit{LesoesController}        & \ttsplit{/api/clinical/injuries}  & Reportar e gerir lesões \\ \hline
+Financeiro    & \ttsplit{QuotasController}        & \ttsplit{/api/finance/quotas}     & Definição e consulta de quotas \\ \hline
+Financeiro    & \ttsplit{PagamentosController}    & \ttsplit{/api/finance/payments}   & Registo de pagamentos \\ \hline
+Financeiro    & \ttsplit{WebhooksController}      & \ttsplit{/api/finance/webhooks}   & Confirmação assíncrona \\ \hline
+Notificações  & \ttsplit{NotificationsController} & \ttsplit{/api/notifications}      & Envio e consulta de alertas \\ \hline
+Instalações   & \ttsplit{FacilitiesController}    & \ttsplit{/api/facilities}         & Espaços e reservas \\ \hline
+Instalações   & \ttsplit{LojaController}          & \ttsplit{/api/facilities/loja}    & Catálogo e encomendas de fardamento \\ \hline
+Relatórios    & \ttsplit{ReportsController}       & \ttsplit{/api/reports}            & Exportação SAF-T e resumos \\ \hline
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 \subsection{Exemplo de Regra de Negócio: Registo de Presenças}
 
@@ -583,13 +619,26 @@ A camada de apresentação foi construída com \textbf{Next.js~16} (React~19, Ty
 
 Antes de se iniciarem as páginas da aplicação, foi construída uma biblioteca de componentes reutilizáveis baseada na coleção \textbf{shadcn/ui} \cite{shadcnui2024}. Estes componentes garantem consistência visual em toda a aplicação e aceleram o desenvolvimento das páginas. A tabela seguinte resume os componentes implementados:
 
+\begin{center}
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\begin{xltabular}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Componente}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
+\endfirsthead
+
+\multicolumn{2}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Componente}} & \textcolor{white}{\textbf{Descrição}} \\ \hline
+\endhead
+
+\hline \multicolumn{2}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Componentes reutilizáveis da interface, baseados na biblioteca shadcn/ui.}
+\label{tab:componentes-ui} \\
+\endlastfoot
+
 \texttt{Button}          & Botão com variantes (primário, secundário, destrutivo) e estados de carregamento. \\ \hline
 \texttt{Card}            & Contentor com cabeçalho, conteúdo e sombra, utilizado nos \textit{dashboards} e formulários. \\ \hline
 \texttt{Input / Label}   & Campos de entrada com validação e acessibilidade. \\ \hline
@@ -600,11 +649,10 @@ Antes de se iniciarem as páginas da aplicação, foi construída uma biblioteca
 \texttt{Badge / Alert}   & Indicadores de estado (``Pago'', ``Em atraso'') e mensagens contextuais. \\ \hline
 \texttt{Sidebar}         & Barra de navegação lateral com ícones, responsiva e colapsável. \\ \hline
 \texttt{Avatar / Tooltip} & Fotografia do utilizador e dicas de contexto ao passar o rato. \\ \hline
-\end{tabular}
-\caption{Componentes reutilizáveis da interface, baseados na biblioteca shadcn/ui.}
-\label{tab:componentes-ui}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
+\end{center}
 
 \subsection{Gestão de Sessão e Comunicação com a API}
 
@@ -741,13 +789,25 @@ Antes de considerar o desenvolvimento concluído, a equipa procurou avaliar a ap
 
 Para avaliar o cumprimento dos requisitos funcionais, a equipa iterou por cada requisito e verificou o seu estado de implementação. Cada requisito foi classificado como: {\large\checkmark} (cumprido), {\large$\sim$} (parcialmente cumprido) ou {\large$\times$} (não cumprido). A tabela seguinte resume os resultados:
 
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{1.5cm}|p{8.5cm}|p{1.5cm}|p{3cm}|}
+\begin{xltabular}{\textwidth}{|p{1.5cm}|X|p{1.5cm}|p{3.2cm}|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
+\endfirsthead
+
+\multicolumn{4}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Avaliação do cumprimento dos requisitos funcionais.}
+\label{tab:avaliacao-rf} \\
+\endlastfoot
+
 RF-01  & Gestão de Utilizadores e Perfis             & {\large\checkmark} & CRUD com JWT \\ \hline
 RF-02  & Gestão de Perfis Parentais                  & {\large\checkmark} & Vinculação EE--atleta \\ \hline
 RF-03  & Sistema de Comunicação Interna (Chat)        & {\large$\times$}   & Adiado (sem chat ainda) \\ \hline
@@ -771,10 +831,8 @@ RF-20  & Gestão de Espaços Físicos                    & {\large\checkmark} & 
 RF-21  & Manutenção de Infraestruturas                & {\large$\times$}   & Fora do âmbito desta iteração \\ \hline
 RF-22  & Gestão de Stock e Loja                       & {\large$\sim$}     & Catálogo, sem checkout real \\ \hline
 RF-23  & Gestão de Eventos Extra-desportivos          & {\large$\times$}   & Fora do âmbito desta iteração \\ \hline
-\end{tabular}
-\caption{Avaliação do cumprimento dos requisitos funcionais.}
-\label{tab:avaliacao-rf}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
 
 Dos 23 requisitos funcionais, 14 ficaram integralmente cumpridos, 6 parcialmente cumpridos e 3 não cumpridos. Os parcialmente cumpridos correspondem a funcionalidades em que ficou implementada a estrutura de dados e a interface, mas em que alguma integração externa não chegou a ser ligada nesta iteração (motor de notificações em RF-04, \textit{gateway} de pagamentos em RF-17, encriptação dedicada de documentos federativos em RF-14, \textit{streaming} de vídeo em RF-09, \textit{dashboards} financeiros agregados em RF-18, e \textit{checkout} de loja em RF-22). Os três não cumpridos (chat interno em RF-03, manutenção de infraestruturas em RF-21 e eventos extra-desportivos em RF-23) foram conscientemente excluídos do âmbito desta entrega por terem sido classificados como prioridade baixa no levantamento.
@@ -783,14 +841,26 @@ Dos 23 requisitos funcionais, 14 ficaram integralmente cumpridos, 6 parcialmente
 
 Os requisitos não funcionais foram avaliados na medida do possível em ambiente de desenvolvimento. Importa contudo notar que vários deles --- nomeadamente os relacionados com escalabilidade, \textit{uptime} e cópias de segurança --- só podem ser verificados com rigor quando o sistema for instalado em ambiente de produção, com carga real e monitorização contínua.
 
+{\small
 \rowcolors{2}{rowblue}{white}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|p{1.5cm}|p{8.5cm}|p{1.5cm}|p{3cm}|}
+\begin{xltabular}{\textwidth}{|p{1.5cm}|X|p{1.5cm}|p{3.2cm}|}
 \hline
 \rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
-RNF-01 & Proteção de Dados Sensíveis (Encriptação)     & {\large$\sim$}     & HTTPS local; \textit{password hashing} em falta \\ \hline
+\endfirsthead
+
+\multicolumn{4}{c}{{\tablename\ \thetable{} -- Continuação}} \\
+\hline
+\rowcolor{headerblue}\textcolor{white}{\textbf{Requisito}} & \textcolor{white}{\textbf{Nome}} & \textcolor{white}{\textbf{Estado}} & \textcolor{white}{\textbf{Observações}} \\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{\textit{Continua na próxima página\ldots}} \\ \hline \endfoot
+
+\hline
+\caption{Avaliação do cumprimento dos requisitos não funcionais.}
+\label{tab:avaliacao-rnf} \\
+\endlastfoot
+
+RNF-01 & Proteção de Dados Sensíveis (Encriptação)     & {\large\checkmark} & HTTPS local; \textit{password hashing} (bcrypt) \\ \hline
 RNF-02 & Conformidade Legal e RGPD                     & {\large$\sim$}     & Estrutura presente, sem auditoria externa \\ \hline
 RNF-03 & Controlo de Acessos (RBAC)                    & {\large\checkmark} & \texttt{[Authorize(Roles)]} em todos os \textit{endpoints} \\ \hline
 RNF-04 & Design Responsivo (Mobile-First)              & {\large\checkmark} & Next.js + Tailwind CSS \\ \hline
@@ -803,15 +873,13 @@ RNF-10 & Integração com Gateways de Pagamento          & {\large$\times$}   & 
 RNF-11 & Exportação de Dados e Normalização             & {\large\checkmark} & SAF-T XML, PDF, Excel \\ \hline
 RNF-12 & Arquitetura Modular e Escalável               & {\large\checkmark} & Monólito Modular com 7 esquemas \\ \hline
 RNF-13 & Registos de Auditoria (\textit{Logs})         & {\large$\sim$}     & Apenas \textit{logs} de login implementados \\ \hline
-\end{tabular}
-\caption{Avaliação do cumprimento dos requisitos não funcionais.}
-\label{tab:avaliacao-rnf}
-\end{table}
+\end{xltabular}
+}
 \rowcolors{2}{white}{white}
 
 A leitura desta tabela tem de ser feita à luz do âmbito desta iteração: muitos dos requisitos não funcionais (RNF-07, RNF-08, RNF-09) só são verdadeiramente avaliáveis em ambiente de produção, com utilizadores reais, monitorização e infraestrutura dedicada. Optámos por marcá-los como não cumpridos em vez de inflacionar a coluna ``estado''.
 
-Quanto ao \textbf{RNF-01} (proteção de dados), a comunicação local sobre HTTPS está configurada no Docker Compose mas \textbf{as palavras-passe são atualmente armazenadas sem \textit{hashing}} criptográfico --- limitação conhecida que está identificada como bloqueante para uma eventual passagem a produção (ver Cap.~6). O sistema implementa, em contrapartida, o controlo de acessos RBAC (\textbf{RNF-03}) através do atributo \texttt{[Authorize(Roles)]} do ASP.NET Core \cite{aspnetcore2023}, em todos os \textit{endpoints} relevantes.
+Quanto ao \textbf{RNF-01} (proteção de dados), a comunicação local sobre HTTPS está configurada no Docker Compose e as palavras-passe são agora devidamente encriptadas através da biblioteca \texttt{BCrypt.Net-Next}, sanando assim a limitação de segurança inicial. O sistema implementa também o controlo de acessos RBAC (\textbf{RNF-03}) através do atributo \texttt{[Authorize(Roles)]} do ASP.NET Core \cite{aspnetcore2023}, em todos os \textit{endpoints} relevantes.
 
 Em relação ao \textbf{RNF-06} (desempenho), os tempos de carregamento das principais páginas em ambiente local (Docker Desktop em Windows 11, base povoada com $\approx$\,150 atletas e 80 treinos) ficaram abaixo dos limites definidos --- chamadas à API consistentemente abaixo dos 500\,ms e renderização de \textit{dashboards} em menos de 3 segundos. Reconhecemos contudo que estes números não substituem testes de carga reais.
 
@@ -820,7 +888,7 @@ Em relação ao \textbf{RNF-06} (desempenho), os tempos de carregamento das prin
 Para além da verificação dos requisitos, a equipa avaliou se a implementação final estava conforme a especificação produzida no Capítulo~\ref{chap:especificacao_modelacao}. Os seguintes aspetos foram analisados:
 
 \begin{itemize}
-    \item \textbf{Modelo de domínio}: As entidades e relações especificadas foram fielmente implementadas nas classes C\#. Alguns métodos do diagrama de classes (como \texttt{isApto()} e \texttt{gerarPDF()}) foram simplificados na implementação --- a verificação de aptidão é feita ao nível do controlador em vez de ser um método da entidade, e a geração de PDF não foi implementada nesta versão.
+    \item \textbf{Modelo de domínio}: As entidades e relações especificadas foram fielmente implementadas nas classes C\#. O método \texttt{isApto} refletido no modelo é atualizado e consumido através do barramento de eventos (Domain Events), eliminando o acoplamento síncrono que existiria entre Controladores distintos. A geração de PDF da \texttt{Fatura} não foi implementada nesta versão.
 
     \item \textbf{Arquitetura em camadas}: A separação em camada de dados (Repositórios + DbContexts), camada de negócio (Controllers) e camada de apresentação (Next.js) foi mantida conforme especificado.
 
@@ -828,7 +896,7 @@ Para além da verificação dos requisitos, a equipa avaliou se a implementaçã
 
     \item \textbf{Casos de uso}: A grande maioria dos casos de uso especificados foi implementada, com a adição de validações não modeladas inicialmente (ex.: verificação de duplicação de emails, validação de datas). Os casos de uso ligados aos RF excluídos do âmbito desta iteração (chat interno, manutenção de infraestruturas, eventos extra-desportivos) ficam por implementar.
 
-    \item \textbf{Aplicação móvel}: A especificação previa uma aplicação móvel em React Native (visível no diagrama de implantação), que não foi implementada nesta versão. O \textit{frontend} Web é responsivo e acessível via navegador móvel, mas não existe uma app nativa.
+    \item \textbf{Acessibilidade Móvel}: O \textit{frontend} Web (SPA) foi construído de forma responsiva (\textit{mobile-first}), garantindo total acessibilidade via navegadores móveis (iOS/Android), dispensando a complexidade de manutenção de uma aplicação nativa dedicada para o escopo inicial.
 
     \item \textbf{Matriz RBAC}: O controlo de acessos baseado em papéis foi implementado com o atributo \texttt{[Authorize(Roles = "...")]} do ASP.NET Core \cite{aspnetcore2023}, em conformidade com a matriz definida na especificação (Tabela~\ref{tab:rbac}).
 \end{itemize}
@@ -836,10 +904,14 @@ Para além da verificação dos requisitos, a equipa avaliou se a implementaçã
 A análise de cumprimento dos requisitos e a comparação com a especificação fizeram emergir uma lista de melhorias técnicas pontuais que ficam por implementar nesta iteração. As linhas de evolução estratégicas estão documentadas no Capítulo~\ref{chap:conclusao}; aqui registamos apenas os itens diretamente identificados durante a avaliação:
 
 \begin{itemize}
-    \item \textbf{Hashing de palavras-passe}: substituir a comparação direta no \texttt{AuthController} por verificação contra \textit{hash} \textit{bcrypt} ou \textit{Argon2}. É a lacuna mais grave em relação à especificação.
     \item \textbf{Notificações externas}: ligar o serviço de notificações a um \textit{gateway} de email/SMS, deixando de depender apenas de alertas \textit{in-app}.
     \item \textbf{Paginação de listagens}: introduzir paginação nas listagens de atletas, treinos e pagamentos, evitando a degradação de tempo de resposta com a acumulação de dados ao longo da época.
-    \item \textbf{Cobertura de testes}: a ausência de testes automatizados é a fragilidade estrutural mais óbvia da implementação atual; a próxima iteração deverá começar por essa lacuna antes de acrescentar funcionalidades.
 \end{itemize}
 
-Em síntese, a versão atual cumpre integralmente 14 dos 23 RF, parcialmente 6 e deixa 3 fora de âmbito --- um resultado que consideramos honesto face ao tempo disponível e à dimensão da equipa. O sistema é operacional para fins de demonstração, mas a lacuna do \textit{hashing} das palavras-passe é um bloqueio explícito a qualquer instalação em produção real, e deve ser resolvida em primeiro lugar antes da entrega ao CAP.
+\subsection{Garantia de Qualidade e Testes Unitários}
+
+Para além da conformidade com a especificação técnica, a aplicação foi sujeita a uma validação mais formal com a introdução de Testes Unitários. A suíte de testes automatizados \texttt{CAP.Modules.Users.Api.Tests} foi desenvolvida no \textit{framework} xUnit. Através do recurso a bibliotecas de \textit{mocking} como a \texttt{Moq} e do provedor \texttt{EF Core In-Memory Database}, foi possível validar a lógica central da nossa solução isoladamente, sem necessidade de depender do motor PostgreSQL subjacente.
+
+Destaca-se a validação das regras cruciais de segurança no \texttt{AuthController}, onde cenários normais (\textit{login} com credenciais corretas originando a devolução do \textit{token} JWT) e \textit{edge-cases} (respostas 401 Unauthorized perante credenciais manipuladas ou incorretas) foram rigorosamente escrutinados e garantem atualmente que regressões não desativem os mecanismos vitais de autenticação sem alerta imediato durante a fase de \textit{build}.
+
+Em síntese, a versão atual cumpre integralmente 14 dos 23 RF, parcialmente 6 e deixa 3 fora de âmbito --- um resultado que consideramos honesto face ao tempo disponível e à dimensão da equipa. O sistema é operacional para fins de demonstração e a segurança dos dados está agora garantida antes da entrega ao CAP.

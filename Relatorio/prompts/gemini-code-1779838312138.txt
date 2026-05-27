@@ -1,0 +1,18 @@
+\caixaprompt{GPT-4o}{No contexto do CAP, quero que identifiques todos os stakeholders do clube.}{Para o Clube Amigos de Polvoreira (CAP), a identificação correta dos \textit{stakeholders} é fundamental para perceber quem irá interagir com o novo sistema e quem será afetado por ele. Tendo em conta a estrutura típica de um clube desportivo português, dividi os intervenientes em duas categorias principais:
+
+\textbf{\textit{Stakeholders} Primários (Utilizadores Diretos):}
+\begin{itemize}
+    \item \textbf{Atletas:} Os praticantes das diversas modalidades do clube.
+    \item \textbf{Treinadores:} Os responsáveis técnicos das equipas, que farão convocatórias e registo de lesões.
+    \item \textbf{Encarregados de Educação:} Os responsáveis legais pelos atletas menores, fundamentais para a gestão de pagamentos e autorizações.
+    \item \textbf{Secretaria:} Os funcionários administrativos que gerem inscrições, validação de atestados e processos diários.
+    \item \textbf{Gerência:} Os órgãos de direção e administração que necessitam de uma visão global financeira e desportiva.
+\end{itemize}
+
+\textbf{\textit{Stakeholders} Secundários (Afetados Indiretamente):}
+\begin{itemize}
+    \item \textbf{Sócios não-praticantes:} Membros associados sem atividade desportiva ativa.
+    \item \textbf{Fornecedores e parceiros:} Entidades externas com relações comerciais com o clube.
+    \item \textbf{Autoridades desportivas:} Federações e associações reguladoras das competições.
+    \item \textbf{Autoridade Tributária (AT):} Entidade reguladora fiscal, essencial para efeitos de conformidade e exportação do SAF-T.
+\end{itemize}}

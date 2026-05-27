@@ -5,6 +5,8 @@
 \usepackage{geometry}
 \usepackage{amssymb}
 \usepackage{xltabular}
+\usepackage{seqsplit}      % Permite quebrar texttt em qualquer caractere
+% \captionof já é disponibilizado por outro pacote carregado (provavelmente tcolorbox ou ltablex)
 \usepackage{listings}
 \usepackage{array}
 \usepackage{multirow}
@@ -41,6 +43,7 @@
 \newcommand{\caixaprompt}[3]{
     \begin{tcolorbox}[
         enhanced,
+        breakable,              % Permite quebrar a caixa entre páginas
         colback=azulclaro,      % Cor de fundo
         colframe=blue!50!black, % Cor da borda (um azul mais escuro)
         arc=2mm,                % Arredondamento dos cantos
@@ -69,6 +72,9 @@
 \newcommand{\verIA}[1]{%
     \par\smallskip\noindent\textit{\footnotesize\textcolor{blue!50!black}{$\hookrightarrow$ \textit{Prompt e resultado documentados no Cap.~\ref{chap:documentacao_ia}, Secção~\ref{#1}.}}}\par\medskip
 }
+
+% Identificador monospace que pode partir em qualquer caractere (evita texto cortado em colunas estreitas)
+\newcommand{\ttsplit}[1]{\texttt{\seqsplit{#1}}}
     %% List of acronyms
     %% https://ctan.org/pkg/nomencl?lang=en
 \usepackage[intoc]{nomencl}
@@ -245,7 +251,9 @@ O trabalho começou com a recolha de requisitos através de entrevistas e questi
 
 \include{chapters/05_implementacao}
 
-\include{chapters/06_conclusao}
+\include{chapters/06_documentacao_ia}
+
+\include{chapters/07_conclusao}
 
 %==========================================================================
 % BIBLIOGRAFIA

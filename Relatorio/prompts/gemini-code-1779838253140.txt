@@ -1,0 +1,13 @@
+\caixaprompt{GPT-4o}{Olha, agora para o nosso sistema do CAP, preciso que me comeces a gerar os requisitos funcionais. Quero que uses sempre a mesma estrutura para todos: ID do Requisito, Nome, Descrição e Prioridade (Alta, Média ou Baixa). Gera só o primeiro para ver se percebeste a ideia, depois vou-te pedindo os restantes.}{Percebido! Vou usar exatamente essa estrutura para mantermos a consistência no teu documento de especificação. Aqui está o primeiro requisito funcional, focado na base do sistema (a gestão de utilizadores):
+
+\textbf{ID:} RF-01
+\textbf{Nome:} Inscrição e Registo de Novos Atletas
+\textbf{Descrição:} O sistema deve permitir aos funcionários da secretaria registar um novo atleta na plataforma, introduzindo os seus dados pessoais (nome, data de nascimento, NIF), selecionando a modalidade desportiva e o escalão, e criando o perfil inicial do utilizador.
+\textbf{Prioridade:} Alta
+
+Estou pronto. Podes pedir o próximo requisito quando quiseres!
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.2cm}
+\textit{\textbf{Nota da Equipa de Desenvolvimento:} De forma a manter a concisão deste relatório, omitimos a listagem dos \textit{prompts} subsequentes. O processo repetiu-se iterativamente para gerar a totalidade dos Requisitos Funcionais e Não Funcionais, garantindo que o modelo respeitava sempre a formatação exigida. O resultado final desta extração encontra-se detalhado no Capítulo 3 (Especificação de Requisitos).}}

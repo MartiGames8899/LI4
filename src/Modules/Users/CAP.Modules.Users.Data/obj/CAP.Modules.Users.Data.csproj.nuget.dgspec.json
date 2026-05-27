@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {}
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {}
   },
   "projects": {
-    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "projectName": "CAP.Modules.Users.Core",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -85,8 +85,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -134,14 +134,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "projectName": "CAP.Modules.Users.Data",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -156,8 +156,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
               }
             }
           }

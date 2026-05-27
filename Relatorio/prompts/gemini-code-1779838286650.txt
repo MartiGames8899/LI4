@@ -1,0 +1,11 @@
+\caixaprompt{GPT-4o}{Quero que, no contexto do clube, geres um exemplo de um atestado médico em HTML e de seguida me apresentes a lista de requisitos retirados desse documento.}{Com certeza! O ficheiro HTML foi gerado e estruturado com os campos padrão exigidos por lei para a prática desportiva federada. \textit{(Nota da equipa: O código e a pré-visualização do ficheiro HTML gerado encontram-se na secção de Anexos no final deste relatório).}
+
+Com base na estrutura de dados presente nesse atestado médico, extraí a seguinte lista de Requisitos Funcionais (RF) que devem ser implementados no sistema do CAP:
+
+\begin{itemize}
+    \item \textbf{RF - Upload de Documento:} O sistema deve permitir aos atletas ou encarregados de educação efetuarem o \textit{upload} do atestado médico em formato digital (PDF ou imagem).
+    \item \textbf{RF - Controlo de Validade:} O sistema deve extrair e registar a data de emissão do atestado médico, calculando a sua data de caducidade (habitualmente 1 ano após a emissão).
+    \item \textbf{RF - Validação da Secretaria:} O sistema deve permitir aos funcionários da secretaria aprovar ou rejeitar o atestado submetido, validando a assinatura e a vinheta do médico.
+    \item \textbf{RF - Alertas de Exiração:} O sistema deve notificar automaticamente o atleta e/ou encarregado de educação 30 dias antes de o atestado médico perder a validade.
+    \item \textbf{RF - Bloqueio de Convocatória:} O sistema não deve permitir que os treinadores adicionem a convocatórias oficiais os atletas cujo atestado médico se encontre caducado ou reprovado.
+\end{itemize}}

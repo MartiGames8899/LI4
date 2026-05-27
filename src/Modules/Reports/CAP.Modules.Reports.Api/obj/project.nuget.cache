@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q/0zbv03BbdBMX5q6ecV/8sEOXQL+pLF46hh92cbOIKXzoBlSa26SPoM69zc+hOUniev6ZSQEeE+vPi/bHs62A==",
+  "dgSpecHash": "+18urfPskEa0ZEg81hs1sZxBho3On8jLIg5N8VkYDyoI0UWpLP0xK7xsfMUTN3kSGrK8oDq+Ic5Efd6L+q1wiw==",
   "success": true,
-  "projectFilePath": "c:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
+  "projectFilePath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",

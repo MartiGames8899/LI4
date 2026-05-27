@@ -8,12 +8,25 @@
     ".NETCoreApp,Version=v7.0": {
       "CAP.Modules.Users.Api/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
+          "CAP.Modules.Clinical.Core": "1.0.0",
+          "CAP.Modules.Clinical.Data": "1.0.0",
+          "CAP.Modules.Sports.Core": "1.0.0",
+          "CAP.Modules.Sports.Data": "1.0.0",
           "CAP.Modules.Users.Core": "1.0.0",
           "CAP.Modules.Users.Data": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
         },
         "runtime": {
           "CAP.Modules.Users.Api.dll": {}
+        }
+      },
+      "BCrypt.Net-Next/4.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/BCrypt-Net-Next.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
+          }
         }
       },
       "MediatR/14.1.0": {
@@ -947,6 +960,42 @@
           "System.Xml.ReaderWriter": "4.0.11"
         }
       },
+      "CAP.Modules.Clinical.Core/1.0.0": {
+        "dependencies": {
+          "CAP.Shared": "1.0.0"
+        },
+        "runtime": {
+          "CAP.Modules.Clinical.Core.dll": {}
+        }
+      },
+      "CAP.Modules.Clinical.Data/1.0.0": {
+        "dependencies": {
+          "CAP.Modules.Clinical.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.20",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
+        },
+        "runtime": {
+          "CAP.Modules.Clinical.Data.dll": {}
+        }
+      },
+      "CAP.Modules.Sports.Core/1.0.0": {
+        "dependencies": {
+          "CAP.Shared": "1.0.0"
+        },
+        "runtime": {
+          "CAP.Modules.Sports.Core.dll": {}
+        }
+      },
+      "CAP.Modules.Sports.Data/1.0.0": {
+        "dependencies": {
+          "CAP.Modules.Sports.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.20",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
+        },
+        "runtime": {
+          "CAP.Modules.Sports.Data.dll": {}
+        }
+      },
       "CAP.Modules.Users.Core/1.0.0": {
         "dependencies": {
           "CAP.Shared": "1.0.0",
@@ -983,6 +1032,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BCrypt.Net-Next/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gwLD2KfCuwQesP17aVh4h6lpiMPEVt5Lbpndo0ej903hNUUTtyxt3ARdDjmuydBRTAUICc7OVKVbaOvc6SQYXA==",
+      "path": "bcrypt.net-next/4.2.0",
+      "hashPath": "bcrypt.net-next.4.2.0.nupkg.sha512"
     },
     "MediatR/14.1.0": {
       "type": "package",
@@ -1613,6 +1669,26 @@
       "sha512": "sha512-Mk2mKmPi0nWaoiYeotq1dgeNK1fqWh61+EK+w4Wu8SWuTYLzpUnschb59bJtGywaPq7SmTuPf44wrXRwbIrukg==",
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
+    },
+    "CAP.Modules.Clinical.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CAP.Modules.Clinical.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CAP.Modules.Sports.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CAP.Modules.Sports.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "CAP.Modules.Users.Core/1.0.0": {
       "type": "project",

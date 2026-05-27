@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {}
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {}
   },
   "projects": {
-    "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+    "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "projectName": "CAP.Shared",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
-        "projectName": "CAP.Modules.Users.Api",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
+        "projectName": "CAP.Modules.Clinical.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -85,11 +85,65 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
-              },
-              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+        "projectName": "CAP.Modules.Clinical.Data",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
               }
             }
           }
@@ -104,6 +158,216 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.20, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
+        "projectName": "CAP.Modules.Sports.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
+        "projectName": "CAP.Modules.Sports.Data",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.20, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+        "projectName": "CAP.Modules.Users.Api",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\CAP.Modules.Users.Api.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Core\\CAP.Modules.Clinical.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Clinical\\CAP.Modules.Clinical.Data\\CAP.Modules.Clinical.Data.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Core\\CAP.Modules.Sports.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Sports\\CAP.Modules.Sports.Data\\CAP.Modules.Sports.Data.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.2.5, )"
@@ -129,14 +393,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "projectName": "CAP.Modules.Users.Core",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -151,8 +415,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
               }
             }
           }
@@ -200,14 +464,14 @@
         }
       }
     },
-    "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "projectName": "CAP.Modules.Users.Data",
-        "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
         "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -222,8 +486,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
-                "projectPath": "c:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
               }
             }
           }
