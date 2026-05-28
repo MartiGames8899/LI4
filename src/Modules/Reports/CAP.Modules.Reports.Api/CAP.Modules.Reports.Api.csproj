@@ -3,6 +3,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CAP.Modules.Reports.Core\CAP.Modules.Reports.Core.csproj" />
     <ProjectReference Include="..\CAP.Modules.Reports.Data\CAP.Modules.Reports.Data.csproj" />
+    <ProjectReference Include="..\..\Finance\CAP.Modules.Finance.Core\CAP.Modules.Finance.Core.csproj" />
+    <ProjectReference Include="..\..\Users\CAP.Modules.Users.Core\CAP.Modules.Users.Core.csproj" />
+    <ProjectReference Include="..\..\Users\CAP.Modules.Users.Data\CAP.Modules.Users.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

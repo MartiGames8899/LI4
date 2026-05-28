@@ -209,8 +209,17 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              },
               "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj": {
                 "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Api\\CAP.Modules.Reports.Api.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
               }
             }
           }
@@ -228,6 +237,10 @@
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.3.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[7.0.20, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -296,11 +309,20 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Finance\\CAP.Modules.Finance.Core\\CAP.Modules.Finance.Core.csproj"
+              },
               "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
                 "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
               },
               "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj": {
                 "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Data\\CAP.Modules.Reports.Data.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj"
               }
             }
           }
@@ -445,6 +467,144 @@
             "projectReferences": {
               "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj": {
                 "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Reports\\CAP.Modules.Reports.Core\\CAP.Modules.Reports.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.20, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "projectName": "CAP.Modules.Users.Core",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\CAP.Shared\\CAP.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.18.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.18.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "projectName": "CAP.Modules.Users.Data",
+        "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\CAP.Modules.Users.Data.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Users\\CAP.Modules.Users.Core\\CAP.Modules.Users.Core.csproj"
               }
             }
           }

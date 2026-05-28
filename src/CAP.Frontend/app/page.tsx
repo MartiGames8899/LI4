@@ -17,6 +17,27 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [isResetting, setIsResetting] = useState(false)
+
+  const handleResetDemo = async () => {
+    setIsResetting(true)
+    setError("")
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+      const response = await fetch(`${apiUrl}/api/users/auth/dev/reset-demo`, { method: 'POST' })
+      if (response.ok) {
+        const data = await response.json()
+        setError("")
+        alert(`${data.message}\n\nJá podes iniciar sessão com qualquer conta demo usando a password "123456".`)
+      } else {
+        setError("Não foi possível repor contas demo. Verifica que a API está em desenvolvimento.")
+      }
+    } catch (e: any) {
+      setError(e.message || "Erro ao contactar a API.")
+    } finally {
+      setIsResetting(false)
+    }
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,9 +53,15 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json()
+
+        if (data.needsSetup && data.invitationToken) {
+          router.push(`/auth/setup-password?token=${data.invitationToken}`)
+          return
+        }
+
         localStorage.setItem("cap_token", data.token)
         localStorage.setItem("cap_user", JSON.stringify({ email, role: data.role.toLowerCase(), nome: data.nome }))
-        
+
         if (data.mustChangePassword) {
           router.push(`/dashboard/definicoes?forceChange=true`)
         } else {
@@ -154,6 +181,16 @@ export default function LoginPage() {
                   <span className="block text-muted-foreground/70 truncate">{demo.email}</span>
                 </button>
               ))}
+            </div>
+            <div className="mt-3 text-center">
+              <button
+                type="button"
+                onClick={handleResetDemo}
+                disabled={isResetting}
+                className="text-xs text-muted-foreground hover:text-foreground underline disabled:opacity-50"
+              >
+                {isResetting ? "A repor..." : "Repor contas demo (password 123456)"}
+              </button>
             </div>
           </div>
         </CardContent>

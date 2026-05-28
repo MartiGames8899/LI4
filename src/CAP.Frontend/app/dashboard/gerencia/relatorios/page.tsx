@@ -68,14 +68,21 @@ export default function GerenciaRelatoriosPage() {
 
   const handleExport = async (path: string, id: number | string) => {
     try {
-      const filename = path.includes("saft") ? "export.xml" : path.includes("excel") ? "export.xlsx" : "export.pdf"
+      const date = new Date().toISOString().slice(0, 10)
+      const filename = path.includes("saft")
+        ? `saft_${date}.xml`
+        : path.includes("excel")
+          ? `relatorio_financeiro_${date}.xlsx`
+          : path.includes("type=geral")
+            ? `relatorio_geral_${date}.pdf`
+            : `relatorio_financeiro_${date}.pdf`
       await downloadFile(path, filename, (state) => {
         if (state === "loading") setDownloadingId(id)
         else setDownloadingId(null)
       })
-    } catch (err) {
+    } catch (err: any) {
       console.error("Erro ao exportar", err)
-      alert("Não foi possível transferir o relatório.")
+      alert(err?.message || "Não foi possível transferir o relatório.")
     }
   }
 

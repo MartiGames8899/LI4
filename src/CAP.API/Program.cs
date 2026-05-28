@@ -128,7 +128,7 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("RunMigr
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        
+
         var usersDb = services.GetRequiredService<UsersDbContext>();
         var sportsDb = services.GetRequiredService<SportsDbContext>();
         var clinicalDb = services.GetRequiredService<ClinicalDbContext>();
@@ -142,6 +142,27 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("RunMigr
         services.GetRequiredService<NotificationsDbContext>().Database.Migrate();
         facilitiesDb.Database.Migrate();
         services.GetRequiredService<ReportsDbContext>().Database.Migrate();
+
+        // Auto-reparação: garante colunas adicionadas em modelos depois das migrations iniciais.
+        // Útil para DBs em estados intermédios (e.g., snapshot desincronizado).
+        // Evita ter de fazer "docker volume rm postgres_data" em desenvolvimento.
+        try
+        {
+            usersDb.Database.ExecuteSqlRaw(@"
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""InvitationToken"" text NULL;
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""MustChangePassword"" boolean NOT NULL DEFAULT false;
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""NumeroSocio"" text NOT NULL DEFAULT '';
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""Tipo"" text NOT NULL DEFAULT 'Regular';
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""Estado"" text NOT NULL DEFAULT 'Ativo';
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""DataInscricao"" timestamp with time zone NOT NULL DEFAULT NOW();
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""FailedLoginAttempts"" integer NOT NULL DEFAULT 0;
+                ALTER TABLE users.""Utilizadores"" ADD COLUMN IF NOT EXISTS ""LockoutEnd"" timestamp with time zone NULL;
+            ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[AUTO-REPAIR] Aviso ao reparar colunas: {ex.Message}");
+        }
 
         // Correr Seeder
         await CAP.API.Data.DataSeeder.SeedAsync(usersDb, sportsDb, clinicalDb, financeDb, facilitiesDb);

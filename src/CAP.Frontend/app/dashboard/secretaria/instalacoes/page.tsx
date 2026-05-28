@@ -251,7 +251,7 @@ export default function InstalacoesSecretariaPage() {
                     <SelectContent>
                       {instalacoes
                         .map((i) => (
-                          <SelectItem key={i.id} value={i.id.toString()}>
+                          <SelectItem key={i.id} value={i.id.toString()} label={i.nome}>
                             {i.nome}
                           </SelectItem>
                         ))}

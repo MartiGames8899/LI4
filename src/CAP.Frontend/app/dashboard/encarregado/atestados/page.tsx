@@ -214,7 +214,7 @@ export default function AtestadosEncarregadoPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {dependentes.map(d => (
-                          <SelectItem key={d.id} value={d.id}>{d.nome}</SelectItem>
+                          <SelectItem key={d.id} value={d.id} label={d.nome}>{d.nome}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

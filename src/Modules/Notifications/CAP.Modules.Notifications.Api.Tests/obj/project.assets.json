@@ -458,6 +458,22 @@
           "lib/netstandard2.0/_._": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/7.0.20": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "7.0.20"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/7.0.11": {
         "type": "package",
         "dependencies": {
@@ -3193,6 +3209,20 @@
         "lib/netstandard2.0/_._",
         "microsoft.entityframeworkcore.analyzers.7.0.20.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/7.0.20": {
+      "sha512": "7JTLY2EnzE0FDa1IzXvEZxcHgbPBboECY/zCQBuT1Lt+2Yqs5MrW77eNmg0/PPiMj/+HyiF9QaFRKbLUR1jFcw==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/7.0.20",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.7.0.20.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/7.0.11": {
@@ -7718,7 +7748,9 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "CAP.Modules.Notifications.Api >= 1.0.0",
+      "CAP.Modules.Notifications.Data >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.Core >= 2.3.10",
+      "Microsoft.EntityFrameworkCore.InMemory >= 7.0.20",
       "Microsoft.NET.Test.Sdk >= 17.7.1",
       "Moq >= 4.20.72",
       "coverlet.collector >= 3.2.0",
@@ -7753,6 +7785,9 @@
           "projectReferences": {
             "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
               "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj"
+            },
+            "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
+              "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
             }
           }
         }
@@ -7770,6 +7805,10 @@
           "Microsoft.AspNetCore.Mvc.Core": {
             "target": "Package",
             "version": "[2.3.10, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
+            "target": "Package",
+            "version": "[7.0.20, )"
           },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",

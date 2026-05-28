@@ -40,7 +40,7 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
 
 export async function downloadFile(endpoint: string, filename: string, onProgress?: (state: 'loading' | 'done' | 'error') => void) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('cap_token') : null;
-  
+
   onProgress?.('loading');
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`, {
@@ -50,10 +50,33 @@ export async function downloadFile(endpoint: string, filename: string, onProgres
     });
 
     if (!response.ok) {
-      throw new Error(`Erro ao descarregar ficheiro: ${response.status}`);
+      let serverMessage = '';
+      try {
+        const txt = await response.text();
+        if (txt) {
+          try {
+            const parsed = JSON.parse(txt);
+            serverMessage = parsed.message || parsed.title || txt;
+          } catch {
+            serverMessage = txt;
+          }
+        }
+      } catch {}
+
+      if (response.status === 401) {
+        throw new Error('Sessão expirada. Por favor, inicia sessão novamente.');
+      }
+      if (response.status === 403) {
+        throw new Error('Não tens permissão para descarregar este relatório.');
+      }
+      throw new Error(serverMessage || `Erro ao descarregar ficheiro (HTTP ${response.status})`);
     }
 
     const blob = await response.blob();
+    if (blob.size === 0) {
+      throw new Error('O ficheiro recebido está vazio.');
+    }
+
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

@@ -29,17 +29,34 @@ namespace CAP.Modules.Users.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("DataInscricao")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("FailedLoginAttempts")
                         .HasColumnType("integer");
 
+                    b.Property<string>("InvitationToken")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("MustChangePassword")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NumeroSocio")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -48,6 +65,14 @@ namespace CAP.Modules.Users.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -89,10 +114,6 @@ namespace CAP.Modules.Users.Data.Migrations
             modelBuilder.Entity("CAP.Modules.Users.Core.Domain.EncarregadoEducacao", b =>
                 {
                     b.HasBaseType("CAP.Modules.Users.Core.Domain.Utilizador");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("EncarregadoEducacao");
                 });

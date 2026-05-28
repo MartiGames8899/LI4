@@ -19,6 +19,9 @@ public class AuthController : ControllerBase
         _jwtService = jwtService;
     }
 
+    private bool IsDevelopment() =>
+        string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), "Development", StringComparison.OrdinalIgnoreCase);
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
@@ -31,7 +34,12 @@ public class AuthController : ControllerBase
 
         if (user.MustChangePassword && user.PasswordHash == "INVITED_PENDING_SETUP")
         {
-            return Unauthorized(new { message = "A sua conta ainda não foi ativada. Por favor, utilize o link de convite enviado para o seu email." });
+            return Ok(new
+            {
+                needsSetup = true,
+                invitationToken = user.InvitationToken,
+                message = "A sua conta ainda não foi ativada. Configure a sua palavra-passe para continuar."
+            });
         }
 
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
@@ -105,7 +113,7 @@ public class AuthController : ControllerBase
     {
         var users = await _userRepository.GetAllAsync();
         var user = users.FirstOrDefault(u => u.InvitationToken == request.Token);
-        
+
         if (user == null)
             return NotFound(new { message = "Convite inválido ou expirado" });
 
@@ -117,6 +125,48 @@ public class AuthController : ControllerBase
         await _userRepository.SaveChangesAsync();
 
         return Ok(new { message = "Palavra-passe configurada com sucesso. Já pode iniciar sessão." });
+    }
+
+    // Endpoint de desenvolvimento: repõe as contas demo (password "123456", limpa lockouts e estado).
+    // Útil quando o utilizador esqueceu a password ou ficou bloqueado em testes.
+    [HttpPost("dev/reset-demo")]
+    public async Task<IActionResult> ResetDemoAccounts()
+    {
+        if (!IsDevelopment())
+            return NotFound();
+
+        var demoEmails = new[]
+        {
+            "secretaria@cap.pt",
+            "gerencia@cap.pt",
+            "treinador@cap.pt",
+            "encarregado@cap.pt",
+            "atleta@cap.pt",
+        };
+
+        var users = await _userRepository.GetAllAsync();
+        var reset = new List<string>();
+        foreach (var email in demoEmails)
+        {
+            var user = users.FirstOrDefault(u => u.Email == email);
+            if (user == null) continue;
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456");
+            user.LockoutEnd = null;
+            user.FailedLoginAttempts = 0;
+            user.MustChangePassword = false;
+            user.InvitationToken = null;
+            user.Estado = "Ativo";
+            await _userRepository.UpdateAsync(user);
+            reset.Add(email);
+        }
+        await _userRepository.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = $"Reposto password '123456' para {reset.Count} conta(s).",
+            accounts = reset
+        });
     }
 }
 

@@ -22,7 +22,10 @@ public static class DataSeeder
         FacilitiesDbContext facilitiesDb)
     {
         if (usersDb.Utilizadores.Any(u => u.Email == "secretaria@cap.pt"))
+        {
+            await EnsureDemoAccountsWorkAsync(usersDb);
             return;
+        }
 
         // Limpar dados anteriores (ordem de FK)
         financeDb.Database.ExecuteSqlRaw("DELETE FROM finance.\"PagamentoQuota\"");
@@ -454,5 +457,67 @@ public static class DataSeeder
             i++;
         }
         db.Set<Convocatoria>().Add(conv);
+    }
+
+    // Garante que as contas demo continuam a funcionar:
+    // - Repõe password "123456" se o hash atual não validar
+    // - Limpa lockouts e FailedLoginAttempts
+    // Executa sempre que a API arranca (em desenvolvimento).
+    public static async Task EnsureDemoAccountsWorkAsync(UsersDbContext usersDb)
+    {
+        var demoEmails = new[]
+        {
+            "secretaria@cap.pt",
+            "gerencia@cap.pt",
+            "treinador@cap.pt",
+            "encarregado@cap.pt",
+            "atleta@cap.pt",
+        };
+
+        var demoUsers = await usersDb.Utilizadores
+            .Where(u => demoEmails.Contains(u.Email))
+            .ToListAsync();
+
+        var alterado = false;
+        foreach (var user in demoUsers)
+        {
+            // Reset lockout/falhas para evitar bloqueios em desenvolvimento
+            if (user.LockoutEnd.HasValue || user.FailedLoginAttempts > 0)
+            {
+                user.LockoutEnd = null;
+                user.FailedLoginAttempts = 0;
+                alterado = true;
+            }
+
+            // Garante password "123456" e estado ativo
+            bool hashInvalido;
+            try
+            {
+                hashInvalido = string.IsNullOrEmpty(user.PasswordHash)
+                    || user.PasswordHash == "INVITED_PENDING_SETUP"
+                    || !BCrypt.Net.BCrypt.Verify("123456", user.PasswordHash);
+            }
+            catch
+            {
+                hashInvalido = true;
+            }
+
+            if (hashInvalido)
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456");
+                user.MustChangePassword = false;
+                user.InvitationToken = null;
+                alterado = true;
+            }
+
+            if (user.Estado != "Ativo")
+            {
+                user.Estado = "Ativo";
+                alterado = true;
+            }
+        }
+
+        if (alterado)
+            await usersDb.SaveChangesAsync();
     }
 }

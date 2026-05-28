@@ -213,3 +213,9 @@ C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\obj\Debug\net7
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\obj\Debug\net7.0\CAP.Modules.Reports.Api.Tests.pdb
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\obj\Debug\net7.0\CAP.Modules.Reports.Api.Tests.genruntimeconfig.cache
 C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\obj\Debug\net7.0\ref\CAP.Modules.Reports.Api.Tests.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\CAP.Modules.Users.Core.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\CAP.Modules.Users.Data.dll
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\CAP.Modules.Users.Core.pdb
+C:\Trabalho\LI4\src\Modules\Reports\CAP.Modules.Reports.Api.Tests\bin\Debug\net7.0\CAP.Modules.Users.Data.pdb

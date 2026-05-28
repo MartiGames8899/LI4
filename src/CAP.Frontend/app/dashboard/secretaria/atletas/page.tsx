@@ -83,6 +83,32 @@ export default function AtletasSecretariaPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [lastInvitationToken, setLastInvitationToken] = useState<string | null>(null)
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("cap_user")
+    if (!storedUser) {
+      router.push("/")
+      return
+    }
+    const parsed = JSON.parse(storedUser)
+    if (parsed.role !== "secretaria") {
+      router.push("/")
+      return
+    }
+    fetchData()
+  }, [router])
+
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const data = await fetchApi<Atleta[]>("/api/users/athletes")
+      setAtletas(data)
+    } catch (e) {
+      console.error("Erro ao carregar atletas", e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleCreateAthlete = async () => {
     if (!newAthlete.nome || !newAthlete.email) return
     setIsSaving(true)
@@ -118,6 +144,45 @@ export default function AtletasSecretariaPage() {
     navigator.clipboard.writeText(url)
     alert("Link de convite copiado para a área de transferência!")
   }
+
+  const handleExportCSV = () => {
+    if (atletas.length === 0) {
+      alert("Não há atletas para exportar.")
+      return
+    }
+    const headers = ["Nome", "Email", "Telefone", "Equipa", "Número", "Posição", "Atestado", "Estado"]
+    const rows = atletas.map(a => [
+      a.nome,
+      a.email,
+      a.telefone || "",
+      a.equipa || "",
+      a.numero?.toString() || "",
+      a.posicao || "",
+      a.atestadoValido ? "Válido" : "Em Falta",
+      a.estado === "ativo" ? "Ativo" : "Inativo",
+    ])
+    const csv = [headers, ...rows]
+      .map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n")
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `atletas_${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const atletasFiltrados = atletas.filter(a => {
+    const matchSearch =
+      a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      a.email.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchEquipa = filtroEquipa === "todas" || a.equipa === filtroEquipa
+    const matchEstado = filtroEstado === "todos" || a.estado === filtroEstado
+    return matchSearch && matchEquipa && matchEstado
+  })
 
   const totalAtivos = atletas.filter((a) => a.estado === "ativo").length
   const semAtestado = atletas.filter((a) => !a.atestadoValido).length

@@ -159,3 +159,4 @@ C:\Trabalho\LI4\src\Modules\Notifications\CAP.Modules.Notifications.Api.Tests\ob
 C:\Trabalho\LI4\src\Modules\Notifications\CAP.Modules.Notifications.Api.Tests\obj\Debug\net7.0\CAP.Modules.Notifications.Api.Tests.pdb
 C:\Trabalho\LI4\src\Modules\Notifications\CAP.Modules.Notifications.Api.Tests\obj\Debug\net7.0\CAP.Modules.Notifications.Api.Tests.genruntimeconfig.cache
 C:\Trabalho\LI4\src\Modules\Notifications\CAP.Modules.Notifications.Api.Tests\obj\Debug\net7.0\ref\CAP.Modules.Notifications.Api.Tests.dll
+C:\Trabalho\LI4\src\Modules\Notifications\CAP.Modules.Notifications.Api.Tests\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.InMemory.dll

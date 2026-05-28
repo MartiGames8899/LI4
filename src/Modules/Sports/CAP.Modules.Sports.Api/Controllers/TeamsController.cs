@@ -29,13 +29,33 @@ public class TeamsController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var teams = await _teamRepository.GetAllAsync();
-        return Ok(teams);
+        var result = teams.Select(t => new
+        {
+            t.Id,
+            t.Nome,
+            t.ModalidadeId,
+            t.EscalaoId,
+            t.TreinadorId,
+            Atletas = t.Atletas?.Select(a => new { a.AtletaId }).ToList()
+        });
+        return Ok(result);
     }
 
     [HttpPost]
     [Authorize(Roles = "Gerencia")]
     public async Task<IActionResult> Create([FromBody] CreateTeamRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Nome))
+            return BadRequest(new { message = "O nome da equipa é obrigatório." });
+
+        var modalidades = await _modalidadeRepository.GetAllAsync();
+        if (!modalidades.Any(m => m.Id == request.ModalidadeId))
+            return BadRequest(new { message = "Modalidade inválida." });
+
+        var escaloes = await _escalaoRepository.GetAllAsync();
+        if (!escaloes.Any(e => e.Id == request.EscalaoId))
+            return BadRequest(new { message = "Escalão inválido." });
+
         var team = new Equipa
         {
             Nome = request.Nome,
@@ -48,6 +68,20 @@ public class TeamsController : ControllerBase
         await _teamRepository.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetAll), new { id = team.Id }, team);
+    }
+
+    [HttpGet("modalidades")]
+    public async Task<IActionResult> GetModalidades()
+    {
+        var modalidades = await _modalidadeRepository.GetAllAsync();
+        return Ok(modalidades.Select(m => new { m.Id, m.Nome, m.Descricao }));
+    }
+
+    [HttpGet("escaloes")]
+    public async Task<IActionResult> GetEscaloes()
+    {
+        var escaloes = await _escalaoRepository.GetAllAsync();
+        return Ok(escaloes.Select(e => new { e.Id, e.Nome, e.IdadeMinima, e.IdadeMaxima }));
     }
 
     [HttpPost("{id}/athletes")]

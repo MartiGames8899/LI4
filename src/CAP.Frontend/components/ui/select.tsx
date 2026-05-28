@@ -111,7 +111,10 @@ function SelectLabel({
 function extractTextContent(node: React.ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node)
   if (Array.isArray(node)) return node.map(extractTextContent).join("")
-  if (React.isValidElement(node) && node.props.children) return extractTextContent(node.props.children)
+  if (React.isValidElement(node)) {
+    const props = node.props as { children?: React.ReactNode }
+    if (props.children) return extractTextContent(props.children)
+  }
   return ""
 }
 

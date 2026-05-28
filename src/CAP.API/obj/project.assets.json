@@ -1527,8 +1527,11 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "CAP.Modules.Finance.Core": "1.0.0",
           "CAP.Modules.Reports.Core": "1.0.0",
           "CAP.Modules.Reports.Data": "1.0.0",
+          "CAP.Modules.Users.Core": "1.0.0",
+          "CAP.Modules.Users.Data": "1.0.0",
           "ClosedXML": "0.105.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "QuestPDF": "2026.5.0"

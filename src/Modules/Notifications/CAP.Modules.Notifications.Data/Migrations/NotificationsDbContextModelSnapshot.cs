@@ -23,6 +23,55 @@ namespace CAP.Modules.Notifications.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CAP.Modules.Notifications.Core.Domain.GrupoMembro", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataAdicao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("GrupoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UtilizadorId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId", "UtilizadorId")
+                        .IsUnique();
+
+                    b.ToTable("GrupoMembros", "notifications");
+                });
+
+            modelBuilder.Entity("CAP.Modules.Notifications.Core.Domain.GrupoNotificacao", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CriadorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Grupos", "notifications");
+                });
+
             modelBuilder.Entity("CAP.Modules.Notifications.Core.Domain.Notificacao", b =>
                 {
                     b.Property<Guid>("Id")
@@ -75,6 +124,22 @@ namespace CAP.Modules.Notifications.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Preferencias", "notifications");
+                });
+
+            modelBuilder.Entity("CAP.Modules.Notifications.Core.Domain.GrupoMembro", b =>
+                {
+                    b.HasOne("CAP.Modules.Notifications.Core.Domain.GrupoNotificacao", "Grupo")
+                        .WithMany("Membros")
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
+                });
+
+            modelBuilder.Entity("CAP.Modules.Notifications.Core.Domain.GrupoNotificacao", b =>
+                {
+                    b.Navigation("Membros");
                 });
 #pragma warning restore 612, 618
         }

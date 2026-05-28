@@ -83,6 +83,28 @@ public class FacilitiesController : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("spaces")]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> CreateSpace([FromBody] CreateSpaceRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Nome))
+            return BadRequest(new { message = "Nome obrigatório." });
+        if (!Enum.TryParse<TipoEspaco>(request.Tipo, true, out var tipoEnum))
+            return BadRequest(new { message = "Tipo de espaço inválido." });
+
+        var espaco = new Espaco
+        {
+            Nome = request.Nome,
+            Tipo = tipoEnum,
+            Capacidade = request.Capacidade,
+            Observacoes = request.Observacoes,
+            Ativo = true,
+        };
+        await _espacoRepository.AddAsync(espaco);
+        await _espacoRepository.SaveChangesAsync();
+        return Ok(espaco);
+    }
+
     [HttpPut("spaces/{id}")]
     [Authorize(Roles = "Secretaria,Gerencia")]
     public async Task<IActionResult> UpdateSpace(Guid id, [FromBody] UpdateSpaceRequest request)
@@ -103,4 +125,23 @@ public class FacilitiesController : ControllerBase
 
         return Ok(espaco);
     }
+
+    [HttpPatch("spaces/{id}/maintenance")]
+    [Authorize(Roles = "Secretaria,Gerencia")]
+    public async Task<IActionResult> ToggleMaintenance(Guid id, [FromBody] ToggleMaintenanceRequest request)
+    {
+        var espaco = await _espacoRepository.GetByIdAsync(id);
+        if (espaco == null) return NotFound();
+
+        espaco.Ativo = !request.EmManutencao;
+        if (!string.IsNullOrEmpty(request.Observacoes))
+            espaco.Observacoes = request.Observacoes;
+
+        await _espacoRepository.UpdateAsync(espaco);
+        await _espacoRepository.SaveChangesAsync();
+
+        return Ok(new { id = espaco.Id, ativo = espaco.Ativo, emManutencao = !espaco.Ativo });
+    }
 }
+
+public record ToggleMaintenanceRequest(bool EmManutencao, string? Observacoes);

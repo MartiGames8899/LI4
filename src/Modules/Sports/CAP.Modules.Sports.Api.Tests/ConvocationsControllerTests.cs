@@ -1,6 +1,7 @@
 using CAP.Modules.Sports.Api.Controllers;
 using CAP.Modules.Sports.Core.Domain;
 using CAP.Shared.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -15,13 +16,14 @@ public class ConvocationsControllerTests
         // Arrange
         var mockRepo = new Mock<IRepository<Convocatoria>>();
         var mockClinicalService = new Mock<CAP.Modules.Clinical.Core.Services.IClinicalService>();
+        var mockMediator = new Mock<IMediator>();
         var fakeList = new List<Convocatoria>
         {
             new Convocatoria { Titulo = "Jogo Fim de Semana" }
         };
         mockRepo.Setup(repo => repo.GetAllAsync()).ReturnsAsync(fakeList);
-        
-        var controller = new ConvocatoriasController(mockRepo.Object, mockClinicalService.Object);
+
+        var controller = new ConvocatoriasController(mockRepo.Object, mockClinicalService.Object, mockMediator.Object);
 
         // Act
         var result = await controller.GetAll();

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XDaa99PFpLdJ5Ny1shsgH2ofnSCX6AFRVgG3IKYmCie34ZZ4oIqqhMrwcI6xdSx5w7BG0TEnp4vWZJLbsEaimQ==",
+  "dgSpecHash": "wrG8SZNNLx32XrXK7XE2RjdmOv7Fd7bvXQtnrYKW4zlJfJNXrpJJpOHCp0hPQyHvmtzvDWj60zcIx4u/yvo6fw==",
   "success": true,
   "projectFilePath": "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api.Tests\\CAP.Modules.Notifications.Api.Tests.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.20\\microsoft.entityframeworkcore.7.0.20.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.20\\microsoft.entityframeworkcore.abstractions.7.0.20.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.20\\microsoft.entityframeworkcore.analyzers.7.0.20.nupkg.sha512",
+    "C:\\Users\\tiago\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\7.0.20\\microsoft.entityframeworkcore.inmemory.7.0.20.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.11\\microsoft.entityframeworkcore.relational.7.0.11.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\tiago\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",

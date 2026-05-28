@@ -8,6 +8,7 @@ import {
   Clock,
   Send,
   User,
+  Users,
   CheckCheck
 } from "lucide-react"
 
@@ -41,10 +42,16 @@ interface Notificacao {
   tipo: string;
 }
 
+interface Grupo {
+  id: string
+  nome: string
+  membrosCount: number
+}
+
 export default function NotificacoesUniversalPage() {
   const router = useRouter()
 
-  
+
   const [user, setUser] = useState<any>(null)
   const [notificacoes, setNotificacoes] = useState<Notificacao[]>([])
   const [loading, setLoading] = useState(true)
@@ -54,7 +61,11 @@ export default function NotificacoesUniversalPage() {
   const [msgTitulo, setMsgTitulo] = useState("")
   const [msgCorpo, setMsgCorpo] = useState("")
   const [msgDestino, setMsgDestino] = useState("")
+  const [msgGrupoId, setMsgGrupoId] = useState("")
+  const [msgTipoDestino, setMsgTipoDestino] = useState<"individual" | "grupo">("individual")
+  const [msgError, setMsgError] = useState<string | null>(null)
   const [destinatariosPossiveis, setDestinatariosPossiveis] = useState<any[]>([])
+  const [grupos, setGrupos] = useState<Grupo[]>([])
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -65,10 +76,11 @@ export default function NotificacoesUniversalPage() {
     const parsed = JSON.parse(storedUser)
     setUser(parsed)
     fetchInbox()
-    
-    // Se for staff, carregar a lista de utilizadores para poder mandar mensagens
+
+    // Se for staff, carregar a lista de utilizadores e grupos para poder mandar mensagens
     if (["treinador", "secretaria", "gerencia"].includes(parsed.role)) {
       fetchDestinatarios()
+      fetchGrupos()
     }
   }, [router])
 
@@ -86,9 +98,17 @@ export default function NotificacoesUniversalPage() {
 
   const fetchDestinatarios = async () => {
     try {
-      // Simplificado: Busca atletas. Numa app real poderia buscar utilizadores por grupo/equipa.
       const atletas = await fetchApi<any[]>("api/users/athletes")
       setDestinatariosPossiveis(atletas)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const fetchGrupos = async () => {
+    try {
+      const data = await fetchApi<Grupo[]>("api/notifications/groups")
+      setGrupos(data)
     } catch (e) {
       console.error(e)
     }
@@ -114,24 +134,49 @@ export default function NotificacoesUniversalPage() {
   }
 
   const handleEnviarMensagem = async () => {
-    if (!msgTitulo || !msgCorpo || !msgDestino) return
+    setMsgError(null)
+    if (!msgTitulo.trim() || !msgCorpo.trim()) {
+      setMsgError("Preenche título e mensagem.")
+      return
+    }
+
+    if (msgTipoDestino === "individual" && !msgDestino) {
+      setMsgError("Seleciona um destinatário.")
+      return
+    }
+    if (msgTipoDestino === "grupo" && !msgGrupoId) {
+      setMsgError("Seleciona um grupo.")
+      return
+    }
 
     try {
-      await fetchApi("api/notifications/send", {
-        method: "POST",
-        body: JSON.stringify({
-          targetUserIds: [msgDestino],
-          titulo: msgTitulo,
-          mensagem: msgCorpo
+      if (msgTipoDestino === "grupo") {
+        await fetchApi(`api/notifications/send-to-group/${msgGrupoId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            titulo: msgTitulo,
+            mensagem: msgCorpo,
+          })
         })
-      })
-      alert("A tua mensagem foi entregue ao destinatário.")
+      } else {
+        await fetchApi("api/notifications/send", {
+          method: "POST",
+          body: JSON.stringify({
+            targetUserIds: [msgDestino],
+            titulo: msgTitulo,
+            mensagem: msgCorpo
+          })
+        })
+      }
+      alert("Mensagem enviada com sucesso.")
       setNovaMsgOpen(false)
       setMsgTitulo("")
       setMsgCorpo("")
       setMsgDestino("")
-    } catch (e) {
-      alert("Não foi possível enviar a mensagem.")
+      setMsgGrupoId("")
+      setMsgTipoDestino("individual")
+    } catch (e: any) {
+      setMsgError(e.message || "Não foi possível enviar a mensagem.")
     }
   }
 
@@ -168,23 +213,89 @@ export default function NotificacoesUniversalPage() {
                   <DialogHeader>
                     <DialogTitle>Enviar Mensagem</DialogTitle>
                     <DialogDescription>
-                      A mensagem será enviada como uma notificação para a caixa de entrada do atleta.
+                      Envia a mensagem para um utilizador específico ou para um grupo inteiro.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
+                    {msgError && (
+                      <div className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                        {msgError}
+                      </div>
+                    )}
                     <div className="space-y-2">
-                      <Label>Destinatário</Label>
-                      <Select value={msgDestino} onValueChange={(val) => setMsgDestino(val || "")}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione um destinatário" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {destinatariosPossiveis.map(d => (
-                            <SelectItem key={d.id} value={d.id} label={d.nome}>{d.nome} (Atleta)</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label>Tipo de destinatário</Label>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant={msgTipoDestino === "individual" ? "default" : "outline"}
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => setMsgTipoDestino("individual")}
+                        >
+                          <User className="size-3.5 mr-1.5" />
+                          Individual
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={msgTipoDestino === "grupo" ? "default" : "outline"}
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => setMsgTipoDestino("grupo")}
+                        >
+                          <Users className="size-3.5 mr-1.5" />
+                          Grupo
+                        </Button>
+                      </div>
                     </div>
+
+                    {msgTipoDestino === "individual" ? (
+                      <div className="space-y-2">
+                        <Label>Destinatário</Label>
+                        <Select value={msgDestino} onValueChange={(val) => setMsgDestino(val || "")}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione um destinatário" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {destinatariosPossiveis.length === 0 ? (
+                              <SelectItem value="_none" disabled label="Sem destinatários">Sem destinatários</SelectItem>
+                            ) : destinatariosPossiveis.map(d => (
+                              <SelectItem key={d.id} value={d.id} label={d.nome}>{d.nome} (Atleta)</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <Label>Grupo</Label>
+                        <Select value={msgGrupoId} onValueChange={(val) => setMsgGrupoId(val || "")}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione um grupo" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {grupos.length === 0 ? (
+                              <SelectItem value="_none" disabled label="Sem grupos">Sem grupos criados</SelectItem>
+                            ) : grupos.map(g => (
+                              <SelectItem key={g.id} value={g.id} label={`${g.nome} (${g.membrosCount})`}>
+                                {g.nome} · {g.membrosCount} membros
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {grupos.length === 0 && user?.role === "gerencia" && (
+                          <p className="text-xs text-muted-foreground">
+                            Ainda não tens grupos.{" "}
+                            <button
+                              type="button"
+                              className="text-primary underline"
+                              onClick={() => { setNovaMsgOpen(false); router.push("/dashboard/gerencia/grupos") }}
+                            >
+                              Criar grupo
+                            </button>
+                          </p>
+                        )}
+                      </div>
+                    )}
+
                     <div className="space-y-2">
                       <Label>Assunto</Label>
                       <Input value={msgTitulo} onChange={e => setMsgTitulo(e.target.value)} placeholder="Título da mensagem" />
@@ -196,7 +307,10 @@ export default function NotificacoesUniversalPage() {
                   </div>
                   <DialogFooter>
                     <Button variant="outline" onClick={() => setNovaMsgOpen(false)}>Cancelar</Button>
-                    <Button onClick={handleEnviarMensagem}>Enviar</Button>
+                    <Button onClick={handleEnviarMensagem}>
+                      <Send className="size-4 mr-2" />
+                      Enviar
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>

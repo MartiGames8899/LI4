@@ -87,6 +87,9 @@
             "projectReferences": {
               "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj": {
                 "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Api\\CAP.Modules.Notifications.Api.csproj"
+              },
+              "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj": {
+                "projectPath": "C:\\Trabalho\\LI4\\src\\Modules\\Notifications\\CAP.Modules.Notifications.Data\\CAP.Modules.Notifications.Data.csproj"
               }
             }
           }
@@ -104,6 +107,10 @@
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.3.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[7.0.20, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",

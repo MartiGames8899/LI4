@@ -43,6 +43,8 @@ function DefinicoesContent() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [passwordError, setPasswordError] = useState<string | null>(null)
+  const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cap_user")
@@ -87,12 +89,23 @@ function DefinicoesContent() {
   }
 
   const handleUpdatePassword = async () => {
+    setPasswordError(null)
+    setPasswordSuccess(null)
+
     if (!currentPassword || !newPassword || !confirmPassword) {
-      alert("Por favor, preencha todos os campos.")
+      setPasswordError("Preenche todos os campos.")
+      return
+    }
+    if (newPassword.length < 8) {
+      setPasswordError("A nova palavra-passe deve ter pelo menos 8 caracteres.")
+      return
+    }
+    if (newPassword === currentPassword) {
+      setPasswordError("A nova palavra-passe tem de ser diferente da atual.")
       return
     }
     if (newPassword !== confirmPassword) {
-      alert("A nova palavra-passe e a confirmação não coincidem.")
+      setPasswordError("A nova palavra-passe e a confirmação não coincidem.")
       return
     }
 
@@ -102,17 +115,16 @@ function DefinicoesContent() {
         method: "PUT",
         body: JSON.stringify({ currentPassword, newPassword })
       })
-      alert("A tua palavra-passe foi alterada com sucesso.")
+      setPasswordSuccess("Palavra-passe alterada com sucesso.")
       setCurrentPassword("")
       setNewPassword("")
       setConfirmPassword("")
-      
+
       if (forceChange) {
-        // Redirecionar para dashboard principal se era uma mudança forçada
-        router.push(`/dashboard/${user.role}`)
+        setTimeout(() => router.push(`/dashboard/${user.role}`), 1200)
       }
     } catch (e: any) {
-      alert(e.message || "Não foi possível alterar a palavra-passe.")
+      setPasswordError(e.message || "Não foi possível alterar a palavra-passe.")
     } finally {
       setIsSaving(false)
     }
@@ -251,31 +263,43 @@ function DefinicoesContent() {
                     Pela sua segurança, é obrigatório alterar a palavra-passe no primeiro acesso.
                   </div>
                 )}
+                {passwordError && (
+                  <div className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                    {passwordError}
+                  </div>
+                )}
+                {passwordSuccess && (
+                  <div className="p-3 text-sm text-success bg-success/10 border border-success/20 rounded-md">
+                    {passwordSuccess}
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label>Palavra-passe Atual</Label>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
                     value={currentPassword}
-                    onChange={e => setCurrentPassword(e.target.value)}
+                    onChange={e => { setCurrentPassword(e.target.value); setPasswordError(null); setPasswordSuccess(null) }}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label>Nova Palavra-passe</Label>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
+                  <Input
+                    type="password"
+                    placeholder="Mínimo 8 caracteres"
+                    minLength={8}
                     value={newPassword}
-                    onChange={e => setNewPassword(e.target.value)}
+                    onChange={e => { setNewPassword(e.target.value); setPasswordError(null); setPasswordSuccess(null) }}
                   />
+                  <p className="text-xs text-muted-foreground">A palavra-passe deve ter pelo menos 8 caracteres.</p>
                 </div>
                 <div className="space-y-2">
                   <Label>Confirmar Nova Palavra-passe</Label>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
                     value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
+                    onChange={e => { setConfirmPassword(e.target.value); setPasswordError(null); setPasswordSuccess(null) }}
                   />
                 </div>
               </CardContent>

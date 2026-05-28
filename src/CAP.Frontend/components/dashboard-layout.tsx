@@ -19,6 +19,8 @@ import {
   Building2,
   BarChart3,
   Heart,
+  UserCog,
+  MessageSquare,
   type LucideIcon,
 } from "lucide-react"
 
@@ -153,6 +155,7 @@ const navigationByRole: Record<string, NavGroup[]> = {
         { title: "Dashboard", href: "/dashboard/gerencia", icon: Home },
         { title: "Socios", href: "/dashboard/gerencia/socios", icon: Users },
         { title: "Equipas", href: "/dashboard/gerencia/equipas", icon: UserCheck },
+        { title: "Utilizadores", href: "/dashboard/gerencia/utilizadores", icon: UserCog },
       ],
     },
     {
@@ -160,6 +163,13 @@ const navigationByRole: Record<string, NavGroup[]> = {
       items: [
         { title: "Financas", href: "/dashboard/gerencia/financas", icon: CreditCard },
         { title: "Relatorios", href: "/dashboard/gerencia/relatorios", icon: BarChart3 },
+      ],
+    },
+    {
+      label: "Comunicacao",
+      items: [
+        { title: "Mensagens", href: "/dashboard/notificacoes", icon: MessageSquare },
+        { title: "Grupos", href: "/dashboard/gerencia/grupos", icon: Users },
       ],
     },
     {

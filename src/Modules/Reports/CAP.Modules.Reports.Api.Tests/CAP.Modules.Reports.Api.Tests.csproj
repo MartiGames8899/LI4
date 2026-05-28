@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.20" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -26,6 +27,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CAP.Modules.Reports.Api\CAP.Modules.Reports.Api.csproj" />
+    <ProjectReference Include="..\..\Finance\CAP.Modules.Finance.Core\CAP.Modules.Finance.Core.csproj" />
+    <ProjectReference Include="..\..\Users\CAP.Modules.Users.Core\CAP.Modules.Users.Core.csproj" />
+    <ProjectReference Include="..\..\Users\CAP.Modules.Users.Data\CAP.Modules.Users.Data.csproj" />
   </ItemGroup>
 
 </Project>

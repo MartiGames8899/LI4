@@ -51,8 +51,10 @@ public class SociosController : ControllerBase
             Nome = request.Nome,
             Email = request.Email,
             Telefone = request.Telefone,
-            PasswordHash = "123456", // Default password for new members
-            Role = "Socio", // Default role
+            PasswordHash = "INVITED_PENDING_SETUP",
+            MustChangePassword = true,
+            InvitationToken = Guid.NewGuid().ToString("N"),
+            Role = "Socio",
             Tipo = request.Tipo,
             Estado = "Ativo",
             DataInscricao = request.DataInscricao ?? DateTime.UtcNow
@@ -61,7 +63,14 @@ public class SociosController : ControllerBase
         await _userRepository.AddAsync(socio);
         await _userRepository.SaveChangesAsync();
 
-        return Ok(socio);
+        return Ok(new
+        {
+            socio.Id,
+            socio.Nome,
+            socio.Email,
+            socio.NumeroSocio,
+            invitationToken = socio.InvitationToken
+        });
     }
 }
 
